@@ -1,0 +1,26 @@
+baseURL = "http://example.org/"
+languageCode = "en-us"
+title = "Testing Handbook"
+theme = 'book'
+enableEmoji = true
+
+[params]
+  BookLogo = 'TOB_Black.svg'
+  BookIconLogo = 'logo.png'
+  # Comment to make pages uneditable with a github link ("Edit this page" in the footer):
+  BookRepo = "https://github.com/trailofbits/testing-handbook"
+  BookEditBranch = "main"
+
+[markup]
+  [markup.highlight]
+    anchorLineNos = false
+    codeFences = true
+    guessSyntax = false
+    hl_Lines = ''
+    lineAnchors = ''
+    lineNoStart = 1
+    lineNos = false
+    lineNumbersInTable = true
+    noClasses = true
+    style = 'friendly'
+    tabWidth = 4

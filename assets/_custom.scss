@@ -1,0 +1,59 @@
+.book-brand {
+  margin-top: 0;
+  margin-bottom: $padding-16;
+
+  #icon {
+    height: 4.5em;
+    width: 4.5em;
+    margin-left: auto;
+    display: block;
+    margin-right: auto;
+    margin-top: -0.7em;
+  }
+
+  #logo {
+    height: 1.5em;
+    width: 1.5em;
+    margin-inline-end: $padding-8;
+  }
+}
+
+.book-page footer {
+  margin-top: 3em;
+  border-top: 1px var(--gray-200) solid;
+}
+
+.footer-edit {
+  :first-child {
+    margin-left: auto;
+  }
+
+  a {
+    margin-left: $padding-8;
+  }
+
+  a:not(:last-child) {
+    margin-right: $padding-8;
+  }
+}
+
+.markdown .highlight {
+  position: relative;
+
+  code:first-child::before {
+    content: url('svg/copy-regular.svg');
+    width: 1rem;
+    height: 1rem;
+    position: absolute;
+    right: 1rem;
+    top: 1.1rem;
+    display: inline-block;
+    opacity: 0.3;
+    transition: opacity 0.1s ease-in;
+    cursor: pointer;
+  }
+}
+
+.markdown .highlight:hover code:first-child::before {
+  opacity: 1;
+}
