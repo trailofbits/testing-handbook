@@ -13,4 +13,4 @@ bookCollapseSection: true
 
 ## Rust
 
-TODO
+Rust is a multi-paradigm, general-purpose, memory-safe programming language.

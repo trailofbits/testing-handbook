@@ -190,7 +190,7 @@ mod tests {
 
 ### Sanitizers
 
-While Rust is memory-safe, one may open a gate to the `unsafe` world and introduce all the well known vulnerabilities like use-after-free or reading of uninitialized memory. Moreover, Rust compiler does not prevent memory leaks and data races (TODO). 
+While Rust is memory-safe, one may open a gate to the `unsafe` world and introduce all the well known vulnerabilities like use-after-free or reading of uninitialized memory. Moreover, Rust compiler does not prevent memory leaks and data races. 
 
 To find deep bugs we can enhance our tests with [various sanitizers](https://doc.rust-lang.org/beta/unstable-book/compiler-flags/sanitizer.html):
 * AddressSanitizer
@@ -210,7 +210,7 @@ Not all targets are created equal, so check which are supported by the given san
 
 {{< details "Example to try" >}}
 
-The test below passes. Only AddressSanitizer can help us.
+The test below passes. But the AddressSanitizer can help us find the bug.
 ```sh
 RUSTFLAGS='-Z sanitizer=address' cargo test
 ```
@@ -249,8 +249,54 @@ To find issues in your tests [use `necessist`](https://github.com/trailofbits/ne
 
 ```sh
 cargo install necessist
-necessist .
+necessist
 ```
+
+Necessist works by mutating tests - removing certain instructions from them - and executing them.
+A mutated test that passed with an instruction removed is shown as:
+```
+filename:line-line `removed code` passed
+```
+It requires manual investigation if a finding really revealed a bug in a testcase (or in the code being tested).
+
+The tool produces a `necessist.db` file that can be used to resume an interrupted run.
+
+{{< details "Example to try" >}}
+
+Necessist should report that the `parser_detects_errors` test passes even if one line is removed from it.
+It indicates that either magic number in the example or in the `validate_data` is incorrect, preventing the "real"
+bug from being tested properly.
+```rust
+fn validate_data(data: &Data) -> Result<(), ()> {
+    if !data.magic.eq(&[0x13, 0x37]) { return Err(()) }
+    if data.len as usize != data.content.len() { return Err(()) }
+    return Ok(());
+}
+
+struct Data {
+    magic: [u8; 2],
+    len: u8,
+    content: String
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::{Data, validate_data};
+
+    #[test]
+    fn parser_detects_errors() {
+        let mut blob = Data{
+            magic: [0x73, 0x31],
+            len: 2,
+            content: "AB".parse().unwrap(),
+        };
+        blob.content = blob.content + "Y";
+        let result = validate_data(&blob);
+        assert!(result.is_err());
+    }
+}
+```
+{{< /details >}}
 
 ## CI/CD integration
 
@@ -259,3 +305,4 @@ Describe how to setup and use `<tool>` in CI/CD
 ## Resources
 
 * ["The Rust Programming Language", chapter 11. Testing](https://web.mit.edu/rust-lang_v1.25/arch/amd64_ubuntu1404/share/doc/rust/html/book/second-edition/ch11-00-testing.html) - the basics of unit and integration testing in Rust
+* [Ed Page's "Iterating on Testing in Rust"](https://epage.github.io/blog/2023/06/iterating-on-test/) - potential issues with `cargo test`
