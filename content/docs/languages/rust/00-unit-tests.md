@@ -9,7 +9,6 @@ weight: 1
 
 This is the most basic type of testing that every project should have. Unit tests are easy to execute, low-effort to implement, and catch a lot of simple mistakes.
 
-
 ## Installation and first steps
 
 The standard and ultimate tool for executing unit and integration tests for Rust codebases is the `cargo test`. The basic setup and usage of `cargo test` is well-known, so we will skip the introduction.
@@ -28,21 +27,22 @@ Please note that [`docs tests` don't work in binary targets](https://github.com/
 
 Once you have your tests written and all of them passes, lets improve.
 
-
 ## Advanced usage
 
 ### Randomization
 
 First lets make sure that tests do not depend on a global state and that there are no unwanted dependencies between them.
 
-For that you can run tests multiple times, taking adventage of the enabled-by-default parallel execution. However, this approach is not optimal. That is because tests are executed in basically alphabetical order, even when multi-threaded.
+For that you can run tests multiple times, taking advantage of the enabled-by-default parallel execution. However, this approach is not optimal. That is because tests are executed in basically alphabetical order, even when multi-threaded.
 
 Better to run tests in a random order without parallel execution.
+
 ```sh
 cargo test -- -Z unstable-options --test-threads 1 --shuffle 
 ```
 
-Execute command above multiple times. If any run reported a failed test use the displayed "shuffle seed" to reliably repeat the error: 
+Execute command above multiple times. If any run reported a failed test use the displayed "shuffle seed" to reliably repeat the error:
+
 ```sh
 cargo test -- -Z unstable-options --test-threads 1 --shuffle-seed 7331
 ```
@@ -50,6 +50,7 @@ cargo test -- -Z unstable-options --test-threads 1 --shuffle-seed 7331
 {{< details "Example to try" >}}
 
 Tests below fail randomly when run with `cargo test`. To get reproducible failure run:
+
 ```sh
 cargo test -- -Z unstable-options --test-threads 1 --shuffle-seed 1337
 ```
@@ -82,8 +83,8 @@ mod tests {
     }
 }
 ```
-{{< /details >}}
 
+{{< /details >}}
 
 When you are happy with the results, randomize features using [`cargo hack`](https://github.com/taiki-e/cargo-hack). Start with testing your code against all the features taken separately, then combine multiple features in one run:
 
@@ -96,6 +97,7 @@ cargo hack test -Z avoid-dev-deps --feature-powerset --depth 2
 {{< details "Example to try" >}}
 
 The test below passes when run with `cargo test`. Also passes with `cargo hack test --each-feature`. To find the code path that makes the test fail run:
+
 ```sh
 cargo hack test --feature-powerset --depth 2
 ```
@@ -129,6 +131,7 @@ mod tests {
     }
 }
 ```
+
 {{< /details >}}
 
 ### Integer overflows
@@ -136,6 +139,7 @@ mod tests {
 While some integer overflows are detected with [the `overflow-checks` flag](https://doc.rust-lang.org/rustc/codegen-options/index.html#overflow-checks), overflows in explicit casts are not. To make our tests detect overflows in `expr as T` expressions we must use [`cast_checks`](https://github.com/trailofbits/cast_checks).
 
 Add relevant dependency to `Cargo.toml`:
+
 ```toml
 [dependencies]
 cast_checks = "0.1.4"
@@ -188,19 +192,22 @@ mod tests {
     }
 }
 ```
+
 {{< /details >}}
 
 ### Sanitizers
 
-While Rust is memory-safe, one may open a gate to the `unsafe` world and introduce all the well known vulnerabilities like use-after-free or reading of uninitialized memory. Moreover, Rust compiler does not prevent memory leaks and data races. 
+While Rust is memory-safe, one may open a gate to the `unsafe` world and introduce all the well known vulnerabilities like use-after-free or reading of uninitialized memory. Moreover, Rust compiler does not prevent memory leaks and data races.
 
 To find deep bugs we can enhance our tests with [various sanitizers](https://doc.rust-lang.org/beta/unstable-book/compiler-flags/sanitizer.html):
+
 * AddressSanitizer
 * LeakSanitizer
 * MemorySanitizer
 * ThreadSanitizer
 
 To enable them:
+
 ```sh
 RUSTFLAGS='-Z sanitizer=address' cargo test
 RUSTFLAGS='-Z sanitizer=leak' cargo test --target x86_64-unknown-linux-gnu
@@ -213,6 +220,7 @@ Not all targets are created equal, so check which are supported by the given san
 {{< details "Example to try" >}}
 
 The test below passes. But the AddressSanitizer can help us find the bug.
+
 ```sh
 RUSTFLAGS='-Z sanitizer=address' cargo test
 ```
@@ -231,75 +239,32 @@ mod tests {
     }
 }
 ```
-{{< /details >}}
 
+{{< /details >}}
 
 ### Coverage
 
 It is critically important to know how much coverage your tests have. To gather coverage information use one of:
 
 | Feature | [`cargo-llvm-cov`](https://github.com/taiki-e/cargo-llvm-cov)  | [`cargo-tarpaulin`](https://github.com/xd009642/tarpaulin) | [`grcov`](https://github.com/mozilla/grcov)
-| -----------| ----------- | ----------- | ----------- |
-| Backends   | LLVM      | LLVM, ptrace       |  ? |
-| Output format  | console, html   | html        |  ? |
-| Coverage  | console, html   | html        |  ? |
-| Merge  | console, html   | html        |  ? |
-| Exclude files  | console, html   | html        |  ? |
-| Exclude functions  | console, html   | html        |  ? |
-| Exclude tests' coverage  | console, html   | html        |  ? |
-| Coverage for C/C++  | console, html   | html        |  ? |
+| ----------- | ----------- | ----------- | ----------- |
+| Backends                | LLVM (profraw)                                       | LLVM (profraw), ptrace  |  LLVM (profraw), gcov-based (gcno, gcda) |
+| Coverage                | Lines, functions, regions                   | Lines        |  Lines, functions, branches |
+| Output format           | Text, lcov, JSON, HTML, cobertura, codecov  | Text, lcov, JSON, HTML, xml        |  Lcov, JSON, HTML, cobertura, coveralls+, markdown, ade |
+| Merge data from multiple runs | [Yes](https://github.com/taiki-e/cargo-llvm-cov?tab=readme-ov-file#merge-coverages-generated-under-different-test-conditions)  | [Yes/No](https://github.com/xd009642/tarpaulin?tab=readme-ov-file#command-line) (only shows delta)            |  No |
+| Exclude files           | [`--ignore-filename-regex`](https://github.com/taiki-e/cargo-llvm-cov?tab=readme-ov-file#exclude-file-from-coverage)   | `--exclude-files`        |  `--ignore` |
+| Exclude functions       | [With attributes](https://github.com/taiki-e/cargo-llvm-cov?tab=readme-ov-file#exclude-function-from-coverage)   | [With attributes](https://github.com/xd009642/tarpaulin?tab=readme-ov-file#ignoring-code-in-files)        |  With in-code markers & regexes |
+| Exclude tests' coverage | [With external module](https://github.com/taiki-e/coverage-helper/tree/v0.2.0)   | `--ignore-tests`        |  No |
+| Coverage for C/C++      | [`--include-ffi`](https://github.com/taiki-e/cargo-llvm-cov?tab=readme-ov-file#get-coverage-of-cc-code-linked-to-rust-librarybinary)   | `--follow-exec`        |  ? |
 
-* 
 ```
-cargo llvm-cov # console
-cargo llvm-cov --open # html
+TODO
+fail fast? --no-fail-fast
+panics --ignore-panics should_panic
 
-backend: llvm
-
-# coverage: function, lines, region; no branch cov
-
-# merge
-cargo llvm-cov clean --workspace # remove artifacts that may affect the coverage results
-cargo llvm-cov --no-report --features a
-cargo llvm-cov --no-report --features b
-cargo llvm-cov report --lcov # generate report without tests
-
-# show change in coverge - no
-
-# support for C/C++ code - yes
-# exclude file - --ignore-filename-regex
-# exclude function - (unstable) #[cfg_attr(coverage_nightly, coverage(off))]
-# exclude test code - https://github.com/taiki-e/coverage-helper/tree/v0.2.0
+gcno - compile time, gcna - runtime
+profraw - ?
 ```
-
-* 
-```
-cargo tarpaulin # console
-cargo tarpaulin --out html # html
-
-backend: llvm, ptrace
-
-# cove: lines; no branch, function, regions cov
-
---no-fail-fast
- --ignore-panics should_panic
-
-# show change in coverge - yes
-
-# support for C/C++ code - --follow-exec ?
-# exclude file - #[cfg(not(tarpaulin_include))]
-# exclude test code - #[cfg_attr(tarpaulin, ignore)]
-# exclude test code - --ignore-tests
-```
-
-* 
-```
-html - yes
-console - no
-
-# cove: lines, function, branches
-```
-
 
 ### Validation of tests
 
@@ -314,9 +279,11 @@ necessist
 
 Necessist works by mutating tests - removing certain instructions from them - and executing them.
 A mutated test that passed with an instruction removed is shown as:
+
 ```
 filename:line-line `removed code` passed
 ```
+
 It requires manual investigation if a finding really revealed a bug in a testcase (or in the code being tested).
 
 The tool produces a `necessist.db` file that can be used to resume an interrupted run.
@@ -326,6 +293,7 @@ The tool produces a `necessist.db` file that can be used to resume an interrupte
 Necessist should report that the `parser_detects_errors` test passes even if one line is removed from it.
 It indicates that either magic number in the example or in the `validate_data` is incorrect, preventing the "real"
 bug from being tested properly.
+
 ```rust
 fn validate_data(data: &Data) -> Result<(), ()> {
     if !data.magic.eq(&[0x13, 0x37]) { return Err(()) }
@@ -356,11 +324,8 @@ mod tests {
     }
 }
 ```
+
 {{< /details >}}
-
-## CI/CD integration
-
-Describe how to setup and use `<tool>` in CI/CD
 
 ## Resources
 
