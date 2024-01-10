@@ -24,6 +24,8 @@ mod tests {
 }
 ```
 
+Please note that [`docs tests` don't work in binary targets](https://github.com/rust-lang/rust/issues/50784).
+
 Once you have your tests written and all of them passes, lets improve.
 
 
@@ -236,9 +238,67 @@ mod tests {
 
 It is critically important to know how much coverage your tests have. To gather coverage information use one of:
 
-* [`cargo-llvm-cov`](https://github.com/taiki-e/cargo-llvm-cov)
-* [`cargo-tarpaulin`](https://github.com/xd009642/tarpaulin)
-* [`grcov`](https://github.com/mozilla/grcov)
+| Feature | [`cargo-llvm-cov`](https://github.com/taiki-e/cargo-llvm-cov)  | [`cargo-tarpaulin`](https://github.com/xd009642/tarpaulin) | [`grcov`](https://github.com/mozilla/grcov)
+| -----------| ----------- | ----------- | ----------- |
+| Backends   | LLVM      | LLVM, ptrace       |  ? |
+| Output format  | console, html   | html        |  ? |
+| Coverage  | console, html   | html        |  ? |
+| Merge  | console, html   | html        |  ? |
+| Exclude files  | console, html   | html        |  ? |
+| Exclude functions  | console, html   | html        |  ? |
+| Exclude tests' coverage  | console, html   | html        |  ? |
+| Coverage for C/C++  | console, html   | html        |  ? |
+
+* 
+```
+cargo llvm-cov # console
+cargo llvm-cov --open # html
+
+backend: llvm
+
+# coverage: function, lines, region; no branch cov
+
+# merge
+cargo llvm-cov clean --workspace # remove artifacts that may affect the coverage results
+cargo llvm-cov --no-report --features a
+cargo llvm-cov --no-report --features b
+cargo llvm-cov report --lcov # generate report without tests
+
+# show change in coverge - no
+
+# support for C/C++ code - yes
+# exclude file - --ignore-filename-regex
+# exclude function - (unstable) #[cfg_attr(coverage_nightly, coverage(off))]
+# exclude test code - https://github.com/taiki-e/coverage-helper/tree/v0.2.0
+```
+
+* 
+```
+cargo tarpaulin # console
+cargo tarpaulin --out html # html
+
+backend: llvm, ptrace
+
+# cove: lines; no branch, function, regions cov
+
+--no-fail-fast
+ --ignore-panics should_panic
+
+# show change in coverge - yes
+
+# support for C/C++ code - --follow-exec ?
+# exclude file - #[cfg(not(tarpaulin_include))]
+# exclude test code - #[cfg_attr(tarpaulin, ignore)]
+# exclude test code - --ignore-tests
+```
+
+* 
+```
+html - yes
+console - no
+
+# cove: lines, function, branches
+```
 
 
 ### Validation of tests
