@@ -14,12 +14,21 @@ Analyze source code without executing it.
 Clippy is the basic linter. Just use it.
 
 ```sh
+cargo clippy
+```
+
+Being pedantic won't hurt.
+```sh
 cargo clippy -- -W clippy::pedantic
 ```
 
+A nice list of lints can be found at [rust-lang.github.io](https://rust-lang.github.io/rust-clippy/master/index.html).
+
 ## Dylint
 
-To write your own lints and to take adventage of not-standarized lints of others people [use `dylint`](https://github.com/trailofbits/dylint/).
+Clippy is nice, but [creating custom lints](https://doc.rust-lang.org/nightly/clippy/development/adding_lints.html) is [a bit of a pain](https://blog.trailofbits.com/2021/11/09/write-rust-lints-without-forking-clippy/).
+
+To write your own lints and to take adventage of not-standarized lints of others people [use `dylint`](https://github.com/trailofbits/dylint/) - dynamic linter.
 
 ### Quick start
 
@@ -42,11 +51,14 @@ cargo dylint --all --workspace
 
 ### Writing your own lints
 
-TODO
+TODO!
 
-## MIRI
+```sh
+cargo dylint --new <path>
+```
 
-* detects certain classes of undefined behavior and memory leaks
+Now implement the `LateLintPass` trait and accommodate the symbols asking to be filled in.
+
 
 ## Prusti
 

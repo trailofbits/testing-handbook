@@ -1,4 +1,4 @@
-mod second;
+samples/rust_coverage/src/main.rsmod second;
 
 fn main() { println!("Hello, world!"); }
 
@@ -83,7 +83,7 @@ mod tests {
     fn check_match2() {
         let blob = Data{ magic: [0x73, 0x31], len: 2, content: "40".parse().unwrap() };
         let x = validate_data_match(&blob);
-        assert_eq!(x, 81);
+        assert_eq!(x, 161);
     }
 
     #[test]

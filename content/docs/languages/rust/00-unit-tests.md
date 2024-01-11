@@ -11,7 +11,11 @@ This is the most basic type of testing that every project should have. Unit test
 
 ## Installation and first steps
 
-The standard and ultimate tool for executing unit and integration tests for Rust codebases is the `cargo test`. The basic setup and usage of `cargo test` is well-known, so we will skip the introduction.
+The standard and ultimate tool for executing unit and integration tests for Rust codebases is the `cargo test`.
+The basic setup and usage of `cargo test` is well-known, so we will skip the introduction.
+
+You can also try [the `cargo-nextest`](https://nexte.st/index.html) - a new test runner.
+
 
 ```rust
 #[cfg(test)]
@@ -22,6 +26,7 @@ mod tests {
     }
 }
 ```
+
 
 Please note that [`docs tests` don't work in binary targets](https://github.com/rust-lang/rust/issues/50784).
 
@@ -242,7 +247,24 @@ mod tests {
 
 {{< /details >}}
 
-### Coverage
+### MIRI
+
+[Miri](https://github.com/rust-lang/miri) is an interpreter for Rust "mid-level intermediate representation ". You can run your tests through Miri with:
+
+```
+rustup +nightly component add miri
+cargo miri test
+```
+
+Miri detects:
+* undefined behavior
+* memory corruption bugs
+* uses of uninitialized data
+* memory alignment issues
+* issues with aliasing for reference types
+* data races
+
+## Coverage
 
 It is critically important to know how much coverage your tests have. Coverage gathering consists of three steps:
 
@@ -281,7 +303,7 @@ Instead of them you can directly use [the tools described in the fuzzing chapter
 
 For post-processing (generating HTML reports, like merging files from multiple runs, and excluding selected files, ..)
 of `lcov` outputs you can use:
-* [The `lcov` tool's  `genhtml` utility](https://github.com/linux-test-project/lcov):
+* [The `lcov` tool's  `genhtml` utility](https://github.com/linux-test-project/lcov)
 * [`llvm-cov-pretty`](https://github.com/dnaka91/llvm-cov-pretty)
 
 Our recommendations are:
@@ -292,7 +314,13 @@ Our recommendations are:
     * there are race conditions
     * the code forks
 
-### Validation of tests
+{{< details title="Example to try" open=true >}}
+Go to the [Testing Handbook's repository `samples/rust_coverage`](https://github.com/trailofbits/testing-handbook/tree/main/samples/rust_coverage/) folder.
+
+There you will find Dockerfile generating HTML reports using the described tools.
+{{< /details >}}
+
+## Validation of tests
 
 Who tests tests? What if your critical test has a bug that makes it to pass incorrectly?
 
@@ -356,4 +384,4 @@ mod tests {
 ## Resources
 
 * ["The Rust Programming Language", chapter 11. Testing](https://web.mit.edu/rust-lang_v1.25/arch/amd64_ubuntu1404/share/doc/rust/html/book/second-edition/ch11-00-testing.html) - the basics of unit and integration testing in Rust
-* [Ed Page's "Iterating on Testing in Rust"](https://epage.github.io/blog/2023/06/iterating-on-test/) - potential issues with `cargo test`
+* [Ed Page's "Iterating on Testing in Rust"](https://epage.github.io/blog/2023/06/iterating-on-test/) - lists potential issues with `cargo test` and introduces `cargo-nextest`
