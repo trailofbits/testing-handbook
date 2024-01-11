@@ -1,0 +1,69 @@
+[package]
+name = "project-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2021"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+arbitrary = { version = "1", features = ["derive"] }
+bytemuck = "1.14.0"
+
+[dependencies.project]
+path = ".."
+
+# Prevent this from interfering with workspaces
+[workspace]
+members = ["."]
+
+[profile.release]
+debug = 1
+
+[[bin]]
+name = "fuzz_divide"
+path = "fuzz_targets/fuzz_divide.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "fuzz_check_buf"
+path = "fuzz_targets/fuzz_check_buf.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "fuzz_target_1"
+path = "fuzz_targets/fuzz_check_buf.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "fuzz_impossible"
+path = "fuzz_targets/fuzz_impossible.rs"
+test = false
+doc = false
+
+
+[[bin]]
+name = "fuzz_arbitrary"
+path = "fuzz_targets/fuzz_arbitrary.rs"
+test = false
+doc = false
+[[bin]]
+name = "fuzz_arbitrary_short"
+path = "fuzz_targets/fuzz_arbitrary_short.rs"
+test = false
+doc = false
+[[bin]]
+name = "fuzz_interleaved"
+path = "fuzz_targets/fuzz_interleaved.rs"
+test = false
+doc = false
+[[bin]]
+name = "fuzz_beyond_byte_arrays"
+path = "fuzz_targets/fuzz_beyond_byte_arrays.rs"
+test = false
+doc = false
