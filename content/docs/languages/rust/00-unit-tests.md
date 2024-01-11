@@ -244,27 +244,53 @@ mod tests {
 
 ### Coverage
 
-It is critically important to know how much coverage your tests have. To gather coverage information use one of:
+It is critically important to know how much coverage your tests have. Coverage gathering consists of three steps:
 
-| Feature | [`cargo-llvm-cov`](https://github.com/taiki-e/cargo-llvm-cov)  | [`cargo-tarpaulin`](https://github.com/xd009642/tarpaulin) | [`grcov`](https://github.com/mozilla/grcov)
+* compile-time instrumentation
+* execution of tests, producing "raw" data
+* convertion of "raw" data to an usable format
+
+There are three common instrumentation backends (engines):
+
+* GCC's `gcov`
+    * produces `gcno` (during compilation) and `gcda` (during execution) raw data
+* LLVM's `SanitizerCoverage`
+    * produces `profraw` raw data
+    * can produce `gcno`&`gcda` raw data - not supported in the tooling below 
+* `ptrace`-based
+    * produces `profraw` raw data
+
+There are three popular tools wrapping the above engines for easier consumption in Rust projects.
+Instead of them you can directly use [the tools described in the fuzzing chapter](#) (TODO: link).
+
+| Feature \ Tool | [`cargo-llvm-cov`](https://github.com/taiki-e/cargo-llvm-cov)  | [`cargo-tarpaulin`](https://github.com/xd009642/tarpaulin) | [`grcov`](https://github.com/mozilla/grcov)
 | ----------- | ----------- | ----------- | ----------- |
-| Backends                | LLVM (profraw)                                       | LLVM (profraw), ptrace  |  LLVM (profraw), gcov-based (gcno, gcda) |
+| Backends                | LLVM                                        | LLVM, ptrace |  LLVM, gcov |
 | Coverage                | Lines, functions, regions                   | Lines        |  Lines, functions, branches |
 | Output format           | Text, lcov, JSON, HTML, cobertura, codecov  | Text, lcov, JSON, HTML, xml        |  Lcov, JSON, HTML, cobertura, coveralls+, markdown, ade |
-| Merge data from multiple runs | [Yes](https://github.com/taiki-e/cargo-llvm-cov?tab=readme-ov-file#merge-coverages-generated-under-different-test-conditions)  | [Yes/No](https://github.com/xd009642/tarpaulin?tab=readme-ov-file#command-line) (only shows delta)            |  No |
 | Exclude files           | [`--ignore-filename-regex`](https://github.com/taiki-e/cargo-llvm-cov?tab=readme-ov-file#exclude-file-from-coverage)   | `--exclude-files`        |  `--ignore` |
 | Exclude functions       | [With attributes](https://github.com/taiki-e/cargo-llvm-cov?tab=readme-ov-file#exclude-function-from-coverage)   | [With attributes](https://github.com/xd009642/tarpaulin?tab=readme-ov-file#ignoring-code-in-files)        |  With in-code markers & regexes |
 | Exclude tests' coverage | [With external module](https://github.com/taiki-e/coverage-helper/tree/v0.2.0)   | `--ignore-tests`        |  No |
 | Coverage for C/C++      | [`--include-ffi`](https://github.com/taiki-e/cargo-llvm-cov?tab=readme-ov-file#get-coverage-of-cc-code-linked-to-rust-librarybinary)   | `--follow-exec`        |  ? |
+| Merge data from multiple runs | [Yes](https://github.com/taiki-e/cargo-llvm-cov?tab=readme-ov-file#merge-coverages-generated-under-different-test-conditions)  | [Yes/No](https://github.com/xd009642/tarpaulin?tab=readme-ov-file#command-line) (only shows delta)            |  No |
+| HTML output properties |
+| Handles Rust's constructions | Yes | Yes | Yes |
+| Expands Rust's generics | `--show-instantiations` | No | No |
+| Number of hits | Yes | No | Yes |
+| Multi-file output | Yes | No | Yes |
 
-```
-TODO
-fail fast? --no-fail-fast
-panics --ignore-panics should_panic
+For post-processing (generating HTML reports, like merging files from multiple runs, and excluding selected files, ..)
+of `lcov` outputs you can use:
+* [The `lcov` tool's  `genhtml` utility](https://github.com/linux-test-project/lcov):
+* [`llvm-cov-pretty`](https://github.com/dnaka91/llvm-cov-pretty)
 
-gcno - compile time, gcna - runtime
-profraw - ?
-```
+Our recommendations are:
+* Use `cargo-llvm-cov` (with `llvm-cov-pretty`) for rapid testing: easiest to run, can resolve generics
+* Use either `cargo-llvm-cov` or `grcov` for complex projects: both are decent, unique, and produce multi-file HTML output
+* Use `cargo-tarpaulin` when other tools works incorrectly. [Authors claim](https://github.com/xd009642/tarpaulin?tab=readme-ov-file#nuances-with-llvm-coverage) that these can happen when:
+    * the code panic unexpecteadly
+    * there are race conditions
+    * the code forks
 
 ### Validation of tests
 
