@@ -48,9 +48,9 @@ rulesets based on key security patterns, and your tech stack and needs.
         semgrep --config p/javascript
         ```
 
-    - Focus on rules with high confidence and medium- or high-impact metadata first. If there are too many results,
-    limit results to error severity only using the `--severity ERROR` flag.
-    - Resolve identified issues and include reproduction instructions in your bug reports.
+   - Focus on rules with high confidence and medium- or high-impact metadata first. If there are too many results,
+   limit results to error severity only using the `--severity ERROR` flag.
+   - Resolve identified issues and include reproduction instructions in your bug reports.
 
 4. **Fine-tune**: Obtain your ideal rulesets chain by reviewing the effectiveness of currently used rulesets.
    - Check out non-security rulesets, too, such as best practices rules. This will enhance code readability and may
