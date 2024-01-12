@@ -1,4 +1,4 @@
-samples/rust_coverage/src/main.rsmod second;
+mod second;
 
 fn main() { println!("Hello, world!"); }
 
