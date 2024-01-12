@@ -396,7 +396,7 @@ HTML report is often what you need.
 
 | HTML output \ Tool | `cargo-llvm-cov` | `cargo-tarpaulin` | `grcov` |
 | ----------- | ----------- | ----------- | ----------- |
-| Examples    | [Open `llvm-cov`](/samples_rust_coverage/llvm_cov/index.html), [open `llvm-cov-pretty`](/samples_rust_coverage/llvm_cov_pretty/index.html) | [Open `tarpaulin`](/samples_rust_coverage/tarpaulin-report.html) | [Open `grcov`](/samples_rust_coverage/grcov/index.html), [open `grcov` with `lcov`](/samples_rust_coverage/grcov_lcov/index.html) |
+| Examples    | [Open `llvm-cov`](/samples_rust_coverage/llvm_cov/index.html?:), [open `llvm-cov-pretty`](/samples_rust_coverage/llvm_cov_pretty/index.html?:) | [Open `tarpaulin`](/samples_rust_coverage/tarpaulin-report.html?:) | [Open `grcov`](/samples_rust_coverage/grcov/index.html?:), [open `grcov` with `lcov`](/samples_rust_coverage/grcov_lcov/index.html?:) |
 | Handles Rust's constructions | Yes | Yes | Yes |
 | Expands Rust's generics | `--show-instantiations` | No | No |
 | Number of hits | Yes | No | Yes |
