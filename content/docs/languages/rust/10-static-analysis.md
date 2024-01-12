@@ -60,11 +60,6 @@ cargo dylint --new <path>
 Now implement the `LateLintPass` trait and accommodate the symbols asking to be filled in.
 
 
-## Prusti
-
-* based on [Viper](https://www.pm.inf.ethz.ch/research/viper.html)
-* detects panics and integer overflows
-
 ## Semgrep
 
-Check the [semgrep page](/docs/static-analysis/semgrep/).
+Semgrep has a beta support for Rust language. Check the [semgrep page](/docs/static-analysis/semgrep/) for more information.

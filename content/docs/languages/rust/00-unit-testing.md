@@ -1,6 +1,6 @@
 ---
-title: "Unit tests"
-slug: unit-tests
+title: "Unit testing"
+slug: unit-testing
 summary: "This section describes tricks for Rust unit testing"
 weight: 1
 ---
@@ -32,7 +32,7 @@ Please note that [`docs tests` don't work in binary targets](https://github.com/
 
 Once you have your tests written and all of them passes, lets improve.
 
-## Advanced usage
+## Improvements
 
 ### Randomization
 
@@ -247,7 +247,7 @@ mod tests {
 
 {{< /details >}}
 
-### MIRI
+### Miri
 
 [Miri](https://github.com/rust-lang/miri) is an interpreter for Rust "mid-level intermediate representation ". You can run your tests through Miri with:
 
@@ -256,13 +256,108 @@ rustup +nightly component add miri
 cargo miri test
 ```
 
-Miri detects:
+Miri helps to detect:
 * undefined behavior
 * memory corruption bugs
+* memory leaks
 * uses of uninitialized data
 * memory alignment issues
 * issues with aliasing for reference types
 * data races
+
+## Property testing with Proptest
+
+Normal unit tests are great for testing a single scenario - you test code by providing a single, specific
+value and checking if the code behaves as expected.
+
+But instead of using a single value, you can generate a set of inputs and execute the unit test multiple times
+to check if it works correctly for every input.
+
+Lets use [Proptest](https://github.com/proptest-rs/proptest) tool for that task. It is a tool inspired by the famous [QuickCheck](https://hackage.haskell.org/package/QuickCheck).
+
+### Installation
+
+Simply add the dev dependency to your project. Nothing more needed.
+
+```toml
+[dev-dependencies]
+proptest = "1.0.0"
+```
+
+### Usage
+
+To use Proptest you must write unit tests. But instead of hard-coding values that are used for testing,
+you define *generators* for values (called "strategies" in proptest's docs).
+Proptest will execute the unit test dozen of times with randomly generated values. 
+
+Proptest ships with a dozen of [configurable strategies](https://docs.rs/proptest/latest/proptest/):
+* range-like generator for `integers`
+* regex generator for `strings`
+* simple generators for `bits`, `bools`, `chars`
+* random-size generators for `std:collections`
+* generators for `Option` and `Result`
+
+The generators [can be combined together](https://proptest-rs.github.io/proptest/proptest/tutorial/macro-prop-compose.html). You can also use macros to do further combine and restric generation:
+* do mapping with `prop_map`
+* do filtering with `prop_filter`
+* create enums with `prop_oneof`
+* do recursion with `prop_recursive`
+
+Lets see an example code:
+
+```rust
+fn simple_thingy_dingy(a: u64, b: &str) -> u64 {
+    return a + match b.parse::<u64>() {
+        Ok(x) => x,
+        Err(_) => b.len() as u64,
+    };
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::simple_thingy_dingy;
+    use proptest::prelude::*;
+
+    proptest! {
+        #![proptest_config(ProptestConfig::with_cases(100))]
+        #[test]
+        fn test_simple_thingy_dingy(a in 1337..7331u64, b in "[0-9]{1,3}") {
+            println!("{a} | {b}");
+            let sum = simple_thingy_dingy(a, &b);
+            assert!(sum >= a);
+            assert!(sum > 1337);
+        }
+    }
+}
+```
+
+The `simple_thingy_dingy` is function we want to unit-test. For that we need to wrap a normal `#[test]` with `proptest!` helper.
+Then we use two generators for `a` and `b` values: range-like for integers and regex for strings.
+
+Now we just need to run `cargo test` and wait for the Proptest to finish. Running `cargo test -- --show-output`
+will enable us to observe what values were generated.
+
+By default Proptest executes an unit test 256 times, but we can change that with `ProptestConfig::with_cases`.
+
+If the Proptest finds an input failing the unit test, it writes the input to the `proptest-regressions` directory.
+
+As can be seen, we have to write a strategy for every single value we use. However, we could instead create [a strategy for a type](https://proptest-rs.github.io/proptest/proptest/tutorial/arbitrary.html) using the `Arbitrary` trait.
+
+{{< hint info >}}
+**You can combine Proptest with other improvements**  
+
+Using Proptest with improvements [listed above](/docs/languages/rust/unit-tests/#improvements)
+can enhance your testing even further.
+
+To use with Proptest with Miri you have to disable persistence (the `proptest-regressions` directory):
+
+```sh
+PROPTEST_DISABLE_FAILURE_PERSISTENCE=true \
+MIRIFLAGS='-Zmiri-env-forward=PROPTEST_DISABLE_FAILURE_PERSISTENCE' \
+cargo miri test
+```
+{{< /hint >}}
+
 
 ## Coverage
 
@@ -295,7 +390,13 @@ Instead of them you can directly use [the tools described in the fuzzing chapter
 | Exclude tests' coverage | [With external module](https://github.com/taiki-e/coverage-helper/tree/v0.2.0)   | `--ignore-tests`        |  No |
 | Coverage for C/C++      | [`--include-ffi`](https://github.com/taiki-e/cargo-llvm-cov?tab=readme-ov-file#get-coverage-of-cc-code-linked-to-rust-librarybinary)   | `--follow-exec`        |  ? |
 | Merge data from multiple runs | [Yes](https://github.com/taiki-e/cargo-llvm-cov?tab=readme-ov-file#merge-coverages-generated-under-different-test-conditions)  | [Yes/No](https://github.com/xd009642/tarpaulin?tab=readme-ov-file#command-line) (only shows delta)            |  No |
-| HTML output properties |
+
+While checking coverage statistics from a command line and using one of many coverage-visualizers,
+HTML report is often what you need.
+
+| HTML output \ Tool | `cargo-llvm-cov` | `cargo-tarpaulin` | `grcov` |
+| ----------- | ----------- | ----------- | ----------- |
+| Examples    | [Open `llvm-cov`](/samples_rust_coverage/llvm_cov/index.html), [open `llvm-cov-pretty`](/samples_rust_coverage/llvm_cov_pretty/index.html) | [Open `tarpaulin`](/samples_rust_coverage/tarpaulin-report.html) | [Open `grcov`](/samples_rust_coverage/grcov/index.html), [open `grcov` with `lcov`](/samples_rust_coverage/grcov_lcov/index.html) |
 | Handles Rust's constructions | Yes | Yes | Yes |
 | Expands Rust's generics | `--show-instantiations` | No | No |
 | Number of hits | Yes | No | Yes |
@@ -319,6 +420,7 @@ Go to the [Testing Handbook's repository `samples/rust_coverage`](https://github
 
 There you will find Dockerfile generating HTML reports using the described tools.
 {{< /details >}}
+
 
 ## Validation of tests
 
