@@ -79,7 +79,7 @@ to reduce false positives/negatives.
     - Include the official [Learn Semgrep](https://semgrep.dev/learn) resource and present the
     [Semgrep Playground](https://semgrep.dev/playground/new) with “simple mode” for easy rule creation.
     Provide an overview of how to write custom rules and emphasize that writing custom Semgrep rules is easy. Mention
-    that the custom rules can be extended with the auto-fix feature using the `fix: key`. Encourage using metadata
+    that the custom rules can be extended with the auto-fix feature using the `fix:` key. Encourage using metadata
     (i.e., CWE, confidence, likelihood, impact) in custom rules to support the vulnerability management process.
     To help a developer answer the question, “Should I create a Semgrep rule for this problem?” you can use these
     follow-up questions:
