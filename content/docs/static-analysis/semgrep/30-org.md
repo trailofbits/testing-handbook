@@ -68,7 +68,7 @@ rulesets based on key security patterns, and your tech stack and needs.
 5. Create an internal repository to aggregate custom Semgrep rules specific to your organization.
 A README file should include a short tutorial on using Semgrep, applying custom rules from your repository,
 and an inventory table of custom rules. Also, a contribution checklist will allow your team to maintain the quality
-level of the rules (see the 
+level of the rules (see the
 [Trail of Bits Semgrep rule development checklist](https://github.com/trailofbits/semgrep-rules/blob/main/CONTRIBUTING.md#development-practices)).
 Ensure that adding a new Semgrep rule to your internal Semgrep repository includes a peer review process
 to reduce false positives/negatives.
