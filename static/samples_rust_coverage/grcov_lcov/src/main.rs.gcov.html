@@ -1,0 +1,191 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - lcov - src/main.rs</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">src</a> - main.rs<span style="font-size: 80%;"> (source / <a href="main.rs.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">lcov</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">60</td>
+            <td class="headerCovTableEntry">64</td>
+            <td class="headerCovTableEntryHi">93.8 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2024-01-12 19:04:52</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">17</td>
+            <td class="headerCovTableEntry">17</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span><span class="lineCov">          8 : mod second;</span></a>
+<a name="2"><span class="lineNum">       2 </span>            : </a>
+<a name="3"><span class="lineNum">       3 </span><span class="lineNoCov">          0 : fn main() { println!(&quot;Hello, world!&quot;); }</span></a>
+<a name="4"><span class="lineNum">       4 </span>            : </a>
+<a name="5"><span class="lineNum">       5 </span><span class="lineCov">          1 : fn validate_data_simple(data: &amp;Data) -&gt; Result&lt;(), ()&gt; {</span></a>
+<a name="6"><span class="lineNum">       6 </span><span class="lineCov">          1 :     if !data.magic.eq(&amp;[0x13, 0x37]) { return Err(()) }</span></a>
+<a name="7"><span class="lineNum">       7 </span><span class="lineNoCov">          0 :     if data.len as usize != data.content.len() { return Err(()) }</span></a>
+<a name="8"><span class="lineNum">       8 </span><span class="lineNoCov">          0 :     return Ok(());</span></a>
+<a name="9"><span class="lineNum">       9 </span><span class="lineCov">          1 : }</span></a>
+<a name="10"><span class="lineNum">      10 </span>            : </a>
+<a name="11"><span class="lineNum">      11 </span><span class="lineCov">          2 : fn validate_data_match(data: &amp;Data) -&gt; i32 {</span></a>
+<a name="12"><span class="lineNum">      12 </span><span class="lineCov">          2 :     let x: u32 = match data.content.parse::&lt;u32&gt;() {</span></a>
+<a name="13"><span class="lineNum">      13 </span><span class="lineCov">          1 :         Ok(_x) =&gt; {</span></a>
+<a name="14"><span class="lineNum">      14 </span><span class="lineCov">          1 :             let y = 2 * _x;</span></a>
+<a name="15"><span class="lineNum">      15 </span><span class="lineCov">          1 :             if y &lt; 6 {</span></a>
+<a name="16"><span class="lineNum">      16 </span><span class="lineNoCov">          0 :                 y</span></a>
+<a name="17"><span class="lineNum">      17 </span>            :             } else {</a>
+<a name="18"><span class="lineNum">      18 </span><span class="lineCov">          1 :                 y * 2</span></a>
+<a name="19"><span class="lineNum">      19 </span>            :             }</a>
+<a name="20"><span class="lineNum">      20 </span>            :         }</a>
+<a name="21"><span class="lineNum">      21 </span><span class="lineCov">          1 :         Err(_) =&gt; 0</span></a>
+<a name="22"><span class="lineNum">      22 </span>            :     };</a>
+<a name="23"><span class="lineNum">      23 </span><span class="lineCov">          2 :     if x == 0 {</span></a>
+<a name="24"><span class="lineNum">      24 </span><span class="lineCov">          1 :         -1</span></a>
+<a name="25"><span class="lineNum">      25 </span>            :     } else {</a>
+<a name="26"><span class="lineNum">      26 </span><span class="lineCov">          1 :         (x as i32) + 1</span></a>
+<a name="27"><span class="lineNum">      27 </span>            :     }</a>
+<a name="28"><span class="lineNum">      28 </span><span class="lineCov">          2 : }</span></a>
+<a name="29"><span class="lineNum">      29 </span>            : </a>
+<a name="30"><span class="lineNum">      30 </span>            : // https://doc.rust-lang.org/book/ch10-01-syntax.html</a>
+<a name="31"><span class="lineNum">      31 </span><span class="lineCov">          3 : fn largest&lt;T: PartialOrd&gt;(list: &amp;[T]) -&gt; &amp;T {</span></a>
+<a name="32"><span class="lineNum">      32 </span><span class="lineCov">          3 :     let mut largest = &amp;list[0];</span></a>
+<a name="33"><span class="lineNum">      33 </span><span class="lineCov">         15 :     for item in list {</span></a>
+<a name="34"><span class="lineNum">      34 </span><span class="lineCov">         12 :         if item &gt; largest {</span></a>
+<a name="35"><span class="lineNum">      35 </span><span class="lineCov">          3 :             largest = item;</span></a>
+<a name="36"><span class="lineNum">      36 </span>            :         }</a>
+<a name="37"><span class="lineNum">      37 </span>            :     }</a>
+<a name="38"><span class="lineNum">      38 </span><span class="lineCov">          3 :     largest</span></a>
+<a name="39"><span class="lineNum">      39 </span><span class="lineCov">          3 : }</span></a>
+<a name="40"><span class="lineNum">      40 </span>            : </a>
+<a name="41"><span class="lineNum">      41 </span><span class="lineCov">          1 : fn validate_data_generics(data: &amp;Data) {</span></a>
+<a name="42"><span class="lineNum">      42 </span><span class="lineCov">          1 :     let number_list = vec![34, 50, 25, 100, 65];</span></a>
+<a name="43"><span class="lineNum">      43 </span>            : </a>
+<a name="44"><span class="lineNum">      44 </span><span class="lineCov">          1 :     let result = largest(&amp;number_list);</span></a>
+<a name="45"><span class="lineNum">      45 </span><span class="lineCov">          1 :     println!(&quot;The largest number is {}&quot;, result);</span></a>
+<a name="46"><span class="lineNum">      46 </span>            : </a>
+<a name="47"><span class="lineNum">      47 </span><span class="lineCov">          1 :     let char_list = vec!['y', 'm', 'a', 'q'];</span></a>
+<a name="48"><span class="lineNum">      48 </span>            : </a>
+<a name="49"><span class="lineNum">      49 </span><span class="lineCov">          1 :     let result = largest(&amp;char_list);</span></a>
+<a name="50"><span class="lineNum">      50 </span><span class="lineCov">          1 :     println!(&quot;The largest char is {}&quot;, result);</span></a>
+<a name="51"><span class="lineNum">      51 </span>            : </a>
+<a name="52"><span class="lineNum">      52 </span><span class="lineCov">          1 :     let result = largest(data.content.as_bytes());</span></a>
+<a name="53"><span class="lineNum">      53 </span><span class="lineCov">          1 :     println!(&quot;The largest content char is {}&quot;, result);</span></a>
+<a name="54"><span class="lineNum">      54 </span><span class="lineCov">          1 : }</span></a>
+<a name="55"><span class="lineNum">      55 </span>            : </a>
+<a name="56"><span class="lineNum">      56 </span>            : struct Data {</a>
+<a name="57"><span class="lineNum">      57 </span>            :     magic: [u8; 2],</a>
+<a name="58"><span class="lineNum">      58 </span>            :     len: u8,</a>
+<a name="59"><span class="lineNum">      59 </span>            :     content: String</a>
+<a name="60"><span class="lineNum">      60 </span>            : }</a>
+<a name="61"><span class="lineNum">      61 </span>            : </a>
+<a name="62"><span class="lineNum">      62 </span>            : #[cfg(test)]</a>
+<a name="63"><span class="lineNum">      63 </span>            : mod tests {</a>
+<a name="64"><span class="lineNum">      64 </span>            :     use crate::second::validate_data_panic;</a>
+<a name="65"><span class="lineNum">      65 </span>            :     use crate::{Data, validate_data_generics, validate_data_match, validate_data_simple};</a>
+<a name="66"><span class="lineNum">      66 </span>            : </a>
+<a name="67"><span class="lineNum">      67 </span>            :     #[test]</a>
+<a name="68"><span class="lineNum">      68 </span><span class="lineCov">          2 :     fn parser_detects_errors() {</span></a>
+<a name="69"><span class="lineNum">      69 </span><span class="lineCov">          1 :         let mut blob = Data{ magic: [0x73, 0x31], len: 2, content: &quot;AB&quot;.parse().unwrap() };</span></a>
+<a name="70"><span class="lineNum">      70 </span><span class="lineCov">          1 :         blob.content = blob.content + &quot;Y&quot;;</span></a>
+<a name="71"><span class="lineNum">      71 </span><span class="lineCov">          1 :         let result = validate_data_simple(&amp;blob);</span></a>
+<a name="72"><span class="lineNum">      72 </span><span class="lineCov">          1 :         assert!(result.is_err());</span></a>
+<a name="73"><span class="lineNum">      73 </span><span class="lineCov">          2 :     }</span></a>
+<a name="74"><span class="lineNum">      74 </span>            : </a>
+<a name="75"><span class="lineNum">      75 </span>            :     #[test]</a>
+<a name="76"><span class="lineNum">      76 </span><span class="lineCov">          2 :     fn check_match() {</span></a>
+<a name="77"><span class="lineNum">      77 </span><span class="lineCov">          1 :         let blob = Data{ magic: [0x73, 0x31], len: 2, content: &quot;XX&quot;.parse().unwrap() };</span></a>
+<a name="78"><span class="lineNum">      78 </span><span class="lineCov">          1 :         let x = validate_data_match(&amp;blob);</span></a>
+<a name="79"><span class="lineNum">      79 </span><span class="lineCov">          1 :         assert_eq!(x, -1);</span></a>
+<a name="80"><span class="lineNum">      80 </span><span class="lineCov">          2 :     }</span></a>
+<a name="81"><span class="lineNum">      81 </span>            : </a>
+<a name="82"><span class="lineNum">      82 </span>            :     #[test]</a>
+<a name="83"><span class="lineNum">      83 </span><span class="lineCov">          2 :     fn check_match2() {</span></a>
+<a name="84"><span class="lineNum">      84 </span><span class="lineCov">          1 :         let blob = Data{ magic: [0x73, 0x31], len: 2, content: &quot;40&quot;.parse().unwrap() };</span></a>
+<a name="85"><span class="lineNum">      85 </span><span class="lineCov">          1 :         let x = validate_data_match(&amp;blob);</span></a>
+<a name="86"><span class="lineNum">      86 </span><span class="lineCov">          1 :         assert_eq!(x, 161);</span></a>
+<a name="87"><span class="lineNum">      87 </span><span class="lineCov">          2 :     }</span></a>
+<a name="88"><span class="lineNum">      88 </span>            : </a>
+<a name="89"><span class="lineNum">      89 </span>            :     #[test]</a>
+<a name="90"><span class="lineNum">      90 </span><span class="lineCov">          2 :     fn check_generic() {</span></a>
+<a name="91"><span class="lineNum">      91 </span><span class="lineCov">          1 :         let blob = Data{ magic: [0x73, 0x31], len: 2, content: &quot;QWE&quot;.parse().unwrap() };</span></a>
+<a name="92"><span class="lineNum">      92 </span><span class="lineCov">          1 :         validate_data_generics(&amp;blob);</span></a>
+<a name="93"><span class="lineNum">      93 </span><span class="lineCov">          2 :     }</span></a>
+<a name="94"><span class="lineNum">      94 </span>            : </a>
+<a name="95"><span class="lineNum">      95 </span>            :     #[test]</a>
+<a name="96"><span class="lineNum">      96 </span>            :     #[should_panic]</a>
+<a name="97"><span class="lineNum">      97 </span><span class="lineCov">          2 :     fn check_panic() {</span></a>
+<a name="98"><span class="lineNum">      98 </span><span class="lineCov">          1 :         let blob = Data{ magic: [0x73, 0x31], len: 0, content: &quot;4&quot;.parse().unwrap() };</span></a>
+<a name="99"><span class="lineNum">      99 </span><span class="lineCov">          1 :         validate_data_panic(&amp;blob);</span></a>
+<a name="100"><span class="lineNum">     100 </span><span class="lineCov">          2 :     }</span></a>
+<a name="101"><span class="lineNum">     101 </span>            : </a>
+<a name="102"><span class="lineNum">     102 </span>            :     #[test]</a>
+<a name="103"><span class="lineNum">     103 </span><span class="lineCov">          2 :     fn check_not_panic() {</span></a>
+<a name="104"><span class="lineNum">     104 </span><span class="lineCov">          1 :         let blob = Data{ magic: [0x73, 0x31], len: 2, content: &quot;4&quot;.parse().unwrap() };</span></a>
+<a name="105"><span class="lineNum">     105 </span><span class="lineCov">          1 :         validate_data_panic(&amp;blob);</span></a>
+<a name="106"><span class="lineNum">     106 </span><span class="lineCov">          2 :     }</span></a>
+<a name="107"><span class="lineNum">     107 </span>            : }</a>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.14</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>
