@@ -36,20 +36,20 @@ directory of a project and run:
 rulesets based on key security patterns, and your tech stack and needs.
    - Try:
 
-   ```shell
-   semgrep --config p/default
-   semgrep --config p/owasp-top-ten
-   semgrep --config p/cwe-top-25
-   ```
+        ```shell
+        semgrep --config p/default
+        semgrep --config p/owasp-top-ten
+        semgrep --config p/cwe-top-25
+        ```
 
-   or choose a ruleset based on your technology:
+        or choose a ruleset based on your technology:
 
-   ```shell
-   semgrep --config p/javascript
-   ```
+        ```shell
+        semgrep --config p/javascript
+        ```
 
     - Focus on rules with high confidence and medium- or high-impact metadata first. If there are too many results,
-    limit results to error severity only using the --severity ERROR flag.
+    limit results to error severity only using the `--severity ERROR` flag.
     - Resolve identified issues and include reproduction instructions in your bug reports.
 
 4. **Fine-tune**: Obtain your ideal rulesets chain by reviewing the effectiveness of currently used rulesets.
