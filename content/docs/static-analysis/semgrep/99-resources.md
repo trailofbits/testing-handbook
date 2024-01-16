@@ -23,6 +23,7 @@ weight: 99
 - [Discovering goroutine leaks with Semgrep](https://blog.trailofbits.com/2021/11/08/discovering-goroutine-leaks-with-semgrep/)
 - [Secure your machine learning with Semgrep](https://blog.trailofbits.com/2022/10/03/semgrep-maching-learning-static-analysis/)
 - [Secure your Apollo GraphQL server with Semgrep](https://blog.trailofbits.com/2023/08/29/secure-your-apollo-graphql-server-with-semgrep/)
+- [How to introduce Semgrep to your organization](https://blog.trailofbits.com/2024/01/12/how-to-introduce-semgrep-to-your-organization/)
 
 ## Publications
 
