@@ -55,7 +55,7 @@ The following questions can help you determine if you can write a custom Semgrep
 Support for the following cases is currently limited. Although development is ongoing, Semgrep may not be able to handle:
 
 - When multiple files are required for your analysis
-  - Consider exploring the [DeepSemgrep](https://semgrep.dev/docs/deepsemgrep/deepsemgrep-introduction/) development process
+  - Consider using the [Semgrep Pro Engine](https://semgrep.dev/docs/semgrep-code/semgrep-pro-engine-intro/)
 - When you need advanced flow analysis
   - Familiarize yourself with the [Semgrep dataflow analysis engine](https://semgrep.dev/docs/writing-rules/data-flow/data-flow-overview/)
 - Complex taint tracking
