@@ -198,7 +198,7 @@ using the selected ruleset, run the following command:
      semgrep --config="p/trailofbits" --config="p/r2c-security-audit"
      ```
 
-   - Use the ephemeral rules, e.g. `semgrep -e 'exec(...)' —lang=py ./`, to supply a rule inline.
+   - Use the ephemeral rules, e.g. `semgrep -e 'exec(...)' --lang=py ./`, to supply a rule inline.
 
 4. **Overview of output formats**: Semgrep supports multiple output formats to help you conveniently analyze results
 according to your preferences and tooling.
