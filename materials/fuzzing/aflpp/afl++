@@ -1,4 +1,5 @@
 #!/bin/sh
+AFL_VERSION="${AFL_VERSION:-"stable"}"
 case "$1" in
    host)
         shift 
@@ -7,12 +8,11 @@ case "$1" in
     docker)
         shift
         /usr/bin/env docker run -ti \
-            --ulimit core=0 \
             --privileged \
             -v ./:/src \
             --rm \
             --name afl_fuzzing \
-            aflplusplus/aflplusplus:v4.08c \
+            "aflplusplus/aflplusplus:$AFL_VERSION" \
             bash -c "cd /src && bash -c \"$*\""
         ;;
     *)
