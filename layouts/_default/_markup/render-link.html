@@ -193,6 +193,11 @@
   {{- with .Title }}
     {{- $attrs = merge $attrs (dict "title" .) }}
   {{- end -}}
+
+  {{- $isRemote := or (in .Destination ":") (strings.HasPrefix .Destination "//") }}
+  {{- if $isRemote }}
+    {{- $attrs = merge $attrs (dict "target" "_blank") }}
+  {{- end -}}
   
   {{- /* Render anchor element. */ -}}
   <a
