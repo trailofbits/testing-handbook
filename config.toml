@@ -11,6 +11,9 @@ enableEmoji = true
   BookRepo = "https://github.com/trailofbits/testing-handbook"
   BookEditBranch = "main"
 
+[params.render_hooks.link]
+  errorLevel = 'warning' # ignore (default), warning, or error (fails the build)
+  highlightBroken = true # true or false (default)
 [markup]
   [markup.highlight]
     anchorLineNos = false
