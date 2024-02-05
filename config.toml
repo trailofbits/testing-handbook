@@ -4,6 +4,11 @@ title = "Testing Handbook"
 theme = 'book'
 enableEmoji = true
 
+theme = ["plausible-hugo"]  # Add this theme to your already existing other themes
+[params.plausible]
+  enable = true  # Whether to enable plausible tracking
+  domain = "appsec.guide"  # Plausible "domain" name/id in your dashboard
+
 [params]
   BookLogo = 'TOB_Black.svg'
   BookIconLogo = 'logo.png'
