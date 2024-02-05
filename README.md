@@ -117,3 +117,19 @@ Your browser will be automatically refreshed with changes whenever you save a fi
 - Familiarize yourself with the [Hugo Book theme](https://hugo-book-demo.netlify.app/)
 as it has a couple of nice features (buttons, etc.)
 - Reach out in [#testing-handbook](https://empirehacking.slack.com/archives/C06CSLSQAMB) Empire Hacking Slack if you have any questions.
+
+## Editing
+
+
+### Workflow: From Google Docs
+
+1. Make your document viewable via a link share.
+2. Create a Google account or use your private one (If you use this method, then your document should be regarded as public, but unpublished).
+3. Install [Docs to Markdown](https://workspace.google.com/marketplace/app/docs_to_markdown/700168918607). This addon works better than pandoc.
+4. Open the document and make a copy.
+5. Open the copy and run the Addon.
+6. Export the markdown and apply fixes:
+   * Search for occurences of `<code>` or `<strong>`
+   * Replace HTML tables with markdown ones (https://jmalarcon.github.io/markdowntables/)
+   * If you split your document, fix internal links.
+   * Add missing images.
