@@ -57,3 +57,41 @@
 .markdown .highlight:hover code:first-child::before {
   opacity: 1;
 }
+
+figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  counter-increment: figureIndex;
+
+  margin-block-start: 0;
+  margin-block-end: 0;
+  margin-inline-start: 0;
+  margin-inline-end: 0;
+
+  > * {
+    max-width: 100%;
+  }
+
+  figcaption::before {
+    content: "Figure " counter(figureIndex) ": ";
+  }
+  figcaption {
+    max-width: 90%;
+    margin-top: 5px;
+
+    font-style: italic;
+
+    p:first-child  {
+      display: inline;
+    }
+  }
+}
+
+
+p {
+  // TODO: not sure if this is without side effects
+  code {
+    white-space: nowrap;
+  }
+}
