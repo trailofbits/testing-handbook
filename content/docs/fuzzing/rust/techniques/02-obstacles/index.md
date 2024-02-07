@@ -30,7 +30,7 @@ if checksum != expected_hash {
 Note that this means that your SUT is behaving differently during fuzzing and production. Carelessly skipping checks can lead to false positives during fuzzing. For example, skipping the validation of a config file might lead to crashes in the SUT because the code expects config values to have a certain format. If the validation ensures that the config contains non-zero integers, then code called after the validation could misbehave when zero values are encountered. See the following example for an illustration.
 
 
-{{< customFigure "Problematic usage of <code>cfg!(fuzzing)</code>that skips config validation. This may lead to false positives during fuzzing." >}}
+{{< customFigure "Problematic usage of `cfg!(fuzzing)` that skips config validation. This may lead to false positives during fuzzing." >}}
 ```Rust
 if !cfg!(fuzzing) {
     config.validate()?; // return error if config contains zero values

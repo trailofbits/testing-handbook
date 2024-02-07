@@ -15,7 +15,7 @@ For a general introduction about fuzzing and fuzzing setup (e.g., the harness, f
 
 ## When should I use which fuzzer? {#when-should-i-use-which-fuzzer}
 
-
+<!-- TODO translate table to md -->
 {{< rawHtml >}}
 <table>
   <tr>
