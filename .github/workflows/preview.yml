@@ -52,4 +52,4 @@ jobs:
         with:
           source-dir: ./public/
           token: ${{ secrets.TESTING_HANDBOOK_PREVIEW_REPO }}
-          deploy-repository: https://github.com/trailofbits/testing-handbook-preview
+          deploy-repository: trailofbits/testing-handbook-preview
