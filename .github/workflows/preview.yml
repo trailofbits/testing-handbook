@@ -11,11 +11,6 @@ on:
 
 concurrency: preview-${{ github.ref }}
 
-# Allow one concurrent deployment
-concurrency:
-  group: "pages"
-  cancel-in-progress: true
-
 # Default to bash
 defaults:
   run:
