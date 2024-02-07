@@ -48,7 +48,7 @@ There are several ways to generate a dictionary.
 
 
 
-* LLMs (large language models): Tools like OpenAI’s ChatGPT are helpful in generating a dictionary for your fuzzing task. However, be aware of LLM hallucinations. If the LLM proposes a feature not mentioned in this handbook, check first if it really exists. Try the following LLM prompt with the task `PNG parser`:
+* LLMs (large language models): Tools like OpenAI's ChatGPT are helpful in generating a dictionary for your fuzzing task. However, be aware of LLM hallucinations. If the LLM proposes a feature not mentioned in this handbook, check first if it really exists. Try the following LLM prompt with the task `PNG parser`:
     ```text {.code-fence-wrap}
     A dictionary can be used to guide the fuzzer. A dictionary is passed as a file to the fuzzer usually.
     The simplest input accepted by libFuzzer is an ASCII text file where each line consists of a quoted string. Strings can contain escaped byte sequences like "\xF7\xF8". Optionally, a key-value pair can be used like hex_value="\xF7\xF8" for documentation purposes. Comments are supported by starting a line with #. Write me an example dictionary file for a <fuzzing task>:

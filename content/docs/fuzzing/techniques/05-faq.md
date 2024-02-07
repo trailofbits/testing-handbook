@@ -19,7 +19,7 @@ There are several potential reasons:
 
 ## When should I stop fuzzing?
 
-This question is very hard to answer. The code coverage is essentially the only metric available in today's fuzzers. Code coverage is a proxy for measuring a fuzzer’s efficiency in finding bugs.
+This question is very hard to answer. The code coverage is essentially the only metric available in today's fuzzers. Code coverage is a proxy for measuring a fuzzer's efficiency in finding bugs.
 
 However, we have acknowledged that code coverage is the only tool we have nowadays. So the practical answer to the question is: Stop fuzzing when the fuzzer does not find new test cases for several hours. This is equivalent to saying that the fuzzer is not increasing its coverage.
 
@@ -48,18 +48,18 @@ A proxy for code coverage can be the executions per second:
 
 ## My corpus has grown quite large. How do I deal with these thousands of small files?
 
-There is a technique called “corpus minimization”.
+There is a technique called "corpus minimization".
 Stay tuned for an update of the testing handbook to find out how to maintain and manage corpora! Subscribe to our newsletter [here](https://trailofbits.us4.list-manage.com/subscribe?u=3c3cd5fe83443b48332fb203f&id=ec54fc0dbd) to get notified.
 
 ## My fuzzer found inputs that crash the SUT. However, it is very large and complex. Is there a way to simplify finding the root cause of the crash?
 
-A technique called “test case minimization” reduces the size of inputs while preserving the crash.
+A technique called "test case minimization" reduces the size of inputs while preserving the crash.
 
 Stay tuned for an update to the testing handbook that will cover how to maintain and manage corpora! Subscribe the newsletter [here](https://trailofbits.us4.list-manage.com/subscribe?u=3c3cd5fe83443b48332fb203f&id=ec54fc0dbd) to get notified.
 
 ## How can I collect core dumps from crashes during or after a fuzzing campaign?
 
-On Linux, two main settings affect core dumps: 1) the “core” [resource limit](https://linux.die.net/man/2/setrlimit) that enables core dumps per process, and 2) the `sysctl` setting [`kernel.core-pattern`](https://docs.kernel.org/next/admin-guide/sysctl/kernel.html#core-pattern), which determines where the core dump is stored or sent to.
+On Linux, two main settings affect core dumps: 1) the "core" [resource limit](https://linux.die.net/man/2/setrlimit) that enables core dumps per process, and 2) the `sysctl` setting [`kernel.core-pattern`](https://docs.kernel.org/next/admin-guide/sysctl/kernel.html#core-pattern), which determines where the core dump is stored or sent to.
 For the Bash shell, you can use `ulimit -c` to query the current limits on core dumps; use `ulimit -c 0` to disable them and `ulimit -c unlimited` to enable them. The default for resource limits differs between environments and operating systems (i.e., server vs. desktop operating systems). In order to store core dumps in the current working directory in a file called `core`, you can configure the kernel using:
 
 ```shell
@@ -85,7 +85,7 @@ Stay tuned for an update to the testing handbook to find out how to set up conti
 
 ## My fuzzer has found multiple crashes. In fact, I have hundreds of crash files. How can I find the corresponding bugs? 
 
-The process of pinpointing specific bugs is called “bug triaging.”
+The process of pinpointing specific bugs is called "bug triaging."
 
 Stay tuned for an update to the testing handbook to find out how to triage bugs! Subscribe to the newsletter [here](https://trailofbits.us4.list-manage.com/subscribe?u=3c3cd5fe83443b48332fb203f&id=ec54fc0dbd) to get notified.
 
@@ -93,9 +93,9 @@ Stay tuned for an update to the testing handbook to find out how to triage bugs!
 
 Stay tuned for an update to the testing handbook to find out how to use the right tools for your technology stack! Subscribe to the newsletter [here](https://trailofbits.us4.list-manage.com/subscribe?u=3c3cd5fe83443b48332fb203f&id=ec54fc0dbd) to get notified and message [@trailofbits](https://twitter.com/trailofbits).
 
-## I’m using Bazel, Buck, or some other build system. How can I integrate fuzzing into my project?
+## I'm using Bazel, Buck, or some other build system. How can I integrate fuzzing into my project?
 
-Message [@trailofbits](https://twitter.com/trailofbits) and tell us about your project setup. We’d be happy to check if there is an easy way to integrate the preferred fuzzer.
+Message [@trailofbits](https://twitter.com/trailofbits) and tell us about your project setup. We'd be happy to check if there is an easy way to integrate the preferred fuzzer.
 
 ## My program runs only on Windows. How can I fuzz it?
 

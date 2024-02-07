@@ -44,7 +44,7 @@ The following section reviews two methods to generate coverage reports: the an L
 
 Both methods allow the generation of a clear representation of coverage, with the resulting HTML report consisting of multiple pages. However, the report generation with gcov output is more inefficient and requires more time compared to the LLVM one.
 
-##### Code coverage using LLVM’s SanitizerCoverage {#code-coverage-using-llvm’s-sanitizercoverage}
+##### Code coverage using LLVM's SanitizerCoverage {#code-coverage-using-llvm's-sanitizercoverage}
 
 The LLVM project provides the [SanitizerCoverage](https://clang.llvm.org/docs/SanitizerCoverage.html) interface and tooling to allow coverage data collection. The default instrumentation by libFuzzer or AFL++ uses this API during fuzzing to guide the fuzzer toward uncovering more code.
 
@@ -252,7 +252,7 @@ The first step is to execute the coverage binary on an existing corpus.
 ./fuzz_exec_gcov corpus/
 ```
 
-We now make sure that gcovr is installed. We recommend installing gcovr through Python’s pip because distribution versions could be outdated. If you use LLVM/Clang 14 or above, at least gcovr 5.1 is required (the verison 5.1 contains this [patch](https://github.com/gcovr/gcovr/pull/525/files#diff-26284e367af8a1344772d5e18ab13d7e5518c701936c21733b2a18c13e2b958cL31-R31)).
+We now make sure that gcovr is installed. We recommend installing gcovr through Python's pip because distribution versions could be outdated. If you use LLVM/Clang 14 or above, at least gcovr 5.1 is required (the verison 5.1 contains this [patch](https://github.com/gcovr/gcovr/pull/525/files#diff-26284e367af8a1344772d5e18ab13d7e5518c701936c21733b2a18c13e2b958cL31-R31)).
 ```shell
 python3 -m venv venv
 source venv/bin/activate
@@ -338,7 +338,7 @@ To create a binary that outputs coverage data, we first prepare the same harness
 curl -O https://raw.githubusercontent.com/glennrp/libpng/f8e5fa92b0e37ab597616f554bee254157998227/contrib/oss-fuzz/libpng_read_fuzzer.cc
 ```
 
-Now, we link together the instrumented libpng, the harness, and the execution runtime from the [previous section](#code-coverage-using-llvm’s-sanitizercoverage).
+Now, we link together the instrumented libpng, the harness, and the execution runtime from the [previous section](#code-coverage-using-llvm's-sanitizercoverage).
 
 
 ```shell
@@ -423,7 +423,7 @@ Note that we had to ignore an error using the flag `--gcov-ignore-errors=no_work
 
 ###### CMake-based project {#cmake-based-project}
 
-Let’s assume we fuzzed the CMake project with [libFuzzer](#cmake-based-project) and [AFL++](#cmake-based-project) and now want to adjust it to generate coverage. The following figure shows a CMakeLists file that defines an executable called buggy_program. Alongside the main binary, a fuzzing binary is defined. Additionally, a binary that can execute existing fuzz test cases is added.
+Let's assume we fuzzed the CMake project with [libFuzzer](#cmake-based-project) and [AFL++](#cmake-based-project) and now want to adjust it to generate coverage. The following figure shows a CMakeLists file that defines an executable called buggy_program. Alongside the main binary, a fuzzing binary is defined. Additionally, a binary that can execute existing fuzz test cases is added.
 
 
 {{< customFigure "CMakeLists file for an example project" >}}
@@ -466,7 +466,7 @@ llvm-cov report ./fuzz_exec -instr-profile=fuzz.profdata -ignore-filename-regex=
 
 ##### Additional resources {#additional-resources}
 
-* [LLVM’s source-based code coverage documentation](https://clang.llvm.org/docs/SourceBasedCodeCoverage.html)
+* [LLVM's source-based code coverage documentation](https://clang.llvm.org/docs/SourceBasedCodeCoverage.html)
     * [llvm-cov CLI documentation](https://llvm.org/docs/CommandGuide/llvm-cov.html)
 * [gcovr documentation](https://gcovr.com/)
 * [Low-level SanitizerCoverage documentation](https://clang.llvm.org/docs/SanitizerCoverage.html)

@@ -126,7 +126,7 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
 ```
 
 
-The above example fuzzes the concat function with parameters for receiving two C-style strings and a maximum allocation size. However, the above function contains a bug:the sum of the strings’ lengths is not checked against the allocation size. Therefore, if the allocation size is too small, the `memcpy` function will cause a buffer overflow.
+The above example fuzzes the concat function with parameters for receiving two C-style strings and a maximum allocation size. However, the above function contains a bug:the sum of the strings' lengths is not checked against the allocation size. Therefore, if the allocation size is too small, the `memcpy` function will cause a buffer overflow.
 
 The harness function `LLVMFuzzerTestOneInput` uses the `FuzzedDataProvider` to read an integer and then two data strings. The length of the data strings is determined by a separator.
 
@@ -301,7 +301,7 @@ There are multiple advantages to interleaved fuzzing:
 
 Even though harnesses can execute arbitrary code, a few rules are beneficial to follow when implementing harnesses. We adapted these from the official libFuzzer [documentation](https://llvm.org/docs/LibFuzzer.html#id23).
 
-In fact, these guidelines don’t just apply to the harness code, but also to the entire codebase of the SUT. Refer to the SUT Patching: Overcoming obstacles section to learn how to patch SUTs for [C/C++]({{% relref "/docs/fuzzing/c-cpp/techniques/02-obstacles#sut-patching-overcoming-obstacles" %}}) and [Rust]({{% relref "/docs/fuzzing/rust/techniques/02-obstacles#sut-patching-overcoming-obstacles" %}}).
+In fact, these guidelines don't just apply to the harness code, but also to the entire codebase of the SUT. Refer to the SUT Patching: Overcoming obstacles section to learn how to patch SUTs for [C/C++]({{% relref "/docs/fuzzing/c-cpp/techniques/02-obstacles#sut-patching-overcoming-obstacles" %}}) and [Rust]({{% relref "/docs/fuzzing/rust/techniques/02-obstacles#sut-patching-overcoming-obstacles" %}}).
 
 The following points should be considered when implementing fuzzing harnesses regardless of the language they are written in:
 

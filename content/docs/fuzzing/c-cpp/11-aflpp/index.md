@@ -364,7 +364,7 @@ If the fuzzing setup and operating system allow it, coverage information is exch
 {{< /hint >}}
 
 
-Let’s start by rewriting the original example to take input from stdin.
+Let's start by rewriting the original example to take input from stdin.
 
 
 {{< customFigure "main_stdin.cc: Program that takes the input via standard input." >}}
@@ -400,7 +400,7 @@ int main() {
 {{< /customFigure >}}
 
 
-The example above reads now from standard input. It aborts for the input “abc.”
+The example above reads now from standard input. It aborts for the input "abc."
 
 
 ```shell
@@ -422,7 +422,7 @@ The above example no longer uses persistent mode, because we switched away from 
 
 ### Optimizing the fuzzer: Enable persistent mode {#optimizing-the-fuzzer-enable-persistent-mode}
 
-Enabling persistent mode improves fuzzing performance by a factor of 10 to 20 (see the above tip for details about why persistent mode is faster). Note that the initial version we started with already runs in persistent mode because it uses a libFuzzer-style harness. If you already use `LLVMFuzzerTestOneInput` with AFL++, then this section is not relevant. This section is relevant if you want to improve your fuzzer that is not yet running in persistent mode. You can search the log output of `afl-fuzz` for “Persistent mode binary detected” to see if you are already using persistent mode.
+Enabling persistent mode improves fuzzing performance by a factor of 10 to 20 (see the above tip for details about why persistent mode is faster). Note that the initial version we started with already runs in persistent mode because it uses a libFuzzer-style harness. If you already use `LLVMFuzzerTestOneInput` with AFL++, then this section is not relevant. This section is relevant if you want to improve your fuzzer that is not yet running in persistent mode. You can search the log output of `afl-fuzz` for "Persistent mode binary detected" to see if you are already using persistent mode.
 
 Enabling persistent mode requires adding a few lines of code:
 
@@ -662,7 +662,7 @@ If persistent mode is used, then the implementation is slightly different becaus
 AFL++ supports fuzzing on multiple cores. This has two advantages:
 
 * More executions per second. This typically scales linearly with the amount of physical cores available.
-* Asymmetrical fuzzing, which means we start multiple fuzzing jobs that are slightly different. For instance, one job might use AddressSanitizer, and the others don’t. That way, only one job is impacted by the performance penalty induced by AddressSanitizer. Interesting test cases found by the non-sanitized jobs are still executed using ASan when they are discovered to have the chance of detecting memory corruption bugs. Typically, you only have a single ASan job.
+* Asymmetrical fuzzing, which means we start multiple fuzzing jobs that are slightly different. For instance, one job might use AddressSanitizer, and the others don't. That way, only one job is impacted by the performance penalty induced by AddressSanitizer. Interesting test cases found by the non-sanitized jobs are still executed using ASan when they are discovered to have the chance of detecting memory corruption bugs. Typically, you only have a single ASan job.
 
 To manage multiple jobs, we use the job control of bash. Make sure to use bash or a compatible shell. First, we have to start a main fuzzing instance. We log to a file instead of standard output because following multiple outputs is inefficient. Make sure that the directory `state/` does not exist. 
 
@@ -685,7 +685,7 @@ Now, we can start as many secondary jobs as we have idle cores available.
 
 For each job, the AFL++ creates a subdirectory in `state/`. The fuzzing progress can be checked with the following two commands:
 
-* `jobs`: This command lists all currently running commands. If you don’t see all jobs running, check the `.log` and `.error` files.
+* `jobs`: This command lists all currently running commands. If you don't see all jobs running, check the `.log` and `.error` files.
 * `./afl++ <host/docker> afl-whatsup state/`: Run this to list all currently running instances, their execution speed, and their results.
 
 We recommend running the following command to get an update every second:
@@ -808,13 +808,13 @@ When running the fuzzer, the above heap-buffer overflow will be discovered by th
 
 If you are fuzzing C projects that produce static libraries, you can follow this recipe:
 
-1. Read the `INSTALL` file in the project’s codebase (or other appropriate documentation) and find out how to create a static library.
+1. Read the `INSTALL` file in the project's codebase (or other appropriate documentation) and find out how to create a static library.
 2. Set the compiler to Clang, and pass additional flags to the compiler during compilation.
 3. Build the static library, set the environment variable `AFL_USE_ASAN=1`, and pass the flag `-fsanitize=fuzzer-no-link `to the C compiler, which enables fuzzing-related instrumentations, without linking in the fuzzing engine. The runtime, which includes the `main` symbol, is linked later when using the `-fsanitize=fuzzer` flag. The build step will create a static library, which we will refer to as `$static_library`. The environment variable enables ASan to detect memory corruption.
 4. Find the compiled static library from step 3 and call: `./afl++ <host/docker> AFL_USE_ASAN=1 afl-clang-fast++ -fsanitize=fuzzer $static_library harness.cc -o fuzz`.
 5. You can start fuzzing by calling `./afl++ <host/docker> afl-fuzz -i seeds -o out -- ./fuzz`.
 
-Let’s go through these instructions for the well-known libpng library. First, we get the source code:
+Let's go through these instructions for the well-known libpng library. First, we get the source code:
 
 
 ```shell
@@ -889,7 +889,7 @@ The fuzzing campaign can be launched by running:
 
 ### CMake-based project {#cmake-based-project}
 
-Let’s assume we are using CMake to build the program mentioned in the [introduction]({{% relref "fuzzing#introduction-to-fuzzers" %}}). We add a CMake target that builds the `main.cc` and `harness.cc` and links the target together with AFL++. Note that we are excluding the main function through the `NO_MAIN` flag; otherwise, the program would have two main functions.
+Let's assume we are using CMake to build the program mentioned in the [introduction]({{% relref "fuzzing#introduction-to-fuzzers" %}}). We add a CMake target that builds the `main.cc` and `harness.cc` and links the target together with AFL++. Note that we are excluding the main function through the `NO_MAIN` flag; otherwise, the program would have two main functions.
 
 
 {{< customFigure "CMake example" >}}

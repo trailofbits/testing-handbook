@@ -41,7 +41,7 @@ cargo install cargo-fuzz
 
 #### Write a fuzz test {#write-a-fuzz-test}
 
-Let’s recall the example introduced in the [introduction]({{% relref "fuzzing#introduction-to-fuzzers" %}}) of this chapter, consisting of a `main` and a `check_buf` function. We want to fuzz test the `check_buf` function. For this purpose, we want to restructure the project so that the code we want to test is part of a library crate.
+Let's recall the example introduced in the [introduction]({{% relref "fuzzing#introduction-to-fuzzers" %}}) of this chapter, consisting of a `main` and a `check_buf` function. We want to fuzz test the `check_buf` function. For this purpose, we want to restructure the project so that the code we want to test is part of a library crate.
 
 Initially, your project  probably consists of a Cargo project file (i.e., a Cargo.toml file) and a `main.rs`. The Cargo.toml specifies the name of the project, e.g. `your_project`.
 
@@ -206,7 +206,7 @@ Most sanitizers in Rust currently require a nightly toolchain because they are a
 
 The ogg crate parses [ogg](https://en.wikipedia.org/wiki/Ogg) files, which contain media data. The ogg format is a container format for media, which means such files can host different codecs. Parsers are easy to fuzz and also a high-value target, because they have to behave correctly even when they are presented with untrusted data.
 
-Let’s go over the process of fuzzing an existing Cargo crate. First, we check out the source-code of the crate:
+Let's go over the process of fuzzing an existing Cargo crate. First, we check out the source-code of the crate:
 
 ```shell
 git clone https://github.com/RustAudio/ogg.git

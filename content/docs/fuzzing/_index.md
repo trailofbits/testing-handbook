@@ -11,7 +11,7 @@ Fuzzing represents a dynamic testing method that inputs malformed or unpredictab
 
 This chapter of our Testing Handbook describes how to start fuzzing your project quickly. After covering the basics, we will dive deeply into more advanced fuzzing techniques and show you how to bring your testing setup to the next level. By the end of the chapter, you'll know how to choose applicable fuzzers, write fuzzing harnesses, understand their outputs, and apply them to real-world projects. The chapter can be followed step-by-step and completed within an afternoon.
 
-The concept of fuzz testing dates back over 30 years, during which time it was used for examining UNIX command-line utilities (see [An empirical study of the reliability of UNIX utilities](https://dl.acm.org/doi/pdf/10.1145/96267.96279)). Since then, fuzzing has evolved from purely generating random input (blackbox fuzzing) to generating inputs based on feedback gathered while executing the tested program (graybox fuzzing). Because these utilities are written in C, we will start by describing how to fuzz C/C++ projects. Before that, though, we’ll explain a bit about the intended audience and structure of this chapter.
+The concept of fuzz testing dates back over 30 years, during which time it was used for examining UNIX command-line utilities (see [An empirical study of the reliability of UNIX utilities](https://dl.acm.org/doi/pdf/10.1145/96267.96279)). Since then, fuzzing has evolved from purely generating random input (blackbox fuzzing) to generating inputs based on feedback gathered while executing the tested program (graybox fuzzing). Because these utilities are written in C, we will start by describing how to fuzz C/C++ projects. Before that, though, we'll explain a bit about the intended audience and structure of this chapter.
 
 ## Audience and scope {#audience-and-scope}
 
@@ -26,7 +26,7 @@ Even though we want to provide a starting point for fuzzing, we try to point to 
 
 We opted to give this chapter an expandable structure: For each language (e.g., C/C++, Rust, Go), we enumerate the fuzzers that can be used. We provide advice on which fuzzer to choose and then describe how to install it, compile a fuzz test, and use the fuzzer. If the fuzzer has special features, like multi-core fuzzing or support for [sanitizers](https://en.wikipedia.org/wiki/Code_sanitizer), then we add those afterwards. Each fuzzer section finishes with real-world examples and further resources.
 
-Each language section concludes with a language-specific “Techniques” subsection. If a technique applies to all languages and fuzzers, then it is listed in the [Techniques]({{% relref "/docs/fuzzing/techniques" %}}) section at the very end of the chapter. This very last section also contains an [FAQ]({{% relref "05-faq" %}}) and information about [Fuzzing environments]({{% relref 04-env%}}).
+Each language section concludes with a language-specific "Techniques" subsection. If a technique applies to all languages and fuzzers, then it is listed in the [Techniques]({{% relref "/docs/fuzzing/techniques" %}}) section at the very end of the chapter. This very last section also contains an [FAQ]({{% relref "05-faq" %}}) and information about [Fuzzing environments]({{% relref 04-env%}}).
 
 ## Terminology {#terminology}
 
@@ -58,9 +58,9 @@ Fuzzing offers several benefits and limitations compared to other testing strate
 
 The first step when fuzzing a software package is assessing the fuzz-worthy targets in the package. This is because fuzzing works particularly well with certain code structures and can be more involved with other structures. For instance, fuzzing a parser is straightforward: fuzzing is easy to set up, and finding bugs is very likely. If your project implements complex application logic and is not easily testable (i.e., it does not yet have unit tests), then you might derive greater benefit from a static analyzer, proper unit testing, and manual code review. After these testing techniques have been implemented, the next step could be to fuzz your code!
 
-Fuzzing is no silver bullet, just like unit tests or static analysis aren’t. We are currently working on a section that compares static and dynamic analysis tools to fuzzing. Stay tuned for an update on that!
+Fuzzing is no silver bullet, just like unit tests or static analysis aren't. We are currently working on a section that compares static and dynamic analysis tools to fuzzing. Stay tuned for an update on that!
 
-Before we introduce typical fuzzing setups, we first want to explain today’s default fuzzing strategy: mutation-based evolutionary fuzzing.
+Before we introduce typical fuzzing setups, we first want to explain today's default fuzzing strategy: mutation-based evolutionary fuzzing.
 
 
 ## The default fuzzing algorithm is mutation-based  and evolutionary {#the-default-fuzzing-algorithm-is-mutation-based-and-evolutionary}
@@ -113,7 +113,7 @@ Every fuzzing setup consists of an instrumented System Under Test (SUT),  the fu
 The general fuzzing scenario consists of the developer writing a harness for a SUT. After starting a fuzzing campaign, the fuzzer runtime generates random test cases that are sent to the harness. The harness then executes the SUT, which could lead to the discovery of bugs and crashes. Instrumentation runtime and the instrumentation added to the SUT are generally optional, even though most fuzzers instrument the SUT code and add a runtime.
 {{< /resourceFigure >}}
 
-**SUT (System Under Test):** This is the code you want to test. To create a fuzzing build of your SUT, you need to control how the application’s code is compiled and linked. The following figure shows a very simple SUT that serves as a running example throughout this chapter of the Testing Handbook.
+**SUT (System Under Test):** This is the code you want to test. To create a fuzzing build of your SUT, you need to control how the application's code is compiled and linked. The following figure shows a very simple SUT that serves as a running example throughout this chapter of the Testing Handbook.
 
 {{< customFigure "Pseudocode that illustrates an evolutionary-based fuzzer" "html" >}}
 {{< tabs "sut" >}}
@@ -199,7 +199,7 @@ fn harness(data: &[u8]) {
 ```
 harness.rs (Rust): Entrypoint for the fuzzer
 
-There is no standard in the Rust ecosystem for the function signature of a harness. To remain generic, let’s pretend a Rust fuzzing harness is a void function that receives a byte array with random data of Rust type `&[u8]`.
+There is no standard in the Rust ecosystem for the function signature of a harness. To remain generic, let's pretend a Rust fuzzing harness is a void function that receives a byte array with random data of Rust type `&[u8]`.
 {{< /tab >}}
 {{< /tabs >}}
 {{< /customFigure >}}

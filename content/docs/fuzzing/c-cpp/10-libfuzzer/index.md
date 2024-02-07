@@ -8,7 +8,7 @@ weight: 1
 
 # libFuzzer {#libfuzzer}
 
-libFuzzer is the clear and easy choice if you need to fuzz your C/C++ program, because it is part of the LLVM project and is available on most platforms. We recommend fuzzing on Linux if possible because it is the platform with the best support for libFuzzer (e.g., it is not preinstalled in XCode with macOS). Microsoft’s MSVC compiler has recently [gained support for libFuzzer](https://learn.microsoft.com/en-us/cpp/build/reference/fsanitize?view=msvc-170).
+libFuzzer is the clear and easy choice if you need to fuzz your C/C++ program, because it is part of the LLVM project and is available on most platforms. We recommend fuzzing on Linux if possible because it is the platform with the best support for libFuzzer (e.g., it is not preinstalled in XCode with macOS). Microsoft's MSVC compiler has recently [gained support for libFuzzer](https://learn.microsoft.com/en-us/cpp/build/reference/fsanitize?view=msvc-170).
 
 Note that libFuzzer has been in [maintenance-only](https://llvm.org/docs/LibFuzzer.html#id13) mode since late 2022, so no new features will be added. However, it is easier to install and use than its alternatives, has wide support, and will still be maintained for the foreseeable future. Therefore, Trail of Bits recommends using libFuzzer for your first fuzzing experiments. 
 
@@ -117,9 +117,9 @@ At the beginning, the fuzzer prints some information about its configuration, in
 
 While the fuzzer is running, you will see lines printed starting with a `#`. Refer to the [libFuzzer documentation](https://llvm.org/docs/LibFuzzer.html#output) for a more detailed explanation of the outputted data.
 
-At the end of libFuzzer’s output, you can see the path to a file that contains the input that led to the crash. The input is also displayed encoded as hex (0x61,0x62,0x63), UTF-8 (abc), and Base64 (YWJj).
+At the end of libFuzzer's output, you can see the path to a file that contains the input that led to the crash. The input is also displayed encoded as hex (0x61,0x62,0x63), UTF-8 (abc), and Base64 (YWJj).
 
-It also shows the file name of the base unit (i.e., the input that was [mutated]({{% relref "fuzzing#the-default-fuzzing-algorithm-is-mutation-based-and-evolutionary" %}}) in order to get to the crash input). In our fuzzing example, the base unit `3f7868…` contained the string “ab.” The fuzzer mutated the string “ab” to get to the crashing input “abc.”
+It also shows the file name of the base unit (i.e., the input that was [mutated]({{% relref "fuzzing#the-default-fuzzing-algorithm-is-mutation-based-and-evolutionary" %}}) in order to get to the crash input). In our fuzzing example, the base unit `3f7868…` contained the string "ab." The fuzzer mutated the string "ab" to get to the crashing input "abc."
 
 Note that libFuzzer does not automatically restart after a bug is found. This means that you should fix every bug you encounter before rerunning libFuzzer.
 
@@ -283,13 +283,13 @@ The libpng library is an open-source library used for reading and writing PNG (P
 
 If you are fuzzing C projects that produce static libraries, you can follow this recipe:
 
-1. Read the `INSTALL` file in the project’s codebase (or other appropriate documentation) and find out how to create a static library.
+1. Read the `INSTALL` file in the project's codebase (or other appropriate documentation) and find out how to create a static library.
 2. Set the compiler to Clang, and pass additional flags to the compiler during compilation.
 3. Build the static library and pass the flag `-fsanitize=fuzzer-no-link` to the C compiler, which enables fuzzing-related instrumentations without linking in the fuzzing engine. The runtime, which includes the `main` symbol, is linked later when using the `-fsanitize=fuzzer` flag. The build step will create a static library, which we will refer to as `$static_library`. Additionally, pass the flag `-fsanitize=address` to enable ASan and detect memory corruption.
 4. Find the compiled static library from step 3 and call: `clang++ -fsanitize=fuzzer -fsanitize=address $static_library harness.cc -o fuzz`.
 5. You can start fuzzing by calling `./fuzz`.
 
-Let’s go through these instructions for the well-known libpng library. First, we get the source code:
+Let's go through these instructions for the well-known libpng library. First, we get the source code:
 
 
 ```shell
@@ -361,7 +361,7 @@ The fuzzing campaign can be launched by running:
 
 ### CMake-based project {#cmake-based-project}
 
-Let’s assume we are using CMake to build the program mentioned in the [introduction]({{% relref "fuzzing#introduction-to-fuzzers" %}}). We add a CMake target that builds the `main.cc` and `harness.cc` and links the target together with libFuzzer. Note that we are excluding the main function through the `NO_MAIN` flag; otherwise, the program would have two main functions, because libFuzzer also provides one.
+Let's assume we are using CMake to build the program mentioned in the [introduction]({{% relref "fuzzing#introduction-to-fuzzers" %}}). We add a CMake target that builds the `main.cc` and `harness.cc` and links the target together with libFuzzer. Note that we are excluding the main function through the `NO_MAIN` flag; otherwise, the program would have two main functions, because libFuzzer also provides one.
 
 {{< customFigure "CMakeLists: Example CMake file for compiling a program and a fuzzer for it" >}}
 ```cmake
