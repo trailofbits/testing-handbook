@@ -137,8 +137,29 @@ as it has a couple of nice features (buttons, etc.)
    * Replace HTML tables with markdown ones (https://jmalarcon.github.io/markdowntables/)
    * If you split your document, fix internal links.
    * Add missing images.
-   * Fix `&lt;`, …, “, 
+   * Fix `&lt;`, …, “, ’
    * Adjust markdown captions ## -> #
    * Verify missing formatting in PRO TIPs
    * . at the end of fig captions?
    * Slugs for directories??
+
+### Custom enviornments
+```
+{{< customFigure "" >}}
+```text
+
+```
+{{< /customFigure >}}
+
+
+{{< resourceFigure "cov1.png" >}}
+
+{{< /resourceFigure >}}
+
+
+
+
+{{< hint info >}}
+
+{{< /hint >}}
+``````
