@@ -27,3 +27,7 @@ enableEmoji = true
     noClasses = true
     style = 'friendly'
     tabWidth = 4
+  [markup.goldmark.renderer]
+    unsafe = false
+  [markup.goldmark.parser.attribute]
+    block = true

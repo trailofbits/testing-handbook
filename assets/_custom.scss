@@ -95,3 +95,11 @@ p {
     white-space: nowrap;
   }
 }
+
+.skip-table-head thead {
+  display: none;
+}
+
+.code-fence-wrap pre {
+  text-wrap: wrap;
+}
