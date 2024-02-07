@@ -51,3 +51,5 @@ jobs:
         uses: rossjrw/pr-preview-action@v1
         with:
           source-dir: ./public/
+          token: ${{ secrets.TESTING_HANDBOOK_PREVIEW_REPO }}
+          deploy-repository: https://github.com/trailofbits/testing-handbook-preview
