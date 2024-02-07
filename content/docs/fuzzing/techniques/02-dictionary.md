@@ -9,6 +9,38 @@ weight: 2
 
 
 
+### Dictionary fuzzing {#dictionary-fuzzing}
+
+A dictionary can be used to guide the fuzzer. A dictionary is usually passed as a file to the fuzzer. The simplest input accepted by libFuzzer is a ASCII text file where each line consists of a quoted string. Strings can contain escaped byte sequences like "`\xF7\xF8"`. Optionally, a key-value pair like `hex_value="\xF7\xF8"` can be used for documentation purposes. Comments are supported by starting a line with `#`. See the following example:
+
+
+
+{{< customFigure "Example dictionary file. More examples can be found [here](https://github.com/AFLplusplus/AFLplusplus/tree/ef706ad668b36e65d24f352f5bcee22957f5f1cc/dictionaries)" >}}
+```conf
+# Lines starting with '#' and empty lines are ignored.
+
+# Adds "blah" (w/o quotes) to the dictionary.
+kw1="blah"
+# Use \\ for backslash and \" for quotes.
+kw2="\"ac\\dc\""
+# Use \xAB for hex values
+kw3="\xF7\xF8"
+# the name of the keyword followed by '=' may be omitted:
+"foo\x0Abar"
+```
+
+{{< /customFigure >}}
+
+
+Dictionaries are compatible between the libFuzzer, cargo-fuzz, and AFL++ fuzzers. They can be used according to the following table:
+
+
+|||
+|--- |--- |
+|`libFuzzer`|`./fuzz -dict=./dictionary.dict ...`|
+|`AFL++`|`afl-fuzz -x ./dictionary.dict ...`|
+|`cargo-fuzz`|`cargo fuzz run fuzz_target -- -dict=./dictionary.dict`|
+{.skip-table-head}
 
 #### Generating a dictionary {#generating-a-dictionary}
 

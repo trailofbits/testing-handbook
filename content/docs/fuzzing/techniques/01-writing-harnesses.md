@@ -301,7 +301,7 @@ There are multiple advantages to interleaved fuzzing:
 
 Even though harnesses can execute arbitrary code, a few rules are beneficial to follow when implementing harnesses. We adapted these from the official libFuzzer [documentation](https://llvm.org/docs/LibFuzzer.html#id23).
 
-In fact, these guidelines don’t just apply to the harness code, but also to the entire codebase of the SUT. Refer to the SUT Patching: Overcoming obstacles section to learn how to patch SUTs for [C/C++](#sut-patching-overcoming-obstacles) and [Rust](#sut-patching-overcoming-obstacles).
+In fact, these guidelines don’t just apply to the harness code, but also to the entire codebase of the SUT. Refer to the SUT Patching: Overcoming obstacles section to learn how to patch SUTs for [C/C++]({{% relref "/docs/fuzzing/c-cpp/techniques/02-obstacles#sut-patching-overcoming-obstacles" %}}) and [Rust]({{% relref "/docs/fuzzing/rust/techniques/02-obstacles#sut-patching-overcoming-obstacles" %}}).
 
 The following points should be considered when implementing fuzzing harnesses regardless of the language they are written in:
 
@@ -322,36 +322,3 @@ The following points should be considered when implementing fuzzing harnesses re
 **Rationale:** Similar to non-determinism, global state can cause test cases to crash only during fuzzing but not afterwards, and therefore can limit reproducibility. For example, suppose a singleton collects data samples while the SUT is running, but allows only `n` samples to be collected before crashing. If the global state is not reset after each execution, then the SUT may crash after `n` executions—not because of the input in the `n`-th execution, but because of the global state.
 * Narrow targets are preferred; multiple unrelated data formats should be split into individual targets. \
 **Rationale:** Fuzzing PNG and TCP packets in a single campaign probably does not make much sense, because the corpus entries found for PNG are most likely not relevant for fuzzing TCP packets.
-
-### Dictionary fuzzing {#dictionary-fuzzing}
-
-A dictionary can be used to guide the fuzzer. A dictionary is usually passed as a file to the fuzzer. The simplest input accepted by libFuzzer is a ASCII text file where each line consists of a quoted string. Strings can contain escaped byte sequences like "`\xF7\xF8"`. Optionally, a key-value pair like `hex_value="\xF7\xF8"` can be used for documentation purposes. Comments are supported by starting a line with `#`. See the following example:
-
-
-
-{{< customFigure "Example dictionary file. More examples can be found [here](https://github.com/AFLplusplus/AFLplusplus/tree/ef706ad668b36e65d24f352f5bcee22957f5f1cc/dictionaries)" >}}
-```conf
-# Lines starting with '#' and empty lines are ignored.
-
-# Adds "blah" (w/o quotes) to the dictionary.
-kw1="blah"
-# Use \\ for backslash and \" for quotes.
-kw2="\"ac\\dc\""
-# Use \xAB for hex values
-kw3="\xF7\xF8"
-# the name of the keyword followed by '=' may be omitted:
-"foo\x0Abar"
-```
-
-{{< /customFigure >}}
-
-
-Dictionaries are compatible between the libFuzzer, cargo-fuzz, and AFL++ fuzzers. They can be used according to the following table:
-
-
-|||
-|--- |--- |
-|`libFuzzer`|`./fuzz -dict=./dictionary.dict ...`|
-|`AFL++`|`afl-fuzz -x ./dictionary.dict ...`|
-|`cargo-fuzz`|`cargo fuzz run fuzz_target -- -dict=./dictionary.dict`|
-{.skip-table-head}

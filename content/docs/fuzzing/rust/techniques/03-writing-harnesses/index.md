@@ -40,7 +40,7 @@ impl Name {
 ```
 {{< /customFigure >}}
 
-With the arbitrary crate, we can easily write a fuzzing harness for this test, similar to the harness in [Write a Fuzz test](#write-a-fuzz-test).
+With the arbitrary crate, we can easily write a fuzzing harness for this test, similar to the harness in [Write a Fuzz test]({{% ref "10-cargo-fuzz#write-a-fuzz-test" %}}).
 
 
 {{< customFigure "Fuzz test using the arbitrary crate" >}}

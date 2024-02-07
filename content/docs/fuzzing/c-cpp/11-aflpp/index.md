@@ -18,7 +18,7 @@ AFL++ supports different environments like [macOS](https://github.com/AFLplusplu
 
 The AFL++ fuzzer has many dependencies, such asLLVM, Python, and Rust. We recommend using a current Debian or Ubuntu distribution for fuzzing with AFL++ because these are thoroughly tested distributions. Note that if you use a precompiled version of AFL++ then you are bound to the Clang and GCC versions that were used during the compilation of AFL++. The following table gives an overview of installation methods along with the supported compiler versions.
 
-
+<!-- TODO translate table to markdown? -->
 {{< rawHtml "" >}}
 <table>
   <tr>
@@ -54,7 +54,7 @@ The AFL++ fuzzer has many dependencies, such asLLVM, Python, and Rust. We recomm
         </li>
         <li>
           You are aware of potential performance losses when using Docker as
-          outlined in <a href="#fuzzing-environments">Fuzzing environments</a>.
+          outlined in <a href="{{% relref 04-env%}}">Fuzzing environments</a>.
         </li>
       </ul>
     </td>
@@ -345,7 +345,7 @@ The AFL++ fuzzer offers many options. The following options can be most useful w
 * **-G 4000** The maximum length of the test input. By default, AFL++ uses 1048576 bytes. Setting this at least a few times higher than the minimal input size is advised. As a rule of thumb, we recommend finding a minimal realistic input and then doubling that. Note that larger input sizes lead to longer execution times and do not necessarily lead to a larger input space being explored.
 * **-t 10000** AFL++ aborts the execution of a test case after n milliseconds. It makes sense to set this to something reasonably low. The goal is also to find inputs that cause the SUT to hang for an unreasonably long amount of time. For example, parsing a reasonable-sized PNG image should not take longer than a few hundred milliseconds. So setting this to a few seconds is usually enough not to get false positives. 
 * **-m 1000** The memory limit for test cases in megabytes. By default, this is set to 0, which means no limit. This should be set to a reasonable value like 1000. If this is set too low then you will see false positives, because occasionally test cases may take just slightly longer than usual (e.g., because of system load).
-* **-x ./dict.dict** Specifies a dictionary file that guides the fuzzer and allows the fuzzer to discover interesting test cases more quickly. For more details about this, see [Dictionary fuzzing](#dictionary-fuzzing).
+* **-x ./dict.dict** Specifies a dictionary file that guides the fuzzer and allows the fuzzer to discover interesting test cases more quickly. For more details about this, see [Dictionary fuzzing]({{% relref 02-dictionary %}}).
 
 ## Standard input (stdin) fuzzing {#standard-input-stdin-fuzzing}
 
@@ -872,7 +872,7 @@ curl -o seeds/input.png https://raw.githubusercontent.com/glennrp/libpng/acfd50a
 ```
 
 
-We also download a [dictionary](#dictionary-fuzzing) for the PNG format to better guide the fuzzer. A dictionary provides the fuzzer with some initial clues about the file format, such as which magic bytes PNG uses.
+We also download a [dictionary]({{% relref 02-dictionary %}}g) for the PNG format to better guide the fuzzer. A dictionary provides the fuzzer with some initial clues about the file format, such as which magic bytes PNG uses.
 
 
 ```shell
@@ -889,7 +889,7 @@ The fuzzing campaign can be launched by running:
 
 ### CMake-based project {#cmake-based-project}
 
-Let’s assume we are using CMake to build the program mentioned in the [introduction](#introduction-to-fuzzers). We add a CMake target that builds the `main.cc` and `harness.cc` and links the target together with AFL++. Note that we are excluding the main function through the `NO_MAIN` flag; otherwise, the program would have two main functions.
+Let’s assume we are using CMake to build the program mentioned in the [introduction]({{% relref "fuzzing#introduction-to-fuzzers" %}}). We add a CMake target that builds the `main.cc` and `harness.cc` and links the target together with AFL++. Note that we are excluding the main function through the `NO_MAIN` flag; otherwise, the program would have two main functions.
 
 
 {{< customFigure "CMake example" >}}

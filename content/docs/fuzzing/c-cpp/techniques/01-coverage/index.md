@@ -10,7 +10,7 @@ weight: 2
 
 Gaining confidence in your code coverage archived during fuzzing is essential for two reasons. Firstly, you want to assess which parts of your applications your fuzzing harnesses execute.
 
-For example, a magic value check, like the one shown in the following figure, may be hard for a fuzzer to overcome. Discovering such a check is important so that the values can be provided to the fuzzer through a [dictionary](#dictionary-fuzzing) or test cases in the seed corpus.
+For example, a magic value check, like the one shown in the following figure, may be hard for a fuzzer to overcome. Discovering such a check is important so that the values can be provided to the fuzzer through a [dictionary]({{% relref 02-dictionary %}}) or test cases in the seed corpus.
 
 
 {{< customFigure "Magic value check that may be difficult to overcome" >}}
@@ -133,8 +133,7 @@ The following compilation command creates an instrumented binary that can output
 clang++ -DNO_MAIN -O2 -fprofile-instr-generate -fcoverage-mapping main.cc harness.cc execute-rt.cc -o fuzz_exec
 ```
 
-
-Similarly to the example in [the libFuzzer section](#compile-a-fuzz-test), we need to disable the default main function. We also need to disable optimizations to make the coverage calculation more precise. The resulting binary outputs coverage data when executed. The first parameter of the resulting binary is a directory with test cases. The following command generates a `fuzz.profraw` file.
+Similarly to the example in [the libFuzzer section]({{% relref "10-libfuzzer#compile-a-fuzz-test" %}}), we need to disable the default main function. We also need to disable optimizations to make the coverage calculation more precise. The resulting binary outputs coverage data when executed. The first parameter of the resulting binary is a directory with test cases. The following command generates a `fuzz.profraw` file.
 
 
 ```shell

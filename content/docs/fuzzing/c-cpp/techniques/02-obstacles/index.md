@@ -7,7 +7,7 @@ weight: 2
 
 #### SUT patching: Overcoming obstacles {#sut-patching-overcoming-obstacles}
 
-Codebases are often not fuzzing-friendly. This can happen if, for example, the code uses checksums or depends on a global state like a system-time seeded PRNG (i.e., by using [`rand`](https://linux.die.net/man/3/rand)) that causes the code to behave differently for the same input. Refer to [Practical harness rules](#practical-harness-rules) to learn more about potential problems in your SUT. If you encounter checksums or a global state in your SUT, you may want to apply fuzzing-specific patches to change the behavior of the program during fuzzing, as shown in the following. 
+Codebases are often not fuzzing-friendly. This can happen if, for example, the code uses checksums or depends on a global state like a system-time seeded PRNG (i.e., by using [`rand`](https://linux.die.net/man/3/rand)) that causes the code to behave differently for the same input. Refer to [Practical harness rules]({{% relref "01-writing-harnesses#practical-harness-rules" %}}) to learn more about potential problems in your SUT. If you encounter checksums or a global state in your SUT, you may want to apply fuzzing-specific patches to change the behavior of the program during fuzzing, as shown in the following. 
 
 Typically, C/C++ fuzzers define the macro `FUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION`. This is at least true for libFuzzer, AFL++, LibAFL, and Hongfuzz. If the macro is defined, then the program is being compiled for fuzzing. By using conditional compilation based on that macro, you can overcome obstacles in your code, such as hash checks that often hinder fuzzers at covering deeper code paths. The following figure shows an example.
 

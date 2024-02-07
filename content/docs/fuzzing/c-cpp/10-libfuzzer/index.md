@@ -48,7 +48,7 @@ The key flag here is `-fsanitize=fuzzer`, which tells the compiler to use libFuz
 * [Built-in functions are disabled](https://github.com/llvm/llvm-project/blob/202a4c0dfb19823a0c0fc737e32d205efaffb7ff/clang/lib/Driver/SanitizerArgs.cpp#L1363-L1373) through Clang flags like `-fno-builtin-memcmp`.
 * Potentially, other options are affected by enabling libFuzzer, depending on your target architecture ([search](https://github.com/search?q=repo%3Allvm%2Fllvm-project%20needsfuzzer&type=code) the LLVM codebase for indicators).
 
-The flag `-DNO_MAIN` defines a macro that disables the default `main` function of our running example defined in the [introduction](#introduction-to-fuzzers) section. This is because libFuzzer provides its own `main` function. Depending on your project, you may need to add a similar macro if you are fuzzing a binary (this is generally not required for libraries).
+The flag `-DNO_MAIN` defines a macro that disables the default `main` function of our running example defined in the [introduction]({{% relref "fuzzing#introduction-to-fuzzers" %}}) section. This is because libFuzzer provides its own `main` function. Depending on your project, you may need to add a similar macro if you are fuzzing a binary (this is generally not required for libraries).
 
 We also enable debug symbols using `-g` and set the optimization level to `-O2`, which is a reasonable optimization level for fuzzing because it is likely the level used during production.
 
@@ -119,7 +119,7 @@ While the fuzzer is running, you will see lines printed starting with a `#`. Ref
 
 At the end of libFuzzer’s output, you can see the path to a file that contains the input that led to the crash. The input is also displayed encoded as hex (0x61,0x62,0x63), UTF-8 (abc), and Base64 (YWJj).
 
-It also shows the file name of the base unit (i.e., the input that was [mutated](#the-default-fuzzing-algorithm-is-mutation-based-and-evolutionary) in order to get to the crash input). In our fuzzing example, the base unit `3f7868…` contained the string “ab.” The fuzzer mutated the string “ab” to get to the crashing input “abc.”
+It also shows the file name of the base unit (i.e., the input that was [mutated]({{% relref "fuzzing#the-default-fuzzing-algorithm-is-mutation-based-and-evolutionary" %}}) in order to get to the crash input). In our fuzzing example, the base unit `3f7868…` contained the string “ab.” The fuzzer mutated the string “ab” to get to the crashing input “abc.”
 
 Note that libFuzzer does not automatically restart after a bug is found. This means that you should fix every bug you encounter before rerunning libFuzzer.
 
@@ -149,7 +149,7 @@ Several options can be set by adding command-line flags when starting `./fuzz`. 
 
 * **-max_len=4000** The maximum length of the test input. By default, libFuzzer tries to guess this. We advise setting this at least a few times higher than the minimal input size. As a rule of thumb, we recommend finding a minimal realistic input and then doubling it. Note that larger input sizes lead to longer execution times and do not necessarily lead to a larger input space being explored.
 * **-timeout=2** libFuzzer aborts the execution of a test case after n seconds. It makes sense to set this variable to something reasonably low. The goal is also to find inputs that cause the SUT to hang for an unreasonably long amount of time. For example, parsing a reasonably sized PNG image should not take longer than a few hundred milliseconds, so setting this to a few seconds is usually enough to avoid false positives. 
-* **-dict=./dict.dict** This option specifies a dictionary file that guides the fuzzer and allows the fuzzer to discover interesting test cases more quickly. For more details about this, see [Dictionary fuzzing](#dictionary-fuzzing).
+* **-dict=./dict.dict** This option specifies a dictionary file that guides the fuzzer and allows the fuzzer to discover interesting test cases more quickly. For more details about this, see [Dictionary fuzzing]({{% relref 02-dictionary %}}).
 * **-jobs=10** Runs 10 fuzzing campaigns in sequence. See [Multi-core fuzzing](#multi-core-fuzzing) below for more information.
 * **-workers=2** Runs the fuzzing campaigns defined by the `-jobs` flag using two workers. See [Multi-core fuzzing](#multi-core-fuzzing) below for more information. This flag defaults to the number of cores divided by two.
 * **-fork=1 -ignore_crashes=1** Enables the libFuzzer to continue fuzzing after finding a crash. Even though the `-fork` flag is officially experimental, it is frequently used in the wild, so it is considered safe to use.
@@ -335,7 +335,7 @@ curl -o corpus/input.png https://raw.githubusercontent.com/glennrp/libpng/acfd50
 ```
 
 
-We also download a [dictionary](#dictionary-fuzzing) for the PNG format to better guide the fuzzer. A dictionary provides the fuzzer with some initial clues about the file format, such as which magic bytes PNG uses.
+We also download a [dictionary]({{% relref 02-dictionary %}}) for the PNG format to better guide the fuzzer. A dictionary provides the fuzzer with some initial clues about the file format, such as which magic bytes PNG uses.
 
 
 ```
@@ -361,7 +361,7 @@ The fuzzing campaign can be launched by running:
 
 ### CMake-based project {#cmake-based-project}
 
-Let’s assume we are using CMake to build the program mentioned in the [introduction](#introduction-to-fuzzers). We add a CMake target that builds the `main.cc` and `harness.cc` and links the target together with libFuzzer. Note that we are excluding the main function through the `NO_MAIN` flag; otherwise, the program would have two main functions, because libFuzzer also provides one.
+Let’s assume we are using CMake to build the program mentioned in the [introduction]({{% relref "fuzzing#introduction-to-fuzzers" %}}). We add a CMake target that builds the `main.cc` and `harness.cc` and links the target together with libFuzzer. Note that we are excluding the main function through the `NO_MAIN` flag; otherwise, the program would have two main functions, because libFuzzer also provides one.
 
 {{< customFigure "CMakeLists: Example CMake file for compiling a program and a fuzzer for it" >}}
 ```cmake

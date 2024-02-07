@@ -10,7 +10,7 @@ weight: 2
 
 Gaining confidence in your code coverage archived during fuzzing is essential for two reasons. Firstly, you want to assess which parts of your applications your fuzzing harnesses execute.
 
-For example, a magic value check, like the one shown in the following figure, may be hard for a fuzzer to overcome. Discovering such a check is important so that the values can be provided to the fuzzer through a [dictionary](#dictionary-fuzzing) or test cases in the seed corpus.
+For example, a magic value check, like the one shown in the following figure, may be hard for a fuzzer to overcome. Discovering such a check is important so that the values can be provided to the fuzzer through a [dictionary]({{% relref 02-dictionary %}}) or test cases in the seed corpus.
 
 {{< customFigure "Magic value check that may be difficult to overcome" >}}
 ```Rust

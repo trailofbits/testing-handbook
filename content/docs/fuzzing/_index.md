@@ -26,7 +26,7 @@ Even though we want to provide a starting point for fuzzing, we try to point to 
 
 We opted to give this chapter an expandable structure: For each language (e.g., C/C++, Rust, Go), we enumerate the fuzzers that can be used. We provide advice on which fuzzer to choose and then describe how to install it, compile a fuzz test, and use the fuzzer. If the fuzzer has special features, like multi-core fuzzing or support for [sanitizers](https://en.wikipedia.org/wiki/Code_sanitizer), then we add those afterwards. Each fuzzer section finishes with real-world examples and further resources.
 
-Each language section concludes with a language-specific “Techniques” subsection. If a technique applies to all languages and fuzzers, then it is listed in the [Techniques](#techniques) section at the very end of the chapter. This very last section also contains an [FAQ](#faq-fuzzily-asked-questions) and information about [Fuzzing environments](#fuzzing-environments).
+Each language section concludes with a language-specific “Techniques” subsection. If a technique applies to all languages and fuzzers, then it is listed in the [Techniques]({{% relref "/docs/fuzzing/techniques" %}}) section at the very end of the chapter. This very last section also contains an [FAQ]({{% relref "05-faq" %}}) and information about [Fuzzing environments]({{% relref 04-env%}}).
 
 ## Terminology {#terminology}
 
@@ -107,7 +107,7 @@ After the fuzzing campaign finishes, the found bugs are returned.
 
 ## Introduction to fuzzers {#introduction-to-fuzzers}
 
-Every fuzzing setup consists of an instrumented System Under Test (SUT),  the fuzzing harness, and the fuzzer runtime. A runtime for the instrumentation may also be required. For example, the optional [AddressSanitizer](#addresssanitizer) (ASan) instrumentation adds a runtime that is used to detect [memory corruption bugs](https://en.wikipedia.org/wiki/Memory_corruption) like [heap-buffer overflows](https://en.wikipedia.org/wiki/Heap_overflow) more reliably. The following figure shows the standard fuzzing setup.
+Every fuzzing setup consists of an instrumented System Under Test (SUT),  the fuzzing harness, and the fuzzer runtime. A runtime for the instrumentation may also be required. For example, the optional [AddressSanitizer]({{% relref 03-asan %}}) (ASan) instrumentation adds a runtime that is used to detect [memory corruption bugs](https://en.wikipedia.org/wiki/Memory_corruption) like [heap-buffer overflows](https://en.wikipedia.org/wiki/Heap_overflow) more reliably. The following figure shows the standard fuzzing setup.
 
 {{< resourceFigure "intro.svg" >}}
 The general fuzzing scenario consists of the developer writing a harness for a SUT. After starting a fuzzing campaign, the fuzzer runtime generates random test cases that are sent to the harness. The harness then executes the SUT, which could lead to the discovery of bugs and crashes. Instrumentation runtime and the instrumentation added to the SUT are generally optional, even though most fuzzers instrument the SUT code and add a runtime.
@@ -169,7 +169,7 @@ main.rs (Rust): Example code with a bug that causes an abort.
 {{< /customFigure >}}
 
 
-**Harness:** The harness is the entrypoint for your fuzz test. The fuzzer calls this function with random —or carefully mutated—data. For tips and tricks for writing and using harnesses, refer to [Writing harnesses](#writing-harnesses) and [Practical harness rules](#practical-harness-rules).
+**Harness:** The harness is the entrypoint for your fuzz test. The fuzzer calls this function with random —or carefully mutated—data. For tips and tricks for writing and using harnesses, refer to [Writing harnesses]({{% relref "/docs/fuzzing/techniques/01-writing-harnesses" %}}) and [Practical harness rules]({{% relref "/docs/fuzzing/techniques/01-writing-harnesses#practical-harness-rules" %}}).
 
 
 
@@ -204,10 +204,10 @@ There is no standard in the Rust ecosystem for the function signature of a harne
 {{< /tabs >}}
 {{< /customFigure >}}
 
-Many techniques can be leveraged when writing harnesses; we discuss these in the [Writing harnesses](#writing-harnesses) section. You also need to be aware of certain [rules](#practical-harness-rules) that forbid certain code from being executed in a harness.
+Many techniques can be leveraged when writing harnesses; we discuss these in the [Writing harnesses]({{% relref "docs/fuzzing/techniques/01-writing-harnesses" %}}) section. You also need to be aware of certain [rules]({{% relref "docs/fuzzing/techniques/01-writing-harnesses#practical-harness-rules" %}}) that forbid certain code from being executed in a harness.
 
 **Fuzzer runtime:** The fuzzing loop is implemented here. This unit also provides the main function for the fuzzer. The fuzzing runtime parses fuzzing options, executes the harness, collects feedback, and manages the fuzzer state. The runtime is provided by the fuzzing project you use, such as libFuzzer or AFL++. Any runtime that is required for collecting feedback through instrumentations is implemented in the fuzzer runtime.
 
-**Instrumentation runtime:** Instrumentations like [AddressSanitizer](#addresssanitizer) or [UndefinedBehaviorSanitizer](https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html) come with a runtime. A fuzzer must be compatible with the sanitizer for bugs to be detected reliably and feedback implemented efficiently. In memory-safe languages like Go or Rust you are less likely to need sanitizers.
+**Instrumentation runtime:** Instrumentations like [AddressSanitizer]({{% relref 03-asan %}}) or [UndefinedBehaviorSanitizer](https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html) come with a runtime. A fuzzer must be compatible with the sanitizer for bugs to be detected reliably and feedback implemented efficiently. In memory-safe languages like Go or Rust you are less likely to need sanitizers.
 
 Note, that the two just mentioned sanitizers introduce instrumentation with the goal of finding more bugs. There is also a different class of instrumentations (e.g., [SanitizerCoverage](https://clang.llvm.org/docs/SanitizerCoverage.html)) that provides feedback to the fuzzer during execution. The runtime of the feedback-based instrumentation is usually part of the fuzzer runtime.

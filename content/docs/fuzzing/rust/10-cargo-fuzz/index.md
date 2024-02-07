@@ -41,7 +41,7 @@ cargo install cargo-fuzz
 
 #### Write a fuzz test {#write-a-fuzz-test}
 
-Let’s recall the example introduced in the [introduction](#introduction-to-fuzzers) of this chapter, consisting of a `main` and a `check_buf` function. We want to fuzz test the `check_buf` function. For this purpose, we want to restructure the project so that the code we want to test is part of a library crate.
+Let’s recall the example introduced in the [introduction]({{% relref "fuzzing#introduction-to-fuzzers" %}}) of this chapter, consisting of a `main` and a `check_buf` function. We want to fuzz test the `check_buf` function. For this purpose, we want to restructure the project so that the code we want to test is part of a library crate.
 
 Initially, your project  probably consists of a Cargo project file (i.e., a Cargo.toml file) and a `main.rs`. The Cargo.toml specifies the name of the project, e.g. `your_project`.
 
@@ -163,7 +163,7 @@ Several options can be adjusted by adding command-line flags when running cargo-
 * **–-sanitizer none** Controls which sanitizers are enabled. ASan is enabled by default, which is helpful when fuzzing unsafe Rust code. If you are not using unsafe Rust, then sanitizers can be disabled to achieve a significant performance boost. (See the [AddressSanitizer](#addresssanitizer) section for more information.)
 
 
-* **–-jobs 1** Enables the experimental forking features by libFuzzer, as briefly mentioned in [Multi-core Fuzzing](#multi-core-fuzzing). We do not recommend using this feature.
+* **–-jobs 1** Enables the experimental forking features by libFuzzer, as briefly mentioned in [Multi-core Fuzzing]({{% relref "10-libfuzzer#multi-core-fuzzing" %}}). We do not recommend using this feature.
 
 Apart from the cargo-fuzz specific options, libFuzzer options can be used by appending a `--` followed by the libFuzzer option. In the following example, we print all command-line options for libFuzzer:
 
@@ -172,7 +172,7 @@ Apart from the cargo-fuzz specific options, libFuzzer options can be used by app
 cargo +nightly fuzz run fuzz_target_1 -- -help=1
 ```
 
-For example, the following command allows one to specify a dictionary file that guides the fuzzer and allows the fuzzer to discover interesting test cases more quickly. (For more details about this, see [Dictionary fuzzing](#dictionary-fuzzing).)
+For example, the following command allows one to specify a dictionary file that guides the fuzzer and allows the fuzzer to discover interesting test cases more quickly. (For more details about this, see [Dictionary fuzzing]({{% relref 02-dictionary %}}).)
 
 
 ```shell
@@ -289,7 +289,7 @@ cargo +nightly fuzz run fuzz_target_1
 ```
 
 
-The corpus is stored at `fuzz/corpus/fuzz_target_1/`. Check out the [FAQ](#faq-fuzzily-asked-questions) to learn how to use a corpus over the long term.
+The corpus is stored at `fuzz/corpus/fuzz_target_1/`. Check out the [FAQ]({{% relref "05-faq" %}}) to learn how to use a corpus over the long term.
 
 The next step is to investigate the coverage and see if the harness or seed corpus can be improved (refer to the [Coverage analysis](#real-world-examples)).
 

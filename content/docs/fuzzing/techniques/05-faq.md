@@ -72,7 +72,7 @@ Consult the documentation of your fuzzer to verify how to re-enable core dumps i
 
 For libFuzzer, AFL++, and Hongfuzz, follow this guidance:
 
-- **libFuzzer.** By default, libFuzzer disables core dumps by registering signal handlers. To enable writing core dumps, you must [enable ASan](#addresssanitizer) and then set the environment variable `ASAN_OPTIONS=abort_on_error=1:disable_core dump=0`. Note that this works only for crashes that are handled by ASan. A call to [`abort`](https://linux.die.net/man/3/abort) does not cause the creation of a core dump with this method.
+- **libFuzzer.** By default, libFuzzer disables core dumps by registering signal handlers. To enable writing core dumps, you must [enable ASan]({{% relref "10-libfuzzer#addresssanitizer" %}}) and then set the environment variable `ASAN_OPTIONS=abort_on_error=1:disable_core dump=0`. Note that this works only for crashes that are handled by ASan. A call to [`abort`](https://linux.die.net/man/3/abort) does not cause the creation of a core dump with this method.
 - **AFL++.** Set the `AFL_DEBUG` environment variable to `1` (see the source code for this option [here](https://github.com/AFLplusplus/AFLplusplus/blob/0c054f520eda67b7bb15f95ca58c028e9b68131f/src/afl-forkserver.c#L891)).
 - **Hongfuzz.** Set the flag [`--rlimit_core`](https://github.com/google/honggfuzz/blob/348a47213919f14b9453e89a663b1515369bd9a2/docs/USAGE.md?plain=1#L170-L171) to a high value.
 
