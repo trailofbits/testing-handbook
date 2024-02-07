@@ -400,7 +400,7 @@ int main() {
 {{< /customFigure >}}
 
 
-The example above reads now from standard input. It aborts for the input "abc."
+The example above reads now from standard input. It aborts for the input "abc".
 
 
 ```shell
