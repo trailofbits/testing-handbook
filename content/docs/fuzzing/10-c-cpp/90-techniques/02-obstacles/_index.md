@@ -1,6 +1,6 @@
 ---
 title: "SUT patching: Overcoming obstacles"
-slug: coverage-analysis
+slug: obstacles
 summary: "TODO"
 weight: 2
 ---

@@ -360,7 +360,7 @@ PRO TIP: AFL++ features several modes of executing the SUT. They differ in the w
 
 **Persistent mode.** The fuzzer is running test cases in a single process. When a test case crashes, a parent process restarts the fuzzing loop. This is available when using libFuzzer-style harnesses with `LLVMFuzzerTestOneInput`. Note that it is important that the harness resets the state of the SUT clearly after each execution. Otherwise, executions could influence each other.
 
-If the fuzzing setup allows itpossible, coverage information is exchanged using shared memory for all cases. Persistent mode is generally preferred, as it is at least 10 times faster than the forkserver.
+If the fuzzing setup and operating system allow it, coverage information is exchanged using shared memory for all the above cases. Persistent mode is generally preferred, as it is at least 10 times faster than the forkserver.
 {{< /hint >}}
 
 
