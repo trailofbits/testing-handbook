@@ -98,7 +98,6 @@ Finally, we can generate an HTML report and save it to `fuzz_html/`.
 
 {{< hint info >}}
 PRO TIP: The following table lists the invoked cargo command in more detail:
-<!--TODO improve table; skip first row-->
 |||
 |--- |--- |
 |`cargo +nightly cov --`|Invokes the llvm-cov tool from the Rust toolchain|
@@ -109,6 +108,7 @@ PRO TIP: The following table lists the invoked cargo command in more detail:
 |[`-show-line-counts-or-regions`](https://releases.llvm.org/5.0.1/docs/CommandGuide/llvm-cov.html#cmdoption-llvm-cov-show-show-line-counts-or-regions) [`-show-instantiations`](https://releases.llvm.org/5.0.1/docs/CommandGuide/llvm-cov.html#cmdoption-llvm-cov-show-show-instantiations)|Options for Rust to make the output easier to understand|
 |`-format=html -o fuzz_html/`|Sets the format to HTML and outputs the HTML files to a directory|
 |`src/lib.rs`|Optionally, you can add paths to source files to filter the output. In this case, we are interested only in the lib.rs file.|
+{.skip-table-head}
 {{< /hint >}}
 
 ###### Real-world examples {#real-world-examples}

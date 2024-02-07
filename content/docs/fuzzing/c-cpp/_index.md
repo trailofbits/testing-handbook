@@ -2,7 +2,7 @@
 title: "C/C++"
 slug: c-cpp
 summary: "TODO"
-weight: 2
+weight: 1
 bookCollapseSection: true
 ---
 

@@ -2,7 +2,7 @@
 title: "Rust"
 slug: rust
 summary: "TODO"
-weight: 3
+weight: 2
 bookCollapseSection: true
 ---
 
