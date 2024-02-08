@@ -1,15 +1,10 @@
 ---
-title: "Dictionary fuzzing"
+title: "Fuzzing dictionary"
 slug: dictionary
-summary: "TODO"
 weight: 2
 ---
 
-<!--TODO rename this section to Fuzzing Dictionaries-->
-
-
-
-### Dictionary fuzzing {#dictionary-fuzzing}
+### Fuzzing dictionary {#dictionary-fuzzing}
 
 A dictionary can be used to guide the fuzzer. A dictionary is usually passed as a file to the fuzzer. The simplest input accepted by libFuzzer is a ASCII text file where each line consists of a quoted string. Strings can contain escaped byte sequences like "`\xF7\xF8"`. Optionally, a key-value pair like `hex_value="\xF7\xF8"` can be used for documentation purposes. Comments are supported by starting a line with `#`. See the following example:
 

@@ -1,7 +1,6 @@
 ---
 title: "libFuzzer"
 slug: libfuzzer
-summary: "TODO"
 weight: 1
 ---
 
@@ -149,7 +148,7 @@ Several options can be set by adding command-line flags when starting `./fuzz`. 
 
 * **-max_len=4000** The maximum length of the test input. By default, libFuzzer tries to guess this. We advise setting this at least a few times higher than the minimal input size. As a rule of thumb, we recommend finding a minimal realistic input and then doubling it. Note that larger input sizes lead to longer execution times and do not necessarily lead to a larger input space being explored.
 * **-timeout=2** libFuzzer aborts the execution of a test case after n seconds. It makes sense to set this variable to something reasonably low. The goal is also to find inputs that cause the SUT to hang for an unreasonably long amount of time. For example, parsing a reasonably sized PNG image should not take longer than a few hundred milliseconds, so setting this to a few seconds is usually enough to avoid false positives. 
-* **-dict=./dict.dict** This option specifies a dictionary file that guides the fuzzer and allows the fuzzer to discover interesting test cases more quickly. For more details about this, see [Dictionary fuzzing]({{% relref 02-dictionary %}}).
+* **-dict=./dict.dict** This option specifies a dictionary file that guides the fuzzer and allows the fuzzer to discover interesting test cases more quickly. For more details about this, see [Fuzzing dictionary]({{% relref 02-dictionary %}}).
 * **-jobs=10** Runs 10 fuzzing campaigns in sequence. See [Multi-core fuzzing](#multi-core-fuzzing) below for more information.
 * **-workers=2** Runs the fuzzing campaigns defined by the `-jobs` flag using two workers. See [Multi-core fuzzing](#multi-core-fuzzing) below for more information. This flag defaults to the number of cores divided by two.
 * **-fork=1 -ignore_crashes=1** Enables the libFuzzer to continue fuzzing after finding a crash. Even though the `-fork` flag is officially experimental, it is frequently used in the wild, so it is considered safe to use.

@@ -1,7 +1,6 @@
 ---
 title: "C/C++"
 slug: c-cpp
-summary: "TODO"
 weight: 1
 bookCollapseSection: true
 ---
@@ -15,20 +14,8 @@ For a general introduction about fuzzing and fuzzing setup (e.g., the harness, f
 
 ## When should I use which fuzzer? {#when-should-i-use-which-fuzzer}
 
-<!-- TODO translate table to md -->
-{{< rawHtml >}}
-<table>
-  <tr>
-   <td><strong>libFuzzer</strong>
-   </td>
-   <td>Simple; well-tested; basic fuzzing features; limited multi-core fuzzing; libFuzzer is in maintenance-only mode
-   </td>
-  </tr>
-  <tr>
-   <td><strong>AFL++</strong>
-   </td>
-   <td>Well-tested; industry-standard; sufficient for most fuzzing needs; supported multi-core fuzzing
-   </td>
-  </tr>
-</table>
-{{< /rawHtml >}}
+|||
+|--- |--- |
+|**libFuzzer**|Simple; well-tested; basic fuzzing features; limited multi-core fuzzing; libFuzzer is in maintenance-only mode|
+|**AFL++**|Well-tested; industry-standard; sufficient for most fuzzing needs; supported multi-core fuzzing|
+{.skip-table-head}

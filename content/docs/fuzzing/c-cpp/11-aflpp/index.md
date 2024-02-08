@@ -1,7 +1,6 @@
 ---
 title: "AFL++"
 slug: aflpp
-summary: "TODO"
 weight: 2
 ---
 
@@ -25,7 +24,7 @@ The AFL++ fuzzer has many dependencies, such asLLVM, Python, and Rust. We recomm
     <td><strong>Method</strong></td>
     <td><strong>When should I use it?</strong></td>
     <td>
-      <strong>Supported compiler versions (afl-clang/afl-gcc --version)</strong>
+      <strong>Supported compiler versions (<code>afl-clang/afl-gcc --version</code>)</strong>
     </td>
   </tr>
   <tr>
@@ -345,7 +344,7 @@ The AFL++ fuzzer offers many options. The following options can be most useful w
 * **-G 4000** The maximum length of the test input. By default, AFL++ uses 1048576 bytes. Setting this at least a few times higher than the minimal input size is advised. As a rule of thumb, we recommend finding a minimal realistic input and then doubling that. Note that larger input sizes lead to longer execution times and do not necessarily lead to a larger input space being explored.
 * **-t 10000** AFL++ aborts the execution of a test case after n milliseconds. It makes sense to set this to something reasonably low. The goal is also to find inputs that cause the SUT to hang for an unreasonably long amount of time. For example, parsing a reasonable-sized PNG image should not take longer than a few hundred milliseconds. So setting this to a few seconds is usually enough not to get false positives. 
 * **-m 1000** The memory limit for test cases in megabytes. By default, this is set to 0, which means no limit. This should be set to a reasonable value like 1000. If this is set too low then you will see false positives, because occasionally test cases may take just slightly longer than usual (e.g., because of system load).
-* **-x ./dict.dict** Specifies a dictionary file that guides the fuzzer and allows the fuzzer to discover interesting test cases more quickly. For more details about this, see [Dictionary fuzzing]({{% relref 02-dictionary %}}).
+* **-x ./dict.dict** Specifies a dictionary file that guides the fuzzer and allows the fuzzer to discover interesting test cases more quickly. For more details about this, see [Fuzzing dictionary]({{% relref 02-dictionary %}}).
 
 ## Standard input (stdin) fuzzing {#standard-input-stdin-fuzzing}
 

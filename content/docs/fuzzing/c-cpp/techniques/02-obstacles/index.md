@@ -1,7 +1,6 @@
 ---
 title: "SUT patching: Overcoming obstacles"
 slug: obstacles
-summary: "TODO"
 weight: 2
 ---
 

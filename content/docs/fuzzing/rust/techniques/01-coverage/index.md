@@ -1,7 +1,6 @@
 ---
 title: "Coverage analysis"
 slug: coverage-analysis
-summary: "TODO"
 weight: 2
 ---
 

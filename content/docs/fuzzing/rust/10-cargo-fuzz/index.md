@@ -1,7 +1,6 @@
 ---
 title: "cargo-fuzz"
 slug: cargo-fuzz
-summary: "TODO"
 weight: 2
 ---
 
@@ -172,7 +171,7 @@ Apart from the cargo-fuzz specific options, libFuzzer options can be used by app
 cargo +nightly fuzz run fuzz_target_1 -- -help=1
 ```
 
-For example, the following command allows one to specify a dictionary file that guides the fuzzer and allows the fuzzer to discover interesting test cases more quickly. (For more details about this, see [Dictionary fuzzing]({{% relref 02-dictionary %}}).)
+For example, the following command allows one to specify a dictionary file that guides the fuzzer and allows the fuzzer to discover interesting test cases more quickly. (For more details about this, see [Fuzzing dictionary]({{% relref 02-dictionary %}}).)
 
 
 ```shell

@@ -1,7 +1,6 @@
 ---
 title: "FAQ (Fuzzily Asked Questions)"
 slug: faq
-summary: "TODO"
 weight: 5
 ---
 

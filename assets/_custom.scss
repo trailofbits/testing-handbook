@@ -69,8 +69,21 @@ figure {
   margin-inline-start: 0;
   margin-inline-end: 0;
 
+  border: 2px solid var(--gray-100);
+
   > * {
-    max-width: 100%;
+    max-width: 95%;
+    margin-top: 5px;
+    margin-bottom: 10px;
+
+  }
+
+  > *:first-child {
+    margin-top: 10px;
+
+  }
+  > *:last-child {
+    margin-bottom: 10px;
   }
 
   figcaption::before {

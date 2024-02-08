@@ -1,7 +1,6 @@
 ---
 title: "Writing harnesses"
 slug: writing-harnesses
-summary: "TODO"
 weight: 1
 ---
 
