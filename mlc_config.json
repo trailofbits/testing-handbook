@@ -1,7 +1,7 @@
 {
   "ignorePatterns": [
     {
-      "pattern": "^http://twitter.com"
+      "pattern": "^https://twitter.com"
     }
   ]
 }
