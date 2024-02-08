@@ -307,16 +307,16 @@ The following points should be considered when implementing fuzzing harnesses re
 
 * A harness must handle all kinds of input, such as empty, huge, or malformed inputs. For instance, large inputs should not cause unexpected out of memory issues because of code in the harness. \
 **Rationale:** The fuzzer calls the harness with random input, so the harness must be prepared to handle all inputs in a defined way.
-* It must not call the [`exit`](https://linux.die.net/man/3/exit) function. \
-**Rationale:** Calling exit causes the whole process to stop, including the fuzzing. If you want to signal an unrecoverable situation, then call [`abort`](https://linux.die.net/man/3/abort) in your SUT.
+* It must not call the [`exit`](https://man.archlinux.org/man/exit.3p) function. \
+**Rationale:** Calling exit causes the whole process to stop, including the fuzzing. If you want to signal an unrecoverable situation, then call [`abort`](https://man.archlinux.org/man/abort.3p) in your SUT.
 
-* If threads are used, then all threads must be [`joined`](https://linux.die.net/man/3/pthread_join) at the end of the `LLVMFuzzerTestOneInput` function. \
+* If threads are used, then all threads must be [`joined`](https://man.archlinux.org/man/pthread_join.3p) at the end of the `LLVMFuzzerTestOneInput` function. \
 **Rationale:** Each invocation should be done in isolation and run to completion before continuing with the next fuzzing test case.
 * Harnesses should be fast, avoiding high complexity, logging, or excess memory use. \
 **Rationale:** Speed plays a huge role in the success of fuzzing. Executing the SUT quickly is important to get enough executions per second (usually 100s to 1000s executions per core). Low memory usage allows parallel fuzzing on more cores.
 * Harnesses should maintain determinism and avoid non-determinism like random and non-input-based decisions. For example, avoid reading from `/dev/random`. \
 **Rationale:** If the SUT crashes, then this crash should be reproducible after the fuzzing campaign finishes. By adding non-determinism to the harness, it is likely that the bug occurs only once during fuzzing but is not reproducible.
-* Changes to the global state should be avoided where possible. For example, avoid calling [rand](https://linux.die.net/man/3/rand) that depends on the global state of the [PRNG](https://en.wikipedia.org/wiki/Pseudorandom_number_generator). Using the [singleton](https://en.wikipedia.org/wiki/Singleton_pattern) pattern involves global state and should be avoided. \
+* Changes to the global state should be avoided where possible. For example, avoid calling [rand](https://man.archlinux.org/man/rand.3) that depends on the global state of the [PRNG](https://en.wikipedia.org/wiki/Pseudorandom_number_generator). Using the [singleton](https://en.wikipedia.org/wiki/Singleton_pattern) pattern involves global state and should be avoided. \
 **Rationale:** Similar to non-determinism, global state can cause test cases to crash only during fuzzing but not afterwards, and therefore can limit reproducibility. For example, suppose a singleton collects data samples while the SUT is running, but allows only `n` samples to be collected before crashing. If the global state is not reset after each execution, then the SUT may crash after `n` executions—not because of the input in the `n`-th execution, but because of the global state.
 * Narrow targets are preferred; multiple unrelated data formats should be split into individual targets. \
 **Rationale:** Fuzzing PNG and TCP packets in a single campaign probably does not make much sense, because the corpus entries found for PNG are most likely not relevant for fuzzing TCP packets.

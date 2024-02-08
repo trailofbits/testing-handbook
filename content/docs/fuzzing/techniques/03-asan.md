@@ -42,7 +42,7 @@ The most commonly used flags are:
 
 * `verbosity=1`: Prints information before the actual program starts. Useful to check if a binary is sanitized by checking if output from ASan is printed.
 * `detect_leaks=0`: Controls whether the [leak sanitizer](https://github.com/google/sanitizers/wiki/AddressSanitizerLeakSanitizer) is enabled. Leaks do not immediately lead to a crash in the fuzzer, but results about leaks are printed at the end of the fuzzing campaign.
-* `abort_on_error=1`: Calls [`abort`](https://linux.die.net/man/3/abort) instead of [`_exit`](https://linux.die.net/man/3/_exit) after printing errors. This is useful for some fuzzers that require calling [`abort`](https://linux.die.net/man/3/abort).
+* `abort_on_error=1`: Calls [`abort`](https://man.archlinux.org/man/abort.3p) instead of [`_exit`](https://man.archlinux.org/man/_exit.2) after printing errors. This is useful for some fuzzers that require calling [`abort`](https://man.archlinux.org/man/abort.3p).
 
 The [FAQ on GitHub](https://github.com/google/sanitizers/wiki/AddressSanitizer#faq) summarizes the most common pitfalls when using ASan.
 

@@ -570,7 +570,7 @@ Next, we start fuzzing. If we want to fuzz a file input instead of standard inpu
 ```
 
 
-The fuzzer should find the crash quickly. For instructions on how to optimize the fuzzer, refer to [Enable persistent mode](#optimizing-the-fuzzer-enable-persistent-mode). If you like to keep using files as input, then you might want to use [`fmemopen`](https://linux.die.net/man/3/fmemopen), which creates a file descriptor from a memory region.
+The fuzzer should find the crash quickly. For instructions on how to optimize the fuzzer, refer to [Enable persistent mode](#optimizing-the-fuzzer-enable-persistent-mode). If you like to keep using files as input, then you might want to use [`fmemopen`](https://man.archlinux.org/man/fmemopen.3), which creates a file descriptor from a memory region.
 <!-- TODO Maybe link an example. Consider adapting example to use fmemopen -->
 
 
@@ -650,7 +650,7 @@ The [`argv-fuzz-inl.h`](https://github.com/AFLplusplus/AFLplusplus/blob/stable/u
 * The `AFL_INIT_ARGV()` macro initializes the `argv` array with the arguments passed to the program from the command line. It then reads the arguments from standard input and puts them in the argv array. The array is terminated by two `NULL` characters, and any empty parameter is encoded as a lone `0x02` character.
 * The `AFL_INIT_SET0(_p)` macro is similar to `AFL_INIT_ARGV()` but also sets the first element of the `argv` array to the value passed to it. This macro can be useful if you want to preserve the program's name in the `argv` array.
 
-Both macros rely on the `afl_init_argv` function, which is responsible for reading a command line from standard input (by using the [`read`](https://linux.die.net/man/2/read) function) and splitting it into arguments. The function then stores the resulting array of strings in a static buffer and returns a pointer to that buffer. It also sets the value pointed to by the `argc` argument to the number of arguments that were read.
+Both macros rely on the `afl_init_argv` function, which is responsible for reading a command line from standard input (by using the [`read`](https://man.archlinux.org/man/read.3p) function) and splitting it into arguments. The function then stores the resulting array of strings in a static buffer and returns a pointer to that buffer. It also sets the value pointed to by the `argc` argument to the number of arguments that were read.
 
 If persistent mode is used, then the implementation is slightly different because the input is not read from standard input.
 {{< /hint >}}
