@@ -15,3 +15,61 @@
 </div>
 
 <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/22554992.js"></script>
+
+<script src="https://unpkg.com/popper.js@1"></script>
+<script src="https://unpkg.com/tippy.js@5"></script>
+
+<script type="text/javascript">
+  const highlights = document.querySelectorAll(".highlight");
+  for (let i = 0; i < highlights.length; i++) {
+      const highlight = highlights[i];
+      const fence = highlight.querySelector("pre")
+
+      const lines = fence.querySelectorAll("code > span")
+      if (lines.length != 1) {
+        continue;
+      }
+
+      const first_line = lines[0]
+      const line_content = first_line.children[0]
+      if (!line_content) {
+        continue;
+      }
+
+
+    let counter = 'a';
+
+
+    for (let i = 0; i < line_content.childNodes.length; i++) {
+      const node = line_content.childNodes[i]
+
+      if (node instanceof Element) {
+        continue
+      }
+      if (node instanceof Text) {
+        let outerSpan = document.createElement("span")
+        let parts = node.data.split(" ");
+        for (let j = 0; j < parts.length; j++) {
+            let span = document.createElement("span")
+            console.log(parts[j])
+            span.textContent = parts[j] + (j != parts.length - 1 ? " " : "")
+            outerSpan.append(span)
+
+            console.log(counter)
+              if (highlight.dataset[counter] !== undefined) {
+                
+                  tippy(span, {
+                  content: highlight.dataset[counter],
+                  boundary: 'window'
+                });
+              } 
+
+              
+              counter = String.fromCharCode(counter.charCodeAt(0) + 1);;
+          }
+
+          node.replaceWith(outerSpan)
+      }
+    }
+  } 
+</script>

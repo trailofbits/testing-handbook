@@ -33,9 +33,10 @@ If the LLVM version provided by your distribution is outdated, you can install a
 Creating a binary that fuzzes the SUT is straightforward. The resulting binary will use the harness and the libFuzzer runtime. If using the Clang compiler, the following command produces a binary, called `fuzz`, in the current working directory:
 
 
-```
+```shell {data-a="Compiler for C++" data-b="Skips the main function" data-b="Adds debug symbols" data-c="Sets production optimization level" data-d="Enables libFuzzer" data-e="Enables libFuzzer"}
 clang++ -DNO_MAIN -g -O2 -fsanitize=fuzzer harness.cc main.cc -o fuzz
 ```
+<!-- TODO Mabye add asan by defualt here?-->
 
 
 Note that you will need to recompile if you are changing the SUT or harness.
