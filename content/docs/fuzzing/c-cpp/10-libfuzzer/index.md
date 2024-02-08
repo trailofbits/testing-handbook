@@ -319,7 +319,7 @@ Next, we configure and compile libpng as a static library without linking libFuz
 export CC=clang CFLAGS="-fsanitize=fuzzer-no-link -fsanitize=address" # Set C compiler and the flag for fuzzing
 export CXX=clang++ CXXFLAGS="$CFLAGS" # Set C++ compiler and use C flags
 ./configure --enable-shared=no # Configure to compile a static library
-	make # Run compilation
+make # Run compilation
 ```
 
 By default, the configuration script sets the optimization level to `-O2`, which is what we recommend in the [Compile a Fuzz test section](#compile-a-fuzz-test).

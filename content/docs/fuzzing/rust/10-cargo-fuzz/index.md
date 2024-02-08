@@ -224,7 +224,7 @@ We look now for examples, unit tests, or integration tests in the project that m
 The following code shows the harness and the entrypoint, stored at `fuzz/fuzz_targets/fuzz_target_1.rs` for cargo-fuzz.
 
 {{< customFigure "Harness for the ogg library" >}}
-```
+```Rust
 #![no_main]
 
 use ogg::{PacketReader, PacketWriter};
