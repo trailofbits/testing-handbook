@@ -182,8 +182,8 @@ ASan helps detect memory errors that might otherwise go unnoticed. For a general
 
 For instance, the following heap buffer overflow is usually not detectable without ASan; although we access the allocated buffer out of bounds, in practice, the memory we hit—which may be part of another allocation metadata—is still mapped in the process, and so the program does not crash with a segmentation fault.
 
-{{< customFigure "main_asan.cc: Example bug detectable by ASan" >}}
-```C++
+{{< customFigure "main_asan.cc: Example bug detectable by ASan. The program writes out-of-bounds in line 9 because it allocates only a single byte but at least 2 bytes are written." >}}
+```C++ {linenos=inline,hl_lines=9}
 void check_buf(char *buf, size_t buf_len) {
     char *last;
 

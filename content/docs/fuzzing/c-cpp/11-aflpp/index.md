@@ -269,7 +269,7 @@ PRO TIP: In order to demonstrate how to set environment variables with the afl++
 {{< /hint >}}
 
 
-The output of the fuzzer will look like the following.
+The output of the fuzzer will look like the following figure.
 
 {{< resourceFigure "aflpp.png" >}}
 For details about what each line in the screenshot means, refer to this [documentation](https://github.com/AFLplusplus/AFLplusplus/blob/358cd1b062e58ce1d5c8efeef4789a5aca7ac5a9/docs/afl-fuzz_approach.md).

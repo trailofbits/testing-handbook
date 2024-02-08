@@ -5,7 +5,7 @@ weight: 3
 ---
 
 
-### AddressSanitizer {#addresssanitizer}
+# AddressSanitizer {#addresssanitizer}
 
 AddressSanitizer (ASan) is a widely adopted tool in the realm of software testing, particularly during fuzzing. Fuzzing greatly benefits from the use of ASan because it helps detect memory errors that might otherwise go unnoticed, such as buffer overflows and use-after-free errors. 
 

@@ -5,7 +5,7 @@ weight: 5
 ---
 
 
-## Additional resources {#additional-resources}
+# Additional resources {#additional-resources}
 
 * **[Awesome fuzzing list.](https://github.com/cpuu/awesome-fuzzing)** GitHub-hosted list focused on scientific publications about fuzzing.
 * **[Awesome fuzzing list.](https://github.com/secfigo/Awesome-Fuzzing)** GitHub-hosted list about fuzzers and fuzzing related books.

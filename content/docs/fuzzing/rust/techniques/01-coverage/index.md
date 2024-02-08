@@ -5,7 +5,7 @@ weight: 2
 ---
 
 
-##### Coverage analysis {#coverage-analysis}
+# Coverage analysis {#coverage-analysis}
 
 Gaining confidence in your code coverage archived during fuzzing is essential for two reasons. Firstly, you want to assess which parts of your applications your fuzzing harnesses execute.
 
@@ -110,10 +110,10 @@ PRO TIP: The following table lists the invoked cargo command in more detail:
 {.skip-table-head}
 {{< /hint >}}
 
-###### Real-world examples {#real-world-examples}
+## Real-world examples {#real-world-examples}
 
 
-###### Cargo crate: ogg {#cargo-crate-ogg}
+### Cargo crate: ogg {#cargo-crate-ogg}
 
 In a [previous section](#cargo-crate-ogg) we fuzzed the ogg crate. Now we want to evaluate the coverage of our fuzzing campaign to verify we achieved good coverage.
 

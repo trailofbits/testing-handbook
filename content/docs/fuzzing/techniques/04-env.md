@@ -4,7 +4,7 @@ slug: environments
 weight: 4
 ---
 
-### Fuzzing environments {#fuzzing-environments}
+# Fuzzing environments {#fuzzing-environments}
 
 Like any software, the choice of fuzzer will depend on factors such as the operating system, architecture, software versions, and hardware. This section will review factors that influence the choice of the environment used for fuzzing.
 

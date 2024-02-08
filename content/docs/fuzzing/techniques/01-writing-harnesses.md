@@ -4,12 +4,12 @@ slug: writing-harnesses
 weight: 1
 ---
 
-### Writing harnesses {#writing-harnesses}
+# Writing harnesses {#writing-harnesses}
 
 The following section showcases some techniques to successfully write a fuzzing harness—the most important part of any fuzzing setup. If written poorly, critical parts of your application may not be covered.
 
 
-#### Beyond byte arrays {#beyond-byte-arrays}
+## Beyond byte arrays {#beyond-byte-arrays}
 
 Often the code you want to fuzz not only takes a plain byte array as input, but has more complex input. A very basic example is the following fuzz test that contains a division by 0. Because the inputs to the function `divide` are two integers, we must be creative and derive those from the byte array. We do that by simply casting the raw bytes to 32-bit integers. Note that the byte array may be interpreted differently depending on the system architecture (i.e., little vs. big-endian systems).
 
@@ -160,13 +160,13 @@ If your input is highly structured, you may want to look into libFuzzer's [custo
 
 
 
-#### Interleaved fuzzing {#interleaved-fuzzing}
+## Interleaved fuzzing {#interleaved-fuzzing}
 
 Input to the fuzzing harness may be used to steer which code within the target is executed. This can be useful when exercising multiple related APIs in a target. Take the following example where multiple arithmetic operations are available. All operations take exactly two doubles as input. We can write a single fuzzing harness that executes all functions based on the first byte in the input.
 
 The code below defines a harness and implements a SUT that can add, subtract, multiply, and divide integers. The harness takes the first byte and then decides to execute one of the instructions based on it. It then parses two integers from the input and invokes the arithmetic operation. The harness also makes sure that the input is sufficiently long.
 
-To prevent the implementation from crashing,  the `divide` function must check that the divisor is non-zero and that no overflow occurs during the division. Afterwards, the resulting value is printed such that the compiler does and removes the call to the arithmetic functions (i.e., `add`, `subtract`, `multiply`, and `divide`) due to compilation optimizations.
+To prevent the implementation from crashing, the `divide` function must check that the divisor is non-zero and that no overflow occurs during the division. Afterwards, the resulting value is printed such that the compiler does not remove the call to the arithmetic functions (i.e., `add`, `subtract`, `multiply`, and `divide`) due to compilation optimizations.
 
 
 {{< customFigure "" "html" >}}
@@ -296,7 +296,7 @@ There are multiple advantages to interleaved fuzzing:
 * Using a single harness also means using a single corpus. Therefore, ensure that test cases are relevant across the implemented operations or fuzz tests. Inputs interesting for division may also be interesting for subtraction.
 
 
-#### Practical harness rules {#practical-harness-rules}
+## Practical harness rules {#practical-harness-rules}
 
 Even though harnesses can execute arbitrary code, a few rules are beneficial to follow when implementing harnesses. We adapted these from the official libFuzzer [documentation](https://llvm.org/docs/LibFuzzer.html#id23).
 

@@ -6,14 +6,14 @@ weight: 2
 
 
 
-### cargo-fuzz {#cargo-fuzz}
+# cargo-fuzz {#cargo-fuzz}
 
 The cargo-fuzz tool is the de facto choice for fuzzing your Rust project when using Cargo. It uses libFuzzer as the back end. Note that if you are not using Cargo, you cannot use the cargo-fuzz tool.
 
 By installing the cargo-fuzz crate, a Cargo subcommand is installed. Therefore, cargo-fuzz depends on using Cargo. The subcommand also automatically enables relevant compilation flags for your Rust project and even supports enabling sanitizers like AddressSanitizer.
 
 
-#### Installation {#installation}
+## Installation {#installation}
 
 The cargo-fuzz tool uses features that are available only in the nightly Rust toolchain. You can install it using [rustup](https://rustup.rs/).
 
@@ -38,7 +38,7 @@ The recommended way of installing the tool itself is through `cargo install`.
 cargo install cargo-fuzz
 ```
 
-#### Write a fuzz test {#write-a-fuzz-test}
+## Write a fuzz test {#write-a-fuzz-test}
 
 Let's recall the example introduced in the [introduction]({{% relref "fuzzing#introduction-to-fuzzers" %}}) of this chapter, consisting of a `main` and a `check_buf` function. We want to fuzz test the `check_buf` function. For this purpose, we want to restructure the project so that the code we want to test is part of a library crate.
 
@@ -119,7 +119,7 @@ fuzz_target!(|data: &[u8]| {
 The setup for cargo-fuzz is now done. We created a harness that can be executed by cargo-fuzz. The actual name of the fuzz target is defined in the `fuzz/Cargo.toml` file. Every fuzz test is a separate cargo binary.
 
 
-#### Usage {#usage}
+## Usage {#usage}
 
 Fuzz tests can be executed by invoking cargo-fuzz in the following way.
 
@@ -132,7 +132,7 @@ If the project does not contain unsafe Rust or calls into C/C++ code, then we ca
 
 The corpus is persisted in the `fuzz/corpus/fuzz_fuzz_target_1/` directory. Crashes are stored in `fuzz/artifacts/fuzz_fuzz_target_1/`.
 
-##### Re-execute a test case {#re-execute-a-test-case}
+### Re-execute a test case {#re-execute-a-test-case}
 
 A test case can be re-executed using `cargo +nightly fuzz run fuzz_target_1 <test_case>`. For example, the following command re-executes a crash:
 
@@ -154,7 +154,7 @@ For example, to re-execute the corpus you can run the following command:
 cargo +nightly fuzz run fuzz_target_1 fuzz/corpus/fuzz_target_1 -- -runs=0
 ```
 
-##### Fuzzer options {#fuzzer-options}
+### Fuzzer options {#fuzzer-options}
 
 Several options can be adjusted by adding command-line flags when running cargo-fuzz.
 
@@ -178,7 +178,7 @@ For example, the following command allows one to specify a dictionary file that 
 cargo +nightly fuzz run fuzz_target_1 -- -dict=./dict.dict
 ```
 
-#### AddressSanitizer {#addresssanitizer}
+## AddressSanitizer {#addresssanitizer}
 
 ASan helps detect memory errors that might otherwise go unnoticed. For a general introduction to ASan, refer to [AddressSanitizer](#addresssanitizer).
 
@@ -198,10 +198,10 @@ Most sanitizers in Rust currently require a nightly toolchain because they are a
 
 
 
-#### Real-world examples {#real-world-examples}
+## Real-world examples {#real-world-examples}
 
 
-##### Cargo crate: ogg {#cargo-crate-ogg}
+### Cargo crate: ogg {#cargo-crate-ogg}
 
 The ogg crate parses [ogg](https://en.wikipedia.org/wiki/Ogg) files, which contain media data. The ogg format is a container format for media, which means such files can host different codecs. Parsers are easy to fuzz and also a high-value target, because they have to behave correctly even when they are presented with untrusted data.
 
@@ -292,6 +292,6 @@ The corpus is stored at `fuzz/corpus/fuzz_target_1/`. Check out the [FAQ]({{% re
 
 The next step is to investigate the coverage and see if the harness or seed corpus can be improved (refer to the [Coverage analysis](#real-world-examples)).
 
-#### Additional resources {#additional-resources}
+## Additional resources {#additional-resources}
 
 * [Rust Fuzz Book about cargo-fuzz](https://rust-fuzz.github.io/book/cargo-fuzz.html)

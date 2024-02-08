@@ -5,9 +5,9 @@ weight: 2
 ---
 
 
-##### SUT patching: Overcoming obstacles {#sut-patching-overcoming-obstacles}
+# SUT patching: Overcoming obstacles {#sut-patching-overcoming-obstacles}
 
-Codebases are often not fuzzing-friendly. This can happen if, for example, the code uses checksums or depends on a global state like a system-time seeded PRNG (i.e., from the [rand](https://docs.rs/rand/latest/rand/)) that causes the code to behave differently for the same input. Refer to [Practical harness rules]({{% relref "01-writing-harnesses#practical-harness-rules" %}}) to learn more about potential problems in your SUT. If you encounter checksums or a global state in your SUT, you may want to apply fuzzing-specific patches to change the behavior of the program during fuzzing, as shown in the following. 
+Codebases are often not fuzzing-friendly. This can happen if, for example, the code uses checksums or depends on a global state like a system-time seeded PRNG (i.e., from the [rand](https://docs.rs/rand/latest/rand/)) that causes the code to behave differently for the same input. Refer to [Practical harness rules]({{% relref "01-writing-harnesses#practical-harness-rules" %}}) to learn more about potential problems in your SUT. If you encounter checksums or a global state in your SUT, you may want to apply fuzzing-specific patches to change the behavior of the program during fuzzing, as shown in the following paragraphs. 
 
 Rust fuzzers define a configuration option that is set during compilation of your Rust project. Similar to the [`cfg!(test)`](https://doc.rust-lang.org/reference/conditional-compilation.html#test) config option, the `cfg!(fuzzing)` option is enabled during fuzzing. You can use conditional compilation to overcome obstacles in your code, like hash checks that often hinder fuzzers at covering deeper code paths. The following figure shows an example.
 
