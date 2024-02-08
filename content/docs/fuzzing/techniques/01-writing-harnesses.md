@@ -17,7 +17,7 @@ Any fuzzer using the following harness will find the bug quickly.
 
 
 
-{{< customFigure "" "html" >}}
+
 {{< tabs "beyond" >}}
 {{< tab "C/C++" >}}
 ```C++
@@ -74,7 +74,6 @@ fuzz_target!(|data: &[u8]| {
 ```
 {{< /tab >}}
 {{< /tabs >}}
-{{< /customFigure >}}
 
 
 If we move to a more complicated C/C++ example like the following string concatenation function, then we might want to use the helper class [`FuzzedDataProvider`](https://github.com/llvm/llvm-project/blob/main/compiler-rt/include/fuzzer/FuzzedDataProvider.h). The header can be copied into a project and used as follows:
@@ -168,7 +167,6 @@ The code below defines a harness and implements a SUT that can add, subtract, mu
 To prevent the implementation from crashing, the `divide` function must check that the divisor is non-zero and that no overflow occurs during the division. Afterwards, the resulting value is printed such that the compiler does not remove the call to the arithmetic functions (i.e., `add`, `subtract`, `multiply`, and `divide`) due to compilation optimizations.
 
 
-{{< customFigure "" "html" >}}
 {{< tabs "interleaved" >}}
 {{< tab "C/C++" >}}
 ```C++
@@ -287,7 +285,6 @@ fuzz_target!(|data: &[u8]| {
 ```
 {{< /tab >}}
 {{< /tabs >}}
-{{< /customFigure >}}
 
 
 There are multiple advantages to interleaved fuzzing:

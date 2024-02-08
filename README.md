@@ -148,7 +148,7 @@ This addon works better than pandoc.
 ### Custom enviornments
 
 ```md
-{{< customFigure "" >}}
+{{< customFigure "Caption" >}}
 {{< /customFigure >}}
 
 {{< resourceFigure "cov1.png" >}}

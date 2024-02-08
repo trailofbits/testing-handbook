@@ -1,19 +1,21 @@
 {{ $img := $.Page.Resources.GetMatch (.Get 0)}}
 
 <figure>
-  {{ if (.Get 2) }}
+  <div>
+    {{ if (.Get 2) }}
     {{ if eq $img.MediaType.SubType "svg" }}
-     <img src="{{ $img.RelPermalink }}" alt="{{ .Get 1 }}" width={{ (.Get 2) }} />
+    <img src="{{ $img.RelPermalink }}" alt="{{ .Get 1 }}" width={{ (.Get 2) }} />
     {{else }}
-      {{ $resize := (printf "%dx webp" (.Get 2)) }}
-      {{ $width := (printf "%dpx" (.Get 2)) }}
-      {{ $resized := ($img.Resize $resize ) }}
-      <img src="{{ $resized.RelPermalink }}" alt="{{ .Get 1 }}" width={{ $width }} />
-   {{ end }}
-  {{else }}
-    <img src="{{ $img.RelPermalink }}" alt="{{ .Get 1 }}" />
-  {{ end }}
-  {{ if .Inner }}
-  <figcaption>{{ .Inner | .Page.RenderString (dict "display" "inline") }}</figcaption>
-  {{ end }}
+        {{ $resize := (printf "%dx webp" (.Get 2)) }}
+        {{ $width := (printf "%dpx" (.Get 2)) }}
+        {{ $resized := ($img.Resize $resize ) }}
+        <img src="{{ $resized.RelPermalink }}" alt="{{ .Get 1 }}" width={{ $width }} />
+    {{ end }}
+    {{else }}
+      <img src="{{ $img.RelPermalink }}" alt="{{ .Get 1 }}" />
+    {{ end }}
+    {{ if .Inner }}
+    <figcaption>{{ .Inner | .Page.RenderString (dict "display" "inline") }}</figcaption>
+    {{ end }}
+  </div>
 </figure>
