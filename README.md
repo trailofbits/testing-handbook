@@ -122,13 +122,16 @@ as it has a couple of nice features (buttons, etc.)
 
 ### Writing Guidelines
 
-- The term "Testing Handbook" should be capitalized any time it appears on the website (whether in a header/subheader or running text), since it is the title of a document. But if you'd like to avoid the capitalization because it looks strange, you can substitute "Testing Handbook" for "this handbook" (since it's clear enough what the title of the handbook is).
+- The term "Testing Handbook" should be capitalized any time it appears on the website (whether in a header/subheader or running text),
+since it is the title of a document. But if you'd like to avoid the capitalization because it looks strange, you can substitute
+"Testing Handbook" for "this handbook" (since it's clear enough what the title of the handbook is).
 
 ### Workflow: From Google Docs
 
 1. Make your document viewable via a link share.
 2. Create a Google account or use your private one (If you use this method, then your document should be regarded as public, but unpublished).
-3. Install [Docs to Markdown](https://workspace.google.com/marketplace/app/docs_to_markdown/700168918607). This addon works better than pandoc.
+3. Install [Docs to Markdown](https://workspace.google.com/marketplace/app/docs_to_markdown/700168918607).
+This addon works better than pandoc.
 4. Open the document and make a copy.
 5. Open the copy and run the Addon.
 6. Export the markdown and apply fixes:
@@ -144,19 +147,13 @@ as it has a couple of nice features (buttons, etc.)
 
 ### Custom enviornments
 
-```
+```md
 {{< customFigure "" >}}
-```text
-
-```
-
 {{< /customFigure >}}
 
 {{< resourceFigure "cov1.png" >}}
-
 {{< /resourceFigure >}}
 
 {{< hint info >}}
-
 {{< /hint >}}
-``````
+```

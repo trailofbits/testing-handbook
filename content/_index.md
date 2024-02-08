@@ -22,21 +22,21 @@ documentation they can apply when performing security analyses of their codebase
 
 {{< columns >}}
 
-### Straightforward
+## Straightforward
 
 We aim to make it as straightforward as possible to set up security tools
 effectively across all steps of the software development lifecycle.
 
 <--->
 
-### Demystified
+## Demystified
 
 In doing so, we also hope to demystify static and dynamic analysis techniques
 such as fuzzing and taint analysis.
 
 {{< /columns >}}
 
-### Why is this needed?
+## Why is this needed?
 
 - The documentation for configuring and optimizing existing tools is often not
   developer friendly, as it is often targeted at security professionals. This
@@ -49,20 +49,20 @@ such as fuzzing and taint analysis.
   their configuration is rarely optimized. This lack of tuning can lead to noisy
   tool results that are more frustrating than they are helpful.
 
-### Tools
+## Tools
 
 We currently cover the following tools and techniques:
 
 {{< columns >}}
 
-#### Static analysis
+### Static analysis
 
 - [Semgrep]({{< relref "semgrep" >}})
 - [CodeQL]({{< relref "codeql" >}})
 
 <--->
 
-#### Dynamic analysis
+### Dynamic analysis
 
 - [Fuzzing]({{< relref "fuzzing" >}})
 
