@@ -17,7 +17,7 @@ verifiers. For each tool, we go though:
 
 {{< section >}}
 
-## Background
+## Who is formal verification for?
 
 Formal verification tools allow us to formally prove security properties of cryptographic protocols. Alternatively, they
 can often provide counterexamples (and sometimes real attacks) showing that a particular protocol does not guarantee the
@@ -58,8 +58,8 @@ cryptographic protocols should be formally verified.
 Tools used to formally verify cryptographic protocols typically come in one of two different flavors. Tools like
 [ProVerif](https://bblanche.gitlabpages.inria.fr/proverif/), [Tamarin](https://tamarin-prover.com/), and
 [Verifpal](https://verifpal.com/) analyze protocols in the _symbolic model_. This means that cryptographic primitives
-are modeled as black boxes satisfying certain given equations. For example, symmetric encryption could be modeled using
-two functions `encrypt` and `decrypt` satisfying the following equation:
+are modeled as black boxes satisfying certain given equations. For example, a symmetric encryption scheme could be
+modeled using two functions `encrypt` and `decrypt` satisfying the following equation:
 
 ```js
 decrypt(key, encrypt(key, data)) = data

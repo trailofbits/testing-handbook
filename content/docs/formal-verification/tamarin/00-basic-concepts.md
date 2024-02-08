@@ -51,11 +51,12 @@ If you are running NixOS you can install Tamarin by adding `tamarin-prover` to y
 ## Tamarin basic concepts
 
 Tamarin models can be specified either using [multiset](https://en.wikipedia.org/wiki/Multiset) rewrite rules, or using
-a process calculus based on a variant of the applied pi-calculus. Protocol properties are specified using a fragment of
-temporal logic. This means that we can express properties of terms at given points in time. The global protocol state is
-given by a multiset of facts that is expanded and updated as the protocol progresses. Here, a fact is essentially a
-statement about a set of terms. For example, "`Alice` has registered the public key `pk` with the server", or "the
-attacker has learned the private key `sk`".
+a process calculus based on a variant of the applied pi-calculus. The global protocol state is given by a multiset of
+facts that is expanded and updated as the protocol progresses. Here, a fact is essentially a statement about a set of
+terms. For example, _`Alice` has registered the public key `pk` with the server_, or _The attacker has learned the
+private key `sk`_. Protocol properties are expressed as properties of the set of possible executions of the protocol,
+and are specified using a decidable fragment of temporal logic. (This means that we can express properties of terms at
+different points in time.)
 
 ### Variables and sorts
 
@@ -134,6 +135,32 @@ potential typing inconsistencies.
 
 {{< /hint >}}
 
+To define equations that the introduced function symbols satisfy, we use the `equations` keyword. For example, we could
+express that decryption is the (left-)inverse of encryption as follows:
+
+```js
+equations:
+  decrypt(key, encrypt(key, data)) = data,
+  ...
+```
+
+### Built-in theories
+
+Tamarin comes with a number of cryptographic primitives such as symmetric and asymmetric encryption, signatures, and
+hash functions already built-in. These built-in theories can be added to your project using the `builtins` keyword. For
+example, the following would add two function symbols `senc` and `sdec` modeling symmetric encryption, and a function
+symbol `h` modeling a hash function, to your project:
+
+```js
+builtins:
+  symmetric-encryption,
+  hashing,
+  ...
+```
+
+For a complete list of the built-in theories supported by Tamarin, we refer to [the section on cryptographic messages in
+the Tamarin user manual](https://tamarin-prover.com/manual/master/book/004_cryptographic-messages.html).
+
 ### Facts
 
 Facts express properties about the current state of the protocol. New facts can be introduced by the user, but there are
@@ -179,8 +206,8 @@ lemma device_key_confidentiality:
 There is a lot going on here. Following the `lemma` keyword is a name which identifies the lemma. This should be
 something expressive, describing the intended meaning of the statement. The `All` and `Ex` keywords represent universal
 and existential quantification. The operators `&` and `==>` represent conjunction and implication. (Disjunction is
-written `|`, and negation is written as `not(...)`). The variables `#i`, `#j`, and `#k` all range over temporal values.
-Undecorated variables like `private_key` range over messages.
+written `|`, and negation of `P` is written `not(P)`). The variables `#i`, `#j`, and `#k` all range over temporal
+values. Undecorated variables like `private_key` range over messages.
 
 The statements `DeviceInitialized(...)` and `DeviceKeyLeaked(...)` are special facts called _action facts_ in the
 rewrite rule-version of Tamarin, or _events_ in the pi calculus-version. `DeviceInitialized(...) @ #i` means that the
@@ -227,4 +254,32 @@ model, and serves as a form of sanity check or integration test, ensuring that t
 
 ## Restricting the execution trace
 
+Tamarin uses _restrictions_ to restrict the space of execution traces explored by the prover. The most common use case
+for restrictions is to model branching behavior. Consider the following restriction which says that if the fact
+`EnsureEqual(x, y)` is emitted, then `x` and `y` must evaluate to the same term.
+
+```js
+restriction ensure_equal:
+  "
+    All x y #i. (EnsureEqual(x, y) @ #i ==> x = y)
+  "
+```
+
+This restriction defines a new fact `EnsureEqual(x, y)` that can be used to restrict execution traces to those where the
+two arguments are equal. For example, we can use the fact `EnsureEqual(verify(sig, msg, pub_key), true)` to express that
+the signature `sig` must be valid for the protocol to progress. For details on how restrictions are used, see the
+following sections which introduce multiset rewrite rules and Sapic+.
+
 ## Rewrite rules or process calculus?
+
+Tamarin allows the user to specify protocols using either multiset rewrite rules, or as processes using a version of the
+applied pi calculus known as Sapic+. There are benefits and drawbacks of both approaches. Tamarin originally only
+supported multiset rewrite rules, and if you use processes to specify your protocol, the specification will be
+translated into rewrite rules before the prover runs. This means rule names will be autogenerated, and hence
+unrecognizable, if you run the prover in interactive mode. Since multiset rewrite rules have been supported from the
+start, there are also more examples available describing this approach. This means that if you're looking for examples
+for how to model a certain protocol component, you are more likely to find examples using rewrite rules than Sapic+.
+
+On the other hand, if you are interested in porting your model to ProVerif, Tamarin's process calculus is very similar
+to the applied pi-calculus used by ProVerif. Thus, if you are already familiar with ProVerif, or if you are uncertain of
+which tool would be best suited for your problem, it may make sense to use processes to model your protocol.
