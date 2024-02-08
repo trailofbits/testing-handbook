@@ -25,7 +25,7 @@ jobs:
       with:
         command: config
         globs: |
-         .github/workflows/.markdownlint.jsonc
+         .markdownlint.jsonc
          **/*.md
   # Spellcheck Markdown files using `retext` and `remark`
   # Uses: a custom dictionary file
