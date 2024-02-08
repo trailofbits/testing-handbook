@@ -120,10 +120,9 @@ as it has a couple of nice features (buttons, etc.)
 
 ## Editing
 
-
 ### Writing Guidelines
 
-* The term "Testing Handbook" should be capitalized any time it appears on the website (whether in a header/subheader or running text), since it is the title of a document. But if you'd like to avoid the capitalization because it looks strange, you can substitute "Testing Handbook" for "this handbook" (since it's clear enough what the title of the handbook is).
+- The term "Testing Handbook" should be capitalized any time it appears on the website (whether in a header/subheader or running text), since it is the title of a document. But if you'd like to avoid the capitalization because it looks strange, you can substitute "Testing Handbook" for "this handbook" (since it's clear enough what the title of the handbook is).
 
 ### Workflow: From Google Docs
 
@@ -133,33 +132,29 @@ as it has a couple of nice features (buttons, etc.)
 4. Open the document and make a copy.
 5. Open the copy and run the Addon.
 6. Export the markdown and apply fixes:
-   * Search for occurences of `<code>` or `<strong>` or any other html tags
-   * Replace HTML tables with markdown ones (https://jmalarcon.github.io/markdowntables/)
-   * If you split your document, fix internal links.
-   * Add missing images.
-
-
-   * Fix `&lt;`, …, “, ’
-   * Adjust markdown captions ## -> #
-   * Verify missing formatting in PRO TIPs
-   * . at the end of fig captions?
-   * Note that index bundles do not use the "slug"
+   - Search for occurences of `<code>` or `<strong>` or any other html tags
+   - Replace HTML tables with markdown ones (https://jmalarcon.github.io/markdowntables/)
+   - If you split your document, fix internal links.
+   - Add missing images.
+   - Fix `&lt;`, …, “, ’
+   - Adjust markdown captions ## -> #
+   - Verify missing formatting in PRO TIPs
+   - . at the end of fig captions?
+   - Note that index bundles do not use the "slug"
 
 ### Custom enviornments
+
 ```
 {{< customFigure "" >}}
 ```text
 
 ```
-{{< /customFigure >}}
 
+{{< /customFigure >}}
 
 {{< resourceFigure "cov1.png" >}}
 
 {{< /resourceFigure >}}
-
-
-
 
 {{< hint info >}}
 
