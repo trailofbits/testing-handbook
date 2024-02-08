@@ -89,7 +89,7 @@ Your browser will be automatically refreshed with changes whenever you save a fi
 
 6. Edit, add, and create pull requests to merge your changes into `main`.
 
-7. ❗Keep in mind that when you merge your PR into `main`, the content goes live in https://appsec.guide.
+7. ❗Keep in mind that when you merge your PR into `main`, the content goes live in <https://appsec.guide>.
     Our current policy forces at least one review before merging.
 
 8. For updates to the home page, edit [content/_index.md](content/_index.md)
@@ -136,7 +136,7 @@ This addon works better than pandoc.
 5. Open the copy and run the Addon.
 6. Export the markdown and apply fixes:
    - Search for occurences of `<code>` or `<strong>` or any other html tags
-   - Replace HTML tables with markdown ones (https://jmalarcon.github.io/markdowntables/)
+   - Replace HTML tables with markdown ones (<https://jmalarcon.github.io/markdowntables/>)
    - If you split your document, fix internal links.
    - Add missing images.
    - Fix `&lt;`, …, “, ’
