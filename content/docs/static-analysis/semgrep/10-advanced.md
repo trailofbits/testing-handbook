@@ -27,7 +27,7 @@ extension is not standard.
 ### Files/directories
 
 - By default, Semgrep follows the default
-[.semgrepignore](https://github.com/returntocorp/semgrep/blob/develop/cli/src/semgrep/templates/.semgrepignore) file.
+  [.semgrepignore](https://github.com/returntocorp/semgrep/blob/develop/cli/src/semgrep/templates/.semgrepignore) file.
 - If present, Semgrep will look at the repository's `.gitignore` file.
 - In case of a conflict between the two files, the `.semgrepignore` file takes precedence. This means that if the
   `.gitignore` file includes a file and the `.semgrepignore` file excludes it, Semgrep will not analyze the file.
@@ -46,8 +46,8 @@ As a best practice, remember to:
 - Exclude only particular findings in your comments rather than disabling all rules with a generic `// nosemgrep` comment.
 - Explain why you disabled a rule or justify your risk acceptance decision.
 - If you encounter a false positive and want to ignore a Semgrep rule, provide feedback to either the Semgrep development
-team or your internal development team responsible for the specific rule. This will help improve the accuracy
-of the rule and reduce the chances of future false positives.
+  team or your internal development team responsible for the specific rule. This will help improve the accuracy
+  of the rule and reduce the chances of future false positives.
 
 For more information on how to use `nosemgrep` to ignore code blocks for a particular rule, refer to the
 [Semgrep documentation on ignoring code](https://semgrep.dev/docs/ignoring-files-folders-code/#ignoring-code-through-nosemgrep).
@@ -93,24 +93,20 @@ semgrep --config path/
 To start writing custom Semgrep rules, it is crucial to understand a few key concepts and tools:
 
 1. **Familiarize yourself with Semgrep syntax**: Begin by exploring the official [Learn Semgrep Syntax](https://semgrep.dev/learn)
-page, which provides a comprehensive guide on the fundamentals of Semgrep rule writing.
+   page, which provides a comprehensive guide on the fundamentals of Semgrep rule writing.
 1. **Refer to language-specific pattern examples**: Consult the [Semgrep Pattern Examples by Language](https://semgrep.dev/embed/cheatsheet)
-for examples tailored to specific programming languages.
+   for examples tailored to specific programming languages.
 1. **Use the Semgrep Playground**: The [Semgrep Playground](https://semgrep.dev/playground/new) is a convenient online tool
-for writing and testing rules. However, it is essential to consider the following points when using the Playground:
-{{< hint danger >}}**Be cautious of privacy concerns**: The Semgrep Playground allows users to experiment with code
-      without downloading or installing software on their local machine. While this platform is helpful for testing
-      and debugging rules, it may expose sensitive information such as passwords, API keys, or other secrets contained
-      in the code you submit for scanning.
-      Always use a local development environment with proper security and privacy controls for sensitive code.{{< /hint >}}
-    - **Employ the `simple mode`**: The Semgrep Playground's simple mode makes it easy to combine rule patterns.
-    - **Use the `Share` button**: Share your rule and test code with others using the Share button.
-    - **Add tests to your test code**: Incorporate [tests](https://semgrep.dev/docs/writing-rules/testing-rules/)
-      (e.g., `# ruleid: <id>`) into your test code to evaluate your rule's effectiveness while working in the Semgrep
-      Playground (see [example](https://semgrep.dev/s/ezxE)).
-    - **Note the limitations with comments**: Be aware that the Semgrep Playground does not retain comments when sharing
-      a link or "forking" a rule (Ctrl+S). Refer to this [GitHub issue](https://github.com/returntocorp/semgrep/issues/7120)
-       for more information.
+   for writing and testing rules. However, it is essential to consider the following points when using the Playground:
+   {{< hint danger >}}**Be cautious of privacy concerns**: The Semgrep Playground allows users to experiment with code
+   without downloading or installing software on their local machine. While this platform is helpful for testing
+   and debugging rules, it may expose sensitive information such as passwords, API keys, or other secrets contained
+   in the code you submit for scanning.
+   Always use a local development environment with proper security and privacy controls for sensitive code.{{< /hint >}} - **Employ the `simple mode`**: The Semgrep Playground's simple mode makes it easy to combine rule patterns. - **Use the `Share` button**: Share your rule and test code with others using the Share button. - **Add tests to your test code**: Incorporate [tests](https://semgrep.dev/docs/writing-rules/testing-rules/)
+   (e.g., `# ruleid: <id>`) into your test code to evaluate your rule's effectiveness while working in the Semgrep
+   Playground (see [example](https://semgrep.dev/s/ezxE)). - **Note the limitations with comments**: Be aware that the Semgrep Playground does not retain comments when sharing
+   a link or "forking" a rule (Ctrl+S). Refer to this [GitHub issue](https://github.com/returntocorp/semgrep/issues/7120)
+   for more information.
 
 ### Building blocks
 
@@ -167,11 +163,11 @@ rules:
 Now, let's break down the pattern components:
 
 1. `if ...:`: This part of the pattern matches any `if` statement, regardless of the condition being tested.
-The ellipsis within the `if` statement is a wildcard that matches any expression or code structure used as the condition.
-This flexibility ensures that the pattern can detect a wide range of `if` statements with various conditions.
+   The ellipsis within the `if` statement is a wildcard that matches any expression or code structure used as the condition.
+   This flexibility ensures that the pattern can detect a wide range of `if` statements with various conditions.
 2. `return ...`: Within the matched `if` block, the `return` statement is followed by an ellipsis. This wildcard matches
-any expression or value being returned. This allows the pattern to detect `return` statements with different values or
-expressions, such as `return True`, `return False`, `return x`, or `return calculate_result()`.
+   any expression or value being returned. This allows the pattern to detect `return` statements with different values or
+   expressions, such as `return True`, `return False`, `return x`, or `return calculate_result()`.
 3. `...` within the `else` block: The ellipsis in the `else` block is a wildcard that matches any number of statements.
 
 This pattern matches the following code snippet:
@@ -248,16 +244,16 @@ pattern matching or validation.
 Metavariables can be used in a variety of ways to enhance Semgrep rules, making
 them more dynamic and adaptable when analyzing code. Some common use cases include:
 
-1. **Matching variable names**: Metavariables can be used to match variable names in the code,
-allowing the rule to be flexible and applicable to various situations. For example:
+1.  **Matching variable names**: Metavariables can be used to match variable names in the code,
+    allowing the rule to be flexible and applicable to various situations. For example:
 
-    ```yaml
-    pattern: $X := $Y
-    ```
+        ```yaml
+        pattern: $X := $Y
+        ```
 
-    This pattern would match assignments like `a := b` or `result := calculation()`.
+        This pattern would match assignments like `a := b` or `result := calculation()`.
 
-2. **Capturing function calls**: Metavariables can be employed to capture function calls and their arguments.
+2.  **Capturing function calls**: Metavariables can be employed to capture function calls and their arguments.
     This can be useful for detecting potentially unsafe or deprecated functions. For example:
 
     ```yaml
@@ -266,48 +262,48 @@ allowing the rule to be flexible and applicable to various situations. For examp
 
     This pattern would match function calls like `dangerousFunc(input)` or `deprecatedFunc(arg1, arg2)`.
 
-3. **Matching control structures**: Metavariables can help identify specific control structures,
-such as loops or conditionals, with a particular focus on the expressions used within these structures. For example:
+3.  **Matching control structures**: Metavariables can help identify specific control structures,
+    such as loops or conditionals, with a particular focus on the expressions used within these structures. For example:
 
-    ```yaml
-    pattern: for $INDEX := $INIT; $COND; $UPDATE { ... }
-    ```
+        ```yaml
+        pattern: for $INDEX := $INIT; $COND; $UPDATE { ... }
+        ```
 
-    This pattern would match for-loops like `for i := 0; i < 10; i++ { ... }`.
+        This pattern would match for-loops like `for i := 0; i < 10; i++ { ... }`.
 
-4. **Comparing code patterns**: Metavariables can be used to compare different parts of the code to ensure consistency
-or prevent potential bugs. For example, you can detect cases where the same assignment is
-made in both branches of an `if-else` statement:
+4.  **Comparing code patterns**: Metavariables can be used to compare different parts of the code to ensure consistency
+    or prevent potential bugs. For example, you can detect cases where the same assignment is
+    made in both branches of an `if-else` statement:
 
-    ```yaml
-    pattern: if $COND { $X = $Y } else { $X = $Y }
-    ```
+        ```yaml
+        pattern: if $COND { $X = $Y } else { $X = $Y }
+        ```
 
-    This pattern would match code like:
+        This pattern would match code like:
 
-    ```go {linenos=inline}
-    if someCondition {
-        x = y
-    } else {
-        x = y
-    }
-    ```
+        ```go {linenos=inline}
+        if someCondition {
+            x = y
+        } else {
+            x = y
+        }
+        ```
 
-5. **Identifying patterns across multiple lines**: Metavariables can be employed to match and track values
-across multiple lines of code, making it possible to detect patterns that span several statements. For example:
+5.  **Identifying patterns across multiple lines**: Metavariables can be employed to match and track values
+    across multiple lines of code, making it possible to detect patterns that span several statements. For example:
 
-    ```yaml
-    pattern: |
-      $VAR1 := $EXPR1
-      $VAR2 := $VAR1
-    ```
+        ```yaml
+        pattern: |
+          $VAR1 := $EXPR1
+          $VAR2 := $VAR1
+        ```
 
-    This pattern would match code like the following:
+        This pattern would match code like the following:
 
-    ```go {linenos=inline}
-    a := b + c
-    d := a
-    ```
+        ```go {linenos=inline}
+        a := b + c
+        d := a
+        ```
 
 In conclusion, metavariables offer a powerful way to create dynamic and adaptable Semgrep rules. They help capture
 and track values across code scopes, enabling the identification of complex patterns and providing informative output
@@ -377,8 +373,8 @@ This rule matches the following HTML code:
 
 ```html {linenos=inline}
 <script>
-    console.log('test123');
-    eval(1+1);
+  console.log("test123");
+  eval(1 + 1);
 </script>
 ```
 
@@ -450,9 +446,9 @@ rules:
           metavariable: $Z
           patterns:
             - pattern-not: |
-                  -128
+                -128
             - pattern-not: |
-                  -32768
+                -32768
     severity: WARNING
 ```
 
@@ -545,13 +541,13 @@ regardless of how deeply nested it is.
 
 ```yaml {linenos=inline}
 rules:
-- id: deep-expression-example
-  pattern: |
+  - id: deep-expression-example
+    pattern: |
       if <... user.is_admin() ...>:
         print(...)
-  message: if statement with is_admin() check
-  languages: [python]
-  severity: WARNING
+    message: if statement with is_admin() check
+    languages: [python]
+    severity: WARNING
 ```
 
 This rule matches the following Python code:
@@ -572,17 +568,17 @@ Here's an example of how you might use `pattern-inside` to detect cases where a 
 
 ```yaml {linenos=inline}
 rules:
-- id: sensitive_function_in_loop
-  languages:
-    - python
-  message: "Sensitive function called inside a loop"
-  severity: WARNING
-  patterns:
-    - pattern-inside: |
-        for ... in ...:
-            ...
-    - pattern: |
-        sensitive_function(...)
+  - id: sensitive_function_in_loop
+    languages:
+      - python
+    message: "Sensitive function called inside a loop"
+    severity: WARNING
+    patterns:
+      - pattern-inside: |
+          for ... in ...:
+              ...
+      - pattern: |
+          sensitive_function(...)
 ```
 
 In this example, the `pattern-inside` operator is used to match any `for` loop in Python, and the second
@@ -618,17 +614,17 @@ function when they occur outside a `if debug:` block:
 
 ```yaml {linenos=inline}
 rules:
-- id: print_debug_outside_debug_block
-  languages:
-    - python
-  message: "print_debug() should be called inside a 'if debug:' block"
-  severity: WARNING
-  patterns:
-    - pattern-not-inside: |
-        if debug:
-            ...
-    - pattern: |
-        print_debug(...)
+  - id: print_debug_outside_debug_block
+    languages:
+      - python
+    message: "print_debug() should be called inside a 'if debug:' block"
+    severity: WARNING
+    patterns:
+      - pattern-not-inside: |
+          if debug:
+              ...
+      - pattern: |
+          print_debug(...)
 ```
 
 Here is a Python code example demonstrating the use of this rule:
@@ -665,20 +661,20 @@ combines `pattern-inside` and `pattern-not-inside` operators to achieve this.
 
 ```yaml {linenos=inline}
 rules:
-- id: print_calls_outside_main
-  languages:
-    - python
-  message: "print() calls should only be inside the main() function"
-  severity: WARNING
-  patterns:
-    - pattern-inside: |
-        def $X(...):
-            ...
-    - pattern-not-inside: |
-        def main(...):
-            ...
-    - pattern: |
-        print(...)
+  - id: print_calls_outside_main
+    languages:
+      - python
+    message: "print() calls should only be inside the main() function"
+    severity: WARNING
+    patterns:
+      - pattern-inside: |
+          def $X(...):
+              ...
+      - pattern-not-inside: |
+          def main(...):
+              ...
+      - pattern: |
+          print(...)
 ```
 
 In this example, the `pattern-inside` operator matches any function definition, while
@@ -707,13 +703,14 @@ def other_function():
 Taint mode is a powerful feature in Semgrep that can track the flow of data from one location to another.
 By using taint mode, you can:
 
-1) **Track data flow across multiple variables:** Taint mode enables you to trace how data moves across different variables,
-functions, components, and allows you to easily identify insecure flow paths (e.g., situations where a specific sanitizer
-is not used).
-2) **Find injection vulnerabilities:** Taint mode is particularly useful for identifying injection vulnerabilities such as
-SQL injection, command injection, and XSS attacks.
-3) **Write simple and resilient Semgrep rules:** Taint mode simplifies the process of writing Semgrep rules that are resilient
-to certain code patterns nested in `if` statements, loops, and other structures.
+1. **Track data flow across multiple variables:** Taint mode enables you to trace how data moves across different variables,
+   functions, components, and allows you to easily identify insecure flow paths (e.g., situations where a specific sanitizer
+   is not used).
+   Use the `--dataflow-traces` flag to understand how non-local values contribute to a finding. This option generates detailed output showing the data flow between variables, function calls, and other code elements that lead to the reported issue. [Learn more here](https://appsec.guide/docs/static-analysis/semgrep/installation/#running-semgrep)
+1. **Find injection vulnerabilities:** Taint mode is particularly useful for identifying injection vulnerabilities such as
+   SQL injection, command injection, and XSS attacks.
+1. **Write simple and resilient Semgrep rules:** Taint mode simplifies the process of writing Semgrep rules that are resilient
+   to certain code patterns nested in `if` statements, loops, and other structures.
 
 To use taint mode, you need to set the `mode: taint` and specify `pattern-sources`/`pattern-sinks` fields in your custom
 Semgrep rule.
@@ -736,11 +733,11 @@ rules:
 Optionally, you can use additional fields in your Semgrep rule to further refine your taint analysis:
 
 - `pattern-propagators`: This field allows you to specify functions or methods that propagate tainted data
-([example](https://semgrep.dev/s/7Nrv)). You can also refer to
-[sanitizers by side-effect](https://semgrep.dev/docs/writing-rules/data-flow/taint-mode/#sanitizers-by-side-effect) for
-more information.
+  ([example](https://semgrep.dev/s/7Nrv)). You can also refer to
+  [sanitizers by side-effect](https://semgrep.dev/docs/writing-rules/data-flow/taint-mode/#sanitizers-by-side-effect) for
+  more information.
 - `pattern-sanitizers`: This field allows you to specify functions or methods that sanitize tainted data.
-For more information, see the [taint mode documentation](https://semgrep.dev/docs/writing-rules/data-flow/taint-mode/#propagators).
+  For more information, see the [taint mode documentation](https://semgrep.dev/docs/writing-rules/data-flow/taint-mode/#propagators).
 
 ### Combining patterns
 
@@ -749,52 +746,52 @@ isn't sufficient to capture the behavior you want to detect. In these cases, you
 patterns:
 
 - `patterns`: This method combines multiple patterns with a logical AND (&&). In other words,
-all patterns must match for the rule to trigger. This is useful when you want to detect code snippets that satisfy
-multiple conditions simultaneously.
+  all patterns must match for the rule to trigger. This is useful when you want to detect code snippets that satisfy
+  multiple conditions simultaneously.
 - `pattern-either`: This method combines multiple patterns with a logical OR (||). In other words, if any of the
-patterns match, the rule triggers. This is useful when you want to detect code snippets satisfying at least one
-specified condition.
+  patterns match, the rule triggers. This is useful when you want to detect code snippets satisfying at least one
+  specified condition.
 
-    Suppose you want to detect calls to two insecure functions, `insecure_function_1()` and `insecure_function_2()`.
-    You can use the `pattern-either` operator to achieve this.
+      Suppose you want to detect calls to two insecure functions, `insecure_function_1()` and `insecure_function_2()`.
+      You can use the `pattern-either` operator to achieve this.
 
-    ```yaml {linenos=inline}
-    rules:
-    - id: insecure_function_calls
-      languages:
-        - python
-      message: "Call to an insecure function detected"
-      severity: WARNING
-      patterns:
-        - pattern-either:
-            - pattern: |
-                insecure_function_1(...)
-            - pattern: |
-                insecure_function_2(...)
-    ```
+      ```yaml {linenos=inline}
+      rules:
+      - id: insecure_function_calls
+        languages:
+          - python
+        message: "Call to an insecure function detected"
+        severity: WARNING
+        patterns:
+          - pattern-either:
+              - pattern: |
+                  insecure_function_1(...)
+              - pattern: |
+                  insecure_function_2(...)
+      ```
 
-    In this example, the `pattern-either` operator is used to match calls to either `insecure_function_1()`
-    or `insecure_function_2()`. The rule will trigger if any of these patterns are matched.
+      In this example, the `pattern-either` operator is used to match calls to either `insecure_function_1()`
+      or `insecure_function_2()`. The rule will trigger if any of these patterns are matched.
 
-    Here's an example of Python code that triggers the `insecure_function_calls` rule:
+      Here's an example of Python code that triggers the `insecure_function_calls` rule:
 
-    ```yaml {linenos=inline, hl_lines=[9,12]}
-    def insecure_function_1():
-        print("Insecure function 1 called")
+      ```yaml {linenos=inline, hl_lines=[9,12]}
+      def insecure_function_1():
+          print("Insecure function 1 called")
 
-    def insecure_function_2():
-        print("Insecure function 2 called")
+      def insecure_function_2():
+          print("Insecure function 2 called")
 
-    def main():
-        # Call to insecure_function_1() triggers the rule
-        insecure_function_1()
+      def main():
+          # Call to insecure_function_1() triggers the rule
+          insecure_function_1()
 
-        # Call to insecure_function_2() also triggers the rule
-        insecure_function_2()
-    ```
+          # Call to insecure_function_2() also triggers the rule
+          insecure_function_2()
+      ```
 
 - `pattern-regex`: This matches code with a [PCRE](https://www.pcre.org/original/doc/html/pcrepattern.html)-compatible
-pattern in multiline mode. In other words, it matches code using a regular expression pattern.
+  pattern in multiline mode. In other words, it matches code using a regular expression pattern.
 
 #### Rule syntax diagram
 
@@ -807,16 +804,16 @@ flowchart TB
 
 Fields{Rule Fields} ---->|Only one is allowed| Required{Required}
 click Fields "https://semgrep.dev/docs/writing-rules/rule-syntax/#optional:~:text=Rule%20syntax-,Rule%20syntax,-TIP"
-    Required ==> id
-    click id "https://semgrep.dev/docs/writing-rules/rule-syntax/#optional:~:text=Description-,id,-string"
-    Required ==> message
-    click message "https://semgrep.dev/docs/writing-rules/rule-syntax/#optional:~:text=no%2Dunused%2Dvariable-,message,-string"
-    Required ==> severity
-    click severity "https://semgrep.dev/docs/writing-rules/rule-syntax/#optional:~:text=Rule%20messages.-,severity,-string"
-    Required ==> languages((languages))
-    click languages "https://semgrep.dev/docs/writing-rules/rule-syntax/#language-extensions-and-tags"
-    Required ===>|Only one is required| Pattern_Fields{Pattern Fields}
-    click Pattern_Fields "https://semgrep.dev/docs/writing-rules/rule-syntax/#optional:~:text=pattern*,in%20multiline%20mode"
+Required ==> id
+click id "https://semgrep.dev/docs/writing-rules/rule-syntax/#optional:~:text=Description-,id,-string"
+Required ==> message
+click message "https://semgrep.dev/docs/writing-rules/rule-syntax/#optional:~:text=no%2Dunused%2Dvariable-,message,-string"
+Required ==> severity
+click severity "https://semgrep.dev/docs/writing-rules/rule-syntax/#optional:~:text=Rule%20messages.-,severity,-string"
+Required ==> languages((languages))
+click languages "https://semgrep.dev/docs/writing-rules/rule-syntax/#language-extensions-and-tags"
+Required ===>|Only one is required| Pattern_Fields{Pattern Fields}
+click Pattern_Fields "https://semgrep.dev/docs/writing-rules/rule-syntax/#optional:~:text=pattern*,in%20multiline%20mode"
 
 click Required "https://semgrep.dev/docs/writing-rules/rule-syntax/#required"
 
@@ -838,23 +835,23 @@ patterns -.-> pattern-inside
 
 patterns <-..-> metavariable-pattern{metavariable-pattern}
 click metavariable-pattern "https://semgrep.dev/docs/writing-rules/rule-syntax/#metavariable-pattern"
-    metavariable-pattern --> metavariable2[metavariable]
-    metavariable-pattern -.-> language
-    metavariable-pattern -.-> pattern
-    metavariable-pattern -.-> pattern-either
-    metavariable-pattern -.-> pattern-regex
+metavariable-pattern --> metavariable2[metavariable]
+metavariable-pattern -.-> language
+metavariable-pattern -.-> pattern
+metavariable-pattern -.-> pattern-either
+metavariable-pattern -.-> pattern-regex
 
 patterns -.-> metavariable-regex{metavariable-regex}
 click metavariable-regex "https://semgrep.dev/docs/writing-rules/rule-syntax/#metavariable-regex"
-    metavariable-regex --> metavariable
-    metavariable-regex --> regex
+metavariable-regex --> metavariable
+metavariable-regex --> regex
 
 patterns -.-> metavariable-comparison{metavariable-comparison}
 click metavariable-comparison "https://semgrep.dev/docs/writing-rules/rule-syntax/#metavariable-comparison"
-    metavariable-comparison --> metavariable3[metavariable]
-    metavariable-comparison --> comparison
-    metavariable-comparison -.-> base
-    metavariable-comparison -.-> strip
+metavariable-comparison --> metavariable3[metavariable]
+metavariable-comparison --> comparison
+metavariable-comparison -.-> base
+metavariable-comparison -.-> strip
 
 patterns -.-> pattern
 patterns -.-> pattern-not
@@ -929,17 +926,16 @@ In addition to providing context and guidance to developers, there are several o
 might want to use Semgrep metadata:
 
 1. **Standardization.** Using metadata fields consistently across all of your organization's Semgrep rules ensures that
-developers see the same types of information and recommendations no matter which rules they encounter.
-This can help standardize the security review process and simplify prioritizing and addressing issues.
+   developers see the same types of information and recommendations no matter which rules they encounter.
+   This can help standardize the security review process and simplify prioritizing and addressing issues.
    - Example: [By including fields required by the security category in the Semgrep Registry](https://semgrep.dev/docs/contributing/contributing-to-semgrep-rules-repository/#including-fields-required-by-security-category),
-   developers will prioritize findings with high `confidence` and high `impact` metadata.
+     developers will prioritize findings with high `confidence` and high `impact` metadata.
 2. **Collaboration.** Including author information in your Semgrep rules can make it easier for other organization members
-to collaborate on security issues.
-    - Example: Suppose someone has a question or needs more information about a particular rule. In that case, they can
-    contact the `author` directly for clarification.
+   to collaborate on security issues. - Example: Suppose someone has a question or needs more information about a particular rule. In that case, they can
+   contact the `author` directly for clarification.
 3. **Compliance.** Suppose your organization needs to comply with specific security regulations or standards.
-In this case, you could include a `compliance` metadata field in your Semgrep rules, indicating which regulation or
-standard the rule relates to. This helps ensure that your codebase complies with all relevant requirements.
+   In this case, you could include a `compliance` metadata field in your Semgrep rules, indicating which regulation or
+   standard the rule relates to. This helps ensure that your codebase complies with all relevant requirements.
 
 You can create any metadata field, as demonstrated in the [hooray-taint-mode](https://semgrep.dev/playground/s/4K3g) rule.
 
@@ -948,10 +944,10 @@ We recommend including the following metadata fields required by the security ca
 1. `cwe`: A [Common Weakness Enumeration](https://cwe.mitre.org/index.html) identifier that classifies the security issue.
 2. `confidence`: An assessment of the rule's accuracy, represented as high, medium, or low.
 3. `likelihood`: An estimation of the probability that the detected issue will be exploited, represented as high,
-medium, or low.
+   medium, or low.
 4. `impact`: A measure of the potential damage caused by exploiting the detected issue, represented as high, medium, or low.
 5. `subcategory`: A more specific classification of the rule, falling under one of the following categories:
-[vuln, audit, or guardrail](https://semgrep.dev/docs/contributing/contributing-to-semgrep-rules-repository/#subcategory).
+   [vuln, audit, or guardrail](https://semgrep.dev/docs/contributing/contributing-to-semgrep-rules-repository/#subcategory).
 
 By including these metadata fields, you provide valuable context and help users better understand the security
 implications of the issues detected by your rule.
@@ -985,16 +981,16 @@ See this [pattern-not-with-pattern-either example](https://semgrep.dev/s/5N96)
 
 ```yaml {linenos=inline}
 rules:
-- id: pattern-not-in-pattern-either
-  patterns:
-    - pattern-either:
-       - pattern: a(...)
-       - pattern: b(...)
-       - pattern: c(...)
-    - pattern-not: a(x)
-  message: pattern either with one negative pattern
-  languages: [python]
-  severity: WARNING
+  - id: pattern-not-in-pattern-either
+    patterns:
+      - pattern-either:
+          - pattern: a(...)
+          - pattern: b(...)
+          - pattern: c(...)
+      - pattern-not: a(x)
+    message: pattern either with one negative pattern
+    languages: [python]
+    severity: WARNING
 ```
 
 ### Maintaining good quality of Semgrep rules
@@ -1015,12 +1011,12 @@ When running into issues while working on custom rules, several resources are av
 Two of the most valuable resources are the following:
 
 - The [Semgrep Community Slack](https://go.semgrep.dev/slack) is a great place to ask for help with custom rule
-development. The channel is staffed by knowledgeable developers familiar with Semgrep's architecture and syntax.
-They are usually quick to respond to questions. They can guide you in structuring your rules and in debugging any issues
-that arise. Additionally, the Slack channel is a great place to connect with other developers working on similar
-projects, allowing you to learn from others' experiences and share your insights.
+  development. The channel is staffed by knowledgeable developers familiar with Semgrep's architecture and syntax.
+  They are usually quick to respond to questions. They can guide you in structuring your rules and in debugging any issues
+  that arise. Additionally, the Slack channel is a great place to connect with other developers working on similar
+  projects, allowing you to learn from others' experiences and share your insights.
 - Use [Semgrep GitHub issues](https://github.com/returntocorp/semgrep/issues) to report bugs, suggest new features, and
-ask for help with specific issues.
+  ask for help with specific issues.
 
 ## Thoroughly testing Semgrep rules for optimal performance
 
@@ -1036,22 +1032,15 @@ A well-rounded test suite for a custom Semgrep rule should cover multiple aspect
 When designing test cases, consider the following:
 
 1. **Create a file containing code samples**: Create a file containing code with the same name as the rule.
-For example, if your rule filename is `unsafe-exec.yml`, create a corresponding `unsafe-exec.py` file with sample code.
+   For example, if your rule filename is `unsafe-exec.yml`, create a corresponding `unsafe-exec.py` file with sample code.
 2. **Incorporate a diverse range of code samples**: Adhere to the following guidelines when adding code samples to the
-test file:
-    - Include at least one true positive comment (e.g., `// ruleid: id-of-your-rule`).
-    - Include at least one true negative comment (e.g., `// ok: id-of-your-rule`).
-    - Start with simple, descriptive examples that are easy to understand.
-    - Progress to more advanced, complex examples, such as those involving nested structures (e.g., inside an `if` statement)
-    or deep expressions.
-    - Include edge cases that may challenge the rule's accuracy or efficiency, such as large input values, complex code
-    structures, or unusual data types.
-    - Test the rule against different language features and constructs, including loops, conditionals, classes, and functions.
-    - Intentionally create code samples that should not trigger the rule, and ensure that the rule does not produce
-     false positives in these cases.
+   test file: - Include at least one true positive comment (e.g., `// ruleid: id-of-your-rule`). - Include at least one true negative comment (e.g., `// ok: id-of-your-rule`). - Start with simple, descriptive examples that are easy to understand. - Progress to more advanced, complex examples, such as those involving nested structures (e.g., inside an `if` statement)
+   or deep expressions. - Include edge cases that may challenge the rule's accuracy or efficiency, such as large input values, complex code
+   structures, or unusual data types. - Test the rule against different language features and constructs, including loops, conditionals, classes, and functions. - Intentionally create code samples that should not trigger the rule, and ensure that the rule does not produce
+   false positives in these cases.
 3. **Ensure all tests pass**: Run the `$ semgrep --test` command to verify that all test cases pass.
 4. **Evaluate the rule against real-world code**: Test the rule against actual code from your projects,
-open-source repositories, or other codebases to assess its effectiveness in real-life scenarios.
+   open-source repositories, or other codebases to assess its effectiveness in real-life scenarios.
 
 ## Autofix feature
 
@@ -1060,7 +1049,7 @@ The autofix feature can automatically correct identified vulnerabilities, potent
 There are many benefits to using the autofix feature:
 
 - Training every developer on all the best practices for large code bases is not feasible. Autofixes can help fill in
-the gaps and provide guidance as needed.
+  the gaps and provide guidance as needed.
 - Autofixes maintain developer focus by removing monotonous changes, allowing them to concentrate on more complex tasks.
 - Adding autofixes allows developers to be educated and trained on new best practices as they are introduced into the codebase.
 - Autofixes can provide on-demand fixes and are much more actionable and educational than simple lint warnings.
@@ -1072,7 +1061,7 @@ the gaps and provide guidance as needed.
 Follow these steps to develop a rule with the autofix feature (see the [ioutil-readdir-deprecated](https://semgrep.dev/s/wPEX)
 rule with the autofix feature implemented):
 
-1. Add the `fix` key to a rule, specifying the replacement pattern for the identified vulnerability.
+1.  Add the `fix` key to a rule, specifying the replacement pattern for the identified vulnerability.
 
     Here is an example rule with the autofix feature:
 
@@ -1111,7 +1100,7 @@ rule with the autofix feature implemented):
     }
     ```
 
-2. Run the rule using the standard command to confirm that the rule is detecting the intended issue:
+2.  Run the rule using the standard command to confirm that the rule is detecting the intended issue:
 
     ```bash
     $ semgrep -f rule.yaml
@@ -1127,52 +1116,52 @@ rule with the autofix feature implemented):
     # (...)
     ```
 
-3. Run the rule with the `--dryrun` and the `--autofix` options to preview the behavior of the autofix feature on the code
-without making any changes to the analyzed code:
+3.  Run the rule with the `--dryrun` and the `--autofix` options to preview the behavior of the autofix feature on the code
+    without making any changes to the analyzed code:
 
-    ```bash
-    $ semgrep -f rule.yaml --dryrun --autofix
-    # (...)
-    Findings:
+        ```bash
+        $ semgrep -f rule.yaml --dryrun --autofix
+        # (...)
+        Findings:
 
-      readdir.go
-        ioutil-readdir-deprecated
-            ioutil.ReadDir is deprecated. Use more efficient os.ReadDir.
+          readdir.go
+            ioutil-readdir-deprecated
+                ioutil.ReadDir is deprecated. Use more efficient os.ReadDir.
 
-            ▶▶┆ Autofix ▶ os.ReadDir(".")
-            11┆ files, err := os.ReadDir(".")
-    # (...)
-    ```
+                ▶▶┆ Autofix ▶ os.ReadDir(".")
+                11┆ files, err := os.ReadDir(".")
+        # (...)
+        ```
 
-4. Create a new test file for the autofix by adding the `.fixed` suffix in front of the file extension
-(e.g., `readdir.go` -> `readdir.fixed.go`). This file should contain the expected output after the autofix is applied.
+4.  Create a new test file for the autofix by adding the `.fixed` suffix in front of the file extension
+    (e.g., `readdir.go` -> `readdir.fixed.go`). This file should contain the expected output after the autofix is applied.
 
-    Content of the `readdir.fixed.go` file:
+        Content of the `readdir.fixed.go` file:
 
-    ```go {linenos=inline}
-    package main
+        ```go {linenos=inline}
+        package main
 
-    import (
-      "fmt"
-      "io/ioutil"
-      "log"
-      "os"
-    )
+        import (
+          "fmt"
+          "io/ioutil"
+          "log"
+          "os"
+        )
 
-    func main() {
-        // ruleid: ioutil-readdir-deprecated
-      files, err := os.ReadDir(".")
-      if err != nil {
-        log.Fatal(err)
-      }
+        func main() {
+            // ruleid: ioutil-readdir-deprecated
+          files, err := os.ReadDir(".")
+          if err != nil {
+            log.Fatal(err)
+          }
 
-      for _, file := range files {
-        fmt.Println(file.Name())
-      }
-    }
-    ```
+          for _, file := range files {
+            fmt.Println(file.Name())
+          }
+        }
+        ```
 
-5. Run the test to confirm that the autofix is working as expected:
+5.  Run the test to confirm that the autofix is working as expected:
 
     ```shell
     $ semgrep --test
@@ -1180,7 +1169,7 @@ without making any changes to the analyzed code:
     1/1: ✓ All fix tests passed
     ```
 
-6. Now you are ready to apply autofix to the analyzed file with the `--autofix` option.
+6.  Now you are ready to apply autofix to the analyzed file with the `--autofix` option.
 
     ```shell
     $ semgrep -f rule.yaml --autofix
@@ -1212,8 +1201,8 @@ on [Autofix with regular expression replacement](https://semgrep.dev/docs/writin
 Optimizing your Semgrep rules is crucial for maintaining high performance and minimizing false positives.
 This section will guide how to create efficient and accurate Semgrep rules.
 
-1. **Analyze time summary**: To include a time summary with the results, use the `--time` flag. This will provide the
-   following information:
+1.  **Analyze time summary**: To include a time summary with the results, use the `--time` flag. This will provide the
+    following information:
     - Total time / Config time / Core time
     - Semgrep-core time
       - Total CPU time
@@ -1222,168 +1211,170 @@ This section will guide how to create efficient and accurate Semgrep rules.
       - Matching time
     - Slowest five analyzed files
     - Slowest five rules to match
-2. **Narrow down findings to specific file paths**: Assess whether findings should be limited to specific file paths
- (e.g., Dockerfiles).
+2.  **Narrow down findings to specific file paths**: Assess whether findings should be limited to specific file paths
+    (e.g., Dockerfiles).
+
     - You can apply particular rules to certain paths using the `paths` keyword. For example, the
       [avoid-apt-get-upgrade](https://semgrep.dev/playground/r/generic.dockerfile.best-practice.avoid-apt-get-upgrade.avoid-apt-get-upgrade)
       rule targets only Dockerfiles:
 
-        ```yaml {linenos=inline,linenostart=17}
-          paths:
-              include:
-                - "*dockerfile*"
-                - "*Dockerfile*"
-        ```
+      ```yaml {linenos=inline,linenostart=17}
+      paths:
+        include:
+          - "*dockerfile*"
+          - "*Dockerfile*"
+      ```
 
-3. **Use `pattern-inside` and `pattern-not-inside`**: The `pattern-inside` and `pattern-not-inside` clauses allow you to
-specify a context in which a pattern should or should not be matched, respectively.
+3.  **Use `pattern-inside` and `pattern-not-inside`**: The `pattern-inside` and `pattern-not-inside` clauses allow you to
+    specify a context in which a pattern should or should not be matched, respectively.
 
-    Consider a scenario where you want to identify calls to `insecure_function()` within a loop,
-    followed by a specific statement, such as a call to `log_data()`, but only when the log level is set to `DEBUG`.
+        Consider a scenario where you want to identify calls to `insecure_function()` within a loop,
+        followed by a specific statement, such as a call to `log_data()`, but only when the log level is set to `DEBUG`.
 
-    Initially, you can achieve this by using one `pattern` statement:
+        Initially, you can achieve this by using one `pattern` statement:
 
-    ```yaml {linenos=inline}
-    rules:
-    - id: insecure_function_in_loop_followed_by_debug_log
-      languages: [python]
-      message: |
-        Insecure function called within a loop
-        followed by log_data() with log level DEBUG
-      severity: WARNING
-      pattern: |
-        for ... in ...:
-            ...
-            insecure_function(...)
-            ...
-            log_data("DEBUG", ...)
-    ```
-
-    Here's an example of Python code that triggers the `insecure_function_in_loop_followed_by_debug_log` rule:
-
-    ```python {linenos=inline, hl_lines=["11-17"]}
-    def insecure_function():
-        print("Insecure function called")
-
-    def log_data(log_level, msg):
-        if log_level == "DEBUG":
-            print("DEBUG:", msg)
-
-    def main():
-        data_list = ['data1', 'data2', 'data3']
-
-    for data in data_list:
-        # Call to insecure_function() within a loop,
-        # followed by log_data() with log level DEBUG triggers the rule
-        insecure_function()
-        other_function()
-        function1337()
-        log_data("DEBUG", "Insecure function called with data: " + data)
-    ```
-
-    Running the `insecure_function_in_loop_followed_by_debug_log` rule may not provide the clearest output,
-    as it displays the entire `for` loop:
-
-    ```shell
-    $ semgrep -f insecure_function_in_loop_followed_by_debug_log.yml
-    # (...)
-      insecure_function_in_loop_followed_by_debug_log
-        Insecure function called within a loop followed by log_data() with log level DEBUG
-
-        11┆ for data in data_list:
-        12┆  # Call to insecure_function() within a loop,
-        13┆  # followed by log_data() with log level DEBUG triggers the rule
-        14┆  insecure_function()
-        15┆  other_function()
-        16┆  function1337()
-        17┆  log_data("DEBUG", "Insecure function called with data: " + data)
-    ```
-
-    For such findings, only the calls to `insecure_function()` might be of critical importance. To improve the output,
-    you can use the following clauses instead:
-    1. `patterns`: This clause combines two sub-patterns with a logical AND operator, meaning all sub-patterns
-       must match:
-
-          a. `pattern-inside`: This clause matches any `for` loop in the Python code, establishing the context for
-            the subsequent patterns. It sets a condition that must be met for the rule to trigger, acting
-            as the first part of a logical AND operation.
-
-          b. `pattern`: This sub-pattern matches calls to any function followed by a call to `log_data("DEBUG", ...)`.
-            The rule potentially triggers if this `pattern` and the previous `pattern-inside` match.
-
-          c. `focus-metavariable`: This operator focuses the finding on the line of code matched by `$FUNC`.
-
-          d. `metavariable-pattern`: This sub-pattern restricts `$FUNC` to functions called `insecure_function`.
-
-    Here is a fixed version of the `insecure_function_in_loop_followed_by_debug_log` rule:
-
-    ```yaml {linenos=inline}
-    rules:
-    - id: insecure_function_in_loop_followed_by_debug_log_fixed
-      languages: [python]
-      message: |
-        Insecure function called within a loop
-        followed by log_data() with log level DEBUG
-      severity: WARNING
-      patterns:
-        - pattern-inside: |
+        ```yaml {linenos=inline}
+        rules:
+        - id: insecure_function_in_loop_followed_by_debug_log
+          languages: [python]
+          message: |
+            Insecure function called within a loop
+            followed by log_data() with log level DEBUG
+          severity: WARNING
+          pattern: |
             for ... in ...:
                 ...
-        - pattern: |
-            $FUNC(...)
-            ...
-            log_data("DEBUG", ...)
-        - focus-metavariable: $FUNC
-        - metavariable-pattern:
-            metavariable: $FUNC
-            pattern: insecure_function
-    ```
+                insecure_function(...)
+                ...
+                log_data("DEBUG", ...)
+        ```
 
-    Running the `insecure_function_in_loop_followed_by_debug_log_fixed` Semgrep rule will produce a more concise and
-    focused output:
+        Here's an example of Python code that triggers the `insecure_function_in_loop_followed_by_debug_log` rule:
 
-    ```shell
-    $ semgrep -f insecure_function_in_loop_followed_by_debug_log_fixed.yml
-    # (...)
-      insecure_function_in_loop_followed_by_debug_log_fixed
-          Insecure function called within a loop followed by log_data() with log level DEBUG
+        ```python {linenos=inline, hl_lines=["11-17"]}
+        def insecure_function():
+            print("Insecure function called")
 
-          13┆ insecure_function()
-    ```
+        def log_data(log_level, msg):
+            if log_level == "DEBUG":
+                print("DEBUG:", msg)
 
-4. **Minimize the use of ellipses** `...`: While ellipses are a powerful tool for matching a wide range of code snippets,
-they can lead to performance issues and false positives when overused. Limit the use of ellipses to situations necessary
-for accurate pattern matching.
-5. **Determine the necessity of metavariables**: Before using a metavariable in your rule, determine if it is truly necessary.
-Metavariables can be useful for capturing and comparing values, but if a metavariable is unnecessary for your rule
-to function correctly, consider removing it.
+        def main():
+            data_list = ['data1', 'data2', 'data3']
 
-    For example, consider the following Semgrep rule that uses a metavariable `$X`:
+        for data in data_list:
+            # Call to insecure_function() within a loop,
+            # followed by log_data() with log level DEBUG triggers the rule
+            insecure_function()
+            other_function()
+            function1337()
+            log_data("DEBUG", "Insecure function called with data: " + data)
+        ```
 
-    ```yaml {linenos=inline}
-    rules:
-      - id: unnecessary_metavariable_example
-        languages: [python]
-        message: The variable is assigned the value 123
-        pattern: $X = 123
-        severity: WARNING
-    ```
+        Running the `insecure_function_in_loop_followed_by_debug_log` rule may not provide the clearest output,
+        as it displays the entire `for` loop:
 
-    This rule matches any variable assignment with the value `123`. However, the metavariable `$X` might be unnecessary
-    if you don't need to capture the variable name. In this case, you can use the `...` operator instead, which matches any
-    expression:
+        ```shell
+        $ semgrep -f insecure_function_in_loop_followed_by_debug_log.yml
+        # (...)
+          insecure_function_in_loop_followed_by_debug_log
+            Insecure function called within a loop followed by log_data() with log level DEBUG
 
-    ```yaml {linenos=inline}
-    rules:
-      - id: without_metavariable_example
-        languages: [python]
-        message: A variable is assigned the value 123
-        pattern: ... = 123
-        severity: WARNING
-    ```
+            11┆ for data in data_list:
+            12┆  # Call to insecure_function() within a loop,
+            13┆  # followed by log_data() with log level DEBUG triggers the rule
+            14┆  insecure_function()
+            15┆  other_function()
+            16┆  function1337()
+            17┆  log_data("DEBUG", "Insecure function called with data: " + data)
+        ```
 
-    By replacing the `$X` metavariable with the `...` operator, you can reduce the complexity and improve the performance
-    of your rule without losing the intended functionality. This approach should be used when the metavariable is not essential
-    for the rule's purpose or subsequent comparisons or checks.
-6. **Test your rules with real-world code**: To ensure the effectiveness of your rules, test them with real-world code samples.
-   This lets you identify potential issues and false positives before deploying your rules in a production environment.
+        For such findings, only the calls to `insecure_function()` might be of critical importance. To improve the output,
+        you can use the following clauses instead:
+        1. `patterns`: This clause combines two sub-patterns with a logical AND operator, meaning all sub-patterns
+           must match:
+
+              a. `pattern-inside`: This clause matches any `for` loop in the Python code, establishing the context for
+                the subsequent patterns. It sets a condition that must be met for the rule to trigger, acting
+                as the first part of a logical AND operation.
+
+              b. `pattern`: This sub-pattern matches calls to any function followed by a call to `log_data("DEBUG", ...)`.
+                The rule potentially triggers if this `pattern` and the previous `pattern-inside` match.
+
+              c. `focus-metavariable`: This operator focuses the finding on the line of code matched by `$FUNC`.
+
+              d. `metavariable-pattern`: This sub-pattern restricts `$FUNC` to functions called `insecure_function`.
+
+        Here is a fixed version of the `insecure_function_in_loop_followed_by_debug_log` rule:
+
+        ```yaml {linenos=inline}
+        rules:
+        - id: insecure_function_in_loop_followed_by_debug_log_fixed
+          languages: [python]
+          message: |
+            Insecure function called within a loop
+            followed by log_data() with log level DEBUG
+          severity: WARNING
+          patterns:
+            - pattern-inside: |
+                for ... in ...:
+                    ...
+            - pattern: |
+                $FUNC(...)
+                ...
+                log_data("DEBUG", ...)
+            - focus-metavariable: $FUNC
+            - metavariable-pattern:
+                metavariable: $FUNC
+                pattern: insecure_function
+        ```
+
+        Running the `insecure_function_in_loop_followed_by_debug_log_fixed` Semgrep rule will produce a more concise and
+        focused output:
+
+        ```shell
+        $ semgrep -f insecure_function_in_loop_followed_by_debug_log_fixed.yml
+        # (...)
+          insecure_function_in_loop_followed_by_debug_log_fixed
+              Insecure function called within a loop followed by log_data() with log level DEBUG
+
+              13┆ insecure_function()
+        ```
+
+4.  **Minimize the use of ellipses** `...`: While ellipses are a powerful tool for matching a wide range of code snippets,
+    they can lead to performance issues and false positives when overused. Limit the use of ellipses to situations necessary
+    for accurate pattern matching.
+5.  **Determine the necessity of metavariables**: Before using a metavariable in your rule, determine if it is truly necessary.
+    Metavariables can be useful for capturing and comparing values, but if a metavariable is unnecessary for your rule
+    to function correctly, consider removing it.
+
+        For example, consider the following Semgrep rule that uses a metavariable `$X`:
+
+        ```yaml {linenos=inline}
+        rules:
+          - id: unnecessary_metavariable_example
+            languages: [python]
+            message: The variable is assigned the value 123
+            pattern: $X = 123
+            severity: WARNING
+        ```
+
+        This rule matches any variable assignment with the value `123`. However, the metavariable `$X` might be unnecessary
+        if you don't need to capture the variable name. In this case, you can use the `...` operator instead, which matches any
+        expression:
+
+        ```yaml {linenos=inline}
+        rules:
+          - id: without_metavariable_example
+            languages: [python]
+            message: A variable is assigned the value 123
+            pattern: ... = 123
+            severity: WARNING
+        ```
+
+        By replacing the `$X` metavariable with the `...` operator, you can reduce the complexity and improve the performance
+        of your rule without losing the intended functionality. This approach should be used when the metavariable is not essential
+        for the rule's purpose or subsequent comparisons or checks.
+
+6.  **Test your rules with real-world code**: To ensure the effectiveness of your rules, test them with real-world code samples.
+    This lets you identify potential issues and false positives before deploying your rules in a production environment.
