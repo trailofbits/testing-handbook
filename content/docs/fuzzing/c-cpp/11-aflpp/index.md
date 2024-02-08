@@ -810,33 +810,15 @@ When running the fuzzer, the above heap-buffer overflow will be discovered by th
 ## Real-world examples {#real-world-examples}
 ### libpng {#libpng}
 
-If you are fuzzing C projects that produce static libraries, you can follow this recipe:
-
-1. Read the `INSTALL` file in the project's codebase (or other appropriate documentation) and find out how to create a static library.
-2. Set the compiler to Clang, and pass additional flags to the compiler during compilation.
-3. Build the static library, set the environment variable `AFL_USE_ASAN=1`, and pass the flag `-fsanitize=fuzzer-no-link `to the C compiler, which enables fuzzing-related instrumentations, without linking in the fuzzing engine. The runtime, which includes the `main` symbol, is linked later when using the `-fsanitize=fuzzer` flag. The build step will create a static library, which we will refer to as `$static_library`. The environment variable enables ASan to detect memory corruption.
-4. Find the compiled static library from step 3 and call: `./afl++ <host/docker> AFL_USE_ASAN=1 afl-clang-fast++ -fsanitize=fuzzer $static_library harness.cc -o fuzz`.
-5. You can start fuzzing by calling `./afl++ <host/docker> afl-fuzz -i seeds -o out -- ./fuzz`.
-
-Let's go through these instructions for the well-known libpng library. First, we get the source code:
-
-
-```shell
-curl -L -O https://downloads.sourceforge.net/project/libpng/libpng16/1.6.37/libpng-1.6.37.tar.xz
-tar xf libpng-1.6.37.tar.xz
-cd libpng-1.6.37/
-```
-
+{{% fuzzing/real-world-libpng 
+    "set the environment variable `AFL_USE_ASAN=1`"
+    "`./afl++ <host/docker> AFL_USE_ASAN=1 afl-clang-fast++ -fsanitize=fuzzer $static_library harness.cc -o fuzz`"
+    "`./afl++ <host/docker> afl-fuzz -i seeds -o out -- ./fuzz`"
+%}}
 
 Now, make sure that the `./afl++` script is available in your current directory or adjust the paths to it below.
 
-Before we can compile libpng, we have to install dependencies for it:
-
-```shell
-apt install zlib1g-dev
-```
-
-Next, we configure and compile libpng as a static library without linking libFuzzer.
+{{% fuzzing/zlib %}}
 
 Note that if you use Docker, then all dependencies for building your project need to be available in the specified Docker image in the `./afl++` script. This means that you may need to [create a Dockerfile](https://docs.docker.com/engine/reference/builder/) and build a container yourself that is based on the AFL++ one.
 
@@ -851,15 +833,7 @@ export CXX=afl-clang-fast++ CXXFLAGS="$CFLAGS" # Set C++ compiler and use C flag
 
 By default, the configuration script sets the optimization level to `-O2`, which is what we recommend in the [Compile a fuzz test](#compile-a-fuzz-test) section.
 
-Next, we download a harness from GitHub. Usually, you would have to write a harness yourself. However, for this example, an existing one suffices.
-
-
-```shell
-curl -O https://raw.githubusercontent.com/glennrp/libpng/f8e5fa92b0e37ab597616f554bee254157998227/contrib/oss-fuzz/libpng_read_fuzzer.cc
-```
-
-
-Finally, we link together the instrumented libpng, the harness, and the libFuzzer runtime.
+{{% fuzzing/real-world-libpng-harness %}}
 
 
 ```shell
@@ -872,19 +846,11 @@ Before we can launch the campaign, we need to prepare the seeds because AFL++ ca
 
 ```shell
 mkdir seeds/
-curl -o seeds/input.png https://raw.githubusercontent.com/glennrp/libpng/acfd50ae0ba3198ad734e5d4dec2b05341e50924/contrib/pngsuite/iftp1n3p08.png
 ```
+<!-- improve the two code fences here. Merge? -->
 
 
-We also download a [dictionary]({{% relref 02-dictionary %}}g) for the PNG format to better guide the fuzzer. A dictionary provides the fuzzer with some initial clues about the file format, such as which magic bytes PNG uses.
-
-
-```shell
-curl -O https://raw.githubusercontent.com/glennrp/libpng/2fff013a6935967960a5ae626fc21432807933dd/contrib/oss-fuzz/png.dict
-```
-
-
-The fuzzing campaign can be launched by running:
+{{% fuzzing/real-world-libpng-dictionary "{{% relref 02-dictionary %}}" %}}
 
 
 ```shell
@@ -893,22 +859,7 @@ The fuzzing campaign can be launched by running:
 
 ### CMake-based project {#cmake-based-project}
 
-Let's assume we are using CMake to build the program mentioned in the [introduction]({{% relref "fuzzing#introduction-to-fuzzers" %}}). We add a CMake target that builds the `main.cc` and `harness.cc` and links the target together with AFL++. Note that we are excluding the main function through the `NO_MAIN` flag; otherwise, the program would have two main functions.
-
-
-{{< customFigure "CMake example" >}}
-```cmake
-project(BuggyProgram)
-cmake_minimum_required(VERSION 3.0)
-
-add_executable(buggy_program main.cc)
-
-add_executable(fuzz main.cc harness.cc)
-target_compile_definitions(fuzz PRIVATE NO_MAIN=1)
-target_compile_options(fuzz PRIVATE -g -O2 -fsanitize=fuzzer)
-target_link_libraries(fuzz -fsanitize=fuzzer)
-```
-{{< /customFigure >}}
+{{% fuzzing/real-world-cmake {{% relref "fuzzing#introduction-to-fuzzers" %}} %}}
 
 The non-instrumented binary can be built with the following commands:
 
