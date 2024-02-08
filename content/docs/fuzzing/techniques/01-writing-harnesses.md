@@ -135,8 +135,7 @@ When mixing strings and integers, we may have to resort to a more complex separa
 
 The above technique discussed in this section is also discussed in the [Google documentation for libFuzzer](https://github.com/google/fuzzing/blob/master/docs/split-inputs.md). 
 
-A more advanced use case is structured fuzzing, as  highlighted in the following pro tip. Generally, structured fuzzing requires more setup, but allows for improved fuzzing performance because mutations can not render inputs unparsable.
-
+A more advanced use case is structured fuzzing, as  highlighted in the following pro tip. Generally, structured fuzzing requires more setup, but allows for improved fuzzing performance because mutations can not render inputs unparsable. <!-- revise this with a structured fuzzing sections -->
 
 {{< hint info >}}
 PRO TIP: If we generalize the idea above, we conclude that we often want some sort of data format. In the above case, the format is simple. We expect two integers in an 8-byte array. A more complex format could allow arbitrary data to be encoded. 

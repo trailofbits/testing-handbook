@@ -116,3 +116,17 @@ p {
 .code-fence-wrap pre {
   text-wrap: wrap;
 }
+
+ul.no-bullet-point-list {
+  list-style-type: none;
+
+  li {
+    margin-top: 10px;
+  }
+}
+
+table.hide-empty-cells {
+  td:empty {
+    display: none;
+  }
+}

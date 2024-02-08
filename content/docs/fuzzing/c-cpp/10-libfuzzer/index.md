@@ -86,7 +86,7 @@ You will observe a crash quickly because of the simplicity of the example. The o
 
 
 {{< customFigure "Output of running libFuzzer. For details about this output, refer to the [libFuzzer documentation](https://llvm.org/docs/LibFuzzer.html#output). The highlighted text shows the path to the test case that caused a crash." >}}
-```text
+```text {linenos=inline,hl_lines=19}
 INFO: Running with entropic power schedule (0xFF, 100).
 INFO: Seed: 3517090860
 INFO: Loaded 1 modules   (9 inline 8-bit counters): 9 [0x55c248efafa0, 0x55c248efafa9),
@@ -176,6 +176,15 @@ Alternatively, the forking feature of libFuzzer can also be used:
 
 We recommend using the  `-jobs=4` and `-workers=4` flags instead of `-fork=4` because the forking feature is officially experimental. However, if multi-core fuzzing is a priority then switch to more capable fuzzers like AFL++, Hongfuzz, or LibAFL.
 
+<!-- TODO
+
+add note: There is no clear answer, but:
+* There are user reports that the executions per second get lower over time when forking
+* https://github.com/google/oss-fuzz/issues/2178
+* Not used in oss-fuzz
+* https://github.com/google/oss-fuzz/issues/8006
+-->
+
 ## AddressSanitizer {#addresssanitizer}
 
 ASan helps detect memory errors that might otherwise go unnoticed. For a general introduction to ASan, refer to [AddressSanitizer](#addresssanitizer).
@@ -190,11 +199,11 @@ void check_buf(char *buf, size_t buf_len) {
     if(buf_len > 0 && buf[0] == 'a') {
         if(buf_len > 1 && buf[1] == 'b') {
             if(buf_len > 2 && buf[2] == 'c') {
-                last = (char*)malloc(1 * sizeof(char));
-                last[0] = 'c';
-                last[1] = '\0';
-                printf("%s", last);
-                free(last);
+                last = (char*)malloc(1 * sizeof(char)); // Allocate memory
+                last[0] = 'c'; // Write the character 'c'
+                last[1] = '\0'; // Write terminating null byte. A heap-buffer overflow is happening here!
+                printf("%s", last); // Print the string
+                free(last); // Free allocated memory
             }
         }
     }
@@ -325,7 +334,9 @@ curl -O https://raw.githubusercontent.com/glennrp/libpng/f8e5fa92b0e37ab597616f5
 ```
 
 
-From there, we prepare a corpus to simplify the task of finding bugs for the fuzzer. This is an optional step because libFuzzer can start from an empty corpus. However, it is helpful to prepare a corpus with real-world inputs so that the fuzzer does not start from scratch. Starting from a single valid PNG file, as shown below, already significantly improves fuzzing effectiveness.
+From there, we prepare a corpus to simplify the task of finding bugs for the fuzzer. 
+This is an optional step because libFuzzer can start from an empty corpus. <!-- TODO Add a general section about "Corpus preparation" for V2 -->
+However, it is helpful to prepare a corpus with real-world inputs so that the fuzzer does not start from scratch. Starting from a single valid PNG file, as shown below, already significantly improves fuzzing effectiveness.
 
 
 ```shell

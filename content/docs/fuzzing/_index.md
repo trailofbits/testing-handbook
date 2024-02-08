@@ -24,26 +24,28 @@ Even though we want to provide a starting point for fuzzing, we try to point to 
 
 ## Structure {#structure}
 
-We opted to give this chapter an expandable structure: For each language (e.g., C/C++, Rust, Go), we enumerate the fuzzers that can be used. We provide advice on which fuzzer to choose and then describe how to install it, compile a fuzz test, and use the fuzzer. If the fuzzer has special features, like multi-core fuzzing or support for [sanitizers](https://en.wikipedia.org/wiki/Code_sanitizer), then we add those afterwards. Each fuzzer section finishes with real-world examples and further resources.
+We opted to give this chapter an expandable structure: For each language (e.g., C/C++, Rust, Go), we enumerate the fuzzers that can be used. We provide advice on which fuzzer to choose and then describe how to install it, compile a fuzz test, and use the fuzzer. If the fuzzer has special features, like multi-core fuzzing or support for 
+[sanitizers](https://en.wikipedia.org/wiki/Code_sanitizer) <!-- TODO link our sanitizer section in the future -->
+, then we add those afterwards. Each fuzzer section finishes with real-world examples and further resources.
 
 Each language section concludes with a language-specific "Techniques" subsection. If a technique applies to all languages and fuzzers, then it is listed in the [Techniques]({{% relref "/docs/fuzzing/techniques" %}}) section at the very end of the chapter. This very last section also contains an [FAQ]({{% relref "05-faq" %}}) and information about [Fuzzing environments]({{% relref 04-env%}}).
 
 ## Terminology {#terminology}
 
-|Term|Description|
-|--- |--- |
-|SUT/target|The System Under Test (SUT) is the piece of software that is being tested. It can either be a standalone application like a command-line program or a library.|
-|Fuzzing/Fuzzer|Fuzz testing, also known as fuzzing, is a automated software testing method that supplies a SUT with invalid, unexpected, or random data as inputs. The program that implements the fuzzing algorithm is called a fuzzer.|
-|Test case|A test case is the concrete input that is given to the testing harness. Usually, it is a string or bitstring. A test input can also be encoded in a more complex format like an abstract syntax tree.|
-|(Testing/fuzzing) harness|A harness handles the test setup for a given SUT. The harness wraps the software and initializes it such that it is ready for executing test cases. A harness integrates a SUT into a testing environment.|
-|libFuzzer harness|A harness that is compatible with the libFuzzer library. The term refers to the LLVMFuzzerTestOneInput function.|
-|Fuzz test|A fuzz test consists of a fuzzing harness and the SUT. You might refer to a compiled binary that includes the harness and SUT as a fuzz test.|
-|Fuzzing campaign|A fuzzing campaign is an execution of the fuzzer. A fuzzing campaign starts when the fuzzer starts testing and stops when the fuzzing procedure is stopped.|
-|Corpus|The evolving set of test cases. During a fuzzing campaign, the corpus usually grows as new test cases are discovered.|
-|Seed Corpus|Fuzzing campaigns are usually bootstrapped using an initial set of test cases. This set is also called a seed corpus. Each test case of the corpus is called a seed.|
-|Fuzzing engine/runtime|The fuzzing engine/runtime is part of the fuzzer that is executed when the fuzzing starts. It orchestrates the fuzzing process.|
-|Instrumentation|The act of instrumenting a program involves adding non-functional changes in order to retrieve data from it or making it more secure/robust.|
-|Code coverage|A metric to measure the degree to which the source code of a program is executed.|
+
+* **SUT/target:** The System Under Test (SUT) is the piece of software that is being tested. It can either be a standalone application like a command-line program or a library.
+* **Fuzzing/Fuzzer:** Fuzz testing, also known as fuzzing, is an automated software testing method that supplies a SUT with invalid, unexpected, or random data as inputs. The program that implements the fuzzing algorithm is called a fuzzer.
+* **Test case:** A test case is the concrete input that is given to the testing harness. Usually, it is a string or bitstring. A test input can also be encoded in a more complex format like an abstract syntax tree.
+* **(Testing/fuzzing) harness:** A harness handles the test setup for a given SUT. The harness wraps the software and initializes it such that it is ready for executing test cases. A harness integrates a SUT into a testing environment.
+* **libFuzzer harness:** A harness that is compatible with the libFuzzer library. The term refers to the `LLVMFuzzerTestOneInput` function.
+* **Fuzz test:** A fuzz test consists of a fuzzing harness and the SUT. You might refer to a compiled binary that includes the harness and SUT as a fuzz test.
+* **Fuzzing campaign:** A fuzzing campaign is an execution of the fuzzer. A fuzzing campaign starts when the fuzzer starts testing and stops when the fuzzing procedure is stopped.
+* **Corpus:** The evolving set of test cases. During a fuzzing campaign, the corpus usually grows as new test cases are discovered.
+* **Seed Corpus:** Fuzzing campaigns are usually bootstrapped using an initial set of test cases. This set is also called a seed corpus. Each test case of the corpus is called a seed.
+* **Fuzzing engine/runtime:** The fuzzing engine/runtime is part of the fuzzer that is executed when the fuzzing starts. It orchestrates the fuzzing process.
+* **Instrumentation:** The act of instrumenting a program involves adding non-functional changes in order to retrieve data from it or making it more secure/robust.
+* **Code coverage:** A metric to measure the degree to which the source code of a program is executed.
+{.no-bullet-point-list}
 
 ## Pros and cons of fuzzing {#pros-and-cons-of-fuzzing}
 
@@ -55,10 +57,11 @@ Fuzzing offers several benefits and limitations compared to other testing strate
 |**Automation and scalability:** Once operational, a fuzzer can search for flaws over extended periods of time—ranging from hours to months.|**Incomplete bug detection:** Fuzzing may not catch all bugs, especially those that don't cause the program to crash or are triggered under very specific conditions.|
 |**Cost-effective:** Although there's an initial setup cost, over time, fuzzing is cost-effective compared to manual testing.|**Traditionally focused on memory-corruption bugs:** Traditionally, fuzzing focused on finding program crashes caused by memory corruption that are not possible with memory-safe languages like Rust or Go. However, the fuzzing community is slowly shifting towards finding logic bugs as well.|
 |**Proven technique for finding memory corruption bugs:** Fuzzing has found thousands and thousands of bugs related to memory management. It has proven itself a must-have tool for memory-unsafe languages.||
+{.hide-empty-cells}
 
 The first step when fuzzing a software package is assessing the fuzz-worthy targets in the package. This is because fuzzing works particularly well with certain code structures and can be more involved with other structures. For instance, fuzzing a parser is straightforward: fuzzing is easy to set up, and finding bugs is very likely. If your project implements complex application logic and is not easily testable (i.e., it does not yet have unit tests), then you might derive greater benefit from a static analyzer, proper unit testing, and manual code review. After these testing techniques have been implemented, the next step could be to fuzz your code!
 
-Fuzzing is no silver bullet, just like unit tests or static analysis aren't. We are currently working on a section that compares static and dynamic analysis tools to fuzzing. Stay tuned for an update on that!
+Fuzzing is no silver bullet, just like unit tests or static analysis aren't. We are currently working on a section that compares static and dynamic analysis tools to fuzzing. Stay tuned for an update on that! <!-- TODO: Link when comparision section is done! -->
 
 Before we introduce typical fuzzing setups, we first want to explain today's default fuzzing strategy: mutation-based evolutionary fuzzing.
 
@@ -73,19 +76,19 @@ The basic idea is to maintain a population of test cases in a corpus. Each test 
 {{< customFigure "Pseudocode that illustrates an evolutionary-based fuzzer" >}}
 ```Rust  {linenos=inline}
 fn fuzz(corpus) {
-  let bug_set = [];
-  while let Some(test_case) = schedule(corpus) {
-    let offspring = mutate(test_case);
-    let observations = execute(offspring);
+  let bug_set = []; // We start with an empty set
+  while let Some(test_case) = schedule(corpus) { // Now, we pick one test case after the other
+    let offspring = mutate(test_case); // Each test case is mutated to create offspring
+    let observations = execute(offspring); // New test cases are executed
 
     if (is_interesting(observations)) {
-      corpus.append(offspring);
+      corpus.append(offspring); // If the observations are interesting we keep the new test case
     }
     if (is_bug(observations)) {
-      bug_set.append(offspring);
+      bug_set.append(offspring); // If the observations indicate that a bug occured then we store the test case
     }
   }
-  return bug_set;
+  return bug_set; // The set of bugs is returned
 }
 ```
 {{< /customFigure >}}
@@ -141,7 +144,7 @@ int main() {
 }
 #endif // NO_MAIN
 ```
-main.cc (C/C++): Example SUT with a bug that causes an abort.
+main.cc (C/C++): Example SUT with a bug that causes an abort. The `check_buf` funciton aborts for the input "abc".
 {{< /tab >}}
 
 {{< tab "Rust" >}}
@@ -163,7 +166,7 @@ fn main() {
     check_buf(buffer);
 }
 ```
-main.rs (Rust): Example code with a bug that causes an abort.
+main.rs (Rust): Example code with a bug that causes an abort. The `check_buf` funciton aborts for the input "abc".
 {{< /tab >}}
 {{< /tabs >}}
 {{< /customFigure >}}
@@ -182,8 +185,8 @@ main.rs (Rust): Example code with a bug that causes an abort.
 void check_buf(char *buf, size_t buf_len);
 
 extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
-  check_buf((char*) data, size);
-  return 0;
+  check_buf((char*) data, size); // Invoke the SUT; in our case that is the check_buf function
+  return 0; // Return 0, which means that the test case was processed correectly
 }
 ```
 harness.cc (C/C++): Entrypoint for the fuzzer

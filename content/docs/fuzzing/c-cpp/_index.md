@@ -17,5 +17,6 @@ For a general introduction about fuzzing and fuzzing setup (e.g., the harness, f
 |||
 |--- |--- |
 |**libFuzzer**|Simple; well-tested; basic fuzzing features; limited multi-core fuzzing; libFuzzer is in maintenance-only mode|
-|**AFL++**|Well-tested; industry-standard; sufficient for most fuzzing needs; supported multi-core fuzzing|
+|**AFL++**|Well-tested; industry-standard; sufficient for most fuzzing needs; supported multi-core fuzzing; not suited for short fuzzing campaigns (e.g., CI fuzzing) due to initial calibration phase|
 {.skip-table-head}
+

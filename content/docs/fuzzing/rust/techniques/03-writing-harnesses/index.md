@@ -11,7 +11,8 @@ weight: 2
 
 In the following, we will go over Rust specific tips to optimize the results from your harnesses. For general advice, refer to [Writing harnesses](#writing-harnesses).
 
-## Structure-Aware Fuzzing with the arbitrary crate {#structure-aware-fuzzing-with-the-arbitrary-crate}
+## Structure-Aware fuzzing with the arbitrary crate {#structure-aware-fuzzing-with-the-arbitrary-crate}
+<!-- TODO This is a candidate for becoming a general Rust Technique instead of a cargo-fuzz specific one.-->
 
 The [arbitrary](https://github.com/rust-fuzz/arbitrary) crate simplifies writing fuzzing harnesses. By deriving a macro, Rust structs can be targeted for fuzzing. For example, the following code requires constructing a `Name` struct that owns a `String`. We derived the Arbitrary macro to facilitate the construction of such a `Name`.
 

@@ -8,7 +8,7 @@ weight: 2
 
 # cargo-fuzz {#cargo-fuzz}
 
-The cargo-fuzz tool is the de facto choice for fuzzing your Rust project when using Cargo. It uses libFuzzer as the back end. Note that if you are not using Cargo, you cannot use the cargo-fuzz tool.
+The [cargo-fuzz](https://github.com/rust-fuzz/cargo-fuzz) tool is the de facto choice for fuzzing your Rust project when using Cargo. It uses libFuzzer as the back end. Note that if you are not using Cargo, you cannot use the cargo-fuzz tool.
 
 By installing the cargo-fuzz crate, a Cargo subcommand is installed. Therefore, cargo-fuzz depends on using Cargo. The subcommand also automatically enables relevant compilation flags for your Rust project and even supports enabling sanitizers like AddressSanitizer.
 

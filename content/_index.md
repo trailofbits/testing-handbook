@@ -6,7 +6,6 @@ weight: 1
 
 # Trail of Bits Testing Handbook
 
-## Testing tools
 <!-- markdown-link-check-disable -->
 The Testing Handbook is a resource that guides developers and security
 professionals in configuring, optimizing, and automating many of the static and
@@ -52,7 +51,7 @@ such as fuzzing and taint analysis.
 
 ### Tools
 
-We currently cover the following tools:
+We currently cover the following tools and techniques:
 
 {{< columns >}}
 
@@ -65,14 +64,14 @@ We currently cover the following tools:
 
 #### Dynamic analysis
 
-- Fuzzing. _Coming soon!_
+- [Fuzzing]({{< relref "fuzzing" >}})
 
 {{< /columns >}}
 
 We are working on expanding the tools we cover here. We are also planning to
 cover several dynamic analysis tools. Stay tuned for updates from our team!
 
-## Trail of Bits custom queries for static analysis tools
+## Custom queries for static analysis tools
 
 One of our core objectives at Trail of Bits is to uncover and solve problems that are likely to recur.
 This is where our custom queries come into play. Built on the knowledge and expertise of our entire team,
@@ -104,7 +103,7 @@ codeql database analyze codeql.db --format=sarif-latest --output=results.sarif -
 
 ## Feedback
 <!-- markdown-link-check-disable -->
-We want to actively maintain the highest possible quality and expand the content of Testing Handbook.
+We want to actively maintain the highest possible quality and expand the content of the Testing Handbook.
 If you see a way to improve the Testing Handbook, please let us know! The best way to let us know is
 by raising an issue directly on the [Testing Handbook GitHub page](https://github.com/trailofbits/testing-handbook).
 <!-- markdown-link-check-enable -->

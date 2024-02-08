@@ -200,7 +200,10 @@ reboot
 
 After the reboot check whether the changes performed by `afl-persistent-config` were correctly applied by executing `cat` `/proc/cmdline`. The output should include `mitigations=off`. If not, then the grub bootloader was configured incorrectly: Verify the configuration in the file `/etc/default/grub` and the directory `/etc/default/grub.d/`. If any of the configuration files incorrectly overwrites `GRUB_CMDLINE_LINUX_DEFAULT` then mitigations are potentially not applied. This is for example true for cloud environments that use [cloudinit](https://cloud-init.io/).
 
+
+{{< hint danger >}}
 **The `afl-system-config` and `afl-persistent-config` scripts require root privileges and disable certain operating system security features. So, make sure to review the script and its output. Do not fuzz on a production system or your development environment.** If you want to fuzz on, for example, your laptop, then create a VM. If you fuzz with Docker on Apple Silicon, then you are already running your Docker containers in a VM. Note that on Linux, when using Docker, the settings applied through the `afl-system-config` script leak outside of the container even if the script was executed inside one.
+{{< /hint >}}
 
 ## Compile a fuzz test {#compile-a-fuzz-test}
 
@@ -568,6 +571,7 @@ Next, we start fuzzing. If we want to fuzz a file input instead of standard inpu
 
 
 The fuzzer should find the crash quickly. For instructions on how to optimize the fuzzer, refer to [Enable persistent mode](#optimizing-the-fuzzer-enable-persistent-mode). If you like to keep using files as input, then you might want to use [`fmemopen`](https://linux.die.net/man/3/fmemopen), which creates a file descriptor from a memory region.
+<!-- TODO Maybe link an example. Consider adapting example to use fmemopen -->
 
 
 
@@ -636,6 +640,7 @@ We can now compile the instrumented binary and start the fuzzing as usual:
 If you do want to control the first argument that is set to the binary name, then use `AFL_INIT_SET0("prog_name")` instead of `AFL_INIT_ARGV`.
 
 The fuzzer should find the crash quickly. For instructions on how to speed up this fuzzer, refer to [Enable persistent mode](#optimizing-the-fuzzer-enable-persistent-mode) and use the macros `AFL_INIT_ARGV_PERSISTENT(buf)` and `AFL_INIT_SET0_PERSISTENT("prog_name", buf)` instead.
+<!-- TODO Maybe link an example -->
 
 
 {{< hint info >}}
@@ -777,11 +782,11 @@ void check_buf(char *buf, size_t buf_len) {
     if(buf_len > 0 && buf[0] == 'a') {
         if(buf_len > 1 && buf[1] == 'b') {
             if(buf_len > 2 && buf[2] == 'c') {
-                last = (char*)malloc(1 * sizeof(char));
-                last[0] = 'c';
-                last[1] = '\0';
-                printf("%s", last);
-                free(last);
+                last = (char*)malloc(1 * sizeof(char)); // Allocate memory
+                last[0] = 'c'; // Write the character 'c'
+                last[1] = '\0'; // Write terminating null byte. A heap-buffer overflow is happening here!
+                printf("%s", last); // Print the string
+                free(last); // Free allocated memory
             }
         }
     }
