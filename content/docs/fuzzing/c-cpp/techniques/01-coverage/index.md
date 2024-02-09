@@ -253,7 +253,7 @@ The first step is to execute the coverage binary on an existing corpus.
 ./fuzz_exec_gcov corpus/
 ```
 
-We now make sure that gcovr is installed. We recommend installing gcovr through Python's pip because distribution versions could be outdated. If you use LLVM/Clang 14 or above, at least gcovr 5.1 is required (the verison 5.1 contains this [patch](https://github.com/gcovr/gcovr/pull/525/files#diff-26284e367af8a1344772d5e18ab13d7e5518c701936c21733b2a18c13e2b958cL31-R31)).
+We now make sure that gcovr is installed. We recommend installing gcovr through Python's pip because distribution versions could be outdated. If you use LLVM/Clang 14 or above, at least gcovr 5.1 is required (the version 5.1 contains this [patch](https://github.com/gcovr/gcovr/pull/525/files#diff-26284e367af8a1344772d5e18ab13d7e5518c701936c21733b2a18c13e2b958cL31-R31)).
 ```shell
 python3 -m venv venv
 source venv/bin/activate

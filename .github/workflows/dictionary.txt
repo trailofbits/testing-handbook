@@ -162,7 +162,7 @@ Dockerfile
 Dockerhub
 Entrypoint
 Fuzzers
-GCC-comaptible
+GCC-compatible
 Hongfuzz
 Instrumentations
 LLM
@@ -293,7 +293,7 @@ tradeoff
 ubuntu
 unparsable
 uplevel
-verison
+version
 when-should-i-use-which-fuzzer
 x64_64
 
