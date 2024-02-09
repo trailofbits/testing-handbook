@@ -50,17 +50,13 @@
   src="//js.hs-scripts.com/22554992.js"
 ></script>
 
-<script src="https://unpkg.com/popper.js@1"></script>
-<script src="https://unpkg.com/tippy.js@5"></script>
+<script src="{{ .Site.BaseURL }}/popper.min.js"></script>
+<script src="{{ .Site.BaseURL }}/tippy-bundle.umd.min.js"></script>
 
 <script type="text/javascript">
   const highlights = document.querySelectorAll(".tooltip-highlight");
   for (let i = 0; i < highlights.length; i++) {
     const highlight = highlights[i];
-
-    //if (highlight.dataset["tooltips"] !== "true") {
-    //  continue;
-   //}
 
     const fence = highlight.querySelector("pre");
 
@@ -97,15 +93,12 @@
 
       for (let j = 0; j < parts.length; j++) {
         let span = document.createElement("span");
-        console.log(parts[j]);
         const isLast = j != parts.length - 1;
         span.textContent = parts[j] + (isLast ? " " : "");
         outerSpan.append(span);
 
         const content = highlight.dataset["tooltips-" + counter];
-        console.log(highlight.dataset);
         if (content) {
-          console.log(content);
           tippy(span, {
             content,
             boundary: "window",
