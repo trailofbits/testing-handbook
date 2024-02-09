@@ -15,7 +15,7 @@ AFL++ supports different environments like [macOS](https://github.com/AFLplusplu
 
 ## Installation {#installation}
 
-The AFL++ fuzzer has many dependencies, such asLLVM, Python, and Rust. We recommend using a current Debian or Ubuntu distribution for fuzzing with AFL++ because these are thoroughly tested distributions. Note that if you use a precompiled version of AFL++ then you are bound to the Clang and GCC versions that were used during the compilation of AFL++. The following table gives an overview of installation methods along with the supported compiler versions.
+The AFL++ fuzzer has many dependencies, such as LLVM, Python, and Rust. We recommend using a current Debian or Ubuntu distribution for fuzzing with AFL++ because these are thoroughly tested distributions. Note that if you use a precompiled version of AFL++ then you are bound to the Clang and GCC versions that were used during the compilation of AFL++. The following table gives an overview of installation methods along with the supported compiler versions.
 
 <!-- TODO translate table to markdown? -->
 {{< rawHtml "" >}}
