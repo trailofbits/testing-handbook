@@ -187,7 +187,7 @@ add note: There is no clear answer, but:
 
 ## AddressSanitizer {#addresssanitizer}
 
-ASan helps detect memory errors that might otherwise go unnoticed. For a general introduction to ASan, refer to [AddressSanitizer](#addresssanitizer).
+ASan helps detect memory errors that might otherwise go unnoticed. For a general introduction to ASan, refer to [AddressSanitizer]({{% relref "/docs/fuzzing/techniques/03-asan" %}}).
 
 For instance, the following heap buffer overflow is usually not detectable without ASan; although we access the allocated buffer out of bounds, in practice, the memory we hit—which may be part of another allocation metadata—is still mapped in the process, and so the program does not crash with a segmentation fault.
 
