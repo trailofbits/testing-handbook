@@ -1,6 +1,7 @@
 ---
 title: "Fuzzing"
 weight: 3
+summar: Fuzzing represents a dynamic testing method that inputs malformed or unpredictable data to a system to detect security issues, bugs, or system failures.
 bookFlatSection: true
 ---
 
