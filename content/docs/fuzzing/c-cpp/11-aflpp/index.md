@@ -794,7 +794,7 @@ void check_buf(char *buf, size_t buf_len) {
 ```
 {{< /customFigure >}}
 
-For a general introduction to ASan, refer to [AddressSanitizer](#addresssanitizer).
+For a general introduction to ASan, refer to [AddressSanitizer]({{% relref "/docs/fuzzing/techniques/03-asan" %}}).
 
 To enable AddressSanitizer when using AFL++, set the environment variable `AFL_USE_ASAN=1`, which not only enables ASan but also disables [source fortification](https://github.com/AFLplusplus/AFLplusplus/blob/ef706ad668b36e65d24f352f5bcee22957f5f1cc/src/afl-cc.c#L1182) that is incompatible with ASan.
 
