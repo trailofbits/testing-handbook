@@ -220,17 +220,33 @@ Depending on the mode you choose, use a different compilation command: `afl-clan
 If you use the Clang compiler and want to use the LLVM mode, then the following command produces a binary `fuzzer`. Essentially, we are replacing the call to `clang++` with `afl-clang-fast++`.
 
 
-```shell
+{{< tooltipHighlight shell 
+"Custom script (see above)"
+"Run on host or within Docker"
+"AFL++ compiler that uses Clang"
+"Skips the main function"
+"Adds debug symbols"
+"Sets production optimization level"
+"Enables libFuzzer"
+ >}}
 ./afl++ <host/docker> afl-clang-fast++ -DNO_MAIN -g -O2 -fsanitize=fuzzer harness.cc main.cc -o fuzz
-```
+{{< / tooltipHighlight >}}
 
 
 If your project depends on the GCC compiler, then consider using the [gcc_plugin](https://github.com/AFLplusplus/AFLplusplus/blob/stable/instrumentation/README.gcc_plugin.md):
 
-
-```shell
+{{< tooltipHighlight shell 
+"Custom script (see above)"
+"Run on host or within Docker"
+"AFL++ compiler that uses GCC"
+"Skips the main function"
+"Adds debug symbols"
+"Sets production optimization level"
+"Enables libFuzzer"
+ >}}
 ./afl++ <host/docker> afl-g++-fast -DNO_MAIN -g -O2 -fsanitize=fuzzer harness.cc main.cc -o fuzz
-```
+{{< / tooltipHighlight >}}
+
 
 {{< hint info >}}
 PRO TIP: The GCC version of your system and the GCC version that was used to compile the AFL++ GCC plugin must match. If they do not match (e.g., if you upgrade GCC), then you will get an error when using the GCC support.
