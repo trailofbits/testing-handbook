@@ -26,10 +26,10 @@ Note that it can also make sense to enable ASan for your unit tests. However, do
 In general, ASan is enabled by using the flag `-fsanitize=address` during compilation and linking. However, integration can differ between fuzzers. Therefore, refer to the following sections:
 
 * C/C++
-    * [libFuzzer: AddressSanitizer](#addresssanitizer)
-    * [AFL++: AddressSanitizer](#addresssanitizer)
+    * [libFuzzer: AddressSanitizer]({{% relref "/docs/fuzzing/c-cpp/10-libfuzzer#addresssanitizer" %}})
+    * [AFL++: AddressSanitizer]({{% relref "/docs/fuzzing/c-cpp/11-aflpp#addresssanitizer" %}})
 * Rust: 
-    * [cargo-fuzz: AddressSanitizer](#addresssanitizer)
+    * [cargo-fuzz: AddressSanitizer]({{% relref "/docs/fuzzing/rust/10-cargo-fuzz#addresssanitizer" %}})
 
 ASan is documented on the [Google GitHub](https://github.com/google/sanitizers/wiki/AddressSanitizer). If you want to learn more about flags to configure ASan via the `ASAN_OPTIONS` environment variable, refer to [this page](https://github.com/google/sanitizers/wiki/SanitizerCommonFlags) for common sanitizer flags and [that page](https://github.com/google/sanitizers/wiki/AddressSanitizerFlags) for ASan flags specifically. An example configuration looks like this: 
 
