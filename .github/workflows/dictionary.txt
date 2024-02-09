@@ -208,7 +208,8 @@ afl-whatsup
 aflpp
 argc
 argv
-asLLVM
+as
+LLVM
 asan
 big-endian
 bitstring
