@@ -146,7 +146,7 @@ If you prefer [compiling from source](https://github.com/AFLplusplus/AFLplusplus
 
 We now create a wrapper script that runs a command on the host or Docker for simplicity.  
 
-For Docker, we launch an ephemeral container, which means that the container is automatically removed after execution. It also mounts the current working directory at the path `/src` inside the container. We also disable `seccomp` by using` --privileged` for improved fuzzing performance, as [recommended by the AFL++ authors](https://github.com/AFLplusplus/AFLplusplus/blob/9d305acbf39549f9625bd030b62c10fce7abe24c/afl-system-config#L59). Finally, we also give the processes running in the container full root privileges.** Review the comments at the end of this section about security concerns. Avoid running this script on your development laptop. Instead, use a dedicated fuzzing virtual machine.**
+For Docker, we launch an ephemeral container, which means that the container is automatically removed after execution. It also mounts the current working directory at the path `/src` inside the container. We also disable `seccomp` by using` --privileged` for improved fuzzing performance, as [recommended by the AFL++ authors](https://github.com/AFLplusplus/AFLplusplus/blob/9d305acbf39549f9625bd030b62c10fce7abe24c/afl-system-config#L59). Finally, we also give the processes running in the container full root privileges. **Review the comments at the end of this section about security concerns. Avoid running this script on your development laptop. Instead, use a dedicated fuzzing virtual machine.**
 
 Create the following script with the name `afl++.sh` and make it executable.
 
