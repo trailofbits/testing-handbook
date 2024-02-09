@@ -692,6 +692,7 @@ Note the `&`, which makes AFL++ run in the background, allowing us to continue u
 ```shell
 ./afl++ <host/docker> afl-fuzz -M primary -i seeds -o state -- ./fuzz 1>primary.log 2>primary.error &
 ```
+<!-- TODO tooltips -->
 
 
 Now, we can start as many secondary jobs as we have idle cores available.
@@ -701,6 +702,7 @@ Now, we can start as many secondary jobs as we have idle cores available.
 ./afl++ <host/docker> afl-fuzz -S secondary01 -i seeds -o state -- ./fuzz 1>secondary01.log 2>secondary01.error &
 ./afl++ <host/docker> afl-fuzz -S secondary02 -i seeds -o state -- ./fuzz 1>secondary02.log 2>secondary02.error &
 ```
+<!-- TODO tooltips -->
 
 
 For each job, the AFL++ creates a subdirectory in `state/`. The fuzzing progress can be checked with the following two commands:
