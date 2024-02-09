@@ -180,7 +180,7 @@ cargo +nightly fuzz run fuzz_target_1 -- -dict=./dict.dict
 
 ## AddressSanitizer {#addresssanitizer}
 
-ASan helps detect memory errors that might otherwise go unnoticed. For a general introduction to ASan, refer to [AddressSanitizer](#addresssanitizer).
+ASan helps detect memory errors that might otherwise go unnoticed. For a general introduction to ASan, refer to [AddressSanitizer]({{% relref "/docs/fuzzing/techniques/03-asan" %}}).
 
 ASan is enabled by default when fuzzing with cargo-fuzz. This may be a bad default if you are not using [unsafe Rust](https://doc.rust-lang.org/book/ch19-01-unsafe-rust.html) in your code or your dependencies. ASan may be unnecessary in this case because its goal is to detect memory corruption bugs, but Rust without unsafe code is memory-safe.  The [cargo-geiger](https://github.com/geiger-rs/cargo-geiger) project can help you determine if your project uses unsafe Rust.
 
