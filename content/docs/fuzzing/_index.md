@@ -25,8 +25,7 @@ Even though we want to provide a starting point for fuzzing, we try to point to 
 ## Structure {#structure}
 
 We opted to give this chapter an expandable structure: For each language (e.g., C/C++, Rust, Go), we enumerate the fuzzers that can be used. We provide advice on which fuzzer to choose and then describe how to install it, compile a fuzz test, and use the fuzzer. If the fuzzer has special features, like multi-core fuzzing or support for 
-[sanitizers](https://en.wikipedia.org/wiki/Code_sanitizer) <!-- TODO link our sanitizer section in the future -->
-, then we add those afterwards. Each fuzzer section finishes with real-world examples and further resources.
+[sanitizers](https://en.wikipedia.org/wiki/Code_sanitizer) <!-- TODO link our sanitizer section in the future -->, then we add those afterwards. Each fuzzer section finishes with real-world examples and further resources.
 
 Each language section concludes with a language-specific "Techniques" subsection. If a technique applies to all languages and fuzzers, then it is listed in the [Techniques]({{% relref "/docs/fuzzing/techniques" %}}) section at the very end of the chapter. This very last section also contains an [FAQ]({{% relref "05-faq" %}}) and information about [Fuzzing environments]({{% relref 04-env%}}).
 
