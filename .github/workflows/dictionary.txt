@@ -235,7 +235,7 @@ facto
 faq
 faq-fuzzily-asked-questions
 forkserver
-funciton
+function
 fuzzer's
 fuzzer-defined
 fuzzer-options
