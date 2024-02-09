@@ -9,10 +9,10 @@ bookCollapseSection: true
 
 # Tamarin
 
-Tamarin is a formal verification tool that can be used to model the security properties of a protocol in the symbolic
-model. Protocols are modeled either using multiset term rewrite rules, or using a version of the applied pi-calculus.
-Security properties are specified using a fragment of first-order temporal logic, and can be proved either automatically
-or interactively using a web-based interface.
+Tamarin is a symbolic verification tool that can be used to model the security properties of cryptographic protocols.
+Protocols are modeled either using multiset term rewrite rules, or using a version of the applied pi-calculus.  Security
+properties are specified using a fragment of first-order temporal logic, and can be proved either automatically or
+interactively using a web-based interface.
 
 ## Benefits of using Tamarin
 

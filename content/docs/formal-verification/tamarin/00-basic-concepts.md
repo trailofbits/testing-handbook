@@ -55,8 +55,8 @@ a process calculus based on a variant of the applied pi-calculus. The global pro
 facts that is expanded and updated as the protocol progresses. Here, a fact is essentially a statement about a set of
 terms. For example, _`Alice` has registered the public key `pk` with the server_, or _The attacker has learned the
 private key `sk`_. Protocol properties are expressed as properties of the set of possible executions of the protocol,
-and are specified using a decidable fragment of temporal logic. (This means that we can express properties of terms at
-different points in time.)
+and are specified using a fragment of temporal logic. (This means that we can express properties of terms at different
+points in time.)
 
 ### Variables and sorts
 
@@ -85,8 +85,7 @@ Terms may be composed using functions. These are either user defined, or defined
 
 {{< hint info >}}
 
-<!-- markdownlint-disable-next-line no-emphasis-as-heading -->
-**Use descriptive variable and function names**
+#### Use descriptive variable and function names
 
 Avoid using one-letter names for user-defined variables and functions. If you are modeling an existing protocol, reuse
 names from the specification and include clear references to the section of the specification where they are defined.
@@ -99,7 +98,7 @@ User-defined functions are declared using the `functions` keyword. New functions
 It is possible to define new functions by simply specifying the function name and arity (how many arguments it takes) as
 follows:
 
-```js
+```ml
 functions:
   encrypt/2,
   decrypt/2,
@@ -108,7 +107,7 @@ functions:
 
 New functions can also be defined by specifying the full signature of the function, using user-defined type names, as follows:
 
-```js
+```ml
 functions:
   encrypt(SecretKey, Bytes): Bytes,
   decrypt(SecretKey, Bytes): Bytes,
@@ -126,8 +125,7 @@ phase is complete. In particular, they do not affect how the attacker may use th
 
 {{< hint info >}}
 
-<!-- markdownlint-disable-next-line no-emphasis-as-heading -->
-**Include function signatures with descriptive type names when declaring new functions**
+#### Include function signatures with descriptive type names when declaring new functions
 
 We recommend always including the full function signature when introducing new functions. This makes function
 definitions easier to parse, allows you to take full advantage of Tamarin's build-in typing checking, and avoid
@@ -138,7 +136,7 @@ potential typing inconsistencies.
 To define equations that the introduced function symbols satisfy, we use the `equations` keyword. For example, we could
 express that decryption is the (left-)inverse of encryption as follows:
 
-```js
+```ml
 equations:
   decrypt(key, encrypt(key, data)) = data,
   ...
@@ -151,7 +149,7 @@ hash functions already built-in. These built-in theories can be added to your pr
 example, the following would add two function symbols `senc` and `sdec` modeling symmetric encryption, and a function
 symbol `h` modeling a hash function, to your project:
 
-```js
+```ml
 builtins:
   symmetric-encryption,
   hashing,
@@ -184,7 +182,7 @@ a few predefined facts that are useful to know about.
   sometimes useful when formulating security properties. (See below for an
   example.)
 
-## Protocol properties and lemmas
+### Protocol properties and lemmas
 
 Protocol properties are expressed as _lemmas_ in Tamarin. (In mathematics, a lemma is an intermediate step or
 proposition, typically used as a stepping stone in the proof of some other theorem.) Lemmas express properties of
@@ -192,13 +190,13 @@ protocol execution traces, and by default, they contain an implicit quantificati
 example, consider the following lemma, which informally says that the only way that the attacker could learn the private
 key of an initialized device, is if that private key is leaked to the attacker.
 
-```js
+```ml
 lemma device_key_confidentiality:
     "
-      All private_key #i #j. (
-        DeviceInitialized(to_public_key(private_key)) @ #i & K(private_key) @ #j
+      All priv_key #i #j. (
+        DeviceInitialized(to_pub_key(priv_key)) @ #i & K(priv_key) @ #j
         ==>
-        Ex #k. (k < j & DeviceKeyLeaked(to_public_key(private_key)) @ #k)
+        Ex #k. (k < j & DeviceKeyLeaked(to_pub_key(priv_key)) @ #k)
       )
     "
 ```
@@ -209,10 +207,9 @@ and existential quantification. The operators `&` and `==>` represent conjunctio
 written `|`, and negation of `P` is written `not(P)`). The variables `#i`, `#j`, and `#k` all range over temporal
 values. Undecorated variables like `private_key` range over messages.
 
-The statements `DeviceInitialized(...)` and `DeviceKeyLeaked(...)` are special facts called _action facts_ in the
-rewrite rule-version of Tamarin, or _events_ in the pi calculus-version. `DeviceInitialized(...) @ #i` means that the
-fact occurs (that is, is added to the execution trace) at time `#i`. Facts in lemmas always have to be qualified with a
-temporal variable in this way.
+The statements `DeviceInitialized(...)` and `DeviceKeyLeaked(...)` are facts. `DeviceInitialized(...) @ #i` means that
+the fact occurs (that is, is added to the execution trace or is emitted as an event or action fact) at time `#i`. Facts
+in lemmas always have to be qualified with a temporal variable in this way.
 
 We note that this lemma implicitly contains a universal quantification over all execution traces of the analyzed
 protocol. It is really saying that "_for any execution of the protocol_, the private key will remain confidential as
@@ -221,14 +218,14 @@ before the opening quotation mark. It is also possible to write lemmas that use 
 execution traces using the keyword `exists-trace`. This is useful for proving correctness properties, saying that there
 exists an execution trace where the protocol completes successfully.
 
-```js
+```ml
 lemma protocol_correctness:
   exists-trace
   "
-    Ex public_key #i #j. (
-      DeviceInitialized(public_key) @ i &
-      ServerInitialized(public_key) @ j &
-      All #k. (DeviceKeyLeaked(public_key) @ k ==> F)
+    Ex pub_key #i #j. (
+      DeviceInitialized(pub_key) @ i &
+      ServerInitialized(pub_key) @ j &
+      All #k. (DeviceKeyLeaked(pub_key) @ k ==> F)
     )
   "
 ```
@@ -244,21 +241,20 @@ by Tamarin.
 
 {{< hint info >}}
 
-<!-- markdownlint-disable-next-line no-emphasis-as-heading -->
-**Include a lemma ensuring that the entire protocol can be executed correctly from start to finish**
+#### Include a lemma ensuring that the entire protocol can be executed correctly from start to finish
 
 This is almost always the first lemma to prove. It may be updated as you add more components of the protocol to your
 model, and serves as a form of sanity check or integration test, ensuring that the model can be executed correctly.
 
 {{< /hint >}}
 
-## Restricting the execution trace
+### Restricting the execution trace
 
 Tamarin uses _restrictions_ to restrict the space of execution traces explored by the prover. The most common use case
 for restrictions is to model branching behavior. Consider the following restriction which says that if the fact
 `EnsureEqual(x, y)` is emitted, then `x` and `y` must evaluate to the same term.
 
-```js
+```ml
 restriction ensure_equal:
   "
     All x y #i. (EnsureEqual(x, y) @ #i ==> x = y)

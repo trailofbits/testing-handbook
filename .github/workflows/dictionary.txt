@@ -131,6 +131,7 @@ SARIF-file
 Sapic
 SAST
 SDLC
+se
 semgrep
 Semgrep
 SEMGREP_SEND_METRICS
@@ -139,6 +140,7 @@ semgrep-rules
 Semgrep's
 semgrep-rules-manager
 semgrep-rules-android-security
+sequenceDiagram
 Sheeraz
 Shreya
 src
