@@ -1,7 +1,6 @@
 ---
 title: "Fuzzing"
 weight: 3
-summary: "Fuzzing is ..."
 bookFlatSection: true
 ---
 
