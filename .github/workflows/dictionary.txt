@@ -145,7 +145,7 @@ ZKDocs
 AFL_PIZZA_MODE
 ASan
 AUTODICTIONARIES
-Additonal
+Additional
 AddressSanitizer
 Base64
 Bazel

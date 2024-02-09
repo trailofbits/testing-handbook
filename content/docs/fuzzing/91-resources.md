@@ -1,5 +1,5 @@
 ---
-title: "Additonal resources"
+title: "Additional resources"
 slug: resources
 weight: 5
 ---
