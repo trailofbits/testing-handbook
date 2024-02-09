@@ -23,7 +23,7 @@ char* concat(const char* inputStr, size_t inputStrLen,
 }
 
 extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
-  FuzzedDataProvider fuzzed_data(data, size);
+    FuzzedDataProvider fuzzed_data(data, size);
 
     size_t allocation_size = fuzzed_data.ConsumeIntegral<size_t>();
 

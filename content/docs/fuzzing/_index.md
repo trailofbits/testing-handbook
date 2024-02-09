@@ -117,7 +117,7 @@ The general fuzzing scenario consists of the developer writing a harness for a S
 
 **SUT (System Under Test):** This is the code you want to test. To create a fuzzing build of your SUT, you need to control how the application's code is compiled and linked. The following figure shows a very simple SUT that serves as a running example throughout this chapter of the Testing Handbook.
 
-{{< customFigure "Pseudocode that illustrates an evolutionary-based fuzzer" "html" >}}
+{{< customFigure "An SUT example" "html" >}}
 {{< tabs "sut" >}}
 {{< tab "C/C++" >}}
 ```C++
@@ -143,7 +143,7 @@ int main() {
 }
 #endif // NO_MAIN
 ```
-main.cc (C/C++): Example SUT with a bug that causes an abort. The `check_buf` funciton aborts for the input "abc".
+main.cc (C/C++): Example SUT with a bug that causes an abort. The `check_buf` function aborts for the input "abc".
 {{< /tab >}}
 
 {{< tab "Rust" >}}
@@ -165,7 +165,7 @@ fn main() {
     check_buf(buffer);
 }
 ```
-main.rs (Rust): Example code with a bug that causes an abort. The `check_buf` funciton aborts for the input "abc".
+main.rs (Rust): Example code with a bug that causes an abort. The `check_buf` function aborts for the input "abc".
 {{< /tab >}}
 {{< /tabs >}}
 {{< /customFigure >}}
@@ -175,7 +175,7 @@ main.rs (Rust): Example code with a bug that causes an abort. The `check_buf` fu
 
 
 
-{{< customFigure "Pseudocode that illustrates an evolutionary-based fuzzer" "html" >}}
+{{< customFigure "Example for a harness" "html" >}}
 {{< tabs "harness" >}}
 {{< tab "C/C++" >}}
 ```C++
