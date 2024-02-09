@@ -1,0 +1,19 @@
+
+{{- $attrs := dict  }}
+
+
+
+{{- range (seq 1 (sub (len .Params) 1) ) }}
+  {{- $myArg := $.Get . }}
+  
+  {{- $attrs = merge $attrs (dict (printf "data-tooltips-%d" (sub . 1)) $myArg) }}
+{{- end }}
+
+
+<div class="tooltip-highlight"
+  {{- range $k, $v := $attrs }}
+    {{- printf " %s=%q" $k $v | safeHTMLAttr }}
+  {{- end -}}
+>
+{{ highlight (trim .InnerDeindent "\n\r") (.Get 0) "" }}
+</div>

@@ -1,17 +1,121 @@
 <div class="flex footer-edit">
   {{ if and .File .Site.Params.BookRepo .Site.Params.BookEditBranch }}
-  <a class="flex align-center" href="{{ .Site.Params.BookRepo }}/edit/{{ .Site.Params.BookEditBranch }}/{{ .Site.Params.contentDir | default "content" }}/{{ replace .File.Path "\\" "/" }}" target="_blank" rel="noopener">
-    <img src="{{ "svg/edit.svg" | relURL }}" class="book-icon" alt="Edit" />
-    <span>{{ i18n "Edit this page" }}</span>
-  </a> |
+    <a
+      class="flex align-center"
+      href="{{ .Site.Params.BookRepo }}/edit/{{ .Site.Params.BookEditBranch }}/{{ .Site.Params.contentDir | default "content" }}/{{ replace .File.Path "\\" "/" }}"
+      target="_blank"
+      rel="noopener"
+    >
+      <img src="{{ "svg/edit.svg" | relURL }}" class="book-icon" alt="Edit" />
+      <span>{{ i18n "Edit this page" }}</span>
+    </a>
+    |
   {{ end }}
-  <a class="flex align-center" href="https://www.trailofbits.com/" target="_blank">Trail of Bits</a> |
-  <a class="flex align-center" href="https://blog.trailofbits.com/" target="_blank">Trail of Bits Blog</a> |
-  <a class="flex align-center" href="https://www.trailofbits.com/contact/" target="_blank">Contact us</a>
+  <a
+    class="flex align-center"
+    href="https://www.trailofbits.com/"
+    target="_blank"
+    >Trail of Bits</a
+  >
+  |
+  <a
+    class="flex align-center"
+    href="https://blog.trailofbits.com/"
+    target="_blank"
+    >Trail of Bits Blog</a
+  >
+  |
+  <a
+    class="flex align-center"
+    href="https://www.trailofbits.com/contact/"
+    target="_blank"
+    >Contact us</a
+  >
 </div>
 
 <div style="text-align: right;">
-  <small>This content is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">Creative Commons Attribution 4.0 International license.</a></small>
+  <small
+    >This content is licensed under a
+    <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank"
+      >Creative Commons Attribution 4.0 International license.</a
+    ></small
+  >
 </div>
 
-<script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/22554992.js"></script>
+<script
+  type="text/javascript"
+  id="hs-script-loader"
+  async
+  defer
+  src="//js.hs-scripts.com/22554992.js"
+></script>
+
+<script src="https://unpkg.com/popper.js@1"></script>
+<script src="https://unpkg.com/tippy.js@5"></script>
+
+<script type="text/javascript">
+  const highlights = document.querySelectorAll(".tooltip-highlight");
+  for (let i = 0; i < highlights.length; i++) {
+    const highlight = highlights[i];
+
+    //if (highlight.dataset["tooltips"] !== "true") {
+    //  continue;
+   //}
+
+    const fence = highlight.querySelector("pre");
+
+    if (!fence) {
+      continue
+    }
+
+    const lines = fence.querySelectorAll("code > span");
+    if (lines.length != 1) {
+      continue;
+    }
+
+    const first_line = lines[0];
+    if (!first_line) {
+      continue;
+    }
+    const line_content = first_line.children[0];
+    if (!line_content) {
+      continue;
+    }
+
+    let counter = 0;
+
+    for (let i = 0; i < line_content.childNodes.length; i++) {
+      const node = line_content.childNodes[i];
+
+      if (!(node instanceof Text)) {
+        // TODO: we currently ignore all colorized or styled text because that is wrapped in spans
+        continue;
+      }
+
+      let outerSpan = document.createElement("span");
+      let parts = node.data.split(" ");
+
+      for (let j = 0; j < parts.length; j++) {
+        let span = document.createElement("span");
+        console.log(parts[j]);
+        const isLast = j != parts.length - 1;
+        span.textContent = parts[j] + (isLast ? " " : "");
+        outerSpan.append(span);
+
+        const content = highlight.dataset["tooltips-" + counter];
+        console.log(highlight.dataset);
+        if (content) {
+          console.log(content);
+          tippy(span, {
+            content,
+            boundary: "window",
+          });
+        }
+
+        counter++;
+      }
+
+      node.replaceWith(outerSpan);
+    }
+  }
+</script>

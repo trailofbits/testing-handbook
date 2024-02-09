@@ -1,0 +1,3 @@
+{
+      "ignores": ["content/docs/fuzzing/**", "themes/book/**", "node_modules/**"]
+}
