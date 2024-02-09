@@ -44,6 +44,7 @@ Fuzzer
 GCatch
 Ghidra
 GitLab
+GraphQL
 go-fuzz
 golang
 Golang
@@ -90,6 +91,7 @@ Pohekar
 postMessage
 pre-built
 pre-compiled
+README
 QL
 repo
 relref
@@ -100,6 +102,7 @@ sanitization
 SARIF
 SARIF-file
 SAST
+SDLC
 semgrep
 Semgrep
 SEMGREP_SEND_METRICS
@@ -114,8 +117,10 @@ src
 subdirectories
 trailofbits
 Triaging
+Trello
 unhandled
 unsanitized
+untracked
 untrusted
 VSCode
 vuln
