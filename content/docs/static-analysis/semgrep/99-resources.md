@@ -50,7 +50,7 @@ weight: 99
 
 ### Creating custom Semgrep rules
 
-- [11 Semgrep Rules for Go Web Projects](https://universalglue.dev/posts/semgrep-rules-for-go-web-projects/)
+- [11 Semgrep Rules for Go Web Projects](https://web.archive.org/web/20231201073324/https://universalglue.dev/posts/semgrep-rules-for-go-web-projects/)
 - [Detecting Android Content Provider APIs with Semgrep Rules](https://shivasurya.me/security/android/android-security/2022/11/28/android-content-provider-semgrep-detection.html)
 - [Enforcing Code & Security Standards with Semgrep](https://owasp.org/www-chapter-newcastle-uk/presentations/2021-02-23-semgrep.pdf)
 - [Using Semgrep to find security issues and misconfiguration in AWS Cloud Development Kit projects](https://blog.aquia.io/blog/2022-02-18-semgrep-cdk/)

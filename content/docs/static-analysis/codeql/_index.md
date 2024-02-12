@@ -53,5 +53,5 @@ identify variants of a given bug type:
   take a long time to run.)
 
 If the answer to any of these questions is "no," we recommend that you start
-out by attempting to model the bug class using a tool like [Semgrep]({{< relref
-semgrep >}}) instead.
+out by attempting to model the bug class using a tool like [Semgrep]({{% relref
+"semgrep" %}}) instead.

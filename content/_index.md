@@ -6,7 +6,6 @@ weight: 1
 
 # Trail of Bits Testing Handbook
 
-## Testing tools
 <!-- markdown-link-check-disable -->
 The Testing Handbook is a resource that guides developers and security
 professionals in configuring, optimizing, and automating many of the static and
@@ -23,21 +22,21 @@ documentation they can apply when performing security analyses of their codebase
 
 {{< columns >}}
 
-### Straightforward
+## Straightforward
 
 We aim to make it as straightforward as possible to set up security tools
 effectively across all steps of the software development lifecycle.
 
 <--->
 
-### Demystified
+## Demystified
 
 In doing so, we also hope to demystify static and dynamic analysis techniques
 such as fuzzing and taint analysis.
 
 {{< /columns >}}
 
-### Why is this needed?
+## Why is this needed?
 
 - The documentation for configuring and optimizing existing tools is often not
   developer friendly, as it is often targeted at security professionals. This
@@ -50,22 +49,22 @@ such as fuzzing and taint analysis.
   their configuration is rarely optimized. This lack of tuning can lead to noisy
   tool results that are more frustrating than they are helpful.
 
-### Tools
+## Tools
 
-We currently cover the following tools:
+We currently cover the following tools and techniques:
 
 {{< columns >}}
 
-#### Static analysis
+### Static analysis
 
 - [Semgrep]({{< relref "semgrep" >}})
 - [CodeQL]({{< relref "codeql" >}})
 
 <--->
 
-#### Dynamic analysis
+### Dynamic analysis
 
-- Fuzzing. _Coming soon!_
+- [Fuzzing]({{< relref "fuzzing" >}})
 
 <--->
 
@@ -78,7 +77,7 @@ We currently cover the following tools:
 We are working on expanding the tools we cover here. We are also planning to
 cover several dynamic analysis tools. Stay tuned for updates from our team!
 
-## Trail of Bits custom queries for static analysis tools
+## Custom queries for static analysis tools
 
 One of our core objectives at Trail of Bits is to uncover and solve problems that are likely to recur.
 This is where our custom queries come into play. Built on the knowledge and expertise of our entire team,
@@ -110,7 +109,7 @@ codeql database analyze codeql.db --format=sarif-latest --output=results.sarif -
 
 ## Feedback
 <!-- markdown-link-check-disable -->
-We want to actively maintain the highest possible quality and expand the content of Testing Handbook.
+We want to actively maintain the highest possible quality and expand the content of the Testing Handbook.
 If you see a way to improve the Testing Handbook, please let us know! The best way to let us know is
 by raising an issue directly on the [Testing Handbook GitHub page](https://github.com/trailofbits/testing-handbook).
 <!-- markdown-link-check-enable -->
