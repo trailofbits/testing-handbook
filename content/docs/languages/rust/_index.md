@@ -1,6 +1,6 @@
 ---
 title: "Rust"
-weight: 2
+weight: 3
 summary: "Rust is a multi-paradigm, general-purpose, memory-safe programming language."
 # draft: true
 # bookFlatSection: false
