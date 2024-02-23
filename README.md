@@ -17,7 +17,7 @@ and poor adoption of security tools that should be straightforward to configure.
 - ⚙️ Even if the tool is easy to configure locally, it can be difficult to configure them in CI/CD pipelines.
 Often, security tools are set up by following online documentation, but their configuration is rarely optimized.
 This can lead to a noisy tool that is more difficult to maintain than worth.
-- 🧠 We aim to make it as easy and straightforward as possible to set up security tools effectively. In doing so, we also
+- 🧠 We aim to make it as easy as possible to set up security tools effectively. In doing so, we also
 hope to demystify static and dynamic analysis techniques such as fuzzing and taint analysis.
 
 ## Chapters
@@ -28,11 +28,18 @@ hope to demystify static and dynamic analysis techniques such as fuzzing and tai
 |---|---|---|
 |[Semgrep](https://appsec.guide/docs/static-analysis/semgrep/)| [Announcing the Trail of Bits Testing Handbook](https://blog.trailofbits.com/2023/07/26/announcing-the-trail-of-bits-testing-handbook/)|2023|
 |[CodeQL](https://appsec.guide/docs/static-analysis/codeql/)| [Say hello to the next chapter of the Testing Handbook!](https://blog.trailofbits.com/2023/12/11/say-hello-to-the-next-chapter-of-the-testing-handbook/)|2023|
+|[Fuzzing](https://appsec.guide/docs/fuzzing/)| [Master fuzzing with our new Testing Handbook chapter](https://blog.trailofbits.com/2024/02/09/master-fuzzing-with-our-new-testing-handbook-chapter/)|2024|
+
+### 🎥 Webinars
+
+| Topic | Link |
+|---|---|
+| Introduction to Semgrep | https://www.youtube.com/watch?v=yKQlTbVlf0Q |
 
 ### 🚧 Under construction
 
-- Fuzzing
 - Burp Suite Professional
+- Formal verification and Tamarin
 - Rust
 
 ## How to contribute
@@ -111,8 +118,7 @@ Your browser will be automatically refreshed with changes whenever you save a fi
      with Visual Studio Code for better user experience while working on the Testing Handbook.
   3. **Spellcheck**: This step checks the spelling in Markdown files
      (built on top of [retext](https://github.com/retextjs/retext) and [remark](https://github.com/remarkjs/remark)).
-     It uses a custom dictionary file (`.github/workflows/dictionary.txt`) and the
-     [tbroadley/spellchecker-cli-action](https://github.com/tbroadley/spellchecker-cli-action) action.
+     Uses the [tbroadley/spellchecker-cli-action](https://github.com/tbroadley/spellchecker-cli-action) action.
 
 - Familiarize yourself with the [Hugo Book theme](https://hugo-book-demo.netlify.app/)
 as it has a couple of nice features (buttons, etc.)
@@ -129,13 +135,13 @@ since it is the title of a document. But if you'd like to avoid the capitalizati
 ### Workflow: From Google Docs
 
 1. Make your document viewable via a link share.
-2. Create a Google account or use your private one (If you use this method, then your document should be regarded as public, but unpublished).
+2. Create a Google account or use your private one (If you use this method, your document should be considered public but unpublished).
 3. Install [Docs to Markdown](https://workspace.google.com/marketplace/app/docs_to_markdown/700168918607).
-This addon works better than pandoc.
+This addon works better than the pandoc.
 4. Open the document and make a copy.
 5. Open the copy and run the Addon.
 6. Export the markdown and apply fixes:
-   - Search for occurences of `<code>` or `<strong>` or any other html tags
+   - Search for occurrences of `<code>` or `<strong>` or any other html tags
    - Replace HTML tables with markdown ones (<https://jmalarcon.github.io/markdowntables/>)
    - If you split your document, fix internal links.
    - Add missing images.
@@ -145,7 +151,7 @@ This addon works better than pandoc.
    - . at the end of fig captions?
    - Note that index bundles do not use the "slug"
 
-### Custom enviornments
+### Custom environments
 
 ```md
 {{< customFigure "Caption" >}}
