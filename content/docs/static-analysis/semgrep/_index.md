@@ -12,6 +12,9 @@ Because of its ease of use, no need to build the code, multiple built-in rules, 
 it is usually the first tool to run on an audited codebase. Furthermore, Semgrep's integration into the CI/CD pipeline
 makes it a good choice for ensuring code quality.
 
+{{< hint info >}}🎥 Watch the Trail of Bits Webinar on [Introduction to Semgrep](https://www.youtube.com/watch?v=yKQlTbVlf0Q),
+where we guide you on effectively bootstrapping Semgrep, the first section in this testing handbook{{< /hint >}}
+
 ## Benefits of using Semgrep
 
 - Prevents re-entry of known bugs and security vulnerabilities
