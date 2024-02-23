@@ -7,7 +7,8 @@ weight: 1
 
 # Unit tests
 
-This is the most basic type of testing that every project should have. Unit tests are easy to execute, low-effort to implement, and catch a lot of simple mistakes.
+This is the most basic type of testing that every project should have.
+Unit tests are easy to execute, low-effort to implement, and catch a lot of simple mistakes.
 
 ## Installation and first steps
 
