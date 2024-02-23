@@ -31,9 +31,10 @@ hope to demystify static and dynamic analysis techniques such as fuzzing and tai
 |[Fuzzing](https://appsec.guide/docs/fuzzing/)| [Master fuzzing with our new Testing Handbook chapter](https://blog.trailofbits.com/2024/02/09/master-fuzzing-with-our-new-testing-handbook-chapter/)|2024|
 
 ### 🎥 Webinars
+
 | Topic | Link |
 |---|---|
-| Introduction to Semgrep | https://www.youtube.com/watch?v=yKQlTbVlf0Q | 
+| Introduction to Semgrep | https://www.youtube.com/watch?v=yKQlTbVlf0Q |
 
 ### 🚧 Under construction
 
