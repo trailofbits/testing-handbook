@@ -16,7 +16,8 @@ is steep, and documentation for the CodeQL standard libraries is still scant.
 
 {{< hint info >}}🎥 Watch the Trail of Bits Webinar on
 [Introduction to CodeQL: Examples, Tools and CI Integration](https://www.youtube.com/watch?v=rQRlnUQPXDw),
-where we lead a session on how to get started with CodeQL, as part of the second chapter in the Trail of Bits Testing Handbook{{< /hint >}}
+where we lead a session on how to get started with CodeQL, as part of the second chapter
+in the Trail of Bits Testing Handbook{{< /hint >}}
 
 {{< hint danger >}}
 
