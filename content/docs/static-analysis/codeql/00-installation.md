@@ -207,9 +207,8 @@ codeql database analyze codeql.db --format=sarif-latest --output=results.sarif -
 ```
 
 [SARIF](https://github.com/microsoft/sarif-tutorials) is a common output format
-used by many static-analysis tools. If you are using VSCode, the SARIF output
-can be displayed inline by the
-[VSCode SARIF Viewer extension](https://marketplace.visualstudio.com/items?itemName=MS-SarifVSCode.sarif-viewer).
+used by many static-analysis tools. If you are using VSCode, you can view the SARIF results with the
+[VSCode SARIF ExplorerViewer extension](https://marketplace.visualstudio.com/items?itemName=trailofbits.sarif-explorer).
 Apart from SARIF, CodeQL also supports CSV output.
 
 ## Installing new query packs

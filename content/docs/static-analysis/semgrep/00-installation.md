@@ -209,7 +209,7 @@ according to your preferences and tooling.
 
    b. Using output formats with external tools:
      - **SARIF format**: Use the SARIF format with the Visual Studio Code and the
-       [SARIF Viewer](https://marketplace.visualstudio.com/items?itemName=MS-SarifVSCode.sarif-viewer) extension.
+       [SARIF Explorer](https://marketplace.visualstudio.com/items?itemName=trailofbits.sarif-explorer) extension.
        This makes it easy to review the analysis results and drill down into specific issues to understand their
        impact and severity.
      - **VIM format**: Use the VIM format to have all the information about a finding in a single line, making it
