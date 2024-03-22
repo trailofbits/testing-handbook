@@ -14,6 +14,12 @@ support for both inter- and intraprocedural control flow and data flow analysis.
 However, be aware that the learning curve for writing your own custom queries
 is steep, and documentation for the CodeQL standard libraries is still scant.
 
+{{< hint info >}}🎥 Watch the Trail of Bits Webinar on
+[Introduction to CodeQL: Examples, Tools and CI Integration](https://www.youtube.com/watch?v=rQRlnUQPXDw),
+where we show you how we used CodeQL to find real-world security issues,
+the tools needed for an effective CodeQL experience, and how to set up your CodeQL CI integration
+{{< /hint >}}
+
 {{< hint danger >}}
 
 If you are planning to run CodeQL on a closed-source repository, you may need
