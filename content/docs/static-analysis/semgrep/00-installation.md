@@ -218,7 +218,7 @@ according to your preferences and tooling.
        ```
 
      - **VIM format**: Use the VIM format to have all the information about a finding in a single line, making it
-      convenient for users of the Vim text editor. Example usage of the `p/default` ruleset with the VIM output file:
+       convenient for users of the Vim text editor. Example usage of the `p/default` ruleset with the VIM output file:
 
        ```sh
        semgrep -c p/default --vim --output scan_results.vim
