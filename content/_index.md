@@ -101,6 +101,18 @@ codeql database analyze codeql.db --format=sarif-latest --output=results.sarif -
 
 {{< /details >}}
 
+## Custom fuzzers
+
+We make extensive use of fuzzing when auditing software for bugs. To that end,
+we often build our own fuzzers when we cannot find one for the task at hand. The
+following is a list of fuzzers we have built and endorse using:
+
+- [Mishegos](https://github.com/trailofbits/mishegos): a differential fuzzer for x86 decoders
+- [Ruzzy](https://github.com/trailofbits/ruzzy): a coverage-guided fuzzer for pure Ruby code and Ruby C extensions
+- [Medusa](https://github.com/crytic/medusa): a parallelized, coverage-guided, mutational Solidity smart contract fuzzer
+- [Echidna](https://github.com/crytic/echidna): Ethereum smart contract fuzzer
+- [Tayt](https://github.com/crytic/tayt): StarkNet smart contract fuzzer
+
 ## Feedback
 <!-- markdown-link-check-disable -->
 We want to actively maintain the highest possible quality and expand the content of the Testing Handbook.
