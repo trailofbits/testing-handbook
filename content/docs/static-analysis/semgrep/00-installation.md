@@ -216,7 +216,7 @@ according to your preferences and tooling.
       ```sh
       semgrep -c p/default --sarif --output scan_results.sarif
       ```
-       
+
      - **VIM format**: Use the VIM format to have all the information about a finding in a single line, making it
       convenient for users of the Vim text editor. Example usage of the `p/default` ruleset with the VIM output file:
 
