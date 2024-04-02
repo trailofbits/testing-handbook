@@ -211,9 +211,18 @@ according to your preferences and tooling.
      - **SARIF format**: Use the SARIF format with the Visual Studio Code and the
        [SARIF Explorer](https://marketplace.visualstudio.com/items?itemName=trailofbits.sarif-explorer) extension.
        This makes it easy to review the analysis results and drill down into specific issues to understand their
-       impact and severity.
+       impact and severity. Example usage of the `p/default` ruleset with the SARIF output format:
+
+       ```sh
+       semgrep -c p/default --sarif --output scan_results.sarif
+       ```
+
      - **VIM format**: Use the VIM format to have all the information about a finding in a single line, making it
-      convenient for users of the Vim text editor.
+       convenient for users of the Vim text editor. Example usage of the `p/default` ruleset with the VIM output format:
+
+       ```sh
+       semgrep -c p/default --vim --output scan_results.vim
+       ```
 
    c. Filtering and limiting results:
      - Use the `--severity [INFO|WARNING|ERROR]` flag to report findings only from rules that match
