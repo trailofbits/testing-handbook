@@ -112,6 +112,7 @@ out-of-band vulnerabilities. When you inject any Burp Collaborator payload (or u
 in the request), watch for interactions in the **Collaborator** tab.
 When using Taborator, interactions will be displayed in the **Taborator** tab instead.
 4. **Sort specific columns**. Properly sorting the result columns can provide better insights:
+
    a. **Length**: Check for unusual response lengths. If most are similar lengths but a few deviate significantly,
    the payloads leading to these differences might have triggered unexpected behavior in the application.
    For example, each response length is typically 1565, but one returns a length of 1337. That could indicate a different
