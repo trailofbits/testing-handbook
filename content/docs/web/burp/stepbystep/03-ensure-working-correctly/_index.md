@@ -1,8 +1,8 @@
 ---
 title: "Ensure your app handling works correctly"
-slug: app-handling
 summary: "It’s essential to prepare Burp to handle your target application if you want the best results when using Burp’s automatic scanning capabilities. This way, you will not miss proper functionality testing because of application errors, which will allow you to find more bugs."
 weight: 30
+url: docs/web/burp/guide/app-handling
 ---
 
 # Ensure your app handling works correctly

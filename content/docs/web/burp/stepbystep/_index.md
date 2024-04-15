@@ -1,8 +1,9 @@
 ---
 title: "Step-by-step guide: rapidly mastering Burp to test your app"
-slug: rapidlymaster
+slug: guide
 summary: "This section gives you a step-by-step guide to rapidly mastering Burp to test your app."
 weight: 10
+url: docs/web/burp/guide
 ---
 
 # Step-by-step guide: rapidly mastering Burp to test your app

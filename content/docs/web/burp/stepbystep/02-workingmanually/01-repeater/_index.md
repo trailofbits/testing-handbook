@@ -1,9 +1,9 @@
 ---
 title: "Burp Repeater"
-slug: repeater
 summary: "Burp Repeater allows you to manually manipulate and modify HTTP requests and analyze their responses."
 weight: 1
 bookToc: true
+url: docs/web/burp/guide/manual-work/repeater
 ---
 
 

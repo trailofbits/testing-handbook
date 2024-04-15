@@ -4,6 +4,7 @@ slug: collaborator
 summary: "Burp Collaborator is a Burp Suite Professional ecosystem tool that helps uncover hidden security vulnerabilities in your web applications. By allowing your testing to span more than just the immediate interaction with a target, Burp Collaborator opens the door to identifying out-of-band (OOB) vulnerabilities."
 weight: 3
 bookToc: true
+url: docs/web/burp/guide/manual-work/collaborator
 ---
 
 # Burp Collaborator

@@ -1,9 +1,9 @@
 ---
 title: "Additional resources"
-slug: resources
 summary: "Learn more about Burp using the external resources listed on this page."
 weight: 99
 bookToc: false
+url: docs/web/burp/resources
 ---
 
 # Additional resources

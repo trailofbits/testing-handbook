@@ -3,6 +3,7 @@ title: "Live Task"
 slug: livetask
 summary: "Live tasks process traffic from specific Burp Suite tools and perform defined actions."
 weight: 10
+url: docs/web/burp/guide/livetask
 ---
 <!-- markdownlint-disable first-line-h1 -->
 ## First run with a live task

@@ -1,9 +1,9 @@
 ---
 title: "Burp Intruder"
-slug: intruder
 summary: "Burp Intruder is a tool for automating customized attacks against web applications and serves as an HTTP request fuzzer."
 weight: 2
 bookToc: true
+url: docs/web/burp/guide/manual-work/intruder
 ---
 
 # Burp Intruder
