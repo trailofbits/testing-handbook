@@ -116,9 +116,6 @@ curl -A 8oxo34j107g7kxk2ais46459u00sojc8 tobbytest.com
 
 {{< /customFigure >}}
 
-Figure 12: The request to Burp Collaborator with a 
-payload placed in the User-Agent header
-
 {{< resourceFigure "burp-collaborator-ua.png" >}}
 The request to Burp Collaborator with a payload placed in the `User-Agent` header
 {{< / resourceFigure >}}
