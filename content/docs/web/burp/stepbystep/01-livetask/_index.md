@@ -33,7 +33,7 @@ URL and parameter names, regardless of their parameter values.
 
     With **Ignore duplicate items based on URL and parameter names** checked, Burp Suite will scan this URL only once,
     regardless of the different `id` values you use. It treats all these requests (`http://example.com/profile?id=1234`,
-    `http://example.com/profile?id=2345`, etc.) as duplicates based on their common URL /profile and the id parameter name.
+    `http://example.com/profile?id=2345`, etc.) as duplicates based on their common URL `/profile` and the `id` parameter name.
     This helps prevent unnecessary redundancy in the scanning process, which in turn can save valuable time.
 
 5. Go to **Scan configuration**, click on the **Select from library** button, and select **Audit coverage - maximum** to

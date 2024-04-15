@@ -29,6 +29,7 @@ You can learn more about race condition issues on the [PortSwigger website](http
 
 To conveniently detect race conditions, Burp allows you to group multiple requests and send them in a short time window.
 So you can prepare multiple requests in Burp Repeater, send them almost simultaneously, and observe the system's behavior.
+
 To group multiple requests in Burp Repeater, click the **+** sign and select **Add tab**:
 
 {{< resourceFigure "repeater-add-tab.png" "" 600>}}
@@ -59,7 +60,7 @@ You can find more information on specific attack types in the original research,
 
 You can also send multiple instances of a request in parallel using Turbo Intruder. Select the specific
 request in Burp (e.g., from Burp Repeater), then right-click on the request
-and choose **Extensions** > **Turbo Intruder** > **Send to Turbo Intruder**. Then select the example script, `**examples/race-single-packet-attack.py**`:
+and choose **Extensions** > **Turbo Intruder** > **Send to Turbo Intruder**. Then select the example script, **`examples/race-single-packet-attack.py`**:
 
 {{< resourceFigure "turbo-intruder.png" >}}
 The example `race-single-packet-attack.py` Turbo Intruder script
@@ -71,9 +72,9 @@ click **Attack**, and observe the results.
 If you need to differentiate specific parameters in requests, you can do the following:
 
 1. Use Hackvertor tags in the request:
-    {{< resourceFigure "hackvertor-turbo-intruder.png" >}}
-    An example use of the Hackvertor tag in the requests in Turbo Intruder
-    {{< / resourceFigure >}}
+{{< resourceFigure "hackvertor-turbo-intruder.png" "" 550>}}
+An example use of the Hackvertor tag in the requests in Turbo Intruder
+{{< / resourceFigure >}}
 
 2. Use the `%s` injection point (e.g., iterator `i` of the `for` loop). To configure the injection point, put the `%s` placeholder
 in the request and edit the engine queue to include the iterator `i` as follows:
@@ -82,11 +83,11 @@ in the request and edit the engine queue to include the iterator `i` as follows:
     engine.queue(target.req, str(i), gate=’race1’):
     ```
 
-    {{< resourceFigure "injection-pt-turbo-intruder.png" >}}
-    The example injection point configuration in Turbo Intruder
-    {{< / resourceFigure >}}
+{{< resourceFigure "injection-pt-turbo-intruder.png" >}}
+The example injection point configuration in Turbo Intruder
+{{< / resourceFigure >}}
 
-    This way, wherever you place `%s`, it will be replaced with an iterative number in the request.
+This way, wherever you place `%s`, it will be replaced with an iterative number in the request.
 
 ### Using Backslash Powered Scanner for automated identification of potential race conditions
 
@@ -137,7 +138,7 @@ analyze authorization issues properly because the application can return an erro
 you can use the Hackvertor extension in the original request sent to Autorize, and Autorize will process its tags.
 To use Hackvertor tags in Burp Proxy, enable them in the settings by selecting **Allow tags in Proxy**:
 
-{{< resourceFigure "allow-tags-in-proxy.png" >}}
+{{< resourceFigure "allow-tags-in-proxy.png" "" 350>}}
 The possible settings for the Hackvertor extension in Burp
 {{< / resourceFigure >}}
 
@@ -214,7 +215,7 @@ Resources:
 If you want to shut down all tasks (e.g., active Burp Scanner, Burp Intruder) in Burp, you generally can use this power button:
 
 {{< resourceFigure "pause-tasks.png" "" 200>}}
-Showing the auto-modified response
+Pausing all tasks in Burp’s Dashboard
 {{< / resourceFigure >}}
 
 The button pauses all tasks but does not pause running extensions. So if you have a running extension issuing requests,
@@ -244,7 +245,7 @@ to its built-in scanning routine, helping you to target your scans and make your
 BChecks are written in a `.bcheck` file extension with a plaintext, custom definition language to declare the behavior of the check.
 For more information, see [BCheck examples](https://github.com/PortSwigger/BChecks).
 
-See the example, `suspicious-input-transformation.bcheck`. Taking a closer look at this BCheck file,
+See the example, [`suspicious-input-transformation.bcheck`](https://github.com/PortSwigger/BChecks/blob/main/examples/suspicious-input-transformation.bcheck). Taking a closer look at this BCheck file,
 we notice that this particular check is designed to identify suspicious input transformation that might suggest the application
 is vulnerable to some kind of server-side code injection, such as server-side template injection.
 
@@ -359,7 +360,7 @@ custom extension (figure 22). This will avoid the situation where the authorizat
 return a “401 Unauthorized” error. The extension reads the authorization header from traffic proxied by the browser and replaces
 it when the old header expires in requests sent by Burp.
 
-To make it work, install the extension (figure 23), edit the target hostname (line 20), and add a new session handling rule
+To make it work, install the extension (figure 23), edit the target hostname (line 19), and add a new session handling rule
 to enable the custom extension in Burp Scanner and Burp’s extensions. In Burp’s settings, go to the **Sessions** tab and add
 a new session handling rule. In **Rule actions**, select **Add** and **Invoke a Burp extension**, then select
 the **Replace Authorization Bearer Token** in the extension action handler. In the **Session handling rule editor** window,
@@ -372,7 +373,7 @@ The session handling rule configuration
 
 {{< customFigure "A custom Burp extension to replace the `Authorization` header" >}}
 
-```python
+```python {linenos=inline}
 from burp import IBurpExtender, IProxyListener, IHttpRequestResponse, IExtensionHelpers, ISessionHandlingAction, IRequestInfo
 from java.util import ArrayList
 from java.net import URL

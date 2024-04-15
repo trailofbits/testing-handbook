@@ -20,7 +20,7 @@ Burp's UI also significantly outperforms browser development tools when it comes
 
 Burp contains four major features:
 
-1. **Burp Proxy**. The Proxy tab lets you view, sort, and filter proxied requests and responses.
+1. **Burp Proxy**. The **Proxy** tab lets you view, sort, and filter proxied requests and responses.
 2. **Burp Scanner (both active and passive)**. The passive Burp Scanner analyzes requests and responses and informs users
    about potential issues. The active Burp Scanner generates requests to send to the server, testing it for potential
    vulnerabilities, and displays the results.
@@ -41,7 +41,9 @@ vulnerabilities isn't always straightforward. Here are some of the challenges:
 * Large products contain various components spread over complicated infrastructure, making the system’s real-world behavior hard
   to predict.
 * The presence of bugs varies depending on the configuration of the deployment environment (e.g., staging vs. production).
+
 Burp addresses these challenges by providing a practical suite of tools that help you do the following:
+
 * Identify server-side issues and unexpected behaviors.
 * Identify client-side vulnerabilities (with the assistance of Burp's DOM Invader Chromium extension).
 * Make sense of the data sent to the front end, uncovering its purpose and how it affects the application's behavior in instances
@@ -60,7 +62,7 @@ significantly enhance your ability to uncover potential security vulnerabilities
 ## 3. What this Testing Handbook will give you
 
 This handbook provides the answers: what you can precisely do to enhance the security of a product with minimal time and effort.
-We give you strategic ideas with links to the official documentation.
+We give you strategic ideas with links to the [official documentation](https://portswigger.net/burp/documentation).
 At this point in the Testing Handbook, we recommend that you do the following:
 
 * Reach out for free to [PortSwigger Web Security Academy](https://portswigger.net/web-security) to obtain

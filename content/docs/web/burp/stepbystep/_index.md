@@ -19,14 +19,14 @@ on your system.
 To launch Burp's embedded browser based on Chromium, select the **Proxy** > **Intercept** tab and click the **Open browser** button.
 Before proceeding, get familiar with [Proxy intercept](https://portswigger.net/burp/documentation/desktop/tools/proxy/intercept-messages).
 
-If you want to configure an external browser other than Chromium (e.g., Firefox or Safari), refer to the **official documentation**.
+If you want to configure an external browser other than Chromium (e.g., Firefox or Safari), refer to the [official documentation](https://portswigger.net/burp/documentation/desktop/external-browser-config).
 
 ## First run of your target web application in Burp
 
 1. Open your web application using the embedded Burp browser. Go through the largest number of functionalities you want to cover,
    such as logging in, signing up, and visiting possible features and panels.
 2. [Add your targets to your scope](https://portswigger.net/burp/documentation/desktop/getting-started/setting-target-scope#:~:text=Step%204%3A%20Set%20the%20target%20scope).
-   Narrowing down specific domains in the **Target tab** allows you to control what’s tested.
+   Narrowing down specific domains in the **Target** tab allows you to control what’s tested.
 
    a. Consider stopping Burp from sending out-of-scope items to the history. A pop-up will be shown with the text,
    “‘Do you want Burp Proxy to stop sending out-of-scope items to the history or other Burp tools?” Choose one of the following options:
@@ -40,7 +40,7 @@ If you want to configure an external browser other than Chromium (e.g., Firefox 
 
 3. Once you configure the scope, briefly look at Burp Proxy and what’s happening in the intercepted traffic.
 
-   a. When you go through the application with Burp attached, many unwanted requests (e.g., to fonts.googleapis.com)
+   a. When you go through the application with Burp attached, many unwanted requests (e.g., to `fonts.googleapis.com`)
    can crop up in the **Intercept** tab.
 
    b. To turn off intercepting the uninteresting host, click on the intercepted request in the **Interception** tab, right-click,

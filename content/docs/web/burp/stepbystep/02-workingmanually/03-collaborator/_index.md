@@ -106,7 +106,7 @@ the `oastify.com` domain would be denylisted.
 
 For example, you can have the `8oxo34j107g7kxk2ais46459u00sojc8.oastify.com` Burp Collaborator payload point
 to the IP address `54.77.139.23`, which means you can set up your own domain that points to this IP address—for example,
-`tobbytest.com`. You can send a request to tobbytest.com and set the User-Agent header to `8oxo34j107g7kxk2ais46459u00sojc8`.
+`tobbytest.com`. You can send a request to tobbytest.com and set the `User-Agent` header to `8oxo34j107g7kxk2ais46459u00sojc8`.
 Burp Collaborator will still tell you that it received an HTTP request.
 
 {{< customFigure "The curl command to send a request to the tobbytest.com server with a customized User-Agent header" >}}
