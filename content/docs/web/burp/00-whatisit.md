@@ -63,7 +63,7 @@ This handbook provides the answers: what you can precisely do to enhance the sec
 We give you strategic ideas with links to the official documentation.
 At this point in the Testing Handbook, we recommend that you do the following:
 
-* Reach out to <mandy>free of charge</mandy> [PortSwigger Web Security Academy](https://portswigger.net/web-security) to obtain
+* Reach out for free to [PortSwigger Web Security Academy](https://portswigger.net/web-security) to obtain
   knowledge of web vulnerabilities.
 * Go to the [PortSwigger website](https://portswigger.net/burp/pro) to request a trial or buy a license
   (we mostly work on the paid Burp Suite Professional version).

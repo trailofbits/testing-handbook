@@ -45,7 +45,7 @@ Here are some scenarios:
 wordlist could yield more fruitful results. For instance, the SecLists [big English wordlist](https://github.com/danielmiessler/SecLists/blob/master/Discovery/Web-Content/raft-large-words-lowercase.txt) is useful when looking for hidden
 or undocumented POST, GET, or JSON parameters.
 2. **Vulnerability-specific lists**. Some wordlists are designed to detect specific vulnerabilities.
-If you want to test for SQL injection, you would use a wordlist packed with SQL injection payloads.
+If you wanted to test for SQL injection, you would use a wordlist packed with SQL injection payloads.
 Similarly, if you are looking for file or directory enumeration vulnerabilities, wordlists with common
 file and directory names could help uncover them.
 3. **Technology stack lists**. Depending on the application's underlying technology, some wordlists might be better suited
@@ -79,18 +79,18 @@ to attack in your HTTP request? Well, bugs can be anywhere, so choose placeholde
 (e.g., path, middle of path, parameter, parameter name, header values, additional headers, etc.).
 Your success depends on the target, the bugs you are looking for, the wordlists you use, your creativity, and your experience.
 
-<mandy>Also, you can add payload markers (`§§`) to the target to parameterize the different URLs that the request is sent (figure 3).
+Additionally, you can add payload markers `§§` to the target to parameterize the different URLs that the request
+is sent to (figure 3).
 
 {{< resourceFigure "target-payload-markers.png" >}}
-Adding payload markers in Burp Intruder to the target
+Adding payload markers to the target in Burp Intruder
 {{< / resourceFigure >}}
 
 {{< hint info >}}
 You can use the [Auto feature](https://portswigger.net/burp/documentation/desktop/tools/intruder/configure-attack/positions#:~:text=Apply%20automatic%20payload%20markers%20%2D%20click%20Auto%20%C2%A7)
-in Burp Intruder to automatically place payload markers in common positions within the request, such as query parameters,
-body parameters, etc.
+in Burp Intruder to automatically place payload markers in common positions within the request,
+such as query parameters, body parameters, and so on.
 {{< /hint >}}
-</mandy>
 
 ## What to look for?
 
@@ -128,8 +128,8 @@ When using Taborator, interactions will be displayed in the **Taborator** tab in
 
 ## Various Burp Intruder tips
 
-1. <mandy>[Create a specific resource pool](https://portswigger.net/burp/documentation/desktop/tools/intruder/configure-attack/resource-pool)
-for Intruder attacks so that the scanner and Intruder are not competing against each other for workers to issue the requests.</mandy>
+1. [Create a specific resource pool](https://portswigger.net/burp/documentation/desktop/tools/intruder/configure-attack/resource-pool)
+for Burp Intruder attacks so that Burp Scanner and Burp Intruder are not competing against each other for workers to issue the requests.
 
 2. By default, a Burp Intruder URL encodes specific characters within the final payload.
 Consider running the attack twice—with enabled and disabled payload encoding. Refer to [Burp Intruder payload processing](https://portswigger.net/burp/documentation/desktop/tools/intruder/configure-attack/processing#:~:text=Configuring%20payload%20encoding)
@@ -151,9 +151,9 @@ and then choosing the specific payload setting, as shown in figure 4:
 5. You can use the [Recursive grep](https://portswigger.net/burp/documentation/desktop/tools/intruder/configure-attack/payload-types#:~:text=WIENER%0APeter%20wiener-,Recursive%20grep,-This%20enables%20you)
 payload type to extract text from the response to the previous request and use that text as the payload for the current request.
 See the [NahamCon2023: Bug Bounty Village workshop](https://youtu.be/rM61brpBV48?t=9199) (starts at 2:33:19) for an example configuration.
-<mandy>
-6. Always run attacks in temporary project mode (do not click [save attack in the attack configuration](https://portswigger.net/burp/documentation/desktop/tools/intruder/configure-attack/settings#:~:text=Intruder%20settings.-,Save%20attack,-Professional)),
-and then [save the attack to the project file](https://portswigger.net/burp/documentation/desktop/tools/intruder/results/saving-attacks)
+
+6. Always run attacks in temporary project mode (do *not* click [**Save attack to project file** in the attack configuration](https://portswigger.net/burp/documentation/desktop/tools/intruder/configure-attack/settings#:~:text=Intruder%20settings.-,Save%20attack,-Professional)),
+and then click [**Save the attack to the project file**](https://portswigger.net/burp/documentation/desktop/tools/intruder/results/saving-attacks)
 if you want to preserve the results afterward.
 
 7. [Intruder can automatically generate collaborator payloads](https://portswigger.net/burp/documentation/desktop/tools/intruder/configure-attack/payload-types#:~:text=processing%20rule.-,Collaborator%20payloads,-This%20generates%20and)
@@ -162,11 +162,9 @@ it will update the results with the interaction count and raise the issue in the
 providing that the attack has not been deleted.
 
 {{< resourceFigure "collabo-event-log.png" >}}
-An issue raised in the Event log upon a collaborator payload interaction
+An issue raised in the Event log upon a Burp Collaborator payload interaction
 {{< / resourceFigure >}}
 
 {{< resourceFigure "collabo-interaction-column.png" >}}
-The Interactions column in Burp Intruder attack upon a collaborator payload interaction
+The Interactions column in a Burp Intruder attack upon a Burp Collaborator payload interaction
 {{< / resourceFigure >}}
-
-</mandy>

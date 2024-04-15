@@ -62,7 +62,7 @@ Some extensions fall under the category of “turn on and forget.” They are mo
 Burp Scanner task without user interaction, with results appearing in the **Issue activity** pane of the **Dashboard** tab.
 We generally recommend the following extensions, which should apply to most web applications:
 
-1. [**ActiveScan++**](https://portswigger.net/bappstore/3123d5b5f25c4128894d97ea1acc4976) enhances the default active and
+1. [**Active Scan++**](https://portswigger.net/bappstore/3123d5b5f25c4128894d97ea1acc4976) enhances the default active and
 passive scanning capabilities of Burp Suite.
 It adds checks for vulnerabilities that the default Burp Scanner might miss.
 2. [**Backslash Powered Scanner**](https://portswigger.net/bappstore/9cff8c55432a45808432e26dbb2b41d8) extends the active
@@ -82,8 +82,9 @@ Some of the above extensions need
 configured in Burp.
 
 {{< hint warning >}}
-<mandy>Because of the performance impact of enabling too many extensions, you should only enable extensions that you are actively
-using. We encourage you to periodically review your currently enabled extensions and unload any that you don't currently use.
+Because of the performance impact of enabling too many extensions,
+you should enable only extensions that you are actively using.
+We encourage you to periodically review your enabled extensions and unload any that you don't currently use.
 {{< /hint >}}
 
 ## First run with a live task

@@ -127,12 +127,12 @@ It’s also possible to configure Burp Repeater. Specific options are crucial in
 - [Client-side desync attacks](https://portswigger.net/web-security/request-smuggling/browser/client-side-desync)  
 - [HTTP request smuggling](https://portswigger.net/web-security/request-smuggling)
 
-<mandy>There are two levels of Burp Repeater configuration - a global configuration that is applied to all Repeater tabs by default
+There are two levels of Burp Repeater configurations: a global configuration that is applied to all Burp Repeater tabs by default
 (figure 5) and a local configuration for each individual tab (figure 6) that can override the global settings
 if you need to do something different in that scenario.
 
 {{< resourceFigure "repeater_options.png" >}}
-Possible options for the Repeater feature in Burp
+Possible options for the Burp Repeater feature
 {{< / resourceFigure >}}
 
 {{< resourceFigure "repeater_tab_options.png" >}}
