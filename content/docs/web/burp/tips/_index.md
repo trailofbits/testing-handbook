@@ -245,9 +245,10 @@ to its built-in scanning routine, helping you to target your scans and make your
 BChecks are written in a `.bcheck` file extension with a plaintext, custom definition language to declare the behavior of the check.
 For more information, see [BCheck examples](https://github.com/PortSwigger/BChecks).
 
-See the example, [`suspicious-input-transformation.bcheck`](https://github.com/PortSwigger/BChecks/blob/main/examples/suspicious-input-transformation.bcheck). Taking a closer look at this BCheck file,
-we notice that this particular check is designed to identify suspicious input transformation that might suggest the application
-is vulnerable to some kind of server-side code injection, such as server-side template injection.
+See the example, [`suspicious-input-transformation.bcheck`](https://github.com/PortSwigger/BChecks/blob/main/examples/suspicious-input-transformation.bcheck).
+Taking a closer look at this BCheck file, we notice that this particular check is designed to identify suspicious input
+transformation that might suggest the application is vulnerable to some kind of server-side code injection,
+such as server-side template injection.
 
 Here is what’s happening in `suspicious-input-transformation.bcheck`:
 
