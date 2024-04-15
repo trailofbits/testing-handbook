@@ -42,8 +42,8 @@ Your choice of wordlist should correspond to the specifics of the application an
 Here are some scenarios:
 
 1. **Language-specific lists**. If you are testing an application predominantly in a particular language, using a language-specific
-wordlist could yield more fruitful results. For instance, the SecLists [big English wordlist](https://github.com/danielmiessler/SecLists/blob/master/Discovery/Web-Content/raft-large-words-lowercase.txt) is useful when looking for hidden
-or undocumented POST, GET, or JSON parameters.
+wordlist could yield more fruitful results. For instance, the SecLists [big English wordlist](https://github.com/danielmiessler/SecLists/blob/master/Discovery/Web-Content/raft-large-words-lowercase.txt)
+is useful when looking for hidden or undocumented POST, GET, or JSON parameters.
 2. **Vulnerability-specific lists**. Some wordlists are designed to detect specific vulnerabilities.
 If you wanted to test for SQL injection, you would use a wordlist packed with SQL injection payloads.
 Similarly, if you are looking for file or directory enumeration vulnerabilities, wordlists with common
@@ -60,7 +60,7 @@ You can load your own directory of custom wordlists in the [Intruder settings](h
 This allows your custom wordlists to be easily accessible.
 {{< /hint >}}
 
-{{< resourceFigure "custom-wordlists.png" >}}
+{{< resourceFigure "custom-wordlists.png" "" 600>}}
 Example custom payload list in Burp Intruder
 {{< / resourceFigure >}}
 
@@ -82,7 +82,7 @@ Your success depends on the target, the bugs you are looking for, the wordlists 
 Additionally, you can add payload markers `§§` to the target to parameterize the different URLs that the request
 is sent to (figure 3).
 
-{{< resourceFigure "target-payload-markers.png" >}}
+{{< resourceFigure "target-payload-markers.png" "" 400>}}
 Adding payload markers to the target in Burp Intruder
 {{< / resourceFigure >}}
 
@@ -144,7 +144,7 @@ will escape and encode input in various ways. You can place `§§` characters in
 choose them in the **Payloads** tab in Burp Intruder by selecting **Extension-generated** in the **Payload type** drop-down menu
 and then choosing the specific payload setting, as shown in figure 4:
 
-   {{< resourceFigure "extension-generated.png" >}}
+   {{< resourceFigure "extension-generated.png" "" 550>}}
    The **Payloads** tab when configuring an attack in Burp Intruder.
    {{< / resourceFigure >}}
 
@@ -165,6 +165,6 @@ providing that the attack has not been deleted.
 An issue raised in the Event log upon a Burp Collaborator payload interaction
 {{< / resourceFigure >}}
 
-{{< resourceFigure "collabo-interaction-column.png" >}}
+{{< resourceFigure "collabo-interaction-column.png" "" 550>}}
 The Interactions column in a Burp Intruder attack upon a Burp Collaborator payload interaction
 {{< / resourceFigure >}}

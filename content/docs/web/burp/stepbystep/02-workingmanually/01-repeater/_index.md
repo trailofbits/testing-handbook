@@ -65,11 +65,11 @@ For example, you can conveniently use `<@base64>AAA<@/base64>` to Base64-encode 
 When you manually try to bypass server-side sanitization, use **Auto-scroll to match when text changes** and add custom text both
 in your payload and in the search form:
 
-{{< resourceFigure "test1337placeholder1.png" >}}
+{{< resourceFigure "test1337placeholder1.png" "" 550>}}
 An example payload in a request with the `test1337` placeholder
 {{< / resourceFigure >}}
 
-{{< resourceFigure "test1337placeholder2.png" >}}
+{{< resourceFigure "test1337placeholder2.png" "" 550>}}
 The auto-scroll configuration to match when the `test1337` placeholder appears in a response
 {{< / resourceFigure >}}
 
@@ -103,7 +103,7 @@ To confirm the presence of a CSRF vulnerability, Burp Suite includes functionali
 a proof of concept (PoC) for a CSRF attack. To automatically generate HTML for a CSRF attack PoC in Burp,
 right-click on the specific request, then choose **Engagement tools** > **Generate CSRF PoC**:
 
-{{< resourceFigure "generatecsrfpoc.png" >}}
+{{< resourceFigure "generatecsrfpoc.png" "" 400>}}
 The context menu in Burp to generate a CSRF PoC
 {{< / resourceFigure >}}
 
@@ -111,7 +111,7 @@ Burp will try to automatically adjust the [exploitation technique](https://ports
 for the request; however, sometimes you may need to select the technique manually by clicking the **Options** button
 in the CSRF PoC generator:
 
-{{< resourceFigure "csrfoptions.png" >}}
+{{< resourceFigure "csrfoptions.png" "" 400>}}
 Possible options for the configured CSRF PoC
 {{< / resourceFigure >}}
 
@@ -131,11 +131,11 @@ There are two levels of Burp Repeater configurations: a global configuration tha
 (figure 5) and a local configuration for each individual tab (figure 6) that can override the global settings
 if you need to do something different in that scenario.
 
-{{< resourceFigure "repeater_options.png" >}}
+{{< resourceFigure "repeater_options.png" "" 550>}}
 Possible options for the Burp Repeater feature
 {{< / resourceFigure >}}
 
-{{< resourceFigure "repeater_tab_options.png" >}}
+{{< resourceFigure "repeater_tab_options.png" "" 550>}}
 Burp Repeater settings for the individual tab
 {{< / resourceFigure >}}
 
@@ -200,7 +200,6 @@ The Content Type Converter extension allows you to convert data submitted in a r
 Example: if you have an original request that submits data using JSON, try converting the data to XML to see if the application
 accepts data in XML form. If it does, try to identify XML-related vulnerabilities (such as XXE).
 
-{{< resourceFigure "content-type-converter.png" >}}
+{{< resourceFigure "content-type-converter.png" "" 550>}}
 The Content Type Converter context menu
 {{< / resourceFigure >}}
-

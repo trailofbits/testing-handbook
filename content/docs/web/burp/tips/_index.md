@@ -11,7 +11,7 @@ weight: 20
 Let’s say you need to find a certain value or error string, but you can’t remember where you saw it (i.e., in which Burp tool).
 Was it in Burp Repeater, Burp Scanner, Burp Target? To find it, use the global search in Burp Suite (accessible via **Burp** > **Search**):
 
-{{< resourceFigure "burp-search.png" >}}
+{{< resourceFigure "burp-search.png" "" 550>}}
 The context menu to invoke the Burp Suite **Search** function
 {{< / resourceFigure >}}
 
@@ -31,19 +31,19 @@ To conveniently detect race conditions, Burp allows you to group multiple reques
 So you can prepare multiple requests in Burp Repeater, send them almost simultaneously, and observe the system's behavior.
 To group multiple requests in Burp Repeater, click the **+** sign and select **Add tab**:
 
-{{< resourceFigure "repeater-add-tab.png" >}}
+{{< resourceFigure "repeater-add-tab.png" "" 600>}}
 Adding a tab in the **Repeater** tab
 {{< / resourceFigure >}}
 
 Then click on **Create new group** and select tabs (previously prepared requests) for the group:
 
-{{< resourceFigure "create-new-tab-group.png" >}}
+{{< resourceFigure "create-new-tab-group.png" "" 300>}}
 Creating new group of Burp Repeater tabs
 {{< / resourceFigure >}}
 
 Then select **Send group (parallel)**:
 
-{{< resourceFigure "send-in-parallel.png" >}}
+{{< resourceFigure "send-in-parallel.png" "" 400>}}
 The options for the group send in Burp Repeater
 {{< / resourceFigure >}}
 
@@ -213,7 +213,7 @@ Resources:
 
 If you want to shut down all tasks (e.g., active Burp Scanner, Burp Intruder) in Burp, you generally can use this power button:
 
-{{< resourceFigure "pause-tasks.png" >}}
+{{< resourceFigure "pause-tasks.png" "" 200>}}
 Showing the auto-modified response
 {{< / resourceFigure >}}
 
@@ -224,7 +224,7 @@ pause task execution, requests are still being sent.
 If you want to pull the red emergency brake (i.e., pause all traffic), use the [Distribute Damage](https://portswigger.net/bappstore/543ab7a08d954390bd1a5f4253d3763b)
 extension and select **pause all traffic**:
 
-{{< resourceFigure "distributed-damage.png" >}}
+{{< resourceFigure "distributed-damage.png" "" 550>}}
 The configuration of the Distribute Damage extension that pauses all traffic
 {{< / resourceFigure >}}
 
@@ -349,7 +349,7 @@ Chrome extension with Burp for the easiest way to extend your session and preven
 refresh time in the extension and proxy the traffic through Burp. The site should keep you logged in. If the cookies change,
 Burp’s cookie jar will automatically update the cookies in the appropriate requests issued by Burp Scanner.
 
-{{< resourceFigure "easy-auto-refresh.png" >}}
+{{< resourceFigure "easy-auto-refresh.png" "" 400>}}
 The Easy Auto Refresh popup in Chrome browser
 {{< / resourceFigure >}}
 
@@ -366,7 +366,7 @@ the **Replace Authorization Bearer Token** in the extension action handler. In t
 go to the **Scope** tab and select the **Scanner** and **Extensions** in the **Tools scope**.
 
 ![session handling rule](session-handling-rule.png)
-{{< resourceFigure "session-handling-rule-scope.png" >}}
+{{< resourceFigure "session-handling-rule-scope.png">}}
 The session handling rule configuration
 {{< / resourceFigure >}}
 
