@@ -10,7 +10,7 @@ bookToc: false
 
 The following table answers questions about how to use Burp beyond the regular passive and active Burp Scanner checks
 for specific security issues.
-
+<!-- markdownlint-disable no-inline-html line-length-->
 {{<rawHtml "">}}<br>{{</rawHtml>}}
 |Security issues|Burp feature|References|
 |---|---|---|
@@ -34,4 +34,3 @@ for specific security issues.
 |SQL Injection|{{<rawHtml "">}}<li>{{</rawHtml>}}[Backslash Powered Scanner](https://portswigger.net/bappstore/9cff8c55432a45808432e26dbb2b41d8) extension{{<rawHtml "">}}<li>{{</rawHtml>}}The specific Burp request saved to a text file and passed as a file to the sqlmap tool using the [`-r` argument](https://github.com/sqlmapproject/sqlmap/wiki/Usage#:~:text=%2Dr%20REQUESTFILE%20%20%20%20%20%20Load%20HTTP%20request%20from%20a%20file).||
 |Server-side request forgery (SSRF)|{{<rawHtml "">}}<li>{{</rawHtml>}}Burp Intruder with appropriate wordlists{{<rawHtml "">}}<li>{{</rawHtml>}}Manual interaction with Burp Collaborator payloads (or [Taborator](https://portswigger.net/bappstore/c9c37e424a744aa08866652f63ee9e0f) with the `$collabplz` placeholder)||
 |Server-side template injection (SSTI)|{{<rawHtml "">}}<li>{{</rawHtml>}}[Active Scan++](https://portswigger.net/bappstore/3123d5b5f25c4128894d97ea1acc4976) extension||
-

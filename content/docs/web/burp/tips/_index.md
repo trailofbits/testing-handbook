@@ -331,11 +331,11 @@ and read the documentation on [Filtering the HTTP history with Bambdas](https://
 The Hackvertor extension allows you to configure your own tags based on Python or JavaScript.
 
 See this example usage:
-
+<!-- markdownlint-disable no-inline-html line-length -->
 {{< rawHtml "" >}}
 <center><blockquote class="twitter-tweet"><p lang="en" dir="ltr">If you&#39;re testing a site that needs a unique CSRF-token for each call, you can use Hackvertor&#39;s custom tags to make a simple python script to fetch a new token for you. Very simple solution and works very nicely. Thank you again <a href="https://twitter.com/garethheyes?ref_src=twsrc%5Etfw">@garethheyes</a>!<a href="https://t.co/nd2cxTPQiL">https://t.co/nd2cxTPQiL</a> <a href="https://t.co/Vlp1Anxeqk">pic.twitter.com/Vlp1Anxeqk</a></p>&mdash; Frans Rosén (@fransrosen) <a href="https://twitter.com/fransrosen/status/1361594153268871168?ref_src=twsrc%5Etfw">February 16, 2021</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></center>
 {{< /rawHtml >}}
-
+<!-- markdownlint-restore -->
 Also see the official Hackvertor tag store:
 
 {{< resourceFigure "hackvertor-store.png" >}}

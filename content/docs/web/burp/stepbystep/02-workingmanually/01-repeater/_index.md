@@ -47,7 +47,7 @@ The active Burp Scanner will then automatically analyze the request, probing for
 potential vulnerabilities and security issues.
 
 Remember to look in underlying logs when you send a request to Burp Scanner. Learn more in the
-<mandy>[Ensure your app handling works correctly]() section.
+[Ensure your app handling works correctly]() section.
 
 ## Useful extensions
 

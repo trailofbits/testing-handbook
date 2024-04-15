@@ -140,7 +140,7 @@ Also, check whether Burp accurately processes the application’s requests. For 
 the HMAC SHA-256 signature of the current request in a custom header—otherwise, the server responds with an error.
 Other web applications are scrupulous in handling CSRF tokens (e.g., via the `X-CSRF-Token` header)—otherwise,
 they respond with an error too. If the application’s requests are not handled correctly, you can miss the accuracy
-of testing. See more in the <mandy>[Ensure your app handling works correctly section]().
+of testing. See more in the [Ensure your app handling works correctly section]().
 
 ## Where are the results?
 
