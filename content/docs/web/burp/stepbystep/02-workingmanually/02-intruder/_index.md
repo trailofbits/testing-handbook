@@ -67,7 +67,8 @@ Example custom payload list in Burp Intruder
 {{< hint info >}}
 Use the [Taborator](https://portswigger.net/bappstore/c9c37e424a744aa08866652f63ee9e0f) extension and add the `$collabplz`
 placeholder to a wordlist.
-When processing the request, Taborator will automatically change it to a valid [Burp Collaborator]() payload.
+When processing the request, Taborator will automatically change it to a valid [Burp Collaborator](/docs/web/burp/guide/manual-work/collaborator/)
+payload.
 For example, `?url=http://$collabplz` will be changed to `?url=http://p6abcw7n8g5z5uw332mv6r3rhin9bzzo.oastify.com`.
 You will see the output in the **Taborator** tab when the interaction with the host is observed.
 {{< /hint >}}

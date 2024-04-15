@@ -9,7 +9,7 @@ url: docs/web/burp/guide/livetask
 ## First run with a live task
 <!-- markdownlint-restore -->
 {{< hint info >}}
-Ensure you have enabled extensions from the [Enabling extensions](#enabling-extensions) step.
+Ensure you have enabled extensions from the [Enabling extensions](/docs/web/burp/guide/#enabling-extensions) step.
 {{< /hint >}}
 
 [Live tasks](https://portswigger.net/burp/documentation/desktop/tutorials/using-live-tasks) process traffic from specific
@@ -59,7 +59,7 @@ Also, check whether Burp accurately processes the application’s requests. For 
 the HMAC SHA-256 signature of the current request in a custom header—otherwise, the server responds with an error.
 Other web applications are scrupulous in handling CSRF tokens (e.g., via the `X-CSRF-Token` header)—otherwise,
 they respond with an error too. If the application’s requests are not handled correctly, you can miss the accuracy
-of testing. See more in the [Ensure your app handling works correctly section]().
+of testing. See more in the [Ensure your app handling works correctly section](/docs/web/burp/guide/app-handling/).
 
 ## Where are the results?
 

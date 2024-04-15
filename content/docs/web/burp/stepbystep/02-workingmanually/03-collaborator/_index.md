@@ -62,11 +62,11 @@ The example **Collaborator** tab in Burp
 
 - In Burp Repeater, you can right-click on the request and choose **Insert Collaborator payload** or use the `$collabplz` placeholder
 with the Taborator extension enabled. For more information, see the
-[Burp Repeater]() section.
+[Burp Repeater](/docs/web/burp/guide/manual-work/repeater/) section.
 
 - In Burp Intruder, you can use the [Collaborator payloads](https://portswigger.net/burp/documentation/desktop/tools/intruder/configure-attack/payload-types#:~:text=processing%20rule.-,Collaborator%20payloads,-This%20generates%20and)
 type or the `$collabplz` placeholder with the Taborator extension enabled.
-See more in the [Burp Intruder]()
+See more in the [Burp Intruder](/docs/web/burp/guide/manual-work/intruder)
 section.
 
 {{< hint warning >}}
