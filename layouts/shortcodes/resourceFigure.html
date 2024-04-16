@@ -15,7 +15,7 @@
       <img src="{{ $img.RelPermalink }}" alt="{{ .Get 1 }}" />
     {{ end }}
     {{ if .Inner }}
-    <figcaption>{{ .Inner | .Page.RenderString (dict "display" "inline") }}</figcaption>
+    <center><figcaption>{{ .Inner | .Page.RenderString (dict "display" "inline") }}</figcaption></center>
     {{ end }}
   </div>
 </figure>
