@@ -19,11 +19,13 @@ Before proceeding, get familiar with the
 [Reissue request with Burp Repeater](https://portswigger.net/burp/documentation/desktop/getting-started/reissuing-http-requests)
 chapter in the official documentation.
 
-## Set up a keyboard shortcut to issue requests
+{{< hint info >}}
+**Set up a keyboard shortcut to issue requests**
 
 To streamline the testing process, Burp Suite allows you to set up a keyboard shortcut for issuing requests in Burp Repeater.
 This minimizes the need to manually click the **Send** button each time, making testing more efficient and reducing repetitive
 actions. Assign the **Issue Repeater request** to **Ctrl+R** in [**Hotkey** settings](https://portswigger.net/burp/documentation/desktop/settings/ui/hotkeys).
+{{< /hint >}}
 
 ## Sending requests to Burp Scanner
 

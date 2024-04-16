@@ -51,7 +51,7 @@ your requests ending in HTTP “401 Unauthorized” errors. Also, take care that
 out or Burp does not send too many requests in a given time, which may result in the HTTP “429 Too Many Requests” response
 status code. To prevent issues with excessive traffic from Burp, see [automatic throttling](https://portswigger.net/burp/documentation/desktop/settings/project/tasks#:~:text=requests%20are%20sent.-,Automatic%20throttling,-%2D%20Specify%20the%20response).
 
-{{< hint warning >}}
+{{< hint danger >}}
 Remember that using an active Burp Scanner can have disruptive effects on the website, such as data loss.
 {{< /hint >}}
 
