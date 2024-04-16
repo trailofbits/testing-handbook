@@ -66,6 +66,8 @@
 }
 
 figure {
+  display: inline;
+  text-align: center;
   counter-increment: figureIndex;
 
   width: 100%;
@@ -139,14 +141,4 @@ table.hide-empty-cells {
   td:empty {
     display: none;
   }
-}
-
-// Captions
-figure {
-  display: inline;
-  text-align: center;
-  margin: 5px;
-}
-figure img {
-  vertical-align: top;
 }
