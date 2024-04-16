@@ -140,3 +140,13 @@ table.hide-empty-cells {
     display: none;
   }
 }
+
+// Captions
+figure {
+  display: inline;
+  text-align: center;
+  margin: 5px;
+}
+figure img {
+  vertical-align: top;
+}
