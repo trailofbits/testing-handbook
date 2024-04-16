@@ -109,6 +109,11 @@ figure {
       display: inline;
     }
   }
+
+  figcaption.code {
+    margin-top: 0px; // Remove margin when a figure is code block
+  }
+
 }
 
 
