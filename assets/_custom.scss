@@ -48,7 +48,7 @@
   code:first-child::before {
     content: "Copy";
     font-size: 0;
-    background: no-repeat center url('svg/copy-regular.svg');
+    background: no-repeat center url("svg/copy-regular.svg");
     width: 1.4rem;
     height: 1.4rem;
     position: absolute;
@@ -86,31 +86,29 @@ figure {
     > * {
       max-width: 95%;
     }
-  
   }
 
   //border: 2px solid var(--gray-100);
-
-
-
-
 
   figcaption::before {
     content: "Figure " counter(figureIndex) ": ";
   }
   figcaption {
+    text-align: center;
     max-width: 90%;
     margin-top: 5px;
     margin-bottom: 10px;
-
     font-style: italic;
 
-    p:first-child  {
+    p:first-child {
       display: inline;
     }
   }
-}
 
+  figcaption.code {
+    margin-top: 0px; // Remove margin when a figure is code block
+  }
+}
 
 p {
   // TODO: not sure if this is without side effects
