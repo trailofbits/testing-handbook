@@ -318,7 +318,7 @@ BChecks are not only personal but can also be applicable across an entire organi
 
 ## Filtering the HTTP history with Bambdas
 
-Bambda mode allows you to use small snippets of Java to customize your Burp tools. For example, the following [Bambda](https://github.com/PortSwigger/bambdas/blob/main/Filter/Proxy/HTTP/FindJSONresponsesWithIncorrectContentType.bambda)
+Bambda mode allows you to use small snippets of Java to customize your Burp tools. For example, the following [Bambda](https://github.com/PortSwigger/bambdas/blob/abeaea2a0ae02916fa2191ac4c6a41d775e83c08/Filter/Proxy/HTTP/FindJSONresponsesWithIncorrectContentType.bambda)
 allows you to find JSON responses with the wrong `Content-Type` in the HTTP history.
 
 {{< resourceFigure "bambda.png" >}}
