@@ -139,14 +139,20 @@ table.hide-empty-cells {
   }
 }
 
+html {
+  overflow: auto;
+  scrollbar-color: var(--gray-500) transparent;
+  scrollbar-width: auto;
+}
+
 // Vertical scrollbar
 ::-webkit-scrollbar {
   width: $padding-8;
   background: var(--gray-500);
-  background: transparent;
+  background: white;
 }
 
-// Horizontal scrollbarscrollbar
+// Horizontal scrollbar
 ::-webkit-scrollbar:horizontal {
   height: $padding-8;
 } 
@@ -154,10 +160,4 @@ table.hide-empty-cells {
 ::-webkit-scrollbar-thumb {
   background: var(--gray-500);
   border-radius: $padding-8;
-  // Make it transparent when no focus
-  background: transparent;
-}
-
-:hover::-webkit-scrollbar-thumb {
-  background: var(--gray-500);
 }
