@@ -1,5 +1,5 @@
 ---
-title: "Live Task"
+title: "Live task"
 slug: livetask
 summary: "Live tasks process traffic from specific Burp Suite tools and perform defined actions."
 weight: 10
