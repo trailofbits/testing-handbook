@@ -4,7 +4,7 @@ slug: tips
 weight: 20
 ---
 
-# Additional Burp Best Practices and Tips
+# Additional Burp best practices and tips
 
 ## Searching for a specific string in all of Burp Suite
 
