@@ -11,7 +11,10 @@ OSS-Fuzz is an open-source project developed by Google that aims to improve the 
 
 
 This chapter will help project developers understand how to leverage OSS-Fuzz to both fuzz a project on your private instance and delegate the fuzzing computation to Google. Additionally, security researchers will learn how to run a single harness on an existing project, extend a harness, or reproduce an individual crash.
-OSS-Fuzz project components
+
+
+## OSS-Fuzz project components
+
 OSS-Fuzz provides a simple CLI framework for building and starting harnesses or calculating their coverage, which streamlines the process of creating and testing them locally. Additionally, OSS-Fuzz can be used as a service that hosts static web pages generated from fuzzing outputs such as coverage information.
 
 
@@ -28,7 +31,9 @@ While not all components are open-sourced, we've compiled a list of publicly ava
    * The date of the last successful build.
 * Fuzz Introspector displays the coverage of a project enrolled in OSS-Fuzz, including coverage data and hit frequency, allowing you to understand the performance of the fuzzer and identify any blockers.
    * To learn more about this tool, read this case study with explanations and examples.
-CLI: Running a single harness
+
+## CLI: Running a single harness
+
 You don't need to host the whole OSS-Fuzz platform to use it. Instead, OSS-Fuzz provides a handy helper script to easily access its features. For instance, you can run a single fuzzing harness to identify potential vulnerabilities in a given project or run a harness with input that previously caused it to crash. You can also use the helper script to test new fuzzing harnesses or run old ones under different configurations; this could encompass usage scenarios like a crashing input or a different compiler.
 
 
@@ -57,7 +62,8 @@ The build_fuzzers command builds the fuzz targets into the /build/out/<project-n
 ```
 PRO TIP: When working on a new harness, refrain from copying code from the source code or pulling it manually. Instead, look at the Dockerfile (or other harnesses) to understand how the code is copied to the Docker image. There's a strong possibility that the existing project's configuration includes a code-pulling process, ensuring that the most recent version is already available when you use helper scripts.
 ```
-Coverage analysis
+## Coverage analysis
+
 OSS-Fuzz can also generate a webpage code coverage report for your project.
 
 
@@ -68,7 +74,9 @@ OSS-Fuzz can also generate a webpage code coverage report for your project.
 
 
 Refer to the official OSS-Fuzz documentation for detailed instructions.
-Example
+
+### Example
+
 To show how to use the OSS-Fuzz scripts to fuzz a project, let's explore a simple project enrolled into OSS-Fuzz – irssi. We assume here that you can run containers with the docker command.
 
 
@@ -113,7 +121,9 @@ INFO: seed corpus: files: 719 min: 1b max: 170106b total: 367969b rss: 48Mb
 #933        NEW    cov: 412 ft: 1742 corp: 642/164Kb lim: 2048 exec/s: 0 rss: 63Mb L: 13/2048 MS: 1 ChangeBit-
 (...)
 ```
-Docker images in OSS-Fuzz
+
+## Docker images in OSS-Fuzz
+
 Harnesses are built and executed in Docker containers with the build directory mounted as a volume. All projects share a runner image. Each project is built in its own Docker image, which should be indirectly based on this base image.
 
 
@@ -142,7 +152,8 @@ The following images are used separately to run harnesses, common for all projec
 * base_runner_debug (with debug tools, based on base_runner)
 
 
-Using your project with OSS-Fuzz
+## Using your project with OSS-Fuzz
+
 If you’re working on an open-source project, we recommend enrolling it in OSS-Fuzz so it is fuzzed continuously on Google's infrastructure for free. Be aware that acceptance into OSS-Fuzz is ultimately at the discretion of the OSS-Fuzz team. OSS-Fuzz gives each new project proposal a criticality score (see this example) and uses this value to determine if a project should be accepted. However, you can still add projects to your own copy of OSS-Fuzz; fuzzing only your projects may help to streamline the process. Below is an explanation of how to fuzz a simple project with OSS-Fuzz.
 * Generally, you have to create three files: project.yaml (general information about the project), Dockerfile (image with all build dependencies), and build.sh (building harnesses).
 * Before starting to work on your own files, it’s best to look at files of existing projects enrolled in oss-fuzz.
@@ -150,7 +161,8 @@ If you’re working on an open-source project, we recommend enrolling it in OSS-
 * The entire current process is described on the oss-fuzz getting started page, so check that page for details.
 
 
-How ToB integrated a project into OSS-Fuzz
+## How ToB integrated a project into OSS-Fuzz
+
 Check out this pull request that adds the cbor2 project, an encoding and decoding library for the CBOR serialization format, to OSS-Fuzz. Specifically, pay attention to:
 1. The initial message in the PR that briefly introduces the cbor2 library, and its dependents.
 2. The Criticality score given to the project
@@ -162,13 +174,3 @@ Check out this pull request that adds the cbor2 project, an encoding and decodin
 
 See our FAQ for more guidance on using fuzzers, including OSS-Fuzz!
 
-
-FAQ (Fuzzily Asked Questions) #
-What is the best approach if I have an OSS-Fuzz fuzzing harness ready, but my project is not eligible for continuous fuzzing by Google infrastructure?
-When you already have harnesses, but your project is not eligible to be fuzzed continuously by Google infrastructure, it’s important to fuzz the project regularly and for extended periods. It’s best to configure fuzzing so it runs on an updated codebase automatically.
-
-
-One way of doing this is using CIFuzz (with ClusterFuzzLite if your project is not enrolled in the OSS-Fuzz project) to perform short fuzzing as a post-commit (or pre-commit) CI job. Because CIFuzz tests code from every commit, you can easily see which commit introduced the problem. This method also simplifies adding regression testing, as you can automatically add problematic inputs to corpora.
-
-
-Additionally, if your project supports code-coverage calculations, CIFuzz can run only harnesses that touch modified code and not all of them. Stay tuned for an upcoming update to the testing handbook with a robust Continuous Fuzzing chapter!
