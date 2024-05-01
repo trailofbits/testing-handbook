@@ -59,9 +59,11 @@ The helper script should automatically run any missed steps if you skip one.
 The build_fuzzers command builds the fuzz targets into the /build/out/<project-name>/ directory, which contains the llvm-symbolizer, harnesses, dictionaries, corpus, etc. Crash files will be saved there as well.
 
 
-```
-PRO TIP: When working on a new harness, refrain from copying code from the source code or pulling it manually. Instead, look at the Dockerfile (or other harnesses) to understand how the code is copied to the Docker image. There's a strong possibility that the existing project's configuration includes a code-pulling process, ensuring that the most recent version is already available when you use helper scripts.
-```
+{{< hint info >}}
+**PRO TIP:** When working on a new harness, refrain from copying code from the source code or pulling it manually. Instead, look at the Dockerfile (or other harnesses) to understand how the code is copied to the Docker image. There's a strong possibility that the existing project's configuration includes a code-pulling process, ensuring that the most recent version is already available when you use helper scripts.
+{{< /hint >}}
+
+
 ## Coverage analysis
 
 OSS-Fuzz can also generate a webpage code coverage report for your project.
@@ -127,9 +129,9 @@ INFO: seed corpus: files: 719 min: 1b max: 170106b total: 367969b rss: 48Mb
 Harnesses are built and executed in Docker containers with the build directory mounted as a volume. All projects share a runner image. Each project is built in its own Docker image, which should be indirectly based on this base image.
 
 
-```
-PRO TIP: A base image uses a specific Ubuntu version. Also, a specific compiler version is inherited from the base_clang image, but maintainers can install anything in the project's Docker image (this may require an approval if the project is going to be enrolled).
-```
+{{< hint info >}}
+**PRO TIP:** A base image uses a specific Ubuntu version. Also, a specific compiler version is inherited from the base_clang image, but maintainers can install anything in the project's Docker image (this may require an approval if the project is going to be enrolled).
+{{< /hint >}}
 
 
 Fuzz targets are built in a Docker image dedicated to the project. (As a project maintainer, you should prepare a Dockerfile for installing dependencies and pulling source code). 
