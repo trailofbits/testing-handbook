@@ -95,7 +95,7 @@ Then we can build and run the fuzzing harness by invoking the following commands
 
 
 ```sh
-python3 infra/helper.py build_image irssi
+python3 infra/helper.py build_image --pull irssi
 python3 infra/helper.py build_fuzzers --sanitizer=address irssi
 python3 infra/helper.py run_fuzzer irssi irssi-fuzz
 ```
@@ -167,7 +167,7 @@ If you’re working on an open-source project, we recommend enrolling it in OSS-
 
 Check out [this pull request](https://github.com/google/oss-fuzz/pull/11444) that adds the [cbor2](https://github.com/agronholm/cbor2) project, an encoding and decoding library for the CBOR serialization format, to OSS-Fuzz. Specifically, pay attention to:
 1. The [initial message](https://github.com/google/oss-fuzz/pull/11444#issue-2064583587) in the PR that briefly introduces the cbor2 library, and its dependents.
-2. The [Criticality score](https://github.com/google/oss-fuzz/pull/11444#issuecomment-1875907472) given to the project
+2. The [criticality score](https://github.com/google/oss-fuzz/pull/11444#issuecomment-1875907472) given to the project
 3. The [actual OSS-Fuzz project configuration and harnesses implementation](https://github.com/google/oss-fuzz/pull/11444/files). Yes, it’s that simple!
 
 
