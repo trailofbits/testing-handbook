@@ -31,6 +31,8 @@ weight: 99
 - [Clang checkers and CodeQL queries for detecting untrusted pointer derefs and tainted loop conditions](https://www.zerodayinitiative.com/blog/2022/2/22/clang-checkers-and-codeql-queries-for-detecting-untrusted-pointer-derefs-and-tainted-loop-conditions)
 - [Vulnerability digging with CodeQL](https://mogwailabs.de/en/blog/2021/09/vulnerability-digging-with-codeql/)
 - [Make memcpy safe again: CodeQL](https://www.cyberark.com/resources/threat-research-blog/make-memcpy-safe-again-codeql)
+- [Heap Exploitation patterns and objects](https://github.com/google/security-research/blob/master/analysis/kernel/heap-exploitation/README.md)
+- [Interesting Kernel Objects](https://lookerstudio.google.com/reporting/68b02863-4f5c-4d85-b3c1-992af89c855c/page/n92nD)
 
 ### CodeQL in CI/CD
 
