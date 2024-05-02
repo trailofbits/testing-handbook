@@ -105,7 +105,7 @@ Stay tuned for an update to the testing handbook to find out how to fuzz on Wind
 When you already have harnesses, but your project is not eligible to be fuzzed continuously by Google infrastructure, it’s important to fuzz the project regularly and for extended periods. It’s best to configure fuzzing so it runs on an updated codebase automatically.
 
 
-One way of doing this is using CIFuzz (with ClusterFuzzLite if your project is not enrolled in the OSS-Fuzz project) to perform short fuzzing as a post-commit (or pre-commit) CI job. Because CIFuzz tests code from every commit, you can easily see which commit introduced the problem. This method also simplifies adding regression testing, as you can automatically add problematic inputs to corpora.
+One way of doing this is using [CIFuzz](https://google.github.io/oss-fuzz/getting-started/continuous-integration/) (with [ClusterFuzzLite](https://google.github.io/clusterfuzzlite/) if your project is not enrolled in the OSS-Fuzz project) to perform short fuzzing as a post-commit (or pre-commit) CI job. Because CIFuzz tests code from every commit, you can easily see which commit introduced the problem. This method also simplifies adding regression testing, as you can automatically add problematic inputs to corpora.
 
 
-Additionally, if your project supports code-coverage calculations, CIFuzz can run only harnesses that touch modified code and not all of them. Stay tuned for an upcoming update to the testing handbook with a robust Continuous Fuzzing chapter!
+Additionally, if your project supports [code-coverage](https://google.github.io/oss-fuzz/advanced-topics/code-coverage/) calculations, CIFuzz can run only harnesses that touch modified code and not all of them. Stay tuned for an upcoming update to the testing handbook with a robust Continuous Fuzzing chapter!
