@@ -100,12 +100,4 @@ Message [@trailofbits](https://twitter.com/trailofbits) and tell us about your p
 
 Stay tuned for an update to the testing handbook to find out how to fuzz on Windows. Subscribe to the newsletter [here](https://trailofbits.us4.list-manage.com/subscribe?u=3c3cd5fe83443b48332fb203f&id=ec54fc0dbd) to get notified and message [@trailofbits](https://twitter.com/trailofbits) to let us know you want to fuzz on Windows.
 
-## What is the best approach if I have an OSS-Fuzz fuzzing harness ready, but my project is not eligible for continuous fuzzing by Google infrastructure?
-
-When you already have harnesses, but your project is not eligible to be fuzzed continuously by Google infrastructure, it’s important to fuzz the project regularly and for extended periods. It’s best to configure fuzzing so it runs on an updated codebase automatically.
-
-
-One way of doing this is using [CIFuzz](https://google.github.io/oss-fuzz/getting-started/continuous-integration/) (with [ClusterFuzzLite](https://google.github.io/clusterfuzzlite/) if your project is not enrolled in the OSS-Fuzz project) to perform short fuzzing as a post-commit (or pre-commit) CI job. Because CIFuzz tests code from every commit, you can easily see which commit introduced the problem. This method also simplifies adding regression testing, as you can automatically add problematic inputs to corpora.
-
-
-Additionally, if your project supports [code-coverage](https://google.github.io/oss-fuzz/advanced-topics/code-coverage/) calculations, CIFuzz can run only harnesses that touch modified code and not all of them. Stay tuned for an upcoming update to the testing handbook with a robust Continuous Fuzzing chapter!
+{{< fuzzing/oss-fuzz-faq >}}

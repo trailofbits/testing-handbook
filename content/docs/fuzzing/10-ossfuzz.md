@@ -174,5 +174,15 @@ Check out [this pull request](https://github.com/google/oss-fuzz/pull/11444) tha
  Refer to our [Continuously Fuzzing Python C Extensions](https://blog.trailofbits.com/2024/02/23/continuously-fuzzing-python-c-extensions/) blog post for more information.
 
 
-See our [FAQ](/docs/fuzzing/techniques/faq/) for more guidance on using fuzzers, including OSS-Fuzz!
+{{< hint info >}}
+**See our [FAQ](/docs/fuzzing/techniques/faq/) for more guidance on using fuzzers, including OSS-Fuzz!**
+{{< /hint >}}
 
+*Here's a sample question regarding the OSS-Fuzz topic from our FAQ:*
+
+{{< rawHtml "" >}} 
+<details open="true">
+<summary>FAQ (Fuzzily Asked Questions)</summary>
+{{< fuzzing/oss-fuzz-faq >}}
+</details>
+{{< /rawHtml >}}
