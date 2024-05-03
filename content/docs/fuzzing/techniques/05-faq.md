@@ -99,3 +99,5 @@ Message [@trailofbits](https://twitter.com/trailofbits) and tell us about your p
 ## My program runs only on Windows. How can I fuzz it?
 
 Stay tuned for an update to the testing handbook to find out how to fuzz on Windows. Subscribe to the newsletter [here](https://trailofbits.us4.list-manage.com/subscribe?u=3c3cd5fe83443b48332fb203f&id=ec54fc0dbd) to get notified and message [@trailofbits](https://twitter.com/trailofbits) to let us know you want to fuzz on Windows.
+
+{{< fuzzing/oss-fuzz-faq >}}
