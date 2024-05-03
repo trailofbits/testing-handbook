@@ -467,7 +467,8 @@ Enabling persistent mode and shared memory requires adding a few lines of code:
         }
     #endif
     ```
-3. Wrap the target code being executed inside a `while` loop. The used number of iterations should be reasonably large. The values 1k and 10k are most often used. There is no official guidance on how this constant affects fuzzing performance. 
+3. Place the target code within a while loop, setting the maximum number of iterations between 1k and 10k. This parameter dictates how many cycles occur before AFL++ restarts the process to manage memory leaks and issues related to global state. Choose smaller values if your fuzz target is instable (e.g. leaks memory or keeps global state). Choose larger values if you believe your program is stable (e.g. if you are fuzzing a Rust library).
+Note, that the benefit of increasing the value does to values like `1000k` or `INT_MAX` does likely not improve the performance by much, if the restart time is reasonably small.
     ```C++
     while (__AFL_LOOP(1000)) {
         size_t len = strlen(input_buf);
@@ -475,6 +476,11 @@ Enabling persistent mode and shared memory requires adding a few lines of code:
     }
     ```
 
+{{< hint info >}}
+PRO TIP: Stability is quantified by the percentage of edges in the target that are considered "stable". If repeatedly sending identical inputs results in the data traversing the same path through the target each time, then the stability is determined to be 100%.
+
+Read [here](https://github.com/AFLplusplus/AFLplusplus/blob/ad0d0c77fb313e6edfee111fecf2bcd16d8f915e/docs/FAQ.md#user-content-why-is-my-stability-below-100percent) more about stability in AFL++ and here on how to [improve stability](https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/best_practices.md#improving-stability).
+{{< /hint >}}
 
 
 If you fuzz with these changes, then you will notice that the execution per second of the fuzzer is higher. The reason for the higher performance is that the test inputs no longer come from standard input but from shared memory. For reference, here is the program with persistent mode enabled:
