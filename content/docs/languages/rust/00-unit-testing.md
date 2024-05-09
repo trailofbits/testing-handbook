@@ -1,11 +1,12 @@
 ---
 title: "Unit testing"
-slug: unit-testing
+slug: rust-unit-testing
 summary: "This section describes tricks for Rust unit testing"
 weight: 1
 ---
 
-# Unit tests
+
+# Unit testing
 
 This is the most basic type of testing that every project should have.
 Unit tests are easy to execute, low-effort to implement, and catch a lot of simple mistakes.
@@ -484,7 +485,9 @@ mod tests {
 
 {{< /details >}}
 
+Necessist is slow and sometimes produces false positives. We recommend running it manually from time to time, instead of in a CI pipeline. The database should be kept between runs to accellerate new tests. Please report any false-positives on GitHub.
+
 ## Resources
 
-* ["The Rust Programming Language", chapter 11. Testing](https://web.mit.edu/rust-lang_v1.25/arch/amd64_ubuntu1404/share/doc/rust/html/book/second-edition/ch11-00-testing.html) - the basics of unit and integration testing in Rust
-* [Ed Page's "Iterating on Testing in Rust"](https://epage.github.io/blog/2023/06/iterating-on-test/) - lists potential issues with `cargo test` and introduces `cargo-nextest`
+* ["The Rust Programming Language", chapter 11. Testing](https://web.mit.edu/rust-lang_v1.25/arch/amd64_ubuntu1404/share/doc/rust/html/book/second-edition/ch11-00-testing.html): the basics of unit and integration testing in Rust
+* [Ed Page's "Iterating on Testing in Rust"](https://epage.github.io/blog/2023/06/iterating-on-test/): lists potential issues with `cargo test` and introduces `cargo-nextest`

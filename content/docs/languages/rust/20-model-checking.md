@@ -1,6 +1,6 @@
 ---
 title: "Model checking"
-slug: rust-advanced-testing
+slug: rust-model-checking
 summary: "This section lists advanced testing tools for Rust"
 weight: 20
 ---
@@ -221,12 +221,3 @@ If Kali found a `FAILURE`, then we can generate example values that will trigger
 - TLA+ for rust
 - lets you model state machine of a system and test properties on it
 
-## Concurrency testing
-
-#### [`Shuttle`](https://github.com/awslabs/shuttle)
-- is un-sound, but is scalable
-- does random testing, analogously to the property testing
-
-#### [`Loom`](https://docs.rs/loom/latest/loom/)
-- is sound, but slow
-- works analogously to model checkers
