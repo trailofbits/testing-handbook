@@ -378,10 +378,10 @@ PRO TIP: AFL++ features several modes of executing the SUT. They differ in the w
 
 **Persistent mode.** The fuzzer is running test cases in a single process. When a test case crashes, a parent process restarts the fuzzing loop. This is available when using libFuzzer-style harnesses with `LLVMFuzzerTestOneInput`. Note that it is important that the harness resets the state of the SUT clearly after each execution. Otherwise, executions could influence each other. The persistent mode relates to the `__AFL_FUZZ_INIT()` and `__AFL_FUZZ_TESTCASE_BUF` macros.
 
-**Shared memory fuzzing.** With just persistent mode enabled test cases are still passed via standard input or read from a file.
+**Shared memory fuzzing.** With just persistent mode enabled, test cases are still passed via standard input or read from a file.
 The shared-memory feature relates to the `__AFL_INIT()` and `__AFL_LOOP(n)` macros.
-Typically when encoutnering an example online about persistent mode, then shared memory fuzzing is also enabled. 
-The example in [Argument Fuzzing](#argument-fuzzing-argument-fuzzing) enables persistent mode and shared mode. If the fuzzing setup and operating system allow it, coverage information is exchanged using shared memory for all the above cases. This usage of shared memory is not related to the "shared memory" featuer of AFL++.
+Typically, when encountering an example online about the persistent mode, then shared memory fuzzing is also enabled. 
+The example in [Argument Fuzzing](#argument-fuzzing-argument-fuzzing) enables persistent mode and shared mode. If the fuzzing setup and operating system allow it, coverage information is exchanged using shared memory for all the above cases. This usage of shared memory is not related to the "shared memory" feature of AFL++.
 
 Persistent mode is generally preferred, as it is at least 10 times faster than the forkserver.
 {{< /hint >}}
@@ -446,7 +446,7 @@ The above example no longer uses persistent mode, because we switched away from 
 ### Optimizing the fuzzer: Enable persistent mode & shared memory {#optimizing-the-fuzzer-enable-persistent-mode}
 
 Enabling persistent mode improves fuzzing performance by a factor of 10 to 20 (see the above tip for details about why persistent mode is faster). Note that the initial version we started with already runs in persistent mode because it uses a libFuzzer-style harness. 
-We will also enabled shared memory for the fuzzing campaign which means that test cases are passed from the fuzzer to the SUT via shared memory instead of using standard input, arguments or reading from files.
+We will also enable shared memory for the fuzzing campaign, which means that test cases are passed from the fuzzer to the SUT via shared memory instead of using standard input, arguments, or reading from files.
 
 If you already use `LLVMFuzzerTestOneInput` with AFL++, then this section is not relevant. This section is relevant if you want to improve your fuzzer that is not yet running in persistent mode. You can search the log output of `afl-fuzz` for "Persistent mode binary detected" to see if you are already using persistent mode.
 
@@ -467,8 +467,8 @@ Enabling persistent mode and shared memory requires adding a few lines of code:
         }
     #endif
     ```
-3. Place the target code within a while loop, setting the maximum number of iterations between 1k and 10k. This parameter dictates how many cycles occur before AFL++ restarts the process to manage memory leaks and issues related to global state. Choose smaller values if your fuzz target is instable (e.g. leaks memory or keeps global state). Choose larger values if you believe your program is stable (e.g. if you are fuzzing a Rust library).
-Note, that the benefit of increasing the value does to values like `1000k` or `INT_MAX` does likely not improve the performance by much, if the restart time is reasonably small.
+3. Place the target code within a while loop, setting the maximum number of iterations between 1k and 10k. This parameter dictates how many cycles occur before AFL++ restarts the process to manage memory leaks and issues related to global state. Choose smaller values if your fuzz target is unstable (e.g., leaks memory or keeps global state). Choose larger values if you believe your program is stable (e.g. if you are fuzzing a Rust library).
+Note that the benefit of increasing the value to values like `1000k` or `INT_MAX` does likely not improve the performance by much if the restart time is reasonably small.
     ```C++
     while (__AFL_LOOP(1000)) {
         size_t len = strlen(input_buf);
