@@ -175,7 +175,7 @@ Check out [this pull request](https://github.com/google/oss-fuzz/pull/11444) tha
 
 
 {{< hint info >}}
-**See our [FAQ](/docs/fuzzing/techniques/faq/) for more guidance on using fuzzers, including OSS-Fuzz!**
+**See our [FAQ]({{% relref "05-faq" %}}) for more guidance on using fuzzers, including OSS-Fuzz!**
 {{< /hint >}}
 
 *Here's a sample question regarding the OSS-Fuzz topic from our FAQ:*
