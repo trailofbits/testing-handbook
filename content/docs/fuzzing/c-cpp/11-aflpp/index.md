@@ -376,9 +376,14 @@ PRO TIP: AFL++ features several modes of executing the SUT. They differ in the w
 
 **Fork server.** A sub-process is started for the SUT. The program is executed until the main function. Before starting the actual main function, the process is forked. For every execution, the process is forked from that execution point. This saves and reduces the amount of `execve` system calls, which improves performance. This is available only when fuzzing via standard input.
 
-**Persistent mode.** The fuzzer is running test cases in a single process. When a test case crashes, a parent process restarts the fuzzing loop. This is available when using libFuzzer-style harnesses with `LLVMFuzzerTestOneInput`. Note that it is important that the harness resets the state of the SUT clearly after each execution. Otherwise, executions could influence each other.
+**Persistent mode.** The fuzzer is running test cases in a single process. When a test case crashes, a parent process restarts the fuzzing loop. This is available when using libFuzzer-style harnesses with `LLVMFuzzerTestOneInput`. Note that it is important that the harness resets the state of the SUT clearly after each execution. Otherwise, executions could influence each other. The persistent mode relates to the `__AFL_FUZZ_INIT()` and `__AFL_FUZZ_TESTCASE_BUF` macros.
 
-If the fuzzing setup and operating system allow it, coverage information is exchanged using shared memory for all the above cases. Persistent mode is generally preferred, as it is at least 10 times faster than the forkserver.
+**Shared memory fuzzing.** With just persistent mode enabled, test cases are still passed via standard input or read from a file.
+The shared-memory feature relates to the `__AFL_INIT()` and `__AFL_LOOP(n)` macros.
+Typically, when encountering an example online about the persistent mode, then shared memory fuzzing is also enabled. 
+The example in [Argument Fuzzing](#argument-fuzzing-argument-fuzzing) enables persistent mode and shared mode. If the fuzzing setup and operating system allow it, coverage information is exchanged using shared memory for all the above cases. This usage of shared memory is not related to the "shared memory" feature of AFL++.
+
+Persistent mode is generally preferred, as it is at least 10 times faster than the forkserver.
 {{< /hint >}}
 
 
@@ -438,11 +443,14 @@ You will see that the execution speed is significantly slower compared to the fu
 
 The above example no longer uses persistent mode, because we switched away from the libFuzzer harness. However, the persistent mode can be re-enabled, as shown in the next section.
 
-### Optimizing the fuzzer: Enable persistent mode {#optimizing-the-fuzzer-enable-persistent-mode}
+### Optimizing the fuzzer: Enable persistent mode & shared memory {#optimizing-the-fuzzer-enable-persistent-mode}
 
-Enabling persistent mode improves fuzzing performance by a factor of 10 to 20 (see the above tip for details about why persistent mode is faster). Note that the initial version we started with already runs in persistent mode because it uses a libFuzzer-style harness. If you already use `LLVMFuzzerTestOneInput` with AFL++, then this section is not relevant. This section is relevant if you want to improve your fuzzer that is not yet running in persistent mode. You can search the log output of `afl-fuzz` for "Persistent mode binary detected" to see if you are already using persistent mode.
+Enabling persistent mode improves fuzzing performance by a factor of 10 to 20 (see the above tip for details about why persistent mode is faster). Note that the initial version we started with already runs in persistent mode because it uses a libFuzzer-style harness. 
+We will also enable shared memory for the fuzzing campaign, which means that test cases are passed from the fuzzer to the SUT via shared memory instead of using standard input, arguments, or reading from files.
 
-Enabling persistent mode requires adding a few lines of code:
+If you already use `LLVMFuzzerTestOneInput` with AFL++, then this section is not relevant. This section is relevant if you want to improve your fuzzer that is not yet running in persistent mode. You can search the log output of `afl-fuzz` for "Persistent mode binary detected" to see if you are already using persistent mode.
+
+Enabling persistent mode and shared memory requires adding a few lines of code:
 
 1. Add `__AFL_FUZZ_INIT();` below the includes of the file where the main function is defined.
 2. Instead of reading from standard input, define a variable that will get filled by AFL++ (if your input buffer comes from some other source like a file, then this example needs to be adjusted).
@@ -459,7 +467,8 @@ Enabling persistent mode requires adding a few lines of code:
         }
     #endif
     ```
-3. Wrap the target code being executed inside a `while` loop. The used number of iterations should be reasonably large. The values 1k and 10k are most often used. There is no official guidance on how this constant affects fuzzing performance. 
+3. Place the target code within a while loop, setting the maximum number of iterations between 1k and 10k. This parameter dictates how many cycles occur before AFL++ restarts the process to manage memory leaks and issues related to global state. Choose smaller values if your fuzz target is unstable (e.g., leaks memory or keeps global state). Choose larger values if you believe your program is stable (e.g. if you are fuzzing a Rust library).
+Note that the benefit of increasing the value to values like `1000k` or `INT_MAX` does likely not improve the performance by much if the restart time is reasonably small.
     ```C++
     while (__AFL_LOOP(1000)) {
         size_t len = strlen(input_buf);
@@ -467,6 +476,11 @@ Enabling persistent mode requires adding a few lines of code:
     }
     ```
 
+{{< hint info >}}
+PRO TIP: Stability is quantified by the percentage of edges in the target that are considered "stable". If repeatedly sending identical inputs results in the data traversing the same path through the target each time, then the stability is determined to be 100%.
+
+Read [here](https://github.com/AFLplusplus/AFLplusplus/blob/ad0d0c77fb313e6edfee111fecf2bcd16d8f915e/docs/FAQ.md#user-content-why-is-my-stability-below-100percent) more about stability in AFL++ and here on how to [improve stability](https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/best_practices.md#improving-stability).
+{{< /hint >}}
 
 
 If you fuzz with these changes, then you will notice that the execution per second of the fuzzer is higher. The reason for the higher performance is that the test inputs no longer come from standard input but from shared memory. For reference, here is the program with persistent mode enabled:
@@ -958,5 +972,6 @@ More examples of different build systems can be found [here](https://aflplus.plu
 
 ## Additional resources {#additional-resources}
 
-* Paper: [AFL++: Combining Incremental Steps of Fuzzing Research](https://www.usenix.org/system/files/woot20-paper-fioraldi.pdf) 
-* Docs: [Fuzzing in Depth](https://aflplus.plus/docs/fuzzing_in_depth/)
+* [PAFL++: Combining Incremental Steps of Fuzzing Research.](https://www.usenix.org/system/files/woot20-paper-fioraldi.pdf)** Paper about AFL++.
+* **[Fuzzing in Depth.](https://aflplus.plus/docs/fuzzing_in_depth/)** Advanced documentation by the AFL++ team.
+* **[AFL++ Under The Hood.](https://blog.ritsec.club/posts/afl-under-hood/)** Blog post about AFL++ internals.
