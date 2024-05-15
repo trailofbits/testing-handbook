@@ -217,7 +217,7 @@ The AFL++ fuzzer offers multiple compilation modes, including [LTO](https://gith
 
 Depending on the mode you choose, use a different compilation command: `afl-clang-lto`, `afl-clang-fast`, `afl-gcc`, or `afl-clang`, respectively. The C++ versions are also available by appending `++`, which gives, e.g., `afl-clang-lto++`. The LTO mode is recommended because it features a better and faster instrumentation of the SUT. However, this depends on your project whether LTO mode works. Give it a try and fall back to the other modes if compilation fails.
 
-If you use the Clang compiler and want to use the LLVM mode, then the following command produces a binary `fuzzer`. Essentially, we are replacing the call to `clang++` with `afl-clang-fast++`.
+If you use the Clang compiler and want to use the LLVM mode, then the following command produces a binary `fuzzer`. Essentially, we are replacing the call to `clang++` with `afl-clang-fast++`. We are reusing the `harness.cc` and `main.cc` from the [introduction]({{% relref "fuzzing#introduction-to-fuzzers" %}})
 
 
 {{< tooltipHighlight shell 

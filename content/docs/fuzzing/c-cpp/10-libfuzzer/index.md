@@ -30,7 +30,7 @@ If the LLVM version provided by your distribution is outdated, you can install a
 
 ## Compile a fuzz test {#compile-a-fuzz-test}
 
-Creating a binary that fuzzes the SUT is straightforward. The resulting binary will use the harness and the libFuzzer runtime. If using the Clang compiler, the following command produces a binary, called `fuzz`, in the current working directory:
+Creating a binary that fuzzes the SUT is straightforward. We are reusing the `harness.cc` and `main.cc` from the [introduction]({{% relref "fuzzing#introduction-to-fuzzers" %}}). The resulting binary will use the harness and the libFuzzer runtime. If using the Clang compiler, the following command produces a binary, called `fuzz`, in the current working directory:
 
 {{< tooltipHighlight shell 
 "Compiler for C++"
