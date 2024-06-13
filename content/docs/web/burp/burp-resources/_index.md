@@ -14,4 +14,3 @@ url: docs/web/burp/resources
 - :cinema:[Burp Suite Essentials YouTube Playlist](https://www.youtube.com/watch?v=ouDe5sJ_uC8&list=PLoX0sUafNGbH9bmbIANk3D50FNUmuJIF3)
 - [The official BChecks developed by Portswigger and community](https://github.com/PortSwigger/BChecks)
 - [The official Bambdas collection developed by Portswigger and community](https://github.com/PortSwigger/bambdas)
-
