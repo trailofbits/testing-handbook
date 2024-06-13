@@ -65,6 +65,7 @@ We currently cover the following tools and techniques:
 ### Dynamic analysis
 
 - [Fuzzing]({{< relref "fuzzing" >}})
+- [Burp Suite Professional]({{< relref "/docs/web/burp/" >}})
 
 {{< /columns >}}
 
