@@ -111,7 +111,7 @@ Your browser will be automatically refreshed with changes whenever you save a fi
 
 - The GitHub workflow in this repository verifies the correctness of Markdown files through three checks:
   1. **Markdown Link Check**: This step extracts links from Markdown files and verifies if they are valid and accessible.
-    It uses the [github-action-markdown-link-check](https://github.com/gaurav-nelson/github-action-markdown-link-check) action.
+    It uses the [lychee link checking action](https://github.com/lycheeverse/lychee-action).
   2. **Markdown Linter**: This step ensures that Markdown files adhere to the desired style and formatting rules.
     It uses a custom configuration file (`.github/workflows/.markdownlint.jsonc`) and the
      [markdownlint-cli2-action](https://github.com/DavidAnson/markdownlint-cli2-action) action.

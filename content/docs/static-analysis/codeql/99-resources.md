@@ -23,7 +23,7 @@ weight: 99
 ### Writing custom CodeQL queries
 
 - [Practical introduction to CodeQL](https://jorgectf.github.io/blog/post/practical-codeql-introduction/)
-- [Security code reviewing with CodeQL](https://mechanicalsympathy.nl/posts/security-code-reviewing-with-codeql/)
+- [Security code reviewing with CodeQL](https://web.archive.org/web/20240529182656/https://remcovermeulen.com/posts/security-code-reviewing-with-codeql/)
 - [Sharing security expertise through CodeQL packs (Part I)](https://github.blog/2022-04-19-sharing-security-expertise-through-codeql-packs-part-i/)
 
 ### Using CodeQL for vulnerability discovery
