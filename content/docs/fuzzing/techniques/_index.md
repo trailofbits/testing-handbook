@@ -1,7 +1,7 @@
 ---
 title: "Techniques"
 slug: techniques
-weight: 3
+weight: 5
 permalink: docs/fuzzing/techniques/writing-harnesses
 bookCollapseSection: true
 # TODO readd this
