@@ -201,6 +201,12 @@ version.)
 
 ## Writing custom queries
 
+{{< hint info >}}
+To use CodeQL, you need access to the standard libraries and queries. We recommend using the starter workspace.
+1. Clone the [vscode-codeql-starter](https://github.com/github/vscode-codeql-starter.git) repository to your computer: `git clone --recursive https://github.com/github/vscode-codeql-starter.git`.
+2. In VSCode, click **File** -> **Open Workspace from File** and open the `vscode-codeql-starter.code-workspace` file from the `vscode-codeql-starter` repository.
+{{< /hint >}}
+
 QL is a declarative language and CodeQL queries are expressed using an SQL-like
 syntax on the following form:
 
