@@ -202,7 +202,7 @@ version.)
 ## Writing custom queries
 
 {{< hint info >}}
-To use CodeQL, you need access to the standard libraries and queries. We recommend using the starter workspace.
+To write custom CodeQL queries, you need access to the standard libraries and queries. We recommend using the starter workspace.
 
 1. Clone the [vscode-codeql-starter](https://github.com/github/vscode-codeql-starter.git) repository to your computer:
 `git clone --recursive https://github.com/github/vscode-codeql-starter.git`
