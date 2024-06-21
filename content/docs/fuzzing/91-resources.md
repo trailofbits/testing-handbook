@@ -1,7 +1,7 @@
 ---
 title: "Additional resources"
 slug: resources
-weight: 5
+weight: 7
 ---
 
 
