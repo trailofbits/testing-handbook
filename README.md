@@ -29,6 +29,7 @@ hope to demystify static and dynamic analysis techniques such as fuzzing and tai
 |[Semgrep](https://appsec.guide/docs/static-analysis/semgrep/)| [Announcing the Trail of Bits Testing Handbook](https://blog.trailofbits.com/2023/07/26/announcing-the-trail-of-bits-testing-handbook/)|2023|
 |[CodeQL](https://appsec.guide/docs/static-analysis/codeql/)| [Say hello to the next chapter of the Testing Handbook!](https://blog.trailofbits.com/2023/12/11/say-hello-to-the-next-chapter-of-the-testing-handbook/)|2023|
 |[Fuzzing](https://appsec.guide/docs/fuzzing/)| [Master fuzzing with our new Testing Handbook chapter](https://blog.trailofbits.com/2024/02/09/master-fuzzing-with-our-new-testing-handbook-chapter/)|2024|
+|[Burp](https://appsec.guide/docs/web/burp/)| [Announcing the Burp Suite Professional chapter in the Testing Handbook](https://blog.trailofbits.com/2024/06/14/announcing-the-burp-suite-professional-chapter-in-the-testing-handbook/)|2024|
 
 ### 🎥 Webinars
 
@@ -39,7 +40,6 @@ hope to demystify static and dynamic analysis techniques such as fuzzing and tai
 
 ### 🚧 Under construction
 
-- Burp Suite Professional
 - Formal verification and Tamarin
 - Rust
 
