@@ -206,7 +206,7 @@ To use CodeQL, you need access to the standard libraries and queries. We recomme
 
 1. Clone the [vscode-codeql-starter](https://github.com/github/vscode-codeql-starter.git) repository to your computer:
 `git clone --recursive https://github.com/github/vscode-codeql-starter.git`
-3. In VSCode, click **File** -> **Open Workspace from File** and open the
+2. In VSCode, click **File** -> **Open Workspace from File** and open the
 `vscode-codeql-starter.code-workspace` file from the `vscode-codeql-starter` repository
 
 {{< /hint >}}
