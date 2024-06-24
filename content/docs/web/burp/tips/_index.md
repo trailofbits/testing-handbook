@@ -497,24 +497,24 @@ We will use the following Go code named as `req.go` to test HTTP requests:
 package main
 
 import (
-	"io/ioutil"
-	"log"
-	"net/http"
+    "io/ioutil"
+    "log"
+    "net/http"
 )
 
 func main() {
-	resp, err := http.Get("https://www.google.com")
-	if err != nil {
-		log.Fatalln("Unable to get response from server:", err)
-	}
-	defer resp.Body.Close()
+    resp, err := http.Get("https://www.google.com")
+    if err != nil {
+        log.Fatalln("Unable to get response from server:", err)
+    }
+    defer resp.Body.Close()
 
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		log.Fatalln("Unable to read response body:", err)
-	}
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        log.Fatalln("Unable to read response body:", err)
+    }
 
-	log.Println("Response from Google:", string(body))
+    log.Println("Response from Google:", string(body))
 }
 ```
 
