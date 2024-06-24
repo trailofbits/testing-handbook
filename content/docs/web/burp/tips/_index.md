@@ -465,3 +465,89 @@ Burp’s built-in browser showing the website that is also proxied through ZAP, 
 
 Note the new elements on the sides of the browser. ZAP injects these elements into the page to provide a heads-up display (HUD).
 Looking into Burp Suite's HTTP history, we also find the corresponding requests to `trailofbits.com`.
+
+## Proxying Docker traffic through Burp Suite
+
+Proxying Docker traffic through Burp Suite can be a challenge because Docker applications are typically running in an isolated container network and Burp is running on the host. This section will show you how to proxy a Docker container's traffic through Burp running on the host machine.
+
+First, a note on Docker environments. This section assumes you're using either [Docker for Mac](https://docs.docker.com/desktop/install/mac-install/) or [Docker for Windows](https://docs.docker.com/desktop/install/windows-install/), and thus have access to [`host.docker.internal`](https://docs.docker.com/desktop/networking/#i-want-to-connect-from-a-container-to-a-service-on-the-host) by default. If you're running Docker in a Linux environment, then you can use `--net=host` and `localhost`, `172.17.0.1` with the default `bridge` network, or see this StackOverflow question for more information: [What is the Linux equivalent of "host.docker.internal"?](https://stackoverflow.com/questions/48546124/what-is-the-linux-equivalent-of-host-docker-internal). With that out of the way, we will be using `host.docker.internal` for the rest of this section.
+
+To proxy Docker container traffic through Burp we will need to export Burp's CA certificate. [Their documentation](https://portswigger.net/burp/documentation/desktop/tools/proxy/manage-certificates#exporting-and-importing-the-ca-certificate) provides a great guide on how to do that. We will assume you exported your Burp CA certificate to `~/Downloads/burp.pkcs12`. When exporting a certificate and private key pair Burp will use the PKCS#12 format. Most applications will expect a PEM-formatted CA bundle. Let's convert our PKCS#12 CA bundle to PEM formatting:
+
+```bash
+openssl pkcs12 -in ~/Downloads/burp.pkcs12 -nodes -out ~/Downloads/burp.pem
+```
+
+Next we can use the PEM-formatted CA bundle and `curl` to test Burp's proxying. Run the following command then check the Burp Proxy tab's HTTP history tab for the request:
+
+```bash
+docker run \
+    --volume ~/Downloads/burp.pem:/tmp/burp.pem \
+    curlimages/curl:latest \
+    --proxy host.docker.internal:8080 \
+    --cacert /tmp/burp.pem \
+    https://www.google.com
+```
+
+Remember, `host.docker.internal` is Docker Desktop's special domain for referencing the host machine, and `8080` is Burp's default proxy listener port. Here we've shown how to proxy a basic `curl` Docker image's traffic through Burp. Another common scenario we run into is Go applications. Let's try an example of that.
+
+We will use the following Go code named as `req.go` to test HTTP requests:
+
+```go
+package main
+
+import (
+	"io/ioutil"
+	"log"
+	"net/http"
+)
+
+func main() {
+	resp, err := http.Get("https://www.google.com")
+	if err != nil {
+		log.Fatalln("Unable to get response from server:", err)
+	}
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatalln("Unable to read response body:", err)
+	}
+
+	log.Println("Response from Google:", string(body))
+}
+```
+
+Run the script with the following command:
+
+```bash
+docker run \
+    --volume $(pwd)/req.go:/go/req.go \
+    golang:latest go run req.go
+```
+
+If you run the following command you should receive a HTTPS verification error:
+
+```bash
+docker run \
+    --env HTTPS_PROXY=host.docker.internal:8080 \
+    --volume $(pwd)/req.go:/go/req.go \
+    golang:latest go run req.go
+2024/06/24 14:06:02 Unable to get response from server: Get "https://www.google.com": tls: failed to verify certificate: x509: certificate signed by unknown authority
+exit status 1
+```
+
+We can fix the error by passing the Burp CA bundle like we did above:
+
+```bash
+docker run \
+    --env SSL_CERT_DIR=/usr/local/share/ca-certificates \
+    --volume ~/Downloads/burp.pem:/usr/local/share/ca-certificates/burp.pem \
+    --env HTTPS_PROXY=host.docker.internal:8080 \
+    --volume $(pwd)/req.go:/go/req.go \
+    golang:latest go run req.go
+```
+
+This uses the `SSL_CERT_DIR` environment variable provided by [`crypto/x509`](https://pkg.go.dev/crypto/x509#SystemCertPool) to specify a custom CA bundle. You should now see a request in the Burp HTTP history tab with a header similar to `User-Agent: Go-http-client/2.0`.
+
+Proxying additional programming languages and application runtimes may require different environmental configuration. For example, the [`REQUESTS_CA_BUNDLE`](https://requests.readthedocs.io/en/latest/user/advanced/#ssl-cert-verification) environment variable for the Python `requests` library. Investigate your Docker application's tech stack to better understand how to proxy its traffic through Burp.
