@@ -845,7 +845,7 @@ When running the fuzzer, the above heap-buffer overflow will be discovered by th
 If you are fuzzing C projects that produce static libraries, you can follow this recipe:
 
 1. Read the `INSTALL` file in the project's codebase (or other appropriate documentation) and find out how to create a static library.
-2. Set the compiler to Clang, and pass additional flags to the compiler during compilation.
+2. Set the compiler to AFL++'s comiler wrapper (e.g. `afl-clang-fast++`), and pass required flags to the compiler during compilation.
 3. Build the static library, set the environment variable `AFL_USE_ASAN=1`, and pass the flag `-fsanitize=fuzzer-no-link `to the C compiler, which enables fuzzing-related instrumentations, without linking in the fuzzing engine. The runtime, which includes the `main` symbol, is linked later when using the `-fsanitize=fuzzer` flag. The build step will create a static library, which we will refer to as `$static_library`. The environment variable enables ASan to detect memory corruption.
 4. Find the compiled static library from step 3 and call: `./afl++ <host/docker> AFL_USE_ASAN=1 afl-clang-fast++ -fsanitize=fuzzer $static_library harness.cc -o fuzz`.
 5. You can start fuzzing by calling `./afl++ <host/docker> afl-fuzz -i seeds -o out -- ./fuzz`.
