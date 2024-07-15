@@ -118,8 +118,9 @@ pub extern "C" fn libafl_main() {
             TimeFeedback::new(&time_observer)
         );
 
+        let backtrace_observer = libafl::prelude::BacktraceObserver::owned("BacktraceObserver", libafl::observers::HarnessType::InProcess);
         // A feedback to choose if an input is a solution or not
-        let mut objective = feedback_or_fast!(CrashFeedback::new(), TimeoutFeedback::new());
+        let mut objective = feedback_and!(feedback_or_fast!(CrashFeedback::new(), TimeoutFeedback::new()), libafl::feedbacks::new_hash_feedback::NewHashFeedback::new(&backtrace_observer));
 
         // If not restarting, create a State from scratch
         let mut state = state.unwrap_or_else(|| {
@@ -163,7 +164,7 @@ pub extern "C" fn libafl_main() {
 
         let mut executor = InProcessExecutor::with_timeout(
             &mut harness,
-            tuple_list!(edges_observer, time_observer),
+            tuple_list!(edges_observer, time_observer, backtrace_observer),
             &mut fuzzer,
             &mut state,
             &mut restarting_mgr,
@@ -198,7 +199,7 @@ pub extern "C" fn libafl_main() {
     let broker_port = opt.broker_port;
     let cores = opt.cores;
 
-    //run_client(None, libafl::prelude::SimpleEventManager::new(monitor), 0).unwrap();
+    // run_client(None, libafl::prelude::SimpleEventManager::new(monitor), 0).unwrap();
 
     match Launcher::builder()
         .shmem_provider(shmem_provider)
