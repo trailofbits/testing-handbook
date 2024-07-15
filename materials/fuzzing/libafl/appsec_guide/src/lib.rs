@@ -118,10 +118,9 @@ pub extern "C" fn libafl_main() {
             TimeFeedback::new(&time_observer)
         );
 
-        //let backtrace_observer = libafl::observers::stacktrace::AsanBacktraceObserver::new("test");
-        let backtrace_observer = libafl::prelude::BacktraceObserver::owned( "BacktraceObserver", libafl::observers::HarnessType::Child);
+        let backtrace_observer = libafl::prelude::BacktraceObserver::owned("BacktraceObserver", libafl::observers::HarnessType::InProcess);
         // A feedback to choose if an input is a solution or not
-        let mut objective = feedback_and!(CrashFeedback::new(), libafl::feedbacks::new_hash_feedback::NewHashFeedback::new(&backtrace_observer));
+        let mut objective = feedback_and!(feedback_or_fast!(CrashFeedback::new(), TimeoutFeedback::new()), libafl::feedbacks::new_hash_feedback::NewHashFeedback::new(&backtrace_observer));
 
         // If not restarting, create a State from scratch
         let mut state = state.unwrap_or_else(|| {
@@ -187,8 +186,7 @@ pub extern "C" fn libafl_main() {
             println!("We imported {} inputs from disk.", state.corpus().count());
         }
 
-        fuzzer.fuzz_loop(&mut stages, &mut executor, &mut state, &mut restarting_mgr)?;
-        Ok(())
+        fuzzer.fuzz_loop(&mut stages, &mut executor, &mut state, &mut restarting_mgr)
     };
 
     let shmem_provider = StdShMemProvider::new().expect("Failed to init shared memory");
@@ -201,6 +199,8 @@ pub extern "C" fn libafl_main() {
     let broker_port = opt.broker_port;
     let cores = opt.cores;
 
+    //run_client(None, libafl::prelude::SimpleEventManager::new(monitor), 0).unwrap();
+
     match Launcher::builder()
         .shmem_provider(shmem_provider)
         .configuration(EventConfig::from_name("default"))
@@ -209,7 +209,7 @@ pub extern "C" fn libafl_main() {
         .cores(&cores)
         .broker_port(broker_port)
         .remote_broker_addr(opt.remote_broker_addr)
-        //.stdout_file(Some("/dev/null"))
+        .stdout_file(Some("/dev/null"))
         .build()
         .launch()
     {
