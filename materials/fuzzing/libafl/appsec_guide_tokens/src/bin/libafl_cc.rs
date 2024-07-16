@@ -26,6 +26,7 @@ pub fn main() {
             .link_staticlib(&dir, "appsec_guide")
             .add_args(&Configuration::GenerateCoverageMap.to_flags().unwrap())
             .add_args(&Configuration::AddressSanitizer.to_flags().unwrap())
+            .add_pass(LLVMPasses::AutoTokens)
             .run()
             .expect("Failed to run the wrapped compiler")
         {

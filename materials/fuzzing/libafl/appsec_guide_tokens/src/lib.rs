@@ -20,6 +20,9 @@ use libafl::{
     state::{HasCorpus, StdState},
     Error,
 };
+use libafl::HasMetadata;
+use libafl_bolts::tuples::Merge;
+use libafl::prelude::Tokens;
 use libafl_bolts::{
     core_affinity::Cores,
     rands::StdRand,
@@ -126,9 +129,8 @@ pub extern "C" fn libafl_main() {
             TimeFeedback::new(&time_observer)
         );
 
-        let backtrace_observer = libafl::prelude::BacktraceObserver::owned("BacktraceObserver", libafl::observers::HarnessType::InProcess);
         // A feedback to choose if an input is a solution or not
-        let mut objective = feedback_and!(feedback_or_fast!(CrashFeedback::new(), TimeoutFeedback::new()), libafl::feedbacks::new_hash_feedback::NewHashFeedback::new(&backtrace_observer));
+        let mut objective = feedback_or_fast!(CrashFeedback::new(), TimeoutFeedback::new());
 
         // If not restarting, create a State from scratch
         let mut state = state.unwrap_or_else(|| {
@@ -152,7 +154,7 @@ pub extern "C" fn libafl_main() {
         println!("We're a client, let's fuzz :)");
 
         // Setup a basic mutator with a mutational stage
-        let mutator = StdScheduledMutator::new(havoc_mutations());
+        let mutator = StdScheduledMutator::new(havoc_mutations().merge(tokens_mutations()));
         let mut stages = tuple_list!(StdMutationalStage::new(mutator));
 
         // A minimization+queue policy to get testcasess from the corpus
@@ -172,12 +174,25 @@ pub extern "C" fn libafl_main() {
 
         let mut executor = InProcessExecutor::with_timeout(
             &mut harness,
-            tuple_list!(edges_observer, time_observer, backtrace_observer),
+            tuple_list!(edges_observer, time_observer),
             &mut fuzzer,
             &mut state,
             &mut restarting_mgr,
             opt.timeout,
         )?;
+
+        let mut tokens = Tokens::new();
+        if let Some(tokenfile) = &opt.tokenfile {
+            tokens.add_from_file(tokenfile)?;
+        }
+
+        tokens += libafl_targets::autotokens()?;
+
+        println!("Using tokens: {:?}", &tokens);
+
+        if !tokens.is_empty() {
+            state.add_metadata(tokens);
+        }
 
         // The actual target run starts here.
         // Call LLVMFUzzerInitialize() if present.
