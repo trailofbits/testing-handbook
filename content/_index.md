@@ -67,6 +67,12 @@ We currently cover the following tools and techniques:
 - [Fuzzing]({{< relref "fuzzing" >}})
 - [Burp Suite Professional]({{< relref "/docs/web/burp/" >}})
 
+<--->
+
+#### Formal verification
+
+- [Tamarin]({{< relref "tamarin" >}})
+
 {{< /columns >}}
 
 We are working on expanding the tools we cover here. We are also planning to
