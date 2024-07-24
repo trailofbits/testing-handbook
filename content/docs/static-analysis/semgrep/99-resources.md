@@ -13,7 +13,7 @@ weight: 99
 - [Trail of Bits public Semgrep rules](https://github.com/trailofbits/semgrep-rules)
 - [dgryski Go rules for Semgrep](https://github.com/dgryski/semgrep-go)
 - [0xdea/semgrep-rules](https://github.com/0xdea/semgrep-rules)
-- [elttam/semgrep-rules](https://github.com/iosifache/semgrep-rules-manager)
+- [elttam/semgrep-rules](https://github.com/elttam/semgrep-rules)
 - [kondukto-io/semgrep-rules](https://github.com/kondukto-io/semgrep-rules)
 - [federicodotta/semgrep-rules](https://github.com/federicodotta/semgrep-rules)
 - [mindedsecurity/semgrep-rules-android-security](https://github.com/mindedsecurity/semgrep-rules-android-security)
