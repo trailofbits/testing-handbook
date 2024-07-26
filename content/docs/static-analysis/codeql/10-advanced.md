@@ -488,6 +488,36 @@ to ensure that it is correct and if it is, rename `MemcpyCall.actual` to
 For more information about testing CodeQL queries, see the
 [official documentation](https://docs.github.com/en/code-security/codeql-cli/using-the-advanced-functionality-of-the-codeql-cli/testing-custom-queries).
 
+## Testing custom queries in CI
+
+### GitHub Actions
+
+The following workflow can be used to test custom CodeQL queries in GitHub Actions:
+
+```yml
+name: Test CodeQL queries
+
+on: [push, pull_request]
+
+jobs:
+  codeql-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - id: init
+        uses: github/codeql-action/init@v3
+      - uses: actions/cache@v4
+        with:
+          path: ~/.codeql
+          key: ${{ runner.os }}-${{ runner.arch }}-${{ steps.init.outputs.codeql-version }}
+      - name: Run tests
+        run: |
+          ${{ steps.init.outputs.codeql-path }} test run ./path/to/query/tests/
+```
+
+This workflow also speeds up subsequent runs by caching query extraction and
+compilation, and pack dependency installation
+
 ## Editor support for CodeQL
 
 The CodeQL CLI includes a server for the language-server protocol (LSP)
