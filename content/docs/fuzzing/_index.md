@@ -180,6 +180,7 @@ main.rs (Rust): Example code with a bug that causes an abort. The `check_buf` fu
 {{< tab "C/C++" >}}
 ```C++
 #include <stdint.h>
+#include <stddef.h>
 
 void check_buf(char *buf, size_t buf_len);
 
