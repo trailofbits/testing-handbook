@@ -516,7 +516,7 @@ jobs:
 ```
 
 This workflow also speeds up subsequent runs by caching query extraction and
-compilation, and pack dependency installation
+compilation, and pack dependency installation.
 
 ## Editor support for CodeQL
 
