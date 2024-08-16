@@ -62,12 +62,12 @@ When writing code that performs any operation using secret data one should keep 
 
 **Conditional jumps** result in executing different instructions and generally lead to the most significant time differences out of the four patterns. Making the execution flow of the program dependent on secret data is going to lead to vast timing differences depending on how different the two branches are.  
 
-**Array access** and more general memory access, dependent on secret data, can be used to extract the indexing value due to timing differences when accessing memory locations. These timing differences primarily stem from the utilization of caches and whether or not a given value is inside the cache. Ciphers like AES, which use substitution tables dependent on secret data, are suitable for this attack even over the network, as demonstrated here [Cache-timing attacks on AES](https://mimoza.marmara.edu.tr/\~msakalli/cse466\_09/cache%20timing-20050414.pdf).
+**Array access** and more general memory access, dependent on secret data, can be used to extract the indexing value due to timing differences when accessing memory locations. These timing differences primarily stem from the utilization of caches and whether or not a given value is inside the cache. Ciphers like AES, which use substitution tables dependent on secret data, are suitable for this attack even over the network, as demonstrated here [Cache-timing attacks on AES](https://mimoza.marmara.edu.tr/~msakalli/cse466_09/cache%20timing-20050414.pdf).
 
 **Integer division and shift operations** can leak the secret if the divisor or the amount by which the value is shifted depends on secret data.  
 These operations can leak the secret data depending on the CPU architecture or compiler used.
 
-In cases where it is impossible to avoid these patterns because the cryptographic algorithm requires them, one should employ [masking techniques](https://link.springer.com/chapter/10.1007/978-3-642-38348-9\_9) to remove or reduce any correlation between the execution time and the secret data. 
+In cases where it is impossible to avoid these patterns because the cryptographic algorithm requires them, one should employ [masking techniques](https://link.springer.com/chapter/10.1007/978-3-642-38348-9_9) to remove or reduce any correlation between the execution time and the secret data. 
 
 In the next section, we will illustrate how timing attacks on modular exponentiation exploit conditional jumps. 
 

@@ -280,13 +280,13 @@ We repeated the process of writing a testing harness for the remaining cryptogra
 After running all test vectors the test runner reports that some test failed and after further investigation we can conclude that there exist at least three vulnerabilities. At closer inspection all these tests should have failed but were incorrectly accepted as valid signatures.  
 The following test vectors failed: 
 
-{{\< hint warning \>}}
+{{< hint >}}
 
-* :x: \[[eddsa](https://github.com/C2SP/wycheproof/blob/master/testvectors\_v1/ed25519\_test.json)\]\[tc37\] removing 0 byte from signature  
-* :x: \[[ecdsa](https://github.com/C2SP/wycheproof/blob/master/testvectors\_v1/ecdsa\_secp256k1\_sha256\_test.json)\]\[tc6\] Legacy: ASN encoding of r misses leading 0  
-* :x: \[[ecdsa](https://github.com/C2SP/wycheproof/blob/master/testvectors\_v1/ecdsa\_secp521r1\_sha512\_test.json)\]\[tc7\] length of sequence \[r, s\] contains a leading 0
+:x: [[eddsa](https://github.com/C2SP/wycheproof/blob/master/testvectors_v1/ed25519_test.json)][tc37] removing 0 byte from signature  
+:x: [[ecdsa](https://github.com/C2SP/wycheproof/blob/master/testvectors_v1/ecdsa_secp256k1_sha256_test.json)][tc6] Legacy: ASN encoding of r misses leading 0  
+:x: [[ecdsa](https://github.com/C2SP/wycheproof/blob/master/testvectors_v1/ecdsa_secp521r1_sha512_test.json)][tc7] length of sequence [r, s] contains a leading 0
 
-{{\< /hint \>}}
+{{< /hint >}}
 
 Wycheproof makes it easy to understand the vulnerability that specific test vectors are designed to uncover by checking each test vector's comment field. If the comment field is too ambiguous and more information is needed, one can look at each test vector's flags field and the corresponding explanation of the different flags inside the notes fields at the root of the JSON file.
 
