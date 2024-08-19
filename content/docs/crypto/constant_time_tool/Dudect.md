@@ -14,7 +14,7 @@ weight: 45
 
 ## Overview
 
-[Dudect](https://github.com/oreparaz/dudect/) is a [statistical constant-time analysis tool]({{<ref "/docs/crypto/constant_time_tool/index#statistical-tools" >}}) that measures the execution time of a specific *code section* for two different *input classes* and aims to find the statical difference between the measurements of the two classes.
+[Dudect](https://github.com/oreparaz/dudect/) is a statistical constant-time analysis tool that measures the execution time of a specific *code section* for two different *input classes* and aims to find the statical difference between the measurements of the two classes.
 If the timing measurements for the two input classes deviate from one another, it would suggest that the code is dependent on the input and, therefore, not constant time.
 The two most commonly used input classes are:
 

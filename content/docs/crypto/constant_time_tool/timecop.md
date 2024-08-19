@@ -138,7 +138,7 @@ Importantly, Valgrind does not report any other operations performed on the secr
 
 ## Example
 
-Below is a simple example of a modular exponentiation operation used in RSA, which we described in the [intro section]({{<ref "/docs/crypto/constant_time_tool/index#example-modular-exponentiation-timing-attacks">}})
+Below is a simple example of a modular exponentiation operation used in RSA, which we described in the intro section.
 
 ```C
   1 │ #include <stdio.h>
