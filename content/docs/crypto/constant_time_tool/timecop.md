@@ -59,7 +59,7 @@ Verify the installation with:
 valgrind --version
 ```
 
-After the installation of Valgrind, all that is needed is to include the header file `poison.h` of TimeCop, which can be found [here](https://post-apocalyptic-crypto.org/timecop/#source-code)
+After the installation of Valgrind, all that is needed is to include the header file `poison.h` of Timecop, which can be found [here](https://post-apocalyptic-crypto.org/timecop/#source-code)
 
 ```C
 #include "poison.h"
@@ -101,14 +101,14 @@ Valgrind will issue a report.
 
 Consider the following example of the propagation of uninitialized values:
 
-```C
- 1 │ int main(){
- 2 │     int x;
- 3 │     int z[10] = {0};
- 4 │     int y = x + 1;
- 5 │     int a = z[y];
- 6 │     return 0;
- 7 │ }
+```C {linenos=inline}
+int main(){
+  int x;
+  int z[10] = {0};
+  int y = x + 1;
+  int a = z[y];
+  return 0;
+}
 ```
 
 Running Valgrind on a binary with debug symbols enabled will generate a report pinpointing where uninitialized values are used.
@@ -125,7 +125,7 @@ Running Valgrind on a binary with debug symbols enabled will generate a report p
 
 ## Timecop Macros
 
-Timecop uses Valgrind's capabilities to track uninitialized values as a proxy for detecting constant time violations. It uses Valgrind's internal functionality to manually declare memory regions as undefined and wraps these internal functions in C macros.  
+Timecop uses Valgrind's capabilities to track uninitialized values as a proxy for detecting constant time violations. It uses Valgrind's internal functionality to manually declare memory regions as undefined and wraps these internal functions in C macros.
 
 It provides three C macros:
 
@@ -133,59 +133,58 @@ It provides three C macros:
 - `unpoison(addr, len)`: Undoes the poison operation by marking the memory region as defined.
 - `is_poisoned(addr, len)`: Checks if any part of the memory region is poisoned.
 
-Since many constant time violations occur due to memory access or control flow changes, which depend on a secret value, using Valgrind's ability to track these operations can help developers find timing vulnerabilities.  
+Since many constant time violations occur due to memory access or control flow changes, which depend on a secret value, using Valgrind's ability to track these operations can help developers find timing vulnerabilities.
 Importantly, Valgrind does not report any other operations performed on the secret value, such as math operations.
 
 ## Example
 
 Below is a simple example of a modular exponentiation operation used in RSA, which we described in the intro section.
 
-```C
-  1 │ #include <stdio.h>
-  2 │ 
-  3 │ #include "valgrind/memcheck.h"
-  4 │ 
-  5 │ #define poison(addr, len) VALGRIND_MAKE_MEM_UNDEFINED(addr, len)
-  6 │ #define unpoison(addr, len) VALGRIND_MAKE_MEM_DEFINED(addr, len)
-  7 │ #define is_poisoned(addr, len) VALGRIND_CHECK_MEM_IS_DEFINED(addr, len)
-  8 │ 
-  9 │ typedef unsigned long long ull;
- 10 │ 
- 11 │ ull mod_exp(ull y, ull d, ull n) {
- 12 │     ull r = 1;
- 13 │     y = y % n;
- 14 │     while (d > 0) {
- 15 │         if (d & 1) {
- 16 │             r = (r * y) % n;
- 17 │         }
- 18 │         y = (y * y) % n;
- 19 │         d >>= 1;
- 20 │     }
- 21 │     return r;
- 22 │ }
- 23 │ 
- 24 │ ull rsa_decrypt(ull ct, ull d, ull n) {
- 25 │     return mod_exp(ct, d, n);
- 26 │ }
- 27 │ 
- 28 │ int main() {
- 29 │     ull n = 3233;
- 30 │     ull d = 413;
- 31 │     ull ciphertext = 2790;
- 32 │     // Poison the memory location of the secret exponent d
- 33 │     poison(&d, sizeof(ull));
- 34 │     ull plaintext = rsa_decrypt(ciphertext, d, n);
- 35 │     unpoison(&d, sizeof(ull));
- 36 │ 
- 37 │     printf("pt: %llu\n", plaintext);
- 38 │     return 0;
- 39 │ }
+```C {linenos=inline}
+#include <stdio.h>
+#include "valgrind/memcheck.h"
+
+#define poison(addr, len) VALGRIND_MAKE_MEM_UNDEFINED(addr, len)
+#define unpoison(addr, len) VALGRIND_MAKE_MEM_DEFINED(addr, len)
+#define is_poisoned(addr, len) VALGRIND_CHECK_MEM_IS_DEFINED(addr, len)
+
+typedef unsigned long long ull;
+
+ull mod_exp(ull y, ull d, ull n) {
+    ull r = 1;
+    y = y % n;
+    while (d > 0) {
+        if (d & 1) {
+            r = (r * y) % n;
+        }
+        y = (y * y) % n;
+        d >>= 1;
+    }
+    return r;
+}
+
+ull rsa_decrypt(ull ct, ull d, ull n) {
+    return mod_exp(ct, d, n);
+}
+
+int main() {
+    ull n = 3233;
+    ull d = 413;
+    ull ciphertext = 2790;
+    // Poison the memory location of the secret exponent d
+    poison(&d, sizeof(ull));
+    ull plaintext = rsa_decrypt(ciphertext, d, n);
+    unpoison(&d, sizeof(ull));
+
+    printf("pt: %llu\n", plaintext);
+    return 0;
+}
 ```
 
 Poisoning the memory region of the private exponent `d` will mark this value as uninitialized, and Valgrind will report any branching or memory access based on the secret exponent `d`.
 Valgrind correctly identifies the problematic lines of code where the timing assumptions are not met.
 
-```none
+```bash
 > valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./toy_example
 
 ==72317== Conditional jump or move depends on uninitialised value(s)
@@ -227,7 +226,7 @@ GDB will now connect to Valgrind and stop at any reported errors.
 
 ## Limitations
 
-1. **Microarchitecture Leakage**: TimeCop and Valgrind cannot detect if individual instructions take more time depending on the input they are provided.
+1. **Microarchitecture Leakage**: Timecop and Valgrind cannot detect if individual instructions take more time depending on the input they are provided.
 2. **Coverage**: This approach won't find potential vulnerabilities if the vulnerable code is not executed during the runtime.
 
 An alternative approach using [MemorySanitizer](https://clang.llvm.org/docs/MemorySanitizer.html) in Clang offers similar benefits without requiring a library but modifies the binary at compile time. More information and a tutorial are available [here](https://crocs-muni.github.io/ct-tools/tutorials/memsan).

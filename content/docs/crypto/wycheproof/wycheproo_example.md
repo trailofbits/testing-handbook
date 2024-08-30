@@ -12,7 +12,7 @@ weight: 30
 # Wycheproof testing harness example in python
 
 In the following section, we will showcase how to write a simple testing harness to test a python library implementing AES in GCM mode.
-We will use the [cryptography](https://pypi.org/project/cryptography/) package as an example of an AES GCM implementation.
+We will use the [cryptography](https://pypi.org/project/cryptography/) package as an example of an AES-GCM implementation.
 For testing we will use the [pytest](https://pypi.org/project/pytest/) packages as it is one of the most popular testing frameworks in python.
 
 ## Prerequisites
@@ -27,7 +27,7 @@ The first step of using Wycheproof is to parse the JSON file containing all the 
 
 ## 1. Parse the JSON File
 
-First, check if Wycheproof offers test vectors for the specific cryptographic algorithm being tested by searching inside the `testvectors` or `testvectors_v1` folders.
+First, check if Wycheproof offers test vectors for the specific cryptographic algorithm being tested, by searching inside the `testvectors` or `testvectors_v1` folders.
 For the AES-GCM example, we will use the following file:
 
 - `testvectors_v1/aes_gcm_test.json`
@@ -36,21 +36,21 @@ All test files share a common structure that can be used to write a testing harn
 
 Here is an example of how to load and parse the test vectors:
 
-```python
+```python {linenos=inline}
 def load_wycheproof_test_vectors(path: str):
     testVectors = []
     try:
-        with open(path, 'r') as f:
-            wycheproof_json = json.loads(f.read())    
+        with open(path, "r") as f:
+            wycheproof_json = json.loads(f.read())
     except FileNotFoundError:
         print(f"No Wycheproof file found at: {path}")
         return testVectors
 
-    convert_attr = {'key', 'aad', 'iv', 'msg', 'ct', 'tag'}
-    for testGroup in wycheproof_json['testGroups']:
-        if testGroup['ivSize'] < 64 or testGroup['ivSize'] > 1024:
+    convert_attr = {"key", "aad", "iv", "msg", "ct", "tag"}
+    for testGroup in wycheproof_json["testGroups"]:
+        if testGroup["ivSize"] < 64 or testGroup["ivSize"] > 1024:
             continue
-        for tv in testGroup['tests']:
+        for tv in testGroup["tests"]:
             for attr in convert_attr:
                 if attr in tv:
                     tv[attr] = bytes.fromhex(tv[attr])
@@ -66,14 +66,14 @@ Wycheproof provides us with a total of 283 test vectors for the specified parame
 
 After parsing the testing vectors, writing a testing harness is the next step.
 One can integrate the Wycheproof test vectors into the existing framework if a testing framework already exists.
-Notably, the testing framework should be flexible to expect that certain test vectors should fail, as some test vectors are specifically designed such that a correct implementation should raise an error and refuse to validate. We will demonstrate a simple example of how to write a testing harness to check encryption and decryption of the AES GCM implementation.
+Notably, the testing framework should be flexible enough to expect that certain test vectors should fail, as some test vectors are specifically designed such that a correct implementation should raise an error and refuse to validate. We will demonstrate a simple example of how to write a testing harness to check encryption and decryption of the AES-GCM implementation.
 
 ### Testing Harness for Encryption
 
 The `parametrize` decorator of pytest allows us to create multiple tests that only differ in their parameterization.
 Here is an example testing harness for encryption:
 
-```python
+```python {linenos=inline}
 @pytest.mark.parametrize("tv", tvs, ids=[str(tv['tcId']) for tv in tvs])
 def test_encryption(tv):
     try:
@@ -113,7 +113,7 @@ Similarly, to test the decryption process, we can use pytest's parameterization 
 The decryption test function handles exceptions specific to the AES implementation and verifies the expected outcomes based on the flags provided in the Wycheproof test vectors.
 If the AES implementation returns certain errors the flag provided for each Wycheproof test vectors can be used to verify the specific exceptions.
 
-```python
+```python {linenos=inline}
 @pytest.mark.parametrize("tv", tvs, ids=[str(tv['tcId']) for tv in tvs])
 def test_decryption(test_vector):
     try:

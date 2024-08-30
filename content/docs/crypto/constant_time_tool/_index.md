@@ -14,7 +14,7 @@ math: true
 
 {{< math >}}
 Timing attacks are side channels that exploit variations in execution time to extract secret information. Unlike cryptanalysis, which seeks to find weaknesses and break the theoretical security guarantees of a cryptographic protocol, timing attacks leverage implementation flaws in specific protocols.  
-While specific cryptographic constructions, such as asymmetric cryptography, may be more vulnerable to timing attacks, this attack vector can potentially affect any cryptographic implementation. To mitigate timing attacks, it is best practice to ensure implementations are constant time, meaning the execution time of cryptographic functions should remain constant regardless of the input. In practice, one should ensure that **the code path and any memory accesses are independent of secret data**. Not all timing differences are exploitable, but removing any differences ensures the security of the implementation. To ensure that an implementation is constant time, cryptography practitioners have developed various tools to detect non-constant time code.  
+While specific cryptographic constructions, such as asymmetric cryptography, may be more vulnerable to timing attacks, this attack vector can potentially affect any cryptographic implementation. To mitigate timing attacks, it is best practice to ensure implementations are constant-time, meaning the execution time of cryptographic functions should remain constant regardless of the input. In practice, one should ensure that **the code path and any memory accesses are independent of secret data**. Not all timing differences are exploitable, but removing any differences ensures the security of the implementation. To ensure that an implementation is constant time, cryptography practitioners have developed various tools to detect non-constant time code.  
 
 This entry is divided into two sections.
 The first provides [background](#background) information on timing attacks and a concrete [example](#example-modular-exponentiation-timing-attacks).
@@ -98,7 +98,7 @@ $$
 
 The resulting code branches depending on the exponent bit \(d_i\) violating the *conditional jump* principle described in the previous section.
 If the exponent bit \(d_i = 1\), an additional multiplication \(r = r * y\) is performed, resulting in a longer execution time and, therefore, leaking the number of 1 and 0 bits present in \(d\).
-Furthermore, a commonly used technique for modular multiplication called *Montgomery multiplication* is not constant time and performs an additional computation depending on the modulus and the multiplication result.  
+Furthermore, a commonly used technique for modular multiplication called *Montgomery multiplication* is not constant time and performs an additional computation depending on the modulus and the multiplication result.
 If an intermediate value of the multiplication exceeds the modulus \(N\), a reduction step needs to be performed.
 The additional reduction step will lead to an observable difference in timings.
 
@@ -144,7 +144,7 @@ By analyzing these timing differences, an attacker can infer whether a specific 
 ## Constant Time Tooling
 
 To mitigate the risk of timing attacks, it is best practice to implement cryptographic algorithms in a *constant time* manner, meaning the execution time remains uniform regardless of the input.
-To ensure the absence of such timing differences, the cryptographic community has created various timing tools that aim to detect potential timing differences.  
+To ensure the absence of such timing differences, the cryptographic community has created various timing tools that aim to detect potential timing differences.
 These tools differentiate themselves by the programming language they target (most often C) and the fundamental approach of timing analysis.
 We can group the different approaches into four distinct categories:
 
@@ -170,13 +170,13 @@ Popular formal tools include:
 
 | Pros | Cons |
 | :---- | :---- |
-| **Guarantee**: Formal verification proves the absence of timing leaks under the analyzed model. | Complexity: These tools tend to require more expertise in both cryptography and formal methods, making them less accessible to general developers. |
-| **Flexibility**: Many tools utilize LLVM bytecode, allowing for use with various languages. | Modeling and restrictions: Assumptions made during formalization may not perfectly reflect reality, potentially leading to incomplete verification. For example, any changes introduced during the compilation stage may lead to a binary that is different from the analyzed model. |
+| **Guarantee**: Formal verification proves the absence of timing leaks under the analyzed model. | **Complexity**: These tools tend to require more expertise in both cryptography and formal methods, making them less accessible to general developers. |
+| **Flexibility**: Many tools utilize LLVM bytecode, allowing for use with various languages. | **Modeling and restrictions**: Assumptions made during formalization may not perfectly reflect reality, potentially leading to incomplete verification. For example, any changes introduced during the compilation stage may lead to a binary that is different from the analyzed model. |
 
 ### Symbolic tools
 
 Symbolic tools use symbolic execution to find timing leakages by analyzing how different execution paths and memory accesses depend on symbolic variables, particularly secret data.
-Symbolic execution can also provide concrete values for which a certain property is violated, which can be useful for understanding the underlying issue.  
+Symbolic execution can also provide concrete values for which a certain property is violated, which can be useful for understanding the underlying issue.
 Most symbolic execution tools focus on cache timing attacks, making them a useful tool for threat models involving an attacker who shares the same cache.
 
 Popular symbolic tools include:
@@ -186,7 +186,7 @@ Popular symbolic tools include:
 
 | Pros | Cons |
 | :---- | :---- |
-| **Counterexamples**: Symbolic execution can provide concrete counterexamples or test cases that demonstrate the existence of a vulnerability, making it easier to understand and reproduce the issue. | **Time intensive**: Symbolic execution will explore all possible paths, which results in long execution times.     |
+| **Counter examples**: Symbolic execution can provide concrete counterexamples or test cases that demonstrate the existence of a vulnerability, making it easier to understand and reproduce the issue. | **Time intensive**: Symbolic execution will explore all possible paths, which results in long execution times.     |
 
 ### Dynamic Tools
 
@@ -199,8 +199,8 @@ Popular dynamic tools include:
 
 | Pros | Cons |
 | :---- | :---- |
-| Granular Analysis: Allows specification of sensitive memory regions, making them effective for targeted analysis. | Limited Coverage: Can only track execution paths encountered during testing, potentially missing some vulnerabilities. |
-| Flexibility: Can be adapted to various contexts by annotating different codebase parts. |  |
+| **Granular Analysis**: Allows specification of sensitive memory regions, making them effective for targeted analysis. | **Limited Coverage**: Can only track execution paths encountered during testing, potentially missing some vulnerabilities. |
+| **Flexibility**: Can be adapted to various contexts by annotating different codebase parts. |  |
 
 ### Statistical Tools
 
@@ -215,7 +215,7 @@ Popular statistical tools include:
 
 | Pros | Cons |
 | -------- | ------- |
-| **Setup**: Setting up statistical tests can be quite straightforward and, in some cases, can be done without needing access to source code.  | **Debugging**: When a timing difference is detected, statistical tools typically do not provide information about the cause or location of the issue within the code. |
+| **Setup**: Setting up statistical tests can be quite straightforward and, in some cases, can be done without needing access to source code.| **Debugging**: When a timing difference is detected, statistical tools typically do not provide information about the cause or location of the issue within the code. |
 | **Practical**: Statistical tools measure real-time leakage, providing real-world results that include all potential variables (for example, compiler optimizations, architecture differences). | **Noise**: The quality of the recorded measurements is only as precise as the testing harness allows. If other parts of the code take significantly more time, a timing vulnerability might go undetected. |
 
 ## Further Reading

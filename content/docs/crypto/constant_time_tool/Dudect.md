@@ -155,7 +155,7 @@ If Dudect consistently reports that the measurements are `maybe constant time`, 
 ## Improving Measurement Accuracy
 
 To ensure Dudect detects potential timing leakages, it is crucial to reduce noise that might overshadow timing differences between the input classes.
-Dudect statically removes outlier measurements, but a large number of measurements may still be necessary.
+Dudect statistically removes outlier measurements, but a large number of measurements may still be necessary.
 Precise measurements can help reduce the time needed to detect leakages.
 To improve the accuracy of the collected measurements, it is recommended to:
 
@@ -249,15 +249,15 @@ The template code above will run in an endless loop until the measurements are s
 ### CI Setup
 
 Constant monitoring is essential to detect any timing leakages introduced by new changes.
-Continuous testing ensures the assumption of constant-time is not violated when new code is introduced.
+Continuous testing ensures the assumption of constant time is not violated when new code is introduced.
 
 The following bash script can be used as a template to get started.
 It assumes the following file structure:
 
 ```none
-├── tests
-│   ├── ct_test.c // Contains the dudect loop
-│   └── dudect.h
+┣ 📂 tests
+┃   ┣ 📜 ct_test.c // Contains the dudect loop
+┃   ┗ 📜 dudect.h
 ```
 
 Running the bash script automatically compiles the `ct_test.c` file using `clang` and executes the binary on the second core using `taskset -c 2` and stops execution after 5 minutes.
