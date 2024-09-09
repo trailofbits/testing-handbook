@@ -98,7 +98,6 @@ Once the program uses the uninitialized values for either:
 - *Conditional jump*: Altering the execution trace
 - *Move*: Altering the memory access patterns
 
-
 Valgrind will issue a report.
 
 Consider the following example of the propagation of uninitialized values:
@@ -212,7 +211,7 @@ For a more informative GDB experience, consider using [pwndbg](https://github.co
 To start debugging run:
 
 ```bash
-$ valgrind --vgdb=yes --vgdb-error=0 ./<binary>
+valgrind --vgdb=yes --vgdb-error=0 ./<binary>
 ```
 
 which tells Valgrind to start in GDB mode and break before executing the binary.

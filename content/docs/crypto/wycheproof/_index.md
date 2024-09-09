@@ -38,7 +38,6 @@ The vectors are organized in two main folders:
 
 with plans to merge them in the future.
 
-
 While both folders contain similar test vector files, `testvectors_v1` includes more detailed information.
 The test vectors, stored in JSON-encoded files, can be used as input in a testing harness to verify the correctness of a cryptographic implementation by comparing the actual output to the expected output specified in the test vector.
 To use the test vectors provided by Wycheproof, integrate them into the testing procedures of the cryptographic library you want to test by writing a testing harness.
@@ -144,7 +143,6 @@ Over time, Wycheproof might add new test vectors to existing test files.
 This greatly benefits developers as they only need to write the testing harness once and profit from new test vectors added without needing additional work. Therefore, it is recommended to ensure that the test vectors used inside the testing harness are kept up to date.
 We recommend adding Wycheproof as a submodule to the GitHub repository.
 If this is not possible, we also provide a simple script fetching specific test vectors from the Wycheproof repository.
-
 
 ### Git Submodule
 
