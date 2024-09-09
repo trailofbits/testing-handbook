@@ -14,7 +14,7 @@ weight: 45
 
 ## Overview
 
-[Dudect](https://github.com/oreparaz/dudect/) is a statistical constant-time analysis tool that measures the execution time of a specific *code section* for two different *input classes* and aims to find the statical difference between the measurements of the two classes.
+[Dudect](https://github.com/oreparaz/dudect/) is a statistical constant-time analysis tool that measures the execution time of a specific *code section* for two *input classes* and aims to find the statical difference between the measurements of the two classes.
 If the timing measurements for the two input classes deviate from one another, it would suggest that the code is dependent on the input and, therefore, not constant time.
 The two most commonly used input classes are:
 
@@ -28,8 +28,8 @@ If there is a significant difference, the t-value will reflect this, indicating 
 
 ## Setup
 
-Currently, Dudect supports x86 architecture and there is a [pull request](https://github.com/oreparaz/dudect/pull/36) for ARM-based architectures.
-To get started using Dudect, include the header file `dudect.h`, which defines all internal functions.
+Dudect currently supports x86 architecture and has a [pull request](https://github.com/oreparaz/dudect/pull/36) for ARM-based architectures.
+To start using Dudect, include the header file `dudect.h`, which defines all internal functions.
 
 ```c
 #define DUDECT_IMPLEMENTATION
@@ -55,8 +55,8 @@ clang -lm ct_test.c -o ct_test
 {{< /tab >}}
 {{< /tabs >}}
 
-Now the compiler will link all the required files but will fail due to two functions that need to be implemented by the user.
-In the following, we explain what these two functions do and how to configure Dudect.
+Now, the compiler will link all the required files but will fail due to two functions that need to be implemented by the user.
+The following explains what these two functions do and how to configure Dudect.
 
 ## Working with Dudect
 
@@ -76,7 +76,7 @@ uint8_t do_one_computation(uint8_t *data) {
 }
 ```
 
-Dudect executes this function multiple times with input data from one of the input classes, chosen at random.
+Dudect executes this function multiple times with input data from one of the input classes chosen randomly.
 
 ### Prepare Inputs
 
@@ -155,7 +155,7 @@ If Dudect consistently reports that the measurements are `maybe constant time`, 
 ## Improving Measurement Accuracy
 
 To ensure Dudect detects potential timing leakages, it is crucial to reduce noise that might overshadow timing differences between the input classes.
-Dudect statistically removes outlier measurements, but a large number of measurements may still be necessary.
+Dudect statistically removes outlier measurements, but many measurements may still be necessary.
 Precise measurements can help reduce the time needed to detect leakages.
 To improve the accuracy of the collected measurements, it is recommended to:
 
@@ -173,7 +173,7 @@ Use the `taskset` command to pin the process to a core:
 taskset -c 2 ./ct_test
 ```
 
-Avoid using cores 0 and 1 as they are often used by the OS for other tasks.
+Avoid cores 0 and 1, as the OS often uses them for other tasks.
 Pinning a task prevents performance costs associated with cache invalidation during process execution on different CPUs.
 For further noise reduction, consider setting specific kernel boot parameters.
 More information can be found in this [guide](https://manuel.bernhardt.io/posts/2023-11-16-core-pinning/).
@@ -249,7 +249,7 @@ The template code above will run in an endless loop until the measurements are s
 ### CI Setup
 
 Constant monitoring is essential to detect any timing leakages introduced by new changes.
-Continuous testing ensures the assumption of constant time is not violated when new code is introduced.
+Continuous testing ensures that assumption of constant time is not violated when introducing new code.
 
 The following bash script can be used as a template to get started.
 It assumes the following file structure:

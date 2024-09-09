@@ -16,11 +16,11 @@ math: true
 {{< math >}}
 
 [Wycheproof](https://github.com/C2SP/wycheproof) is an extensive collection of test vectors designed to verify the correctness and test against known attacks for existing cryptographic algorithms.
-Originally developed by Google, Wycheproof is a community-managed project where contributors can add their own test vectors for specific cryptographic constructions.
+Originally developed by Google, Wycheproof is a community-managed project where contributors can add test vectors for specific cryptographic constructions.
 
 ## Overview
 
-Wycheproof provides sets of test vectors aimed at uncovering known vulnerabilities in cryptographic implementations.
+Wycheproof provides sets of test vectors to uncover known vulnerabilities in cryptographic implementations.
 It supports a wide range of cryptographic algorithms, including:
 
 - AES-GCM
@@ -29,13 +29,16 @@ It supports a wide range of cryptographic algorithms, including:
 - RSA
 
 and many more.
-All test vectors are stored in the official [github repository](https://github.com/C2SP/wycheproof).
+
+All test vectors are stored in the official [GitHub repository](https://github.com/C2SP/wycheproof).
 The vectors are organized in two main folders:
 
 - `testvectors`
 - `testvectors_v1`
 
-, with plans to merge them in the future.
+with plans to merge them in the future.
+
+
 While both folders contain similar test vector files, `testvectors_v1` includes more detailed information.
 The test vectors, stored in JSON-encoded files, can be used as input in a testing harness to verify the correctness of a cryptographic implementation by comparing the actual output to the expected output specified in the test vector.
 To use the test vectors provided by Wycheproof, integrate them into the testing procedures of the cryptographic library you want to test by writing a testing harness.
@@ -64,7 +67,7 @@ The structure of the two folders and how each test file is structured are explai
 
 Each JSON test file tests a specific cryptographic construction, such as AES-GCM for example.
 Each JSON file consists of multiple *test groups*, and each test group contains multiple test vectors.
-For example, for AES-GCM all test vectors are stored in `aes_gcm_test.json` and comprises 44 test groups and 316 test vectors.
+For example, for AES-GCM, all test vectors are stored in `aes_gcm_test.json`, comprising 44 test groups and 316 test vectors.
 
 ```text
 📂 testvectors_v1
@@ -86,8 +89,8 @@ For example, for AES-GCM all test vectors are stored in `aes_gcm_test.json` and 
 ```
 
 The visualization above shows an example of how the `testvectors_v1` folder structures different cryptographic algorithms like **AES-GCM** and **ECDH** into different files.
-Each file contains multiple test groups and each test group contains multiple test vectors.
-The following described in greater detail how each test file is structured as well as the commonalities between test files of different constructions.
+Each file contains multiple test groups, and each test group contains multiple test vectors.
+The following describes in greater detail how each test file is structured and the commonalities between test files of different constructions.
 
 ## Test files
 
@@ -124,7 +127,7 @@ The commonalities between all test vectors are four fields:
 - `flags`: Descriptions of specific test case types and their potential dangers, referenced in the `notes` field.
 - `result`: If the test should succeed or not.
 
-The `result` field is important and can take 3 different values:
+The `result` field is important and can take three different values:
 
 - **valid**: Test case should succeed.
 - **acceptable**: Test case is allowed to succeed but contains some non ideal attributes. Ideally this test case should fail but it is acceptable if it passes.
@@ -132,27 +135,28 @@ The `result` field is important and can take 3 different values:
 
 #### Unique Attributes
 
-Unique attributes are specific to the inputs and outputs of the cryptographic algorithm being tested.
-For instance, AES-GCM tests include `key`, `iv`, `aad`,`msg`, `ct`, and `tag`, while the test for ECDH for secp256k1 include `public`, `private`, and `shared`.
+Unique attributes are specific to the inputs and outputs of the tested cryptographic algorithm.
+For instance, AES-GCM tests include `key`, `iv`, `aad`, `msg`, `ct`, and `tag`, while the test for ECDH for secp256k1 includes `public`, `private`, and `shared`.
 
 ## CI Setup
 
-Over time, Wycheproof might add new test vectors to existing test files
-This greatly benefits developers as they only need to write the testing harness once and profit from new test vectors added without the need for any additional work on their side. It is therefore recommended to ensure that the test vectors used inside the testing harness are kept up to date.
-The approach we recommend is to add Wycheproof as a submodule to the github repository.
-In case this is not possible we also provide a simple script which fetches specific test vectors from the Wycheproof repository.
+Over time, Wycheproof might add new test vectors to existing test files.
+This greatly benefits developers as they only need to write the testing harness once and profit from new test vectors added without needing additional work. Therefore, it is recommended to ensure that the test vectors used inside the testing harness are kept up to date.
+We recommend adding Wycheproof as a submodule to the GitHub repository.
+If this is not possible, we also provide a simple script fetching specific test vectors from the Wycheproof repository.
+
 
 ### Git Submodule
 
-Adding Wycheproof as a git submodule will ensure that if new test vectors are added to the construction under test you will be able to automatically use them.
+Adding Wycheproof as a git submodule will ensure that you can automatically use new test vectors added to the construction under test.
 
 ```bash
-git sumodule add git@github.com:C2SP/wycheproof.git
+git submodule add git@github.com:C2SP/wycheproof.git
 ```
 
 ### Fetching test vectors
 
-If adding Wycheproof as a git submodule is not possible we provide a simple script which fetches the specific constructions and places them inside a `.wycheproof` folder. Given that GitHub does not support the git [archive command](https://github.com/isaacs/github/issues/554) we resort to a simple `curl` query which fetches the specified JSON. In the example below we fetch the AES-GCM and AES-EAX test files.
+If adding Wycheproof as a git submodule is not possible, we provide a simple script which fetches the specific constructions and places them inside a `.wycheproof` folder. Given that GitHub does not support the git [archive command](https://github.com/isaacs/github/issues/554) we resort to a simple `curl` query which fetches the specified JSON. In the example below we fetch the AES-GCM and AES-EAX test files.
 
 ```bash {linenos=inline}
 #!/bin/bash
@@ -176,20 +180,20 @@ for i in "${TEST_VECTORS[@]}"; do
 done
 ```
 
-The script creates a folder called `.wycheproof` in which it will store the JSON files specified inside the `ALGORITHMS` variable by fetching them from the GitHub servers using `curl`.
-Running this script before the testing harness is executed ensures that the Wycheproof test vectors are kept up to date and you benefit from the new test vectors being added.
+The script creates a folder called `.wycheproof` in which it stores the JSON files specified inside the `ALGORITHMS` variable by fetching them from the GitHub servers using `curl`.
+Running this script before the testing harness is executed ensures that the Wycheproof test vectors are kept up to date and that you benefit from the new test vectors.
 
 ## Ideal Use Case
 
 Wycheproof is ideally used to help validate the correctness of existing cryptographic implementations against known edge cases and common mistakes made during development.
 {{< hint warning >}}
-Wycheproof is not intended to be used for creating new cryptographic algorithms. Wycheproof is a collection of test vectors of existing and well established algorithms and should be used to test the implementation of these algorithms.
+Wycheproof is not intended to be used for creating new cryptographic algorithms. Wycheproof is a collection of test vectors of existing and well-established algorithms and should be used to test the implementation of these algorithms.
 {{< /hint >}}
 
-## Real world examples
+## Real-world examples
 
 Wycheproof has been instrumental in identifying bugs in prominent cryptographic libraries, such as **OpenJDK's SHA1withDSA** and **Bouncy Castle's ECDHC**.
-Furthermore libraries like [pycryptodome](https://pypi.org/project/pycryptodome/) are using the testvectors of Wycheproof to test their implementation.
+Furthermore, libraries like [pycryptodome](https://pypi.org/project/pycryptodome/) are using Wycheproof's testvectors to test their implementation.
 By integrating Wycheproof into your testing process, you can enhance the security and reliability of your cryptographic solutions.
 
 ### Case study: elliptic npm
@@ -203,13 +207,13 @@ The library supports the following algorithms:
 - EdDSA
 
 on numerous different curves.
-We used the Wycheproof testing vectors to investigate the security of version 6.5.6, which, as of writing this entry, is the most up-to-date version. Using Wycheproof we were able to find vulnerabilities multiple vulnerabilities in both the ECDSA and EDDSA module:
+We used the Wycheproof testing vectors to investigate the security of version 6.5.6, which, as of writing this entry, is the most up-to-date version. Using Wycheproof, we were able to find vulnerabilities multiple vulnerabilities in both the ECDSA and EDDSA module:
 
 - [CVE-2024-42459](https://nvd.nist.gov/vuln/detail/CVE-2024-42459)
 - [CVE-2024-42460](https://nvd.nist.gov/vuln/detail/CVE-2024-42460)
 - [CVE-2024-42461](https://nvd.nist.gov/vuln/detail/CVE-2024-42461)
 
-In the following we will talk you through how we applied Wycheproof to provide a practical example of how one can make use of it.
+In the following, we will talk you through how we applied Wycheproof to provide a practical example of how one can use it.
 
 #### Parse file
 
@@ -285,7 +289,9 @@ We repeated the process of writing a testing harness for the remaining cryptogra
 
 #### Results
 
-After running all test vectors the test runner reports that some test failed and after further investigation we can conclude that there exist at least three vulnerabilities. At closer inspection all these tests should have failed but were incorrectly accepted as valid signatures.
+After running all test vectors, the test runner reports that some tests failed. After further investigation, we can conclude that at least three vulnerabilities exist.
+At closer inspection, all these tests should have failed but were incorrectly accepted as valid signatures.
+
 The following test vectors failed:
 
 {{< hint danger>}}
@@ -305,7 +311,7 @@ To understand the failed test vectors, we examined the library's source code to 
 
 #### EDDSA
 
-The first test vector that failed was inside the EDDSA algorithm for the ed25519 curve. The responsible function is the `EDDSA.prototype.verify`, which checks whether a signature is valid:
+The first failed test vector was inside the EDDSA algorithm for the ed25519 curve. The responsible function is the `EDDSA.prototype.verify`, which checks whether a signature is valid:
 
 ```javascript
 /**
@@ -325,7 +331,7 @@ EDDSA.prototype.verify = function verify(message, sig, pub) {
 };
 ```
 
-The issue stems from EDDSA signature's length never being checked, allowing for appending or removing zeros from the end of the signature.
+The issue stems from the EDDSA signature's length never being checked, allowing for appending or removing zeros from the end of the signature.
 
 ```text
 Valid signature:   ...6a5c51eb6f946b30d
@@ -340,17 +346,17 @@ Adding a simple length check fixes this vulnerability and prevents an attacker f
   }
 ```
 
-This vulnerability can lead to consensus problems as some libraries will correctly reject these invalid signatures while elliptic would accept this fraudulent signature allowing to create multiple valid signatures for a given message.
+This vulnerability can lead to consensus problems as some libraries will correctly reject these invalid signatures while elliptic would accept this fraudulent signature, allowing to create multiple valid signatures for a given message.
 Once the signatures are parsed however the trailing zeros are removed and the internal signatures representation is corrected. This vulnerability resulted in the creation of [CVE-2024-42459](https://nvd.nist.gov/vuln/detail/CVE-2024-42459).
 
 #### ECDSA
 
-The two failed test vectors accepted invalid signature encoding, leading to the same problem with the EDDSA issue, where one message can have multiple valid signatures. Both problems had to do with the specification of DER-encoded signatures.
+The two failed test vectors accepted invalid signature encoding, leading to the same problem with the EDDSA issue, where one message can have multiple valid signatures. Both problems involved the specification of DER-encoded signatures.
 
-**The first issue** stems from an invalid bit placement. The first bit for both r and s should be zero, indicating that they are positive integers. However, during the import of the DER encoded signatures, this property is never checked and is implicitly assumed to be zero.
+**The first issue** stems from an invalid bit placement. The first bit for both r and s should be zero, indicating that they are positive integers. However, when importing the DER encoded signatures, this property is never checked and is implicitly assumed to be zero.
 The implicit assumptions allow for multiple encodings, which is not permitted in the case of the DER.
 
-One must add checks for the specific locations to the import DER function to remedy this issue.
+To remedy this issue, one must add checks for the specific locations to the import DER function.
 
 ```javascript
 Signature.prototype._importDER = function _importDER(data, enc) {
@@ -367,7 +373,7 @@ Signature.prototype._importDER = function _importDER(data, enc) {
 }
 ```
 
-Running the new code identifies the signature the test vector provided as invalid and correctly rejects it. [CVE-2024-42460](https://nvd.nist.gov/vuln/detail/CVE-2024-42460)
+Running the new code identifies the test vector's signature as invalid and correctly rejects it. This vulnerability resulted in [CVE-2024-42460](https://nvd.nist.gov/vuln/detail/CVE-2024-42460).
 
 **The second issue** is similar to the first issue. The DER encoding follows the Tag-Length-Value format. The following is an example of an encoding:
 
@@ -376,7 +382,7 @@ Running the new code identifies the signature the test vector provided as invali
   02    20    813ef79ccefa9a56f7ba805f0e478584fe5f0dd5f567bc09b5123ccbc9832365
 ```
 
-The length field, encoded in hex, specifies how many bytes the value field takes up. The length field cannot contain a leading zero bit for the length, but this is never explicitly checked. The getLength function, which parses the length of the DER data, does not perform the check and subsequently allows for multiple DER encodings.
+The length field, encoded in hex, specifies how many bytes the value field takes up. The length field cannot contain a leading zero bit for the length, but this is never explicitly checked. The `getLength` function, which parses the length of the DER data, does not perform the check and subsequently allows for multiple DER encodings.
 
 ```javascript
 function getLength(buf, p) {

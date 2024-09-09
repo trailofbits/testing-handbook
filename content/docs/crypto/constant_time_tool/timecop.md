@@ -11,7 +11,7 @@ weight: 50
 
 # Timecop (~~Valgrind~~)
 
-[Timecop](https://post-apocalyptic-crypto.org/timecop/) is a wrapper around [Valgrind](https://valgrind.org/) designed to dynamically detect potential timing leaks.
+[Timecop](https://post-apocalyptic-crypto.org/timecop/) is a wrapper around [Valgrind](https://valgrind.org/) designed to detect potential timing leaks dynamically.
 It allows developers to mark memory regions as secret, and if during runtime, a branching instruction or memory access is performed that is dependent on the secret memory region, Valgrind will report the behavior, helping to identify timing vulnerabilities.
 
 ## Overview
@@ -59,13 +59,13 @@ Verify the installation with:
 valgrind --version
 ```
 
-After the installation of Valgrind, all that is needed is to include the header file `poison.h` of Timecop, which can be found [here](https://post-apocalyptic-crypto.org/timecop/#source-code)
+After installing Valgrind, all that is needed is to include the header file `poison.h` of Timecop, which can be found [here](https://post-apocalyptic-crypto.org/timecop/#source-code).
 
 ```C
 #include "poison.h"
 ```
 
-Alternatively, use Valgrind's memory-checking functions directly by including the `memceck` library:
+Alternatively, use Valgrind's memory-checking functions directly by including the `memcheck` library:
 
 ```C
 #include "valgrind/memcheck.h"
@@ -93,10 +93,12 @@ int a;
 
 Using the value of these uninitialized variables in languages like C corresponds to undefined behavior and should, therefore, be avoided.
 Valgrind tracks the usage of uninitialized variables and allows them to propagate to other values and memory regions.
-Once the program uses the uninitialized values for either a
+Once the program uses the uninitialized values for either:
 
 - *Conditional jump*: Altering the execution trace
 - *Move*: Altering the memory access patterns
+
+
 Valgrind will issue a report.
 
 Consider the following example of the propagation of uninitialized values:
@@ -114,7 +116,7 @@ int main(){
 Running Valgrind on a binary with debug symbols enabled will generate a report pinpointing where uninitialized values are used.
 
 ```bash
-> valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./main
+$ valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./main
 ...
 ==49626== Use of uninitialised value of size 8
 ==49626==    at 0x10916F: main (main.c:5)
@@ -185,7 +187,7 @@ Poisoning the memory region of the private exponent `d` will mark this value as 
 Valgrind correctly identifies the problematic lines of code where the timing assumptions are not met.
 
 ```bash
-> valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./toy_example
+$ valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./toy_example
 
 ==72317== Conditional jump or move depends on uninitialised value(s)
 ==72317==    at 0x40115D: mod_exp (toy_example.c:14)
@@ -204,13 +206,13 @@ Valgrind correctly identifies the problematic lines of code where the timing ass
 
 ### Valgrind Debugging with GDB Integration
 
-Valgrind integrates with [GDB](https://www.sourceware.org/gdb/), automatically breaking on all error found by Valgrind and abstracts away the process emulation layer of Valgrind itself allowing for easy debugging.
+Valgrind integrates with [GDB](https://www.sourceware.org/gdb/), automatically breaking on all errors found by Valgrind. It also abstracts away the process emulation layer of Valgrind itself, allowing for easy debugging.
 For a more informative GDB experience, consider using [pwndbg](https://github.com/pwndbg/pwndbg).
 
 To start debugging run:
 
 ```bash
-valgrind --vgdb=yes --vgdb-error=0 ./<binary>
+$ valgrind --vgdb=yes --vgdb-error=0 ./<binary>
 ```
 
 which tells Valgrind to start in GDB mode and break before executing the binary.
@@ -218,7 +220,7 @@ Valgrind will print out instructions on how to debug the binary using GDB.
 Doing so requires launching GDB with the correct binary, and after GDB has launched
 
 ```bash
-gdb ./<binary>
+$ gdb ./<binary>
 > target remote | vgdb
 ```
 

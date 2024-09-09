@@ -13,8 +13,11 @@ math: true
 # Constant time analysis tooling
 
 {{< math >}}
-Timing attacks are side channels that exploit variations in execution time to extract secret information. Unlike cryptanalysis, which seeks to find weaknesses and break the theoretical security guarantees of a cryptographic protocol, timing attacks leverage implementation flaws in specific protocols.  
-While specific cryptographic constructions, such as asymmetric cryptography, may be more vulnerable to timing attacks, this attack vector can potentially affect any cryptographic implementation. To mitigate timing attacks, it is best practice to ensure implementations are constant-time, meaning the execution time of cryptographic functions should remain constant regardless of the input. In practice, one should ensure that **the code path and any memory accesses are independent of secret data**. Not all timing differences are exploitable, but removing any differences ensures the security of the implementation. To ensure that an implementation is constant time, cryptography practitioners have developed various tools to detect non-constant time code.  
+Timing attacks are side channels that exploit variations in execution time to extract secret information.
+
+Unlike cryptanalysis, which seeks to find weaknesses and break the theoretical security guarantees of a cryptographic protocol, timing attacks leverage implementation flaws in specific protocols. While specific cryptographic constructions, such as asymmetric cryptography, may be more vulnerable to timing attacks, this vector can affect any cryptographic implementation.
+
+To mitigate timing attacks, it is best practice to ensure implementations are constant-time, meaning the execution time of cryptographic functions should remain constant regardless of the input. In practice, one should ensure that **the code path and any memory accesses are independent of secret data**. Not all timing differences are exploitable, but removing any differences ensures the security of the implementation. To ensure that an implementation is constant-time, cryptography practitioners have developed various tools to detect non-constant-time code.  
 
 This entry is divided into two sections.
 The first provides [background](#background) information on timing attacks and a concrete [example](#example-modular-exponentiation-timing-attacks).
@@ -22,7 +25,7 @@ The second section focuses on different [tools](#constant-time-tooling) practiti
 
 ## Background
 
-Timing attacks on cryptographic implementations were introduced by [Kocher](https://paulkocher.com/doc/TimingAttacks.pdf) in 1996\. Over the years, various researchers expanded on these attacks. Notably, [Schindler](https://www.torsten-schuetze.de/sommerakademie2009/papers-sekundaer/Schindler\_Timing\_2000.pdf) demonstrated attacks on RSA implementations which used a specific optimization improvement, and in 2005, Brumley and Boneh published [Remote Timing Attacks are Practical](https://crypto.stanford.edu/\~dabo/papers/ssl-timing.pdf), successfully extracting secret keys from OpenSSL. Also, symmetric ciphers like AES can be vulnerable to timing attacks, as shown in [Cache-timing attacks on AES](https://mimoza.marmara.edu.tr/\~msakalli/cse466\_09/cache%20timing-20050414.pdf).  
+Timing attacks on cryptographic implementations were introduced by [Kocher](https://paulkocher.com/doc/TimingAttacks.pdf) in 1996\. Over the years, various researchers have expanded on these attacks. Notably, [Schindler](https://www.torsten-schuetze.de/sommerakademie2009/papers-sekundaer/Schindler\_Timing\_2000.pdf) demonstrated attacks on RSA implementations, which used a specific optimization improvement, and in 2005, Brumley and Boneh published [Remote Timing Attacks are Practical](https://crypto.stanford.edu/\~dabo/papers/ssl-timing.pdf), successfully extracting secret keys from OpenSSL. Also, symmetric ciphers like AES can be vulnerable to timing attacks, as shown in [Cache-timing attacks on AES](https://mimoza.marmara.edu.tr/\~msakalli/cse466\_09/cache%20timing-20050414.pdf).  
 More recently, the post-quantum algorithm Kyber was found to have timing vulnerabilities in its official implementation, dubbed [KyberSlash](https://eprint.iacr.org/2024/1049.pdf). The [CWE-385](https://cwe.mitre.org/data/definitions/385.html) catalog tracks timing vulnerabilities found in implementations.  
 
 Generally, to exploit a timing attack, two key prerequisites must be met:
@@ -57,9 +60,9 @@ data = secret / m;
 data = a << secret;
 ```
 
-When writing code that performs any operation using secret data one should keep these four patterns in mind and aim to avoid them.
+When writing code that performs any operation using secret data, one should consider these four patterns and aim to avoid them.
 
-**Conditional jumps** result in executing different instructions and generally lead to the most significant time differences out of the four patterns. Making the execution flow of the program dependent on secret data is going to lead to vast timing differences depending on how different the two branches are.  
+**Conditional jumps** result in executing different instructions and generally lead to the most significant time differences out of the four patterns. Making the program's execution flow dependent on secret data will lead to vast timing differences, depending on how different the two branches are.  
 
 **Array access** and more general memory access, dependent on secret data, can be used to extract the indexing value due to timing differences when accessing memory locations. These timing differences primarily stem from the utilization of caches and whether or not a given value is inside the cache. Ciphers like AES, which use substitution tables dependent on secret data, are suitable for this attack even over the network, as demonstrated here [Cache-timing attacks on AES](https://mimoza.marmara.edu.tr/~msakalli/cse466_09/cache%20timing-20050414.pdf).
 
@@ -68,12 +71,12 @@ These operations can leak the secret data depending on the CPU architecture or c
 
 In cases where it is impossible to avoid these patterns because the cryptographic algorithm requires them, one should employ [masking techniques](https://link.springer.com/chapter/10.1007/978-3-642-38348-9_9) to remove or reduce any correlation between the execution time and the secret data.
 
-In the next section, we will illustrate how timing attacks on modular exponentiation exploit conditional jumps.
+The next section will illustrate how timing attacks on modular exponentiation exploit conditional jumps.
 
 ### Example: Modular Exponentiation Timing Attacks
 
 [Kocher](https://paulkocher.com/doc/TimingAttacks.pdf) showed that algorithms used to calculate modular exponentiation are susceptible to timing attacks.
-Given that popular cryptographic systems like **RSA** and **Diffie-Hellman** use modular exponentiation, this vulnerability poses a significant security risk.
+Popular cryptographic systems like **RSA** and **Diffie-Hellman** use modular exponentiation, so this vulnerability poses a significant security risk.
 In RSA, for example, decryption involves raising the ciphertext \(ct\) to the secret exponent \(d\) modulo the public modulus \(N\):
 
 $$
@@ -171,7 +174,7 @@ Popular formal tools include:
 | Pros | Cons |
 | :---- | :---- |
 | **Guarantee**: Formal verification proves the absence of timing leaks under the analyzed model. | **Complexity**: These tools tend to require more expertise in both cryptography and formal methods, making them less accessible to general developers. |
-| **Flexibility**: Many tools utilize LLVM bytecode, allowing for use with various languages. | **Modeling and restrictions**: Assumptions made during formalization may not perfectly reflect reality, potentially leading to incomplete verification. For example, any changes introduced during the compilation stage may lead to a binary that is different from the analyzed model. |
+| **Flexibility**: Many tools use LLVM bytecode, allowing for use with various languages. | **Modeling and restrictions**: Assumptions made during formalization may not perfectly reflect reality, potentially leading to incomplete verification. For example, any changes introduced during the compilation stage may lead to a binary different from the analyzed model. |
 
 ### Symbolic tools
 
@@ -190,7 +193,7 @@ Popular symbolic tools include:
 
 ### Dynamic Tools
 
-Dynamic tools, alongside formal tools, are among the most common methods for ensuring constant time execution. These approaches typically involve marking specific memory regions as sensitive, ensuring they do not reveal timing information, or by tracing the execution flow to detect differences in execution traces for different inputs.
+Dynamic tools, alongside formal tools, are among the most common methods for ensuring constant-time execution. These approaches typically involve marking specific memory regions as sensitive, ensuring they do not reveal timing information, or tracing the execution flow to detect differences in execution traces for different inputs.
 
 Popular dynamic tools include:
 
@@ -220,6 +223,6 @@ Popular statistical tools include:
 
 ## Further Reading
 
-[“These results must be false”: A usability evaluation of constant-time analysis tools](https://www.usenix.org/system/files/sec24fall-prepub-760-fourne.pdf)
+- [“These results must be false”: A usability evaluation of constant-time analysis tools](https://www.usenix.org/system/files/sec24fall-prepub-760-fourne.pdf)
 
-[List of constant time tools](https://crocs-muni.github.io/ct-tools/)
+- [List of constant time tools](https://crocs-muni.github.io/ct-tools/)

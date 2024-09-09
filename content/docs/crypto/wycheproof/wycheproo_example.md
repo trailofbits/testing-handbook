@@ -9,15 +9,15 @@ weight: 30
 # bookSearchExclude: false
 ---
 
-# Wycheproof testing harness example in python
+# Wycheproof testing harness example in Python
 
-In the following section, we will showcase how to write a simple testing harness to test a python library implementing AES in GCM mode.
+The following section will showcase how to write a simple testing harness to test a Python library implementing AES in GCM mode.
 We will use the [cryptography](https://pypi.org/project/cryptography/) package as an example of an AES-GCM implementation.
-For testing we will use the [pytest](https://pypi.org/project/pytest/) packages as it is one of the most popular testing frameworks in python.
+For testing, we will use the [pytest](https://pypi.org/project/pytest/) package, one of the most popular testing frameworks in Python.
 
 ## Prerequisites
 
-The first step is to add the Wycheproof repository as a submodule to your existing repository.
+Add the Wycheproof repository as a submodule to your existing repository.
 
 ```bash
 git submodule add https://github.com/C2SP/wycheproof.git
@@ -27,12 +27,12 @@ The first step of using Wycheproof is to parse the JSON file containing all the 
 
 ## 1. Parse the JSON File
 
-First, check if Wycheproof offers test vectors for the specific cryptographic algorithm being tested, by searching inside the `testvectors` or `testvectors_v1` folders.
+First, check if Wycheproof offers test vectors for the specific cryptographic algorithm being tested by searching inside the `testvectors` or `testvectors_v1` folders.
 For the AES-GCM example, we will use the following file:
 
 - `testvectors_v1/aes_gcm_test.json`
 
-All test files share a common structure that can be used to write a testing harness that allows to generalize between different constructions, which we discussed in the previous section. There are a total of 45 test groups in the `aes_gcm_test.json` file. The test groups differentiate themselves by different key, IV, and tag sizes. If the underlying AES implementation only supports certain parameter sizes, they can be filtered out during the parsing stage.  
+All test files share a common structure that can be used to write a testing harness to generalize between different constructions, which we discussed in the previous section. There are a total of 45 test groups in the `aes_gcm_test.json` file. The test groups are differentiated by key, IV, and tag sizes. If the underlying AES implementation only supports certain parameter sizes, they can be filtered out during the parsing stage.  
 
 Here is an example of how to load and parse the test vectors:
 
@@ -59,14 +59,14 @@ def load_wycheproof_test_vectors(path: str):
 ```
 
 This function reads the JSON file and converts the relevant attributes from hex strings to bytes.
-Since the specific AES-GCM implementation allows only for IV to be in a specific range we filter the test groups based on the accepted IV size.
+Since the specific AES-GCM implementation allows only for IV to be in a specific range, we filter the test groups based on the accepted IV size.
 Wycheproof provides us with a total of 283 test vectors for the specified parameters.
 
 ## 2. Write the Testing Harness
 
 After parsing the testing vectors, writing a testing harness is the next step.
 One can integrate the Wycheproof test vectors into the existing framework if a testing framework already exists.
-Notably, the testing framework should be flexible enough to expect that certain test vectors should fail, as some test vectors are specifically designed such that a correct implementation should raise an error and refuse to validate. We will demonstrate a simple example of how to write a testing harness to check encryption and decryption of the AES-GCM implementation.
+Notably, the testing framework should be flexible enough to expect that certain test vectors should fail, as some test vectors are specifically designed such that a correct implementation should raise an error and refuse to validate. We will demonstrate a simple example of writing a testing harness to check the encryption and decryption of the AES-GCM implementation.
 
 ### Testing Harness for Encryption
 
@@ -111,7 +111,7 @@ All 283 tests should pass.
 
 Similarly, to test the decryption process, we can use pytest's parameterization feature to test all combinations of test vectors.
 The decryption test function handles exceptions specific to the AES implementation and verifies the expected outcomes based on the flags provided in the Wycheproof test vectors.
-If the AES implementation returns certain errors the flag provided for each Wycheproof test vectors can be used to verify the specific exceptions.
+If the AES implementation returns certain errors, the flag provided for each Wycheproof test vector can be used to verify the specific exceptions.
 
 ```python {linenos=inline}
 @pytest.mark.parametrize("tv", tvs, ids=[str(tv['tcId']) for tv in tvs])
@@ -147,4 +147,4 @@ We covered:
 - Writing testing functions for both encryption and decryption.
 - Handling edge cases and errors within the testing framework.
 
-By following these steps, you can ensure that your cryptographic implementation is robust and conforms to the expected standards.
+Following these steps ensures that your cryptographic implementation is robust and conforms to the expected standards.
