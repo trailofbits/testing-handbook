@@ -18,6 +18,13 @@ traffic to sort through—a feat that is difficult for most browser development 
 and filtering mechanisms that greatly increase user productivity when dealing with high traffic.
 Burp's UI also significantly outperforms browser development tools when it comes to editing requests.
 
+{{< hint info >}}🎥 Watch the Trail of Bits Webinar on
+[Mastering Web Research with Burp Suite](https://www.youtube.com/watch?v=rQRlnUQPXDw).
+In this session, we dive into advanced web research techniques using Burp Suite with James Kettle, including how to discover ideas and targets,
+optimize your setup, and utilize Burp tools in various scenarios. We also explore the future of Burp with the introduction of BChecks
+and compare dynamic and static analysis through real-world examples.
+{{< /hint >}}
+
 Burp contains four major features:
 
 1. **Burp Proxy**. The **Proxy** tab lets you view, sort, and filter proxied requests and responses.
