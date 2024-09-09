@@ -37,6 +37,7 @@ hope to demystify static and dynamic analysis techniques such as fuzzing and tai
 |---|---|
 | Introduction to Semgrep | https://www.youtube.com/watch?v=yKQlTbVlf0Q |
 | Introduction to CodeQL: Examples, Tools and CI Integration | https://www.youtube.com/watch?v=rQRlnUQPXDw |
+| Mastering Web Research with Burp Suite | https://www.youtube.com/watch?v=0PV5QEQTmPg |
 
 ### 🚧 Under construction
 
