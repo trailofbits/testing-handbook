@@ -136,22 +136,7 @@ since it is the title of a document. But if you'd like to avoid the capitalizati
 
 ### Workflow: From Google Docs
 
-1. Make your document viewable via a link share.
-2. Create a Google account or use your private one (If you use this method, your document should be considered public but unpublished).
-3. Install [Docs to Markdown](https://workspace.google.com/marketplace/app/docs_to_markdown/700168918607).
-This addon works better than the pandoc.
-4. Open the document and make a copy.
-5. Open the copy and run the Addon.
-6. Export the markdown and apply fixes:
-   - Search for occurrences of `<code>` or `<strong>` or any other html tags
-   - Replace HTML tables with markdown ones (<https://jmalarcon.github.io/markdowntables/>)
-   - If you split your document, fix internal links.
-   - Add missing images.
-   - Fix `&lt;`, …, “, ’
-   - Adjust markdown captions ## -> #
-   - Verify missing formatting in PRO TIPs
-   - . at the end of fig captions?
-   - Note that index bundles do not use the "slug"
+You can export the document from Google Docs as Markdown. Open the document in Google Docs. Click `File` > `Download`, and then select `Markdown (.md)`.
 
 ### Custom environments
 
