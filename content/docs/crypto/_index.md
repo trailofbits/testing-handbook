@@ -4,7 +4,7 @@ bookFlatSection: true
 title: "Cryptographic testing"
 ---
 
-# Static analysis
+# Cryptographic Testing
 
 This section presents testing tools to verify implementations of cryptographic algorithms.  
 For each tool, we cover topics such as:
