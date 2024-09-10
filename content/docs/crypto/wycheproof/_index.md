@@ -1,7 +1,7 @@
 ---
 title: "Wycheproof"
 weight: 3
-summary: "Wycheproof is a collection of test vectors for existing cryptographic algorithms which developers can use to verify their implementation and check for know attacks and vulnerabilities"
+summary: "Wycheproof is a collection of test vectors for existing cryptographic algorithms which developers can use to verify their implementation and check for known attacks and vulnerabilities"
 bookCollapseSection: true
 math: true
 # bookFlatSection: false
