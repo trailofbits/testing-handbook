@@ -11,7 +11,7 @@ We recommend using [Ruzzy](https://github.com/trailofbits/ruzzy) to fuzz Ruby co
 
 ## Installation
 
-Ruzzy supports Linux x86-64 and AArch64/ARM64. If you'd like to run Ruzzy on a Mac or Windows, you can build the [`Dockerfile`](https://github.com/trailofbits/ruzzy/blob/main/Dockerfile) and/or use the [development environment](https://github.com/trailofbits/ruzzy#developing). Ruzzy requires a recent version of `clang` (tested back to `14.0.0`), preferably the [latest release](https://github.com/llvm/llvm-project/releases).
+Ruzzy supports Linux x86-64 and AArch64/ARM64. If you'd like to run Ruzzy on a macOS or Windows, you can build the [`Dockerfile`](https://github.com/trailofbits/ruzzy/blob/main/Dockerfile) and/or use the [development environment](https://github.com/trailofbits/ruzzy#developing). Ruzzy requires a recent version of `clang` (tested back to `14.0.0`), preferably the [latest release](https://github.com/llvm/llvm-project/releases).
 
 Install Ruzzy with the following command:
 
@@ -189,7 +189,7 @@ CXXFLAGS="-fsanitize=address,fuzzer-no-link -fno-omit-frame-pointer -fno-common 
     gem install msgpack
 ```
 
-In addition to the environment variables used when compiling Ruzzy, we're specifying `CFLAGS` and `CXXFLAGS`. These flags aid in the fuzzing process. They enable helpful functionality like an address sanitizer, and improved stack trace information. For more information see [AddressSanitizerFlags](https://github.com/google/sanitizers/wiki/AddressSanitizerFlags).
+In addition to the environment variables used when compiling Ruzzy, we're specifying `CFLAGS` and `CXXFLAGS`. These flags aid in the fuzzing process. They enable helpful functionality like an address sanitizer and improved stack trace information. For more information, see [AddressSanitizerFlags](https://github.com/google/sanitizers/wiki/AddressSanitizerFlags).
 
 Next, we need a fuzzing harness for `msgpack`. The following may be familiar to those with [libFuzzer experience](https://llvm.org/docs/LibFuzzer.html#fuzz-target):
 
