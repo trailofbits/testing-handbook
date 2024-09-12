@@ -11,9 +11,9 @@ We recommend using [Atheris](https://github.com/google/atheris) to fuzz Python c
 
 ## Installation
 
-Atheris supports 32-bit and 64-bit Linux, and Mac OSX. We recommend fuzzing on Linux because it's simpler to manage and often faster. If you'd like to run Atheris in a Linux environment on a Mac or Windows system we recommend using [Docker Desktop](https://www.docker.com/products/docker-desktop/).
+Atheris supports 32-bit and 64-bit Linux, and macOS. We recommend fuzzing on Linux because it's simpler to manage and often faster. If you'd like to run Atheris in a Linux environment on a Mac or Windows system, we recommend using [Docker Desktop](https://www.docker.com/products/docker-desktop/).
 
-If you'd like a fully operational Linux environment see the [`Dockerfile`](#dockerfile) section below.
+If you'd like a fully operational Linux environment, see the [`Dockerfile`](#dockerfile) section below.
 
 If you'd like to install Atheris locally, first install a recent version of `clang`, preferably the [latest release](https://github.com/llvm/llvm-project/releases), then run the following command:
 
@@ -60,7 +60,7 @@ Then run Atheris with the following command:
 python fuzz.py
 ```
 
-Relatively quickly it should produce a crash like the following:
+Relatively quickly, it should produce a crash like the following:
 
 ```bash
 INFO: Using preloaded libfuzzer
@@ -118,7 +118,7 @@ To fuzz your own target, modify the `test_one_input` function to call your targe
 
 ### Fuzzing Python C extensions
 
-Fuzzing Python C extensions requires a bit more work. They must be compiled with the correct compiler flags. If you're using the provided [`Dockerfile`](#dockerfile) they should already be set for you (`CC`, `CFLAGS`, `LD_PRELOAD`, etc.).
+Fuzzing Python C extensions requires a bit more work. They must be compiled with the correct compiler flags. If you're using the provided [`Dockerfile`](#dockerfile), they should already be set for you (`CC`, `CFLAGS`, `LD_PRELOAD`, etc.).
 
 Let's fuzz the [`cbor2`](https://github.com/agronholm/cbor2) project as an example. It includes a Python C extension component and binary data parsing functionality, which is particularly amenable to fuzzing.
 
@@ -175,10 +175,7 @@ Remember, if you're running this locally and not in the provided Docker image, t
 
 ### Dockerfile
 
-E.g.
-
-- `docker build -t atheris .`
-- `docker run -it atheris`
+To use Atheris in a Docker environment, save the following code in the `Dockerfile`:
 
 ```dockerfile
 # https://hub.docker.com/_/python
@@ -237,5 +234,9 @@ ENV ASAN_OPTIONS "allocator_may_return_null=1,detect_leaks=0"
 
 CMD ["/bin/bash"]
 ```
+
+Then run the following commands to build and run the container:
+- `docker build -t atheris .`
+- `docker run -it atheris`
 
 Note you may need to modify `CFLAGS` and `CXXFLAGS` if you'd like to [use UBSAN](https://llvm.org/docs/LibFuzzer.html#fuzzer-usage).
