@@ -10,7 +10,7 @@ weight: 2
 The [AFL++](https://github.com/AFLplusplus/AFLplusplus) fuzzer is a fork from the [AFL](https://github.com/google/AFL) fuzzer. It offers better fuzzing performance and more advanced features while still being a very stable alternative to libFuzzer. A major benefit over libFuzzer is that AFL++ has stable support for running fuzzing campaigns on multiple cores (see [Multi-core fuzzing](#multi-core-fuzzing)).
 
 {{< fuzzing/intro-os >}}
-AFL++ supports different environments like [macOS](https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/INSTALL.md#macos-x-on-x86-and-arm64-m1), but there are caveats. If you only have a macOS computer, we recommend fuzzing on a local x64_64 VM or renting one on DigitalOcean, AWS, Hetzner, etc to simplify the setup.
+AFL++ supports different environments like [macOS](https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/INSTALL.md#macos-x-on-x86-and-arm64-m1), but there are caveats. If you only have a macOS computer, we recommend fuzzing on a local x86_64 VM or renting one on DigitalOcean, AWS, Hetzner, etc to simplify the setup.
 
 
 ## Installation {#installation}

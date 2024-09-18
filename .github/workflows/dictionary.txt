@@ -301,5 +301,5 @@ unparsable
 uplevel
 version
 when-should-i-use-which-fuzzer
-x64_64
+x86_64
 
