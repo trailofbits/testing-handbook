@@ -1,0 +1,21 @@
+{
+  "theme": "base",
+  "themeVariables": {
+    "actorBkg": "#dcefff",
+    "actorBorder": "#6d9eeb",
+    "actorTextColor": "#000000",
+    "actorLineColor": "#576675",
+    "noteBkgColor": "#e7edf4",
+    "noteTextColor": "#000000",
+    "noteBorderColor": "#d9d9d9"
+  },
+  "fontSize": "20px",
+  "fontFamily": "monospace",
+  "sequence": {
+    "showSequenceNumbers": true
+  },
+  "messageAlign": "center",
+  "wrap": true,
+  "useMaxWidth": false,
+  "noteAlign": "center"
+}
