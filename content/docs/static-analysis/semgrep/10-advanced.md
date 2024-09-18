@@ -1053,6 +1053,35 @@ test file:
 4. **Evaluate the rule against real-world code**: Test the rule against actual code from your projects,
 open-source repositories, or other codebases to assess its effectiveness in real-life scenarios.
 
+## Testing custom rules in CI
+
+### GitHub Actions
+
+The following workflow can be used to test custom Semgrep rules in GitHub Actions:
+
+```yml
+name: Test Semgrep rules
+
+on: [push, pull_request]
+
+jobs:
+  semgrep-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+          cache: "pip"
+      - run: python -m pip install -r requirements.txt
+      - run: semgrep --test --test-ignore-todo ./path/to/rules/
+```
+
+Make sure to include `semgrep` in your `requirements.txt` (or [`poetry` or `pipenv` equivalents](https://github.com/actions/setup-python/blob/main/docs/advanced-usage.md#caching-packages))
+file to speed up workflow runs by caching the dependency. Note, we include
+`--test-ignore-todo` here so we do not fail CI runs on [TODO tests](https://semgrep.dev/docs/writing-rules/testing-rules),
+which are a valuable form of documentation for future rule improvements.
+
 ## Autofix feature
 
 The autofix feature can automatically correct identified vulnerabilities, potential errors, or coding standard violations.

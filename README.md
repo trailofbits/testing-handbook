@@ -29,6 +29,8 @@ hope to demystify static and dynamic analysis techniques such as fuzzing and tai
 |[Semgrep](https://appsec.guide/docs/static-analysis/semgrep/)| [Announcing the Trail of Bits Testing Handbook](https://blog.trailofbits.com/2023/07/26/announcing-the-trail-of-bits-testing-handbook/)|2023|
 |[CodeQL](https://appsec.guide/docs/static-analysis/codeql/)| [Say hello to the next chapter of the Testing Handbook!](https://blog.trailofbits.com/2023/12/11/say-hello-to-the-next-chapter-of-the-testing-handbook/)|2023|
 |[Fuzzing](https://appsec.guide/docs/fuzzing/)| [Master fuzzing with our new Testing Handbook chapter](https://blog.trailofbits.com/2024/02/09/master-fuzzing-with-our-new-testing-handbook-chapter/)|2024|
+|[Burp](https://appsec.guide/docs/web/burp/)| [Announcing the Burp Suite Professional chapter in the Testing Handbook](https://blog.trailofbits.com/2024/06/14/announcing-the-burp-suite-professional-chapter-in-the-testing-handbook/)|2024|
+| [Cryptographic testing - Wycheproof and Constant time analysis tooling](https://appsec.guide/docs/crypto/) | TBD | 2024 |
 
 ### 🎥 Webinars
 
@@ -36,10 +38,10 @@ hope to demystify static and dynamic analysis techniques such as fuzzing and tai
 |---|---|
 | Introduction to Semgrep | https://www.youtube.com/watch?v=yKQlTbVlf0Q |
 | Introduction to CodeQL: Examples, Tools and CI Integration | https://www.youtube.com/watch?v=rQRlnUQPXDw |
+| Mastering Web Research with Burp Suite | https://www.youtube.com/watch?v=0PV5QEQTmPg |
 
 ### 🚧 Under construction
 
-- Burp Suite Professional
 - Formal verification and Tamarin
 - Rust
 
@@ -111,7 +113,7 @@ Your browser will be automatically refreshed with changes whenever you save a fi
 
 - The GitHub workflow in this repository verifies the correctness of Markdown files through three checks:
   1. **Markdown Link Check**: This step extracts links from Markdown files and verifies if they are valid and accessible.
-    It uses the [github-action-markdown-link-check](https://github.com/gaurav-nelson/github-action-markdown-link-check) action.
+    It uses the [lychee link checking action](https://github.com/lycheeverse/lychee-action).
   2. **Markdown Linter**: This step ensures that Markdown files adhere to the desired style and formatting rules.
     It uses a custom configuration file (`.github/workflows/.markdownlint.jsonc`) and the
      [markdownlint-cli2-action](https://github.com/DavidAnson/markdownlint-cli2-action) action.
@@ -135,22 +137,7 @@ since it is the title of a document. But if you'd like to avoid the capitalizati
 
 ### Workflow: From Google Docs
 
-1. Make your document viewable via a link share.
-2. Create a Google account or use your private one (If you use this method, your document should be considered public but unpublished).
-3. Install [Docs to Markdown](https://workspace.google.com/marketplace/app/docs_to_markdown/700168918607).
-This addon works better than the pandoc.
-4. Open the document and make a copy.
-5. Open the copy and run the Addon.
-6. Export the markdown and apply fixes:
-   - Search for occurrences of `<code>` or `<strong>` or any other html tags
-   - Replace HTML tables with markdown ones (<https://jmalarcon.github.io/markdowntables/>)
-   - If you split your document, fix internal links.
-   - Add missing images.
-   - Fix `&lt;`, …, “, ’
-   - Adjust markdown captions ## -> #
-   - Verify missing formatting in PRO TIPs
-   - . at the end of fig captions?
-   - Note that index bundles do not use the "slug"
+You can export the document from Google Docs as Markdown. Open the document in Google Docs. Click `File` > `Download`, and then select `Markdown (.md)`.
 
 ### Custom environments
 

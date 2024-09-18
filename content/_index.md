@@ -65,11 +65,21 @@ We currently cover the following tools and techniques:
 ### Dynamic analysis
 
 - [Fuzzing]({{< relref "fuzzing" >}})
+- [Burp Suite Professional]({{< relref "/docs/web/burp/" >}})
 
 {{< /columns >}}
 
 We are working on expanding the tools we cover here. We are also planning to
-cover several dynamic analysis tools. Stay tuned for updates from our team!
+cover several other security-related topics. Stay tuned for updates from our team!
+
+### Upcoming (!)
+
+- Formal verification and Tamarin
+- Rust security
+- How to apply taint analysis in a directed fuzzing loop or/and for results verification
+- Taking effective notes for security engagements
+- mitmproxy
+- Leveraging grep in security audits
 
 ## Custom queries for static analysis tools
 
