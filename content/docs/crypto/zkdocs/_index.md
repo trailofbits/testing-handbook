@@ -21,4 +21,3 @@ We hope that ZKDocs can fill in this gap and benefit the larger cryptography com
 {{< hint info >}}
 **For in-depth resources and interactive guides on zero-knowledge proof systems, visit https://zkdocs.com.**
 {{< /hint >}}
-
