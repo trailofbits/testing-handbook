@@ -12,6 +12,9 @@ Model checking is about verification that a program works correctly for all poss
 Instead of testing with a single value (like with unit testing) or with a set of values (like with property testing)
 we check all possible values - and hope that smart algorithms will make it possible to finish testing in a reasonable time.
 
+tldr; these tools are overkill and you don't need them. If you do, then this handbook is far too less to get you started.
+But read on for a nice overview.
+
 ## Prusti
 
 [Prusti](https://github.com/viperproject/prusti-dev) is based on [Viper](https://www.pm.inf.ethz.ch/research/viper.html) - a framework for building verification tools.

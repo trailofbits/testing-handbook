@@ -11,22 +11,34 @@ weight: 40
 
 The tools in this section are more for "understanding" than "checking." E.g., running them does not produce "bug reports", but can help you assess maturity and security of dependencies. Tools below are rather "quantitative" than "qualitative" - you will need to do manuall, in-depth review of the outputs to extract any solid evidences about the maturity.
 
- Run cargo-supply-chain
-This reveals who you are implicitly trusting when you rely on a dependency (e.g., you want that set to be small)
- Run cargo-vet
-This checks if dependencies were audited by a "trusted party"
-rust-crate-audits - collection of Google's audits
- Run cargo-crev
-This is a distributed core-review platform
- Run cargo-deny
-Cargo plugin for linting your dependencies
+This reveals who you are implicitly trusting when you rely on a dependency (e.g., you want that set to be small):
+```bash
+cargo-supply-chain
+```
+
+This checks if dependencies were audited by a "trusted party":
+```bash
+cargo-vet
+```
+
+* rust-crate-audits - collection of Google's audits
+
+This is a distrubuted core-review platform:
+```bash
+cargo-crev
+```
+
+Cargo plugin for linting your dependencies:
+```bash
+cargo-deny
+```
 
 
 
 ## Looking for vulnerabilities
 
-The ultimate tool for detection of vulnerabilities is `cargo-audit` - you should just use it.
-The [`cargo-audit` compares dependencies]() against a database with known vulnerabilities:
+The ultimate tool for detection of vulnerabilities is [`cargo-audit`]() - you should just use it.
+The tool compares dependencies against a database with known vulnerabilities:
 
 ```bash
 cargo audit
