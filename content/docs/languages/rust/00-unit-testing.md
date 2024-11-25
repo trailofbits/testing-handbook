@@ -38,7 +38,7 @@ Once you have your tests written and all of them passes, lets improve.
 
 ### Randomization
 
-First lets make sure that tests do not depend on a global state and that there are no unwanted dependencies between them.
+First let's make sure that tests do not depend on a global state and that there are no unwanted dependencies between them.
 
 For that you can run tests multiple times, taking advantage of the enabled-by-default parallel execution. However, this approach is not optimal. That is because tests are executed in basically alphabetical order, even when multi-threaded.
 
