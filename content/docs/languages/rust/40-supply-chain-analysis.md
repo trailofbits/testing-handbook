@@ -68,7 +68,7 @@ Look for `warning[duplicate]` outputs.
 
 
 Similarly, a dependency that is obtained from multiple sources (e.g., `crates.io` and `github.com`) may indicate some issues.
-To report such offending dependencies use [cargo-vendor](https://doc.rust-lang.org/cargo/commands/cargo-vendor.html):
+To report such offending dependencies, use [cargo-vendor](https://doc.rust-lang.org/cargo/commands/cargo-vendor.html):
 
 ```bash
 cargo vendor --locked ./tmp_path
