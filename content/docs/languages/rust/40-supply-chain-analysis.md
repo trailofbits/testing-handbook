@@ -36,7 +36,7 @@ cargo audit
 
 Even if a dependency doesn't have vulns, it's still worth knowing if it can be updated.
 
-For that task you [use `cargo-outdated` tool](https://github.com/kbknapp/cargo-outdated), which lists dependencies that have newer versions available:
+For that task, you [use `cargo-outdated` tool](https://github.com/kbknapp/cargo-outdated), which lists dependencies that have newer versions available:
 
 ```bash
 cargo outdated --workspace
