@@ -16,7 +16,7 @@ Unit tests are easy to execute, low-effort to implement, and catch a lot of simp
 The standard and ultimate tool for executing unit and integration tests for Rust codebases is `cargo test`.
 The basic setup and usage of `cargo test` is well-known, so we will skip the introduction.
 
-You can also try [the `cargo-nextest`](https://nexte.st/index.html) - a new test runner.
+You can also try [`cargo-nextest`](https://nexte.st/index.html) - a new test runner.
 
 
 ```rust
