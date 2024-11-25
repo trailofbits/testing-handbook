@@ -46,7 +46,7 @@ cargo outdated --workspace
 "Removed" label in the output means that the dependency would be removed from the dependency tree if its parent was updated.
 {{< /hint >}}
 
-Another way to detect crates with newer versions [available is to use `cargo-edit`](https://github.com/killercup/cargo-edit?tab=readme-ov-file#cargo-upgrade):
+Another way to detect crates with newer versions available [is to use `cargo-edit`](https://github.com/killercup/cargo-edit?tab=readme-ov-file#cargo-upgrade):
 ```bash
 cargo upgrade --incompatible --dry-run
 ```
