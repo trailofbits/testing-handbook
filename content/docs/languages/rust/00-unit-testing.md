@@ -32,7 +32,7 @@ mod tests {
 
 Please note that [`docs tests` don't work in binary targets](https://github.com/rust-lang/rust/issues/50784).
 
-Once you have your tests written and all of them passes, lets improve.
+Once you have your tests written and all of them pass, let's improve.
 
 ## Improvements
 
