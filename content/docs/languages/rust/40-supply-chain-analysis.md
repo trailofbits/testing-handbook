@@ -17,7 +17,7 @@ This reveals who you are implicitly trusting when you rely on a dependency (e.g.
 This checks if dependencies were audited by a "trusted party"
 rust-crate-audits - collection of Google's audits
  Run cargo-crev
-This is a distrubuted core-review platform
+This is a distributed core-review platform
  Run cargo-deny
 Cargo plugin for linting your dependencies
 
