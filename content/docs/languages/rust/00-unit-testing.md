@@ -48,7 +48,7 @@ Better to run tests in a random order without parallel execution.
 cargo test -- -Z unstable-options --test-threads 1 --shuffle 
 ```
 
-Execute command above multiple times. If any run reported a failed test use the displayed "shuffle seed" to reliably repeat the error:
+Execute command above multiple times. If any run reports a failed test, use the displayed "shuffle seed" to reliably repeat the error:
 
 ```sh
 cargo test -- -Z unstable-options --test-threads 1 --shuffle-seed 7331
