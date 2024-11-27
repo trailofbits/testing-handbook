@@ -161,3 +161,37 @@ html {
   background: var(--gray-500);
   border-radius: $padding-8;
 }
+
+
+
+// Links
+// main colors are set in _variables.scss
+a:focus, a:focus-visible {
+  opacity: .75;
+  text-decoration: none;
+  outline-style: auto;
+  outline-color: var(--color-link-mono);
+}
+
+.markdown, .book-toc {
+  a:hover {
+    opacity: .75;
+  }
+}
+
+.markdown a {
+  &:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--color-link-mono);
+  }
+
+  &:visited {
+    &:hover {
+      text-decoration-color: var(--color-visited-link-mono);
+    }
+
+    &:focus, &:focus-visible {
+      outline-color: var(--color-visited-link-mono);
+    }
+  }
+}
