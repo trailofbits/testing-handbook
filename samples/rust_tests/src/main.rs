@@ -1,9 +1,13 @@
 #![feature(custom_inner_attributes, proc_macro_hygiene)]
 
+use rust_tests::check_buf;
+
 mod unit_tests;
 
 fn main() {
     println!("Hello, world!");
+    let buffer: &[u8] = b"123";
+    check_buf(buffer);
 }
 
 /* Unit Testing */
@@ -29,7 +33,7 @@ fn feature_one() -> i32 {
 }
 
 mod overflow_lib {
-    #![cast_checks::enable]
+    // #![cast_checks::enable]
 
     pub(crate) fn do_overflow(a: i32) -> i32 {
         return a * 8;
