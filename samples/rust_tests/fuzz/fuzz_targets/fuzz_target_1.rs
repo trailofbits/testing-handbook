@@ -18,7 +18,7 @@ mod tests {
         rstest::rstest,
         std::{fs::File, io::Read, path::PathBuf},
     };
-    
+
     #[rstest]
     fn miri(#[files("corpus/fuzz_target_1/*")] path: PathBuf) {
         let mut input = File::open(path).unwrap();

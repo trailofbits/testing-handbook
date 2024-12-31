@@ -76,6 +76,22 @@ mod unit_tests {
     }
     /* END Sanitizers */
 
+    /* Miri */
+    #[cfg(test)]
+    mod tests_miri {
+        fn x() {}
+
+        #[test]
+        fn miri_example() {
+            let f = x as *const usize;
+            let y = unsafe {
+                *f.map_addr(|a| a + 8)
+            };
+            assert_eq!(y, 0x841f0f);
+        }
+    }
+    /* END Miri */
+
     /* Proptest */
     #[cfg(test)]
     mod tests6 {
