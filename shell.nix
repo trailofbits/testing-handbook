@@ -4,7 +4,9 @@
 
 { pkgs ? import <nixpkgs> { } }:
 with pkgs;
-pkgs.mkShell {
+(pkgs.mkShell.override {
+  stdenv = stdenvNoCC;
+}) {
   nativeBuildInputs = [
     pkgs.hugo
   ];
