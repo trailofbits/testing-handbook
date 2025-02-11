@@ -80,6 +80,7 @@ create a new GitHub issue and/or fix it in the new pull request.
    git checkout -b name-of-your-new-branch
    # or
    git checkout name-of-existing-branch
+   ```
 
 4. Run the Hugo server with drafts turned on (`-D`) from the project's root directory.
 Your browser will be automatically refreshed with changes whenever you save a file.
