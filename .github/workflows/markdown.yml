@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - uses: DavidAnson/markdownlint-cli2-action@v15
+    - uses: DavidAnson/markdownlint-cli2-action@v19
       with:
         globs: "**/*.md"
   # Spellcheck Markdown files using `retext` and `remark`
