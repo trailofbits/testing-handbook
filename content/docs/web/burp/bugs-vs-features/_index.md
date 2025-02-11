@@ -10,7 +10,7 @@ bookToc: false
 
 The following table answers questions about how to use Burp beyond the regular passive and active Burp Scanner checks
 for specific security issues.
-<!-- markdownlint-disable no-inline-html line-length-->
+<!-- markdownlint-disable no-inline-html line-length blanks-around-tables-->
 {{<rawHtml "">}}<br>{{</rawHtml>}}
 |Security issues|Burp feature|References|
 |---|---|---|
