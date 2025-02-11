@@ -56,7 +56,7 @@ A new version of Semgrep is available. See https://semgrep.dev/docs/upgrading
 ```
 
 You can also check for updates manually by visiting the
-[Semgrep Releases](https://github.com/returntocorp/semgrep/releases) page.
+[Semgrep Releases](https://github.com/semgrep/semgrep/releases) page.
 
 #### Updating Semgrep
 
@@ -228,7 +228,7 @@ according to your preferences and tooling.
      - Use the `--severity [INFO|WARNING|ERROR]` flag to report findings only from rules that match
        the specified severity (`INFO`/`WARNING`/`ERROR`).
      - There is currently no obvious flag to limit results based on specific rule metadata (e.g., impact).
-       See the [Feature request: CLI support for filtering by rule metadata](https://github.com/returntocorp/semgrep/issues/6752)
+       See the [Feature request: CLI support for filtering by rule metadata](https://github.com/semgrep/semgrep/issues/6752)
        GitHub issue for a possible workaround.
 
    d. Data flow tracing:
