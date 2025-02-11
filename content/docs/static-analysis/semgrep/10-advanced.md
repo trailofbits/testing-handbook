@@ -20,14 +20,14 @@ semgrep --config /path/to/your/config --lang python --scan-unknown-extensions /p
 In this example, Semgrep will scan the `/path/to/your/file.xyz` file as a Python file,
 even though the `.xyz` extension is not a standard Python file extension.
 
-See also the [Allow user to specify file extensions for languages #3090](https://github.com/returntocorp/semgrep/issues/3090)
+See also the [Allow user to specify file extensions for languages #3090](https://github.com/semgrep/semgrep/issues/3090)
 GitHub issue to work around restrictions if you want to use Semgrep against your specific language, even if the file
 extension is not standard.
 
 ### Files/directories
 
 - By default, Semgrep follows the default
-[.semgrepignore](https://github.com/returntocorp/semgrep/blob/develop/cli/src/semgrep/templates/.semgrepignore) file.
+[.semgrepignore](https://github.com/semgrep/semgrep/blob/develop/cli/src/semgrep/templates/.semgrepignore) file.
 - If present, Semgrep will look at the repository's `.gitignore` file.
 - In case of a conflict between the two files, the `.semgrepignore` file takes precedence. This means that if the
   `.gitignore` file includes a file and the `.semgrepignore` file excludes it, Semgrep will not analyze the file.
@@ -109,7 +109,7 @@ for writing and testing rules. However, it is essential to consider the followin
       (e.g., `# ruleid: <id>`) into your test code to evaluate your rule's effectiveness while working in the Semgrep
       Playground (see [example](https://semgrep.dev/s/ezxE)).
     - **Note the limitations with comments**: Be aware that the Semgrep Playground does not retain comments when sharing
-      a link or "forking" a rule (Ctrl+S). Refer to this [GitHub issue](https://github.com/returntocorp/semgrep/issues/7120)
+      a link or "forking" a rule (Ctrl+S). Refer to this [GitHub issue](https://github.com/semgrep/semgrep/issues/7120)
        for more information.
 
 ### Building blocks
@@ -1019,7 +1019,7 @@ development. The channel is staffed by knowledgeable developers familiar with Se
 They are usually quick to respond to questions. They can guide you in structuring your rules and in debugging any issues
 that arise. Additionally, the Slack channel is a great place to connect with other developers working on similar
 projects, allowing you to learn from others' experiences and share your insights.
-- Use [Semgrep GitHub issues](https://github.com/returntocorp/semgrep/issues) to report bugs, suggest new features, and
+- Use [Semgrep GitHub issues](https://github.com/semgrep/semgrep/issues) to report bugs, suggest new features, and
 ask for help with specific issues.
 
 ## Thoroughly testing Semgrep rules for optimal performance
