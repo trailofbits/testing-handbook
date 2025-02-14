@@ -1,0 +1,14 @@
+[package]
+name = "appsec_guide"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["staticlib"]
+
+[dependencies]
+clap = { version = "4", features = ["derive"] }
+libafl = { version = "0.13", features = ["casr"] }
+libafl_bolts = "0.13"
+libafl_cc = "0.13"
+libafl_targets = { version = "0.13", features = ["libfuzzer", "sancov_pcguard_hitcounts"] }
