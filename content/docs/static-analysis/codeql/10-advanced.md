@@ -38,9 +38,10 @@ by default.
 If you are using the CodeQL VSCode extension to write and run queries, [it can
 initialize the query pack and create the `qlpack.yml` file automatically](#running-custom-queries-using-the-vscode-extension).
 
-Finally, you have to create a [workspace file](https://docs.github.com/en/code-security/codeql-cli/using-the-advanced-functionality-of-the-codeql-cli/about-codeql-workspaces) for CodeQL CLI to work correctly.
+Finally, you have to create a [workspace file](https://docs.github.com/en/code-security/codeql-cli/using-the-advanced-functionality-of-the-codeql-cli/about-codeql-workspaces) for the CodeQL CLI to work correctly.
 
-Most probably you will write at least a few packs. Setup the following directory structure for the easiest development:
+If you know you will write more than one query pack, we recommend creating the following directory structure to make development easier:
+
 ```
 .
 ├── CODEOWNERS
@@ -96,9 +97,9 @@ Most probably you will write at least a few packs. Setup the following directory
 ...
 ```
 
-We divide query packs per-language, but also per-type (security, cryptographic, etc.). This follows GitHub's convention.
+We divide query packs per-language, but also per-type (security, cryptographic, etc.). This also follows the convention used by the GitHub query suites.
 
-For setting-up unit tests continue reading to [Unit testing custom queries](#unit-testing-custom-queries) section.
+For recommendations on how to set up query unit tests, see the [Unit testing custom queries](#unit-testing-custom-queries) section.
 
 Finally, you can use [our bash script for generating new queries](https://github.com/trailofbits/codeql-queries/tree/main/scripts/new_query.sh) when you have the structure above.
 
@@ -266,7 +267,7 @@ version.)
 
 ### Installing the new packs
 
-Once you have initialized the new query pack, added dependencies and some sample query, you need to run
+Once you have initialized the new query pack, added dependencies and some sample queries, you need to run
 `codeql pack install` in every directory that has a qlpack.yml file (including folders with test).
 
 Then, inform the codeql CLI about your new queries by creating `~/.config/codeql/config` file with the following content:
@@ -554,7 +555,7 @@ directory should contain the following three files:
 The source file must build cleanly without any external dependencies.
 This requirement is problematic mostly for C/C++ queries: you need to create
 stub files with `extern` declarations for libraries you want to `#include`.
-Check [our tests](https://github.com/trailofbits/codeql-queries/blob/d994c7ca05dab30fe195555ef6943f9d51ec38df/cpp/test/query-tests/security/CStrnFinder/test.c#L1) for examples.
+Check out [our tests](https://github.com/trailofbits/codeql-queries/blob/d994c7ca05dab30fe195555ef6943f9d51ec38df/cpp/test/query-tests/security/CStrnFinder/test.c#L1) for examples.
 
 To test the query, run the following command:
 
