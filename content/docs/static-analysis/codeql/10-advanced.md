@@ -98,9 +98,9 @@ Most probably you will write at least a few packs. Setup the following directory
 
 We divide query packs per-language, but also per-type (security, cryptographic, etc.). This follows GitHub's convention.
 
-For setting-up unit tests continue reading to [Unit testing custom queries](https://appsec.guide/docs/static-analysis/codeql/advanced/#unit-testing-custom-queries) section.
+For setting-up unit tests continue reading to [Unit testing custom queries](#unit-testing-custom-queries) section.
 
-Finally, you can us [our bash script for generating new queries](https://github.com/trailofbits/codeql-queries/tree/main/scripts/new_query.sh) when you have the structure above.
+Finally, you can use [our bash script for generating new queries](https://github.com/trailofbits/codeql-queries/tree/main/scripts/new_query.sh) when you have the structure above.
 
 
 ### Adding dependencies
@@ -554,7 +554,7 @@ directory should contain the following three files:
 The source file must build cleanly without any external dependencies.
 This requirement is problematic mostly for C/C++ queries: you need to create
 stub files with `extern` declarations for libraries you want to `#include`.
-Check [our tests](https://github.com/trailofbits/codeql-queries/blob/d994c7ca05dab30fe195555ef6943f9d51ec38df/cpp/test/query-tests/security/CStrnFinder/test.c#L1) for an example.
+Check [our tests](https://github.com/trailofbits/codeql-queries/blob/d994c7ca05dab30fe195555ef6943f9d51ec38df/cpp/test/query-tests/security/CStrnFinder/test.c#L1) for examples.
 
 To test the query, run the following command:
 
