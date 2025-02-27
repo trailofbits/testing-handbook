@@ -38,6 +38,65 @@ by default.
 If you are using the CodeQL VSCode extension to write and run queries, [it can
 initialize the query pack and create the `qlpack.yml` file automatically](#running-custom-queries-using-the-vscode-extension).
 
+Most probably you will write at least a few packs. Setup the following directory structure for the easiest development:
+```
+.
+├── CODEOWNERS
+├── LICENSE
+├── README.md
+├── cpp
+│   ├── lib
+│   │   ├── qlpack.yml
+│   │   └── scope
+│   │       └── crypto
+│   │           └── someLibrary.qll
+│   ├── src
+│   │   ├── qlpack.yml
+│   │   ├── codeql-suites
+│   │   │   ├── scope-cpp-code-scanning.qls
+│   │   │   └── scope-cpp-security.qls
+│   │   ├── crypto
+│   │   │   ├── SomeCryptoAnalysis.ql
+│   │   ├── security
+│   │   │   ├── AppSecAnalysis
+│   │   │   │   ├── AppSecAnalysis.c
+│   │   │   │   ├── AppSecAnalysis.qhelp
+│   │   │   │   └── AppSecAnalysis.ql
+│   │   ├── docs
+│   │   │   ├── crypto
+│   │   │   │   ├── SomeCryptoAnalysis.md
+│   │   │   └── security
+│   │   │       └── AppSecAnalysis.md
+│   └── test
+│       ├── qlpack.yml
+│       ├── include
+│       │   ├── libc
+│       │   │   ├── stubs.h
+│       ├── library-tests
+│       │   └── crypto
+│       │       ├── someLibrary
+│       │       │   ├── someLibrary.expected
+│       │       │   ├── someLibrary.ql
+│       │       │   └── someLibrary.c
+│       └── query-tests
+│           ├── crypto
+│           │   ├── SomeCryptoAnalysis
+│           │   │   ├── SomeCryptoAnalysis.expected
+│           │   │   ├── SomeCryptoAnalysis.qlref
+│           │   │   └── SomeCryptoAnalysis.c
+│           └── security
+│               └── AppSecAnalysis
+│                   ├── AppSecAnalysis.c
+│                   ├── AppSecAnalysis.expected
+│                   └── AppSecAnalysis.qlref
+├── go
+│   ├── src
+...
+```
+
+We divide query packs per-language, but also per-type (security, cryptographic, etc.). This follows GitHub's convention.
+
+
 ### Adding dependencies
 
 To be able to define a custom query we need to import the CodeQL standard
