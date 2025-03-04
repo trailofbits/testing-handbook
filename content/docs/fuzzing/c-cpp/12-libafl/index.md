@@ -207,7 +207,7 @@ Alongside the events, additional information is printed, such as how long the fu
 ```
 {{< /customFigure >}}
 
-The flag `-tui=1` enables a graphical text-based statistics view. It also implicitly enables fuzzing in a forked child process instead of the main process. The logic for forking is implemented in the [fuzz](https://github.com/maxammann/LibAFL/blob/4a2925c7eb994a8ead3922510c6963e1d2a70bca/libafl_libfuzzer/libafl_libfuzzer_runtime/src/fuzz.rs#L198-L233) function in LibAFL.
+The flag `-tui=1` enables a graphical text-based statistics view. It also implicitly enables fuzzing in a forked child process instead of the main process. The logic for forking is implemented in the [fuzz](https://github.com/AFLplusplus/LibAFL/blob/c7207dceb05695f9beca297b220198c9dd78cccc/libafl_libfuzzer/runtime/src/fuzz.rs#L193-L228) function in LibAFL.
 
 {{< resourceFigure "libafl.png" >}}
 LibAFL TUI
@@ -979,4 +979,4 @@ The fuzzing campaign can be launched by running:
 
 * Official [handbook on LibAFL](https://aflplus.plus/libafl-book/)
 * [Explanation of how to use LibAFL for a Rust project](https://github.com/AFLplusplus/LibAFL/tree/main/libafl_libfuzzer#usage)
-  - An example [project that uses cargo-fuzz with the LibAFL shim](https://github.com/AFLplusplus/LibAFL/tree/main/fuzzers/cargo_fuzz)
+  - An example [project that uses cargo-fuzz with the LibAFL shim](https://github.com/AFLplusplus/LibAFL/tree/main/fuzzers/fuzz_anything/cargo_fuzz)
