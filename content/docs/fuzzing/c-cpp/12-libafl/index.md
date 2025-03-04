@@ -283,7 +283,7 @@ The following figure showcases a basic skeleton for a LibAFL fuzzer. The skeleto
 * `.remote_broker_addr()` can be used to set a broker process to connect to in case one already exists. Otherwise, this can be set to `None`.
 * `.stdout_file()` redirects the standard output of the SUT. You may want to set this to `/dev/null` if the output does not matter and the output is noisy. We comment this option here, as it may hide issues with the fuzzer because it also hides output printed in the `run_client` closure.
 
-{{< customFigure "Skeleton for a LibAFL fuzzer. [Full source code](https://github.com/trailofbits/testing-handbook/blob/main/materials/fuzzing/libafl/appsec_guide/src/lib.rs) can be found in the GitHub repository of the testing handbook." >}}
+{{< customFigure "Skeleton for a LibAFL fuzzer. [Full source code](https://github.com/trailofbits/testing-handbook/blob/main/materials/fuzzing/libafl/appsec_guide/src/lib.rs) can be found in the GitHub repository of the Testing Handbook." >}}
 ```rust
 use libafl::{
     ...
