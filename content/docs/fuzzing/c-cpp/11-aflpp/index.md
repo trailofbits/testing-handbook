@@ -316,10 +316,6 @@ out/default/
 
 {{< hint info >}}
 PRO TIP: The filename of a crash gives precise information about where it originated. The name `id:000000,sig:06,src:000002,time:286,execs:13105,op:havoc,rep:4` indicates that the crash with ID 0 caused a signal 6 in the SUT. The crash input originates from the source test case with ID 2. Test case 2 originates from the seed input with the test case ID 0. Additional data indicates, for example, when the crash was discovered or which mutation led to the discovery.
-
-```shell
-./afl++ <host/docker> AFL_PIZZA_MODE=1 afl-fuzz -i seeds -o out -- ./fuzz
-```
 {{< /hint >}}
 
 

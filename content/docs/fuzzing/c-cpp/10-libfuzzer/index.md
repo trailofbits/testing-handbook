@@ -14,7 +14,7 @@ Note that libFuzzer has been in [maintenance-only](https://llvm.org/docs/LibFuzz
 The more performant AFL++ fuzzer is compatible with fuzzing harnesses written for libFuzzer, which means transitioning from libFuzzer to AFL++ is easy and requires only changing your compiler from `clang++` to `afl-clang-fast++`.
 
 {{< fuzzing/intro-os >}}
-If possible, we recommend fuzzing on a local x64_64 VM or renting one on DigitalOcean, AWS, Hetzner, etc.
+If possible, we recommend fuzzing on a local x86_64 VM or renting one on DigitalOcean, AWS, Hetzner, etc.
 
 
 ## Installation {#installation}
