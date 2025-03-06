@@ -33,7 +33,7 @@ Next, we need to tell Rust to use this version of Clang. Rust depends on the lin
 export RUSTFLAGS="-C linker=/usr/bin/clang-15"
 ```
 
-Also, the [cc crate](https://docs.rs/cc/latest/cc/) depends on the `cc` program. We can change the compiler used in that crate by setting the `CC` and `CXX` variables.
+Also, the [cc crate](https://docs.rs/cc/latest/cc/) depends on the `cc` program. We can change the compiler used in that crate by setting the `CC` and `CXX` variables:
 
 ```shell
 export CC="clang-15"
