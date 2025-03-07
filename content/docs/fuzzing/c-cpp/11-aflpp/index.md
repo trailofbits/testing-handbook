@@ -10,7 +10,7 @@ weight: 2
 The [AFL++](https://github.com/AFLplusplus/AFLplusplus) fuzzer is a fork from the [AFL](https://github.com/google/AFL) fuzzer. It offers better fuzzing performance and more advanced features while still being a very stable alternative to libFuzzer. A major benefit over libFuzzer is that AFL++ has stable support for running fuzzing campaigns on multiple cores (see [Multi-core fuzzing](#multi-core-fuzzing)).
 
 {{< fuzzing/intro-os >}}
-AFL++ supports different environments like [macOS](https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/INSTALL.md#macos-x-on-x86-and-arm64-m1), but there are caveats. If you only have a macOS computer, we recommend fuzzing on a local x64_64 VM or renting one on DigitalOcean, AWS, Hetzner, etc to simplify the setup.
+AFL++ supports different environments like [macOS](https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/INSTALL.md#macos-x-on-x86-and-arm64-m1), but there are caveats. If you only have a macOS computer, we recommend fuzzing on a local x86_64 VM or renting one on DigitalOcean, AWS, Hetzner, etc to simplify the setup.
 
 
 ## Installation {#installation}
@@ -217,7 +217,7 @@ The AFL++ fuzzer offers multiple compilation modes, including [LTO](https://gith
 
 Depending on the mode you choose, use a different compilation command: `afl-clang-lto`, `afl-clang-fast`, `afl-gcc`, or `afl-clang`, respectively. The C++ versions are also available by appending `++`, which gives, e.g., `afl-clang-lto++`. The LTO mode is recommended because it features a better and faster instrumentation of the SUT. However, this depends on your project whether LTO mode works. Give it a try and fall back to the other modes if compilation fails.
 
-If you use the Clang compiler and want to use the LLVM mode, then the following command produces a binary `fuzzer`. Essentially, we are replacing the call to `clang++` with `afl-clang-fast++`.
+If you use the Clang compiler and want to use the LLVM mode, then the following command produces a binary `fuzzer`. Essentially, we are replacing the call to `clang++` with `afl-clang-fast++`. We are reusing the `harness.cc` and `main.cc` from the [introduction]({{% relref "fuzzing#introduction-to-fuzzers" %}})
 
 
 {{< tooltipHighlight shell 
@@ -841,7 +841,7 @@ When running the fuzzer, the above heap-buffer overflow will be discovered by th
 If you are fuzzing C projects that produce static libraries, you can follow this recipe:
 
 1. Read the `INSTALL` file in the project's codebase (or other appropriate documentation) and find out how to create a static library.
-2. Set the compiler to Clang, and pass additional flags to the compiler during compilation.
+2. Set the compiler to AFL++'s comiler wrapper (e.g. `afl-clang-fast++`), and pass required flags to the compiler during compilation.
 3. Build the static library, set the environment variable `AFL_USE_ASAN=1`, and pass the flag `-fsanitize=fuzzer-no-link `to the C compiler, which enables fuzzing-related instrumentations, without linking in the fuzzing engine. The runtime, which includes the `main` symbol, is linked later when using the `-fsanitize=fuzzer` flag. The build step will create a static library, which we will refer to as `$static_library`. The environment variable enables ASan to detect memory corruption.
 4. Find the compiled static library from step 3 and call: `./afl++ <host/docker> AFL_USE_ASAN=1 afl-clang-fast++ -fsanitize=fuzzer $static_library harness.cc -o fuzz`.
 5. You can start fuzzing by calling `./afl++ <host/docker> afl-fuzz -i seeds -o out -- ./fuzz`.
