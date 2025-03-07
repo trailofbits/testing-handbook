@@ -38,6 +38,72 @@ by default.
 If you are using the CodeQL VSCode extension to write and run queries, [it can
 initialize the query pack and create the `qlpack.yml` file automatically](#running-custom-queries-using-the-vscode-extension).
 
+Finally, you have to create a [workspace file](https://docs.github.com/en/code-security/codeql-cli/using-the-advanced-functionality-of-the-codeql-cli/about-codeql-workspaces) for the CodeQL CLI to work correctly.
+
+If you know you will write more than one query pack, we recommend creating the following directory structure to make development easier:
+
+```
+.
+├── CODEOWNERS
+├── README.md
+├── codeql-workspace.yml
+├── cpp
+│   ├── lib
+│   │   ├── qlpack.yml
+│   │   └── scope
+│   │       └── crypto
+│   │           └── someLibrary.qll
+│   ├── src
+│   │   ├── qlpack.yml
+│   │   ├── codeql-suites
+│   │   │   ├── scope-cpp-code-scanning.qls
+│   │   │   └── scope-cpp-security.qls
+│   │   ├── crypto
+│   │   │   ├── SomeCryptoAnalysis.ql
+│   │   ├── security
+│   │   │   ├── AppSecAnalysis
+│   │   │   │   ├── AppSecAnalysis.c
+│   │   │   │   ├── AppSecAnalysis.qhelp
+│   │   │   │   └── AppSecAnalysis.ql
+│   │   ├── docs
+│   │   │   ├── crypto
+│   │   │   │   ├── SomeCryptoAnalysis.md
+│   │   │   └── security
+│   │   │       └── AppSecAnalysis.md
+│   └── test
+│       ├── qlpack.yml
+│       ├── include
+│       │   ├── libc
+│       │   │   ├── stubs.h
+│       ├── library-tests
+│       │   └── crypto
+│       │       ├── someLibrary
+│       │       │   ├── someLibrary.expected
+│       │       │   ├── someLibrary.ql
+│       │       │   └── someLibrary.c
+│       └── query-tests
+│           ├── crypto
+│           │   ├── SomeCryptoAnalysis
+│           │   │   ├── SomeCryptoAnalysis.expected
+│           │   │   ├── SomeCryptoAnalysis.qlref
+│           │   │   └── SomeCryptoAnalysis.c
+│           └── security
+│               └── AppSecAnalysis
+│                   ├── AppSecAnalysis.c
+│                   ├── AppSecAnalysis.expected
+│                   └── AppSecAnalysis.qlref
+├── go
+│   ├── src
+...
+```
+
+We divide query packs per-language, but also per-type (security, cryptographic, etc.). This also follows the convention used by the GitHub query suites.
+
+For recommendations on how to set up query unit tests, see the [Unit testing custom queries](#unit-testing-custom-queries) section.
+
+Finally, you can use [our bash script for generating new queries](https://github.com/trailofbits/codeql-queries/tree/main/scripts/new_query.sh) when you have the structure above.
+
+
 ### Adding dependencies
 
 To be able to define a custom query we need to import the CodeQL standard
@@ -198,6 +264,16 @@ dependencies:
 (If you are manually updating the dependencies in `qlpack.yml` and are unsure
 of the version you want, you can use `"*"` which always resolves to the latest
 version.)
+
+### Installing the new packs
+
+Once you have initialized the new query pack, added dependencies and some sample queries, you need to run
+`codeql pack install` in every directory that has a qlpack.yml file (including folders with test).
+
+Then, inform the codeql CLI about your new queries by creating `~/.config/codeql/config` file with the following content:
+```
+--search-path /full/path/to/your/codeql/root/directory
+```
 
 ## Writing custom queries
 
@@ -476,8 +552,12 @@ directory should contain the following three files:
 - `MemcpyCall.expected`: A text file containing the expected output from
   running the query against the source file
 
-The source file must build cleanly without any external dependencies. To test
-the query, run the following command:
+The source file must build cleanly without any external dependencies.
+This requirement is problematic mostly for C/C++ queries: you need to create
+stub files with `extern` declarations for libraries you want to `#include`.
+Check out [our tests](https://github.com/trailofbits/codeql-queries/blob/d994c7ca05dab30fe195555ef6943f9d51ec38df/cpp/test/query-tests/security/CStrnFinder/test.c#L1) for examples.
+
+To test the query, run the following command:
 
 ```sh
 codeql test run -- path/to/test/pack/root/directory
