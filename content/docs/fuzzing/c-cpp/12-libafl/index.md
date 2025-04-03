@@ -511,7 +511,7 @@ We can now build the fuzzer:
 cargo build --release
 ```
 
-The resulting binary is located at `target/release/target/debug/libappsec_guide.a`.
+The resulting binary is located at `target/release/libappsec_guide.a`.
 
 ### Compile a fuzz test {#compile-a-fuzz-test-rust}
 
