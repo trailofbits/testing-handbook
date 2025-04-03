@@ -931,7 +931,7 @@ The fuzzing campaign can be launched by running:
 
 ### CMake-based project
 
-Let’s assume we are using CMake to build the program mentioned in the [introduction]({{% relref "fuzzing#introduction-to-fuzzers" %}}). We add a CMake target that builds the `main.cc` and `harness.cc` and links the target together with AFL++. Note that we are excluding the main function through the `NO_MAIN` flag; otherwise, the program would have two main functions.
+Let’s assume we are using CMake to build the program mentioned in the [introduction]({{% relref "fuzzing#introduction-to-fuzzers" %}}). We add a CMake target that builds the `main.cc` and `harness.cc` and links the target together with LibAFL. Note that we are excluding the main function through the `NO_MAIN` flag; otherwise, the program would have two main functions.
 
 
 {{< customFigure "CMake example" >}}
