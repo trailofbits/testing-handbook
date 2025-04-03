@@ -68,7 +68,7 @@ Next, clone LibAFL's source code and build the libFuzzer drop-in replacement. No
 
 ```shell
 git clone https://github.com/AFLplusplus/LibAFL
-cd LibAFL/libafl_libfuzzer/libafl_libfuzzer_runtime
+cd LibAFL/libafl_libfuzzer_runtime
 ./build.sh
 ```
 
