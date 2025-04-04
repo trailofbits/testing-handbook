@@ -64,7 +64,7 @@ When writing code that performs any operation using secret data, one should cons
 
 **Conditional jumps** result in executing different instructions and generally lead to the most significant time differences out of the four patterns. Making the program's execution flow dependent on secret data will lead to vast timing differences, depending on how different the two branches are.  
 
-**Array access** and more general memory access, dependent on secret data, can be used to extract the indexing value due to timing differences when accessing memory locations. These timing differences primarily stem from the utilization of caches and whether or not a given value is inside the cache. Ciphers like AES, which use substitution tables dependent on secret data, are suitable for this attack even over the network, as demonstrated here [Cache-timing attacks on AES](https://mimoza.marmara.edu.tr/~msakalli/cse466_09/cache%20timing-20050414.pdf).
+**Array access** and more general memory access, dependent on secret data, can be used to extract the indexing value due to timing differences when accessing memory locations. These timing differences primarily stem from the utilization of caches and whether or not a given value is inside the cache. Ciphers like AES, which use substitution tables dependent on secret data, are suitable for this attack even over the network, as demonstrated here [Cache-timing attacks on AES](https://cr.yp.to/antiforgery/cachetiming-20050414.pdf).
 
 **Integer division and shift operations** can leak the secret if the divisor or the amount by which the value is shifted depends on secret data.  
 These operations can leak the secret data depending on the CPU architecture or compiler used.
