@@ -73,8 +73,8 @@ Also note the following:
 2. \[GUEST\] Download the [Windows SDK installer](https://developer.microsoft.com/en-us/windows/downloads/windows-sdk/). When running the installer, select “Debugging Tools for Windows.”  
 3. \[GUEST\] Disable [KVA Shadow](https://msrc.microsoft.com/blog/2018/03/kva-shadow-mitigating-meltdown-on-windows/)—this is necessary when fuzzing a userland application. Download the wtf tool’s [`disable-kva.cmd`](https://github.com/0vercl0k/wtf/blob/main/scripts/disable-kva.cmd) script, run it as an administrator, and reboot the machine.  
 4. \[GUEST\] Configure KDNET, following [this guide](https://medium.com/@ophirharpaz/kdnet-tutorial-for-noobs-68669778bbd4) (or refer to the [official Microsoft guide](https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/setting-up-a-network-debugging-connection-automatically)).  
-   1. If running the `bcdedit` commands in PowerShell, remember to insert `--%` after `bcdedit` but before the following arguments to suppress PowerShell parsing.  
-   2. Open a terminal on your host machine, run the `ipconfig` command, and note the IPv4 address in the “Ethernet Adapter vEthernet (Default Switch)” section; this is the IP address you should use for the `hostip` value in the `bcdedit` `/dbgsettings` commands referenced in the guide.
+   a. If running the `bcdedit` commands in PowerShell, remember to insert `--%` after `bcdedit` but before the following arguments to suppress PowerShell parsing.  
+   b. Open a terminal on your host machine, run the `ipconfig` command, and note the IPv4 address in the “Ethernet Adapter vEthernet (Default Switch)” section; this is the IP address you should use for the `hostip` value in the `bcdedit` `/dbgsettings` commands referenced in the guide.
 
 At this point of the tutorial, you should ensure you can run WinDbg on the host machine and debug the guest VM using the [Attach to kernel](https://learn.microsoft.com/en-us/windows-hardware/drivers/debuggercmds/windbg-kernel-mode-preview) feature.
 
