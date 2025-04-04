@@ -56,7 +56,7 @@ Also note the following:
 2. Install [Visual Studio 2022](https://learn.microsoft.com/en-us/windows-hardware/drivers/download-the-wdk#download-icon-for-visual-studio-step-1-install-visual-studio-2022), [the Windows SDK](https://learn.microsoft.com/en-us/windows-hardware/drivers/download-the-wdk#download-icon-for-sdk-step-2-install-sdk), [WDK](https://learn.microsoft.com/en-us/windows-hardware/drivers/download-the-wdk#download-icon-for-wdk-step-3-install-wdk), [CMake](https://cmake.org/download/), and [Git](https://git-scm.com/download/win).  
 3. (Optional) Install [Rust](https://www.rust-lang.org/tools/install) to build dependencies necessary for triaging crashes.  
 4. Install the [WinDbg](https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/) debugger, if not already installed.  
-5. [Configure debug symbols in WinDbg](https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/symbol-path#using-a-symbol-server-srv). The first line in the `Symbol` `paths` setting should include a symbol server and local cache path (`C:\symbols`) for Windows symbols. Other lines could be used as symbols for your specific target (such as a kernel driver).  
+5. [Configure debug symbols in WinDbg](https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/symbol-path#using-a-symbol-server-srv). The first line in the `Symbol paths` setting should include a symbol server and local cache path (`C:\symbols`) for Windows symbols. Other lines could be used as symbols for your specific target (such as a kernel driver).  
 6. Clone the repositories.  
    1. [The `wtf` repository](https://github.com/0vercl0k/wtf/)  
    2. [The `symbolizer-rs` repository](https://github.com/0vercl0k/symbolizer-rs/) (optional, required only for triaging crashes)  
@@ -482,8 +482,6 @@ fffff803`14a01291 5f pop rdi
 fffff803`14a01292 c3 ret
 ```
 
-## 
-
 ## Creating the fuzzing harness
 
 To create a new fuzzing harness (i.e., a fuzzer module), add the `fuzzer_helloworld.cc` file to the `wtf/src/wtf` directory. The code in the harness should insert a test case into the target, define various conditions, detect crashes, and signal the end of the test case.
@@ -563,7 +561,7 @@ bool InsertTestcase(const uint8_t *Buffer, const size_t BufferSize) {
 Unfortunately, [wtf’s back end](https://github.com/0vercl0k/wtf/blob/main/src/wtf/backend.cc) is currently not well documented, so you’ll have to consult the source code for more hands-on functions and example harnesses ([`fuzzer_hevd.cc`](https://github.com/0vercl0k/wtf/blob/main/src/wtf/fuzzer_hevd.cc), [`fuzzer_ioctl.cc`](https://github.com/0vercl0k/wtf/blob/main/src/wtf/fuzzer_ioctl.cc), [`fuzzer_tlv_server.cc`](https://github.com/0vercl0k/wtf/blob/main/src/wtf/fuzzer_tlv_server.cc)).    
 {{< /hint >}}
 
-1. Then, prepare the `Init` function to set up logic during fuzzing.
+3. Then, prepare the `Init` function to set up logic during fuzzing.
 
    First, we define key addresses we need to hook, `OnDeviceControl` (specifically, its return address) and `CheckTimestamp`; we noted these earlier when we created our snapshot.
 
