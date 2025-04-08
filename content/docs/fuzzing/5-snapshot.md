@@ -1,6 +1,7 @@
 ---
 title: "Snapshot Fuzzing"
 slug: snapshot-fuzzing
+summary: "Snapshot fuzzing enables security engineers to effectively test software that is traditionally difficult to analyze, such as kernel-level software (though the technique is not limited to such software). Whether you're auditing drivers or other kernel-mode components, including antivirus software, snapshot fuzzing provides a robust way to discover critical vulnerabilities. Consult this section for a walkthrough on how to conduct snapshot fuzzing on your system."
 weight: 6
 url: docs/fuzzing/snapshot-fuzzing
 ---
