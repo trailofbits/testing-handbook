@@ -756,8 +756,8 @@ To run fuzzing, navigate to the `wtf\targets` directory and create a new `FuzzHe
 ### Starting a server node
 
 The server node keeps track of all the fuzzer states—the code coverage and corpus. It also generates and distributes the test cases to clients. Use the following command to run the server node:  
-```sh
-C:\Users\User\wtf\targets\FuzzHelloWorld> ..\..\bin\wtf.exe master --name FuzzHelloWorld --max_len=4096`  
+```
+C:\Users\User\wtf\targets\FuzzHelloWorld> ..\..\bin\wtf.exe master --name FuzzHelloWorld --max_len=4096
 ```
 
 * `name` is the module name specified in the harness.  
@@ -766,14 +766,14 @@ C:\Users\User\wtf\targets\FuzzHelloWorld> ..\..\bin\wtf.exe master --name FuzzHe
 ### Running fuzzing nodes
 
 In another command window, use this command to run the fuzzing node. By default, the `bochscpu` [back end execution](https://github.com/0vercl0k/wtf/?tab=readme-ov-file#execution-backends) will be used.  
-```sh 
-C:\Users\User\wtf\targets\FuzzHelloWorld> ..\..\bin\wtf.exe fuzz --name FuzzHelloWorld`  
+```
+C:\Users\User\wtf\targets\FuzzHelloWorld> ..\..\bin\wtf.exe fuzz --name FuzzHelloWorld
 ```
 
 After the server node has been running for a couple of seconds, you should see the following in the master window:  
-```sh  
-Saving crash in C:\Users\User\wtf\targets\FuzzHelloWorld\crashes\crash-0x3b-0xc0000005-0xfffff80314a01233-0xfffff90641f9ec90-0x0-0x0`  
-#7346 cov: 4667 (+4667) corp: 3 (114.0b) exec/s: 7.3/k (1 nodes) lastcov: 1.0s crash: 997 timeout: 0 cr3: 0 uptime: 5.0s`  
+```
+Saving crash in C:\Users\User\wtf\targets\FuzzHelloWorld\crashes\crash-0x3b-0xc0000005-0xfffff80314a01233-0xfffff90641f9ec90-0x0-0x0  
+#7346 cov: 4667 (+4667) corp: 3 (114.0b) exec/s: 7.3/k (1 nodes) lastcov: 1.0s crash: 997 timeout: 0 cr3: 0 uptime: 5.0s  
 ```
 
 * `cov`: This represents the current code coverage achieved by the fuzzer. It’s typically measured in basic blocks, edges, or other executed code units. A higher number indicates that more of the target’s code has been explored.  
@@ -785,7 +785,7 @@ Saving crash in C:\Users\User\wtf\targets\FuzzHelloWorld\crashes\crash-0x3b-0xc0
 You should iteratively add fuzzing nodes based on the hardware resources available, target complexity, and fuzzing strategy.
 
 And this is what the crashing input might look like:  
-```sh 
+```
 C:\Users\User\wtf\targets\FuzzHelloWorld> type crashes\crash-0x3b-0xc0000005-0xfffff80314a01233-0xfffff90641f9ec90-0x0-0x0
 DEADBEEFf
 ```
