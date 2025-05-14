@@ -21,7 +21,7 @@ OSS-Fuzz provides a simple CLI framework for building and starting harnesses or 
 While not all components are open-sourced, we've compiled a list of publicly available OSS-Fuzz tools to showcase the platform's capabilities, with accompanying comments on how you can leverage them for your own work.
 
 
-* The [bug tracker](https://bugs.chromium.org/p/oss-fuzz/issues/list) allows for:
+* The [bug tracker](https://issues.oss-fuzz.com/issues?q=status:open) allows for:
    * Checking bugs from a specific project. (Bugs are initially visible only for maintainers, but are later [made public](https://google.github.io/oss-fuzz/getting-started/bug-disclosure-guidelines/).)
    * Creating a new issue and commenting.
    * Reading discussions under public issues.
