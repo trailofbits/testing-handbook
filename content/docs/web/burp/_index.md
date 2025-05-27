@@ -19,7 +19,7 @@ and filtering mechanisms that greatly increase user productivity when dealing wi
 Burp's UI also significantly outperforms browser development tools when it comes to editing requests.
 
 {{< hint info >}}🎥 Watch the Trail of Bits Webinar on
-[Mastering Web Research with Burp Suite](https://www.youtube.com/watch?v=rQRlnUQPXDw).
+[Mastering Web Research with Burp Suite](https://www.youtube.com/watch?v=0PV5QEQTmPg).
 In this session, we dive into advanced web research techniques using Burp Suite with James Kettle, including how to discover ideas and targets,
 optimize your setup, and utilize Burp tools in various scenarios. We also explore the future of Burp with the introduction of BChecks
 and compare dynamic and static analysis through real-world examples.
