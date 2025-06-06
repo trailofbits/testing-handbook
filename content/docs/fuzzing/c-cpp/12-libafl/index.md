@@ -68,7 +68,7 @@ Next, clone LibAFL's source code and build the libFuzzer drop-in replacement. No
 
 ```shell
 git clone https://github.com/AFLplusplus/LibAFL
-cd LibAFL/libafl_libfuzzer/libafl_libfuzzer_runtime
+cd LibAFL/libafl_libfuzzer_runtime
 ./build.sh
 ```
 
@@ -511,7 +511,7 @@ We can now build the fuzzer:
 cargo build --release
 ```
 
-The resulting binary is located at `target/release/target/debug/libappsec_guide.a`.
+The resulting binary is located at `target/release/libappsec_guide.a`.
 
 ### Compile a fuzz test {#compile-a-fuzz-test-rust}
 
@@ -931,7 +931,7 @@ The fuzzing campaign can be launched by running:
 
 ### CMake-based project
 
-Let’s assume we are using CMake to build the program mentioned in the [introduction]({{% relref "fuzzing#introduction-to-fuzzers" %}}). We add a CMake target that builds the `main.cc` and `harness.cc` and links the target together with AFL++. Note that we are excluding the main function through the `NO_MAIN` flag; otherwise, the program would have two main functions.
+Let’s assume we are using CMake to build the program mentioned in the [introduction]({{% relref "fuzzing#introduction-to-fuzzers" %}}). We add a CMake target that builds the `main.cc` and `harness.cc` and links the target together with LibAFL. Note that we are excluding the main function through the `NO_MAIN` flag; otherwise, the program would have two main functions.
 
 
 {{< customFigure "CMake example" >}}
