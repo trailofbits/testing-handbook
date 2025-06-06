@@ -98,7 +98,7 @@ to reduce false positives/negatives.
     - Pay attention to the Semgrep Community Slack, where the Semgrep community helps with problems or writing custom
     rules.
     - Encourage the team to report existing limitations/bugs while using Semgrep to the Semgrep team by filling out
-    GitHub issues (see this [example issue](https://github.com/returntocorp/semgrep/issues/4587) submitted by
+    GitHub issues (see this [example issue](https://github.com/semgrep/semgrep/issues/4587) submitted by
     Trail of Bits).
 
 7. Implement Semgrep in the CI/CD pipeline by getting acquainted with the Semgrep documentation related to your CI

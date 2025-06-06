@@ -7,6 +7,8 @@
 
 __AFL_FUZZ_INIT();
 
+#endif
+
 void check_buf(char *buf, size_t buf_len) {
     if(buf_len > 0 && buf[0] == 'a') {
         if(buf_len > 1 && buf[1] == 'b') {

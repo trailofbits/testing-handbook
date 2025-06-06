@@ -17,20 +17,24 @@ weight: 99
 
 ### Learning resources for CodeQL
 
+- [CodeQL zero to hero part 1: The fundamentals of static analysis for vulnerability research](https://github.blog/2023-03-31-codeql-zero-to-hero-part-1-the-fundamentals-of-static-analysis-for-vulnerability-research/)
 - [QL language tutorials](https://codeql.github.com/docs/writing-codeql-queries/ql-tutorials/)
 - [GitHub Security Lab CodeQL CTFs](https://securitylab.github.com/ctf/)
 
 ### Writing custom CodeQL queries
 
 - [Practical introduction to CodeQL](https://jorgectf.github.io/blog/post/practical-codeql-introduction/)
-- [Security code reviewing with CodeQL](https://mechanicalsympathy.nl/posts/security-code-reviewing-with-codeql/)
+- [Security code reviewing with CodeQL](https://web.archive.org/web/20240529182656/https://remcovermeulen.com/posts/security-code-reviewing-with-codeql/)
 - [Sharing security expertise through CodeQL packs (Part I)](https://github.blog/2022-04-19-sharing-security-expertise-through-codeql-packs-part-i/)
+- :cinema: [Finding Security Vulnerabilities in C/C++ with CodeQL](https://www.youtube.com/watch?v=eAjecQrfv3o)
+- :cinema: [Finding Security Vulnerabilities in JavaScript with CodeQL](https://www.youtube.com/watch?v=pYzfGaLTqC0)
+- :cinema: [Finding Security Vulnerabilities in Java with CodeQL](https://www.youtube.com/watch?v=nvCd0Ee4FgE)
 
 ### Using CodeQL for vulnerability discovery
 
 - [Clang checkers and CodeQL queries for detecting untrusted pointer derefs and tainted loop conditions](https://www.zerodayinitiative.com/blog/2022/2/22/clang-checkers-and-codeql-queries-for-detecting-untrusted-pointer-derefs-and-tainted-loop-conditions)
 - [Vulnerability digging with CodeQL](https://mogwailabs.de/en/blog/2021/09/vulnerability-digging-with-codeql/)
-- [Make memcpy safe again: CodeQL](https://www.cyberark.com/resources/threat-research-blog/make-memcpy-safe-again-codeql)
+- [Make memcpy safe again: CodeQL](https://web.archive.org/web/20231203081719/https://www.cyberark.com/resources/threat-research-blog/make-memcpy-safe-again-codeql)
 
 ### CodeQL in CI/CD
 

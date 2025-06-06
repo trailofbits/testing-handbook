@@ -8,3 +8,6 @@ node_modules/*
 resources/
 
 .direnv/
+materials/fuzzing/aflpp/out
+
+target/
