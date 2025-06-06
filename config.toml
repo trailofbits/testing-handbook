@@ -10,7 +10,11 @@ enableEmoji = true
   # Comment to make pages uneditable with a github link ("Edit this page" in the footer):
   BookRepo = "https://github.com/trailofbits/testing-handbook"
   BookEditBranch = "main"
+  math = false
 
+[params.render_hooks.link]
+  errorLevel = 'warning' # ignore (default), warning, or error (fails the build)
+  highlightBroken = true # true or false (default)
 [markup]
   [markup.highlight]
     anchorLineNos = false
@@ -24,3 +28,15 @@ enableEmoji = true
     noClasses = true
     style = 'friendly'
     tabWidth = 4
+  [markup.goldmark.renderer]
+    unsafe = false
+  [markup.goldmark.parser.attribute]
+    block = true
+  [markup.goldmark]
+    [markup.goldmark.extensions]
+      [markup.goldmark.extensions.passthrough]
+        enable = true
+        [markup.goldmark.extensions.passthrough.delimiters]
+          block = [['$$', '$$']]
+          inline = [['\(', '\)']]
+ 

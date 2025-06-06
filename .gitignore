@@ -6,3 +6,8 @@ node_modules/*
 
 .hugo_build.lock
 resources/
+
+.direnv/
+materials/fuzzing/aflpp/out
+
+target/

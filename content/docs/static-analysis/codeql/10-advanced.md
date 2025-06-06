@@ -201,6 +201,16 @@ version.)
 
 ## Writing custom queries
 
+{{< hint info >}}
+To write custom CodeQL queries, you need access to the standard libraries and queries. We recommend using the starter workspace.
+
+1. Clone the [vscode-codeql-starter](https://github.com/github/vscode-codeql-starter.git) repository to your computer:
+`git clone --recursive https://github.com/github/vscode-codeql-starter.git`
+2. In VSCode, click **File** -> **Open Workspace from File** and open the
+`vscode-codeql-starter.code-workspace` file from the `vscode-codeql-starter` repository
+
+{{< /hint >}}
+
 QL is a declarative language and CodeQL queries are expressed using an SQL-like
 syntax on the following form:
 
@@ -487,6 +497,36 @@ to ensure that it is correct and if it is, rename `MemcpyCall.actual` to
 
 For more information about testing CodeQL queries, see the
 [official documentation](https://docs.github.com/en/code-security/codeql-cli/using-the-advanced-functionality-of-the-codeql-cli/testing-custom-queries).
+
+## Testing custom queries in CI
+
+### GitHub Actions
+
+The following workflow can be used to test custom CodeQL queries in GitHub Actions:
+
+```yml
+name: Test CodeQL queries
+
+on: [push, pull_request]
+
+jobs:
+  codeql-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - id: init
+        uses: github/codeql-action/init@v3
+      - uses: actions/cache@v4
+        with:
+          path: ~/.codeql
+          key: ${{ runner.os }}-${{ runner.arch }}-${{ steps.init.outputs.codeql-version }}
+      - name: Run tests
+        run: |
+          ${{ steps.init.outputs.codeql-path }} test run ./path/to/query/tests/
+```
+
+This workflow also speeds up subsequent runs by caching query extraction and
+compilation, and pack dependency installation.
 
 ## Editor support for CodeQL
 

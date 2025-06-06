@@ -13,7 +13,7 @@ weight: 99
 - [Trail of Bits public Semgrep rules](https://github.com/trailofbits/semgrep-rules)
 - [dgryski Go rules for Semgrep](https://github.com/dgryski/semgrep-go)
 - [0xdea/semgrep-rules](https://github.com/0xdea/semgrep-rules)
-- [elttam/semgrep-rules](https://github.com/iosifache/semgrep-rules-manager)
+- [elttam/semgrep-rules](https://github.com/elttam/semgrep-rules)
 - [kondukto-io/semgrep-rules](https://github.com/kondukto-io/semgrep-rules)
 - [federicodotta/semgrep-rules](https://github.com/federicodotta/semgrep-rules)
 - [mindedsecurity/semgrep-rules-android-security](https://github.com/mindedsecurity/semgrep-rules-android-security)
@@ -50,7 +50,7 @@ weight: 99
 
 ### Creating custom Semgrep rules
 
-- [11 Semgrep Rules for Go Web Projects](https://universalglue.dev/posts/semgrep-rules-for-go-web-projects/)
+- [11 Semgrep Rules for Go Web Projects](https://web.archive.org/web/20231201073324/https://universalglue.dev/posts/semgrep-rules-for-go-web-projects/)
 - [Detecting Android Content Provider APIs with Semgrep Rules](https://shivasurya.me/security/android/android-security/2022/11/28/android-content-provider-semgrep-detection.html)
 - [Enforcing Code & Security Standards with Semgrep](https://owasp.org/www-chapter-newcastle-uk/presentations/2021-02-23-semgrep.pdf)
 - [Using Semgrep to find security issues and misconfiguration in AWS Cloud Development Kit projects](https://blog.aquia.io/blog/2022-02-18-semgrep-cdk/)

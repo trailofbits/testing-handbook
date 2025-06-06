@@ -1,0 +1,13 @@
+<figure>
+  <div>
+    {{ if eq (.Get 1) "html" }}
+    {{ .Inner |  safeHTML }}
+    {{ else }}
+       {{ .Inner | .Page.RenderString (dict "display" "inline") }}
+    {{ end}}
+
+    {{ if (.Get 0) }}
+    <figcaption class="code">{{ (.Get 0) | .Page.RenderString (dict "display" "inline") }}</figcaption>
+    {{ end }}
+  </div>
+</figure>

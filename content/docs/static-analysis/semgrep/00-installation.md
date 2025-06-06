@@ -56,7 +56,7 @@ A new version of Semgrep is available. See https://semgrep.dev/docs/upgrading
 ```
 
 You can also check for updates manually by visiting the
-[Semgrep Releases](https://github.com/returntocorp/semgrep/releases) page.
+[Semgrep Releases](https://github.com/semgrep/semgrep/releases) page.
 
 #### Updating Semgrep
 
@@ -209,17 +209,26 @@ according to your preferences and tooling.
 
    b. Using output formats with external tools:
      - **SARIF format**: Use the SARIF format with the Visual Studio Code and the
-       [SARIF Viewer](https://marketplace.visualstudio.com/items?itemName=MS-SarifVSCode.sarif-viewer) extension.
+       [SARIF Explorer](https://marketplace.visualstudio.com/items?itemName=trailofbits.sarif-explorer) extension.
        This makes it easy to review the analysis results and drill down into specific issues to understand their
-       impact and severity.
+       impact and severity. Example usage of the `p/default` ruleset with the SARIF output format:
+
+       ```sh
+       semgrep -c p/default --sarif --output scan_results.sarif
+       ```
+
      - **VIM format**: Use the VIM format to have all the information about a finding in a single line, making it
-      convenient for users of the Vim text editor.
+       convenient for users of the Vim text editor. Example usage of the `p/default` ruleset with the VIM output format:
+
+       ```sh
+       semgrep -c p/default --vim --output scan_results.vim
+       ```
 
    c. Filtering and limiting results:
      - Use the `--severity [INFO|WARNING|ERROR]` flag to report findings only from rules that match
        the specified severity (`INFO`/`WARNING`/`ERROR`).
      - There is currently no obvious flag to limit results based on specific rule metadata (e.g., impact).
-       See the [Feature request: CLI support for filtering by rule metadata](https://github.com/returntocorp/semgrep/issues/6752)
+       See the [Feature request: CLI support for filtering by rule metadata](https://github.com/semgrep/semgrep/issues/6752)
        GitHub issue for a possible workaround.
 
    d. Data flow tracing:

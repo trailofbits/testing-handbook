@@ -1,0 +1,21 @@
+// had to copy the whole mixin from _default.scss
+@mixin theme-light {
+  --gray-100: #f8f9fa;
+  --gray-200: #e9ecef;
+  --gray-500: #adb5bd;
+
+  // https://github.com/trailofbits/audit-reporting-tools/blob/88b75a31a7298e8079fb326c7992ff534868e497/make-report/make_report/colors.py#L86
+  --color-link: #ad182b;
+  --color-link-mono: #c93447;  // monochromatic
+  --color-visited-link: #683700;
+  --color-visited-link-mono: #84531c;  // monochromatic
+
+  --body-background: white;
+  --body-font-color: black;
+
+  --icon-filter: none;
+
+  --hint-color-info: #6bf;
+  --hint-color-warning: #fd6;
+  --hint-color-danger: #f66;
+}

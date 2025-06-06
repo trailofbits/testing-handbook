@@ -17,7 +17,7 @@ and poor adoption of security tools that should be straightforward to configure.
 - ⚙️ Even if the tool is easy to configure locally, it can be difficult to configure them in CI/CD pipelines.
 Often, security tools are set up by following online documentation, but their configuration is rarely optimized.
 This can lead to a noisy tool that is more difficult to maintain than worth.
-- 🧠 We aim to make it as easy and straightforward as possible to set up security tools effectively. In doing so, we also
+- 🧠 We aim to make it as easy as possible to set up security tools effectively. In doing so, we also
 hope to demystify static and dynamic analysis techniques such as fuzzing and taint analysis.
 
 ## Chapters
@@ -28,11 +28,21 @@ hope to demystify static and dynamic analysis techniques such as fuzzing and tai
 |---|---|---|
 |[Semgrep](https://appsec.guide/docs/static-analysis/semgrep/)| [Announcing the Trail of Bits Testing Handbook](https://blog.trailofbits.com/2023/07/26/announcing-the-trail-of-bits-testing-handbook/)|2023|
 |[CodeQL](https://appsec.guide/docs/static-analysis/codeql/)| [Say hello to the next chapter of the Testing Handbook!](https://blog.trailofbits.com/2023/12/11/say-hello-to-the-next-chapter-of-the-testing-handbook/)|2023|
+|[Fuzzing](https://appsec.guide/docs/fuzzing/)| [Master fuzzing with our new Testing Handbook chapter](https://blog.trailofbits.com/2024/02/09/master-fuzzing-with-our-new-testing-handbook-chapter/)|2024|
+|[Burp](https://appsec.guide/docs/web/burp/)| [Announcing the Burp Suite Professional chapter in the Testing Handbook](https://blog.trailofbits.com/2024/06/14/announcing-the-burp-suite-professional-chapter-in-the-testing-handbook/)|2024|
+| [Cryptographic testing - Wycheproof and Constant time analysis tooling](https://appsec.guide/docs/crypto/) | TBD | 2024 |
+
+### 🎥 Webinars
+
+| Topic | Link |
+|---|---|
+| Introduction to Semgrep | https://www.youtube.com/watch?v=yKQlTbVlf0Q |
+| Introduction to CodeQL: Examples, Tools and CI Integration | https://www.youtube.com/watch?v=rQRlnUQPXDw |
+| Mastering Web Research with Burp Suite | https://www.youtube.com/watch?v=0PV5QEQTmPg |
 
 ### 🚧 Under construction
 
-- Fuzzing
-- Burp Suite Professional
+- Formal verification and Tamarin
 - Rust
 
 ## How to contribute
@@ -70,6 +80,7 @@ create a new GitHub issue and/or fix it in the new pull request.
    git checkout -b name-of-your-new-branch
    # or
    git checkout name-of-existing-branch
+   ```
 
 4. Run the Hugo server with drafts turned on (`-D`) from the project's root directory.
 Your browser will be automatically refreshed with changes whenever you save a file.
@@ -89,7 +100,7 @@ Your browser will be automatically refreshed with changes whenever you save a fi
 
 6. Edit, add, and create pull requests to merge your changes into `main`.
 
-7. ❗Keep in mind that when you merge your PR into `main`, the content goes live in https://appsec.guide.
+7. ❗Keep in mind that when you merge your PR into `main`, the content goes live in <https://appsec.guide>.
     Our current policy forces at least one review before merging.
 
 8. For updates to the home page, edit [content/_index.md](content/_index.md)
@@ -103,7 +114,7 @@ Your browser will be automatically refreshed with changes whenever you save a fi
 
 - The GitHub workflow in this repository verifies the correctness of Markdown files through three checks:
   1. **Markdown Link Check**: This step extracts links from Markdown files and verifies if they are valid and accessible.
-    It uses the [github-action-markdown-link-check](https://github.com/gaurav-nelson/github-action-markdown-link-check) action.
+    It uses the [lychee link checking action](https://github.com/lycheeverse/lychee-action).
   2. **Markdown Linter**: This step ensures that Markdown files adhere to the desired style and formatting rules.
     It uses a custom configuration file (`.github/workflows/.markdownlint.jsonc`) and the
      [markdownlint-cli2-action](https://github.com/DavidAnson/markdownlint-cli2-action) action.
@@ -111,9 +122,33 @@ Your browser will be automatically refreshed with changes whenever you save a fi
      with Visual Studio Code for better user experience while working on the Testing Handbook.
   3. **Spellcheck**: This step checks the spelling in Markdown files
      (built on top of [retext](https://github.com/retextjs/retext) and [remark](https://github.com/remarkjs/remark)).
-     It uses a custom dictionary file (`.github/workflows/dictionary.txt`) and the
-     [tbroadley/spellchecker-cli-action](https://github.com/tbroadley/spellchecker-cli-action) action.
+     Uses the [tbroadley/spellchecker-cli-action](https://github.com/tbroadley/spellchecker-cli-action) action.
 
 - Familiarize yourself with the [Hugo Book theme](https://hugo-book-demo.netlify.app/)
 as it has a couple of nice features (buttons, etc.)
 - Reach out in [#testing-handbook](https://empirehacking.slack.com/archives/C06CSLSQAMB) Empire Hacking Slack if you have any questions.
+
+## Editing
+
+### Writing Guidelines
+
+- The term "Testing Handbook" should be capitalized any time it appears on the website (whether in a header/subheader or running text),
+since it is the title of a document. But if you'd like to avoid the capitalization because it looks strange, you can substitute
+"Testing Handbook" for "this handbook" (since it's clear enough what the title of the handbook is).
+
+### Workflow: From Google Docs
+
+You can export the document from Google Docs as Markdown. Open the document in Google Docs. Click `File` > `Download`, and then select `Markdown (.md)`.
+
+### Custom environments
+
+```md
+{{< customFigure "Caption" >}}
+{{< /customFigure >}}
+
+{{< resourceFigure "cov1.png" >}}
+{{< /resourceFigure >}}
+
+{{< hint info >}}
+{{< /hint >}}
+```

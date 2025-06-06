@@ -20,14 +20,14 @@ semgrep --config /path/to/your/config --lang python --scan-unknown-extensions /p
 In this example, Semgrep will scan the `/path/to/your/file.xyz` file as a Python file,
 even though the `.xyz` extension is not a standard Python file extension.
 
-See also the [Allow user to specify file extensions for languages #3090](https://github.com/returntocorp/semgrep/issues/3090)
+See also the [Allow user to specify file extensions for languages #3090](https://github.com/semgrep/semgrep/issues/3090)
 GitHub issue to work around restrictions if you want to use Semgrep against your specific language, even if the file
 extension is not standard.
 
 ### Files/directories
 
 - By default, Semgrep follows the default
-  [.semgrepignore](https://github.com/returntocorp/semgrep/blob/develop/cli/src/semgrep/templates/.semgrepignore) file.
+  [.semgrepignore](https://github.com/semgrep/semgrep/blob/develop/src/targeting/default.semgrepignore) file.
 - If present, Semgrep will look at the repository's `.gitignore` file.
 - In case of a conflict between the two files, the `.semgrepignore` file takes precedence. This means that if the
   `.gitignore` file includes a file and the `.semgrepignore` file excludes it, Semgrep will not analyze the file.
@@ -97,16 +97,20 @@ To start writing custom Semgrep rules, it is crucial to understand a few key con
 1. **Refer to language-specific pattern examples**: Consult the [Semgrep Pattern Examples by Language](https://semgrep.dev/embed/cheatsheet)
    for examples tailored to specific programming languages.
 1. **Use the Semgrep Playground**: The [Semgrep Playground](https://semgrep.dev/playground/new) is a convenient online tool
-   for writing and testing rules. However, it is essential to consider the following points when using the Playground:
-   {{< hint danger >}}**Be cautious of privacy concerns**: The Semgrep Playground allows users to experiment with code
-   without downloading or installing software on their local machine. While this platform is helpful for testing
-   and debugging rules, it may expose sensitive information such as passwords, API keys, or other secrets contained
-   in the code you submit for scanning.
-   Always use a local development environment with proper security and privacy controls for sensitive code.{{< /hint >}} - **Employ the `simple mode`**: The Semgrep Playground's simple mode makes it easy to combine rule patterns. - **Use the `Share` button**: Share your rule and test code with others using the Share button. - **Add tests to your test code**: Incorporate [tests](https://semgrep.dev/docs/writing-rules/testing-rules/)
-   (e.g., `# ruleid: <id>`) into your test code to evaluate your rule's effectiveness while working in the Semgrep
-   Playground (see [example](https://semgrep.dev/s/ezxE)). - **Note the limitations with comments**: Be aware that the Semgrep Playground does not retain comments when sharing
-   a link or "forking" a rule (Ctrl+S). Refer to this [GitHub issue](https://github.com/returntocorp/semgrep/issues/7120)
-   for more information.
+for writing and testing rules. However, it is essential to consider the following points when using the Playground:
+{{< hint danger >}}**Be cautious of privacy concerns**: The Semgrep Playground allows users to experiment with code
+      without downloading or installing software on their local machine. While this platform is helpful for testing
+      and debugging rules, it may expose sensitive information such as passwords, API keys, or other secrets contained
+      in the code you submit for scanning.
+      Always use a local development environment with proper security and privacy controls for sensitive code.{{< /hint >}}
+    - **Employ the `simple mode`**: The Semgrep Playground's simple mode makes it easy to combine rule patterns.
+    - **Use the `Share` button**: Share your rule and test code with others using the Share button.
+    - **Add tests to your test code**: Incorporate [tests](https://semgrep.dev/docs/writing-rules/testing-rules/)
+      (e.g., `# ruleid: <id>`) into your test code to evaluate your rule's effectiveness while working in the Semgrep
+      Playground (see [example](https://semgrep.dev/s/ezxE)).
+    - **Note the limitations with comments**: Be aware that the Semgrep Playground does not retain comments when sharing
+      a link or "forking" a rule (Ctrl+S). Refer to this [GitHub issue](https://github.com/semgrep/semgrep/issues/7120)
+       for more information.
 
 ### Building blocks
 
@@ -1011,12 +1015,12 @@ When running into issues while working on custom rules, several resources are av
 Two of the most valuable resources are the following:
 
 - The [Semgrep Community Slack](https://go.semgrep.dev/slack) is a great place to ask for help with custom rule
-  development. The channel is staffed by knowledgeable developers familiar with Semgrep's architecture and syntax.
-  They are usually quick to respond to questions. They can guide you in structuring your rules and in debugging any issues
-  that arise. Additionally, the Slack channel is a great place to connect with other developers working on similar
-  projects, allowing you to learn from others' experiences and share your insights.
-- Use [Semgrep GitHub issues](https://github.com/returntocorp/semgrep/issues) to report bugs, suggest new features, and
-  ask for help with specific issues.
+development. The channel is staffed by knowledgeable developers familiar with Semgrep's architecture and syntax.
+They are usually quick to respond to questions. They can guide you in structuring your rules and in debugging any issues
+that arise. Additionally, the Slack channel is a great place to connect with other developers working on similar
+projects, allowing you to learn from others' experiences and share your insights.
+- Use [Semgrep GitHub issues](https://github.com/semgrep/semgrep/issues) to report bugs, suggest new features, and
+ask for help with specific issues.
 
 ## Thoroughly testing Semgrep rules for optimal performance
 
@@ -1041,6 +1045,35 @@ When designing test cases, consider the following:
 3. **Ensure all tests pass**: Run the `$ semgrep --test` command to verify that all test cases pass.
 4. **Evaluate the rule against real-world code**: Test the rule against actual code from your projects,
    open-source repositories, or other codebases to assess its effectiveness in real-life scenarios.
+
+## Testing custom rules in CI
+
+### GitHub Actions
+
+The following workflow can be used to test custom Semgrep rules in GitHub Actions:
+
+```yml
+name: Test Semgrep rules
+
+on: [push, pull_request]
+
+jobs:
+  semgrep-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+          cache: "pip"
+      - run: python -m pip install -r requirements.txt
+      - run: semgrep --test --test-ignore-todo ./path/to/rules/
+```
+
+Make sure to include `semgrep` in your `requirements.txt` (or [`poetry` or `pipenv` equivalents](https://github.com/actions/setup-python/blob/main/docs/advanced-usage.md#caching-packages))
+file to speed up workflow runs by caching the dependency. Note, we include
+`--test-ignore-todo` here so we do not fail CI runs on [TODO tests](https://semgrep.dev/docs/writing-rules/testing-rules),
+which are a valuable form of documentation for future rule improvements.
 
 ## Autofix feature
 

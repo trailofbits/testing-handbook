@@ -1,0 +1,22 @@
+#!/bin/sh
+AFL_VERSION="${AFL_VERSION:-"stable"}"
+case "$1" in
+   host)
+        shift 
+        bash -c "$*"
+        ;;
+    docker)
+        shift
+        /usr/bin/env docker run -ti \
+            --privileged \
+            -v ./:/src \
+            --rm \
+            --name afl_fuzzing \
+            "aflplusplus/aflplusplus:$AFL_VERSION" \
+            bash -c "cd /src && bash -c \"$*\""
+        ;;
+    *)
+        echo "Usage: $0 {host|docker}"
+        exit 1
+        ;;
+esac
