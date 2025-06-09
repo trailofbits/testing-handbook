@@ -42,7 +42,7 @@ Finally, you have to create a [workspace file](https://docs.github.com/en/code-s
 
 If you know you will write more than one query pack, we recommend creating the following directory structure to make development easier:
 
-```
+```plain
 .
 ├── CODEOWNERS
 ├── README.md
@@ -255,7 +255,7 @@ Once you have initialized the new query pack, added dependencies and some sample
 `codeql pack install` in every directory that has a qlpack.yml file (including folders with test).
 
 Then, inform the codeql CLI about your new queries by creating `~/.config/codeql/config` file with the following content:
-```
+```plain
 --search-path /full/path/to/your/codeql/root/directory
 ```
 
