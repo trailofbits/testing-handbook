@@ -87,7 +87,6 @@ We divide query packs per-language, but also per-type (security, cryptographic, 
 
 For recommendations on how to set up query unit tests, see the [Unit testing custom queries](#unit-testing-custom-queries) section.
 
-
 ### Adding dependencies
 
 To be able to define a custom query we need to import the CodeQL standard
@@ -255,6 +254,7 @@ Once you have initialized the new query pack, added dependencies and some sample
 `codeql pack install` in every directory that has a qlpack.yml file (including folders with test).
 
 Then, inform the codeql CLI about your new queries by creating `~/.config/codeql/config` file with the following content:
+
 ```plain
 --search-path /full/path/to/your/codeql/root/directory
 ```
