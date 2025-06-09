@@ -51,57 +51,41 @@ If you know you will write more than one query pack, we recommend creating the f
 │   ├── lib
 │   │   ├── qlpack.yml
 │   │   └── scope
-│   │       └── crypto
+│   │       └── security
 │   │           └── someLibrary.qll
 │   ├── src
 │   │   ├── qlpack.yml
-│   │   ├── codeql-suites
+│   │   ├── suites
 │   │   │   ├── scope-cpp-code-scanning.qls
 │   │   │   └── scope-cpp-security.qls
-│   │   ├── crypto
-│   │   │   ├── SomeCryptoAnalysis.ql
 │   │   ├── security
-│   │   │   ├── AppSecAnalysis
-│   │   │   │   ├── AppSecAnalysis.c
-│   │   │   │   ├── AppSecAnalysis.qhelp
-│   │   │   │   └── AppSecAnalysis.ql
-│   │   ├── docs
-│   │   │   ├── crypto
-│   │   │   │   ├── SomeCryptoAnalysis.md
-│   │   │   └── security
-│   │   │       └── AppSecAnalysis.md
+│   │   │   └── AppSecAnalysis
+│   │   │       ├── AppSecAnalysis.c
+│   │   │       ├── AppSecAnalysis.qhelp
+│   │   │       └── AppSecAnalysis.ql
 │   └── test
 │       ├── qlpack.yml
 │       ├── include
 │       │   ├── libc
 │       │   │   ├── stubs.h
 │       ├── library-tests
-│       │   └── crypto
+│       │   └── security
 │       │       ├── someLibrary
+│       │       │   ├── someLibrary.c
 │       │       │   ├── someLibrary.expected
-│       │       │   ├── someLibrary.ql
-│       │       │   └── someLibrary.c
+│       │       │   └── someLibrary.ql
 │       └── query-tests
-│           ├── crypto
-│           │   ├── SomeCryptoAnalysis
-│           │   │   ├── SomeCryptoAnalysis.expected
-│           │   │   ├── SomeCryptoAnalysis.qlref
-│           │   │   └── SomeCryptoAnalysis.c
 │           └── security
 │               └── AppSecAnalysis
 │                   ├── AppSecAnalysis.c
 │                   ├── AppSecAnalysis.expected
 │                   └── AppSecAnalysis.qlref
-├── go
-│   ├── src
 ...
 ```
 
 We divide query packs per-language, but also per-type (security, cryptographic, etc.). This also follows the convention used by the GitHub query suites.
 
 For recommendations on how to set up query unit tests, see the [Unit testing custom queries](#unit-testing-custom-queries) section.
-
-Finally, you can use [our bash script for generating new queries](https://github.com/trailofbits/codeql-queries/tree/main/scripts/new_query.sh) when you have the structure above.
 
 
 ### Adding dependencies
