@@ -42,8 +42,10 @@ hope to demystify static and dynamic analysis techniques such as fuzzing and tai
 
 ### 🚧 Under construction
 
-- Formal verification and Tamarin
+- C/C++ checklist
+- kAFL
 - Rust
+- Formal verification and Tamarin
 
 ## How to contribute
 
