@@ -74,12 +74,10 @@ cover several other security-related topics. Stay tuned for updates from our tea
 
 ### Upcoming (!)
 
+- C/C++ checklist
+- kAFL
+- Rust
 - Formal verification and Tamarin
-- Rust security
-- How to apply taint analysis in a directed fuzzing loop or/and for results verification
-- Taking effective notes for security engagements
-- mitmproxy
-- Leveraging grep in security audits
 
 ## Custom queries for static analysis tools
 
