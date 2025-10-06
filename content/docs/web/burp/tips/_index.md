@@ -548,6 +548,6 @@ docker run \
     golang:latest go run req.go
 ```
 
-This uses the `SSL_CERT_DIR` environment variable provided by [`crypto/x509`](https://pkg.go.dev/crypto/x509#SystemCertPool) to specify a custom CA bundle. You should now see a request in the Burp HTTP history tab with a header similar to `User-Agent: Go-http-client/2.0`.
+This uses the `SSL_CERT_DIR` environment variable provided by [`crypto/x509`](https://pkg.go.dev/crypto/x509#SystemCertPool) to specify a custom CA bundle. You should now see a request in the Burp HTTP history tab with a header similar to `User-Agent: Go-http-client/2.0`. Note that, when proxying requests for Go binaries using `HTTP(S)_PROXY`, if the request's host is `localhost`, then [proxying won't work](https://pkg.go.dev/net/http#ProxyFromEnvironment). The simplest way to remediate this is to [set a different hostname](https://stackoverflow.com/a/69794246) in `/etc/hosts` and use that instead.
 
 Proxying additional programming languages and application runtimes may require different environmental configuration. For example, the [`REQUESTS_CA_BUNDLE`](https://requests.readthedocs.io/en/latest/user/advanced/#ssl-cert-verification) environment variable for the Python `requests` library. Investigate your Docker application's tech stack to better understand how to proxy its traffic through Burp.
