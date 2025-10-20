@@ -290,7 +290,7 @@ cargo +nightly fuzz run fuzz_target_1
 
 The corpus is stored at `fuzz/corpus/fuzz_target_1/`. Check out the [FAQ]({{% relref "05-faq" %}}) to learn how to use a corpus over the long term.
 
-The next step is to investigate the coverage and see if the harness or seed corpus can be improved (refer to the [Coverage analysis](#real-world-examples)).
+The next step is to investigate the coverage and see if the harness or seed corpus can be improved (refer to the [Coverage analysis]({{% relref "techniques/01-coverage/index.md" %}})).
 
 ## Additional resources {#additional-resources}
 
