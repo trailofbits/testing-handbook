@@ -215,3 +215,27 @@ Many techniques can be leveraged when writing harnesses; we discuss these in the
 **Instrumentation runtime:** Instrumentations like [AddressSanitizer]({{% relref 03-asan %}}) or [UndefinedBehaviorSanitizer](https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html) come with a runtime. A fuzzer must be compatible with the sanitizer for bugs to be detected reliably and feedback implemented efficiently. In memory-safe languages like Go or Rust you are less likely to need sanitizers.
 
 Note, that the two just mentioned sanitizers introduce instrumentation with the goal of finding more bugs. There is also a different class of instrumentations (e.g., [SanitizerCoverage](https://clang.llvm.org/docs/SanitizerCoverage.html)) that provides feedback to the fuzzer during execution. The runtime of the feedback-based instrumentation is usually part of the fuzzer runtime.
+
+## What to fuzz
+
+What type of issues fuzzing can find?
+
+* Crashes and panics
+    * Memory corruption issues: UAFs, integer overflows, undefined behaviors, buffer overflows, memory leaks etc
+
+* Invariant violations: business logic bugs
+    * State invariants violations: properties that require statefull fuzzing
+
+* Differentials: cross testing between different implementations of the same functionality
+    * Cross-platform differentials: testing the same code on different architectures
+    * Regressions: between different versions of the same code
+
+* Broken logical properties
+    * Round-trip: `decode(encode(x)) == x`
+    * Idempotence: `f(f(x)) == f(x)`
+    * Monotonicity: `x < y → f(x) ≤ f(y)`
+    * Identity: `f(x, identity) == x`
+    * Commutativity: `f(x, y) == f(y, x)`
+    * Associativity: `f(f(x, y), z) == f(x, f(y, z))`
+
+* Race conditions
