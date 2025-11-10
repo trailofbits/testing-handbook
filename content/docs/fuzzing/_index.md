@@ -221,10 +221,10 @@ Note, that the two just mentioned sanitizers introduce instrumentation with the 
 What type of issues fuzzing can find?
 
 * Crashes and panics
-    * Memory corruption issues: UAFs, integer overflows, undefined behaviors, buffer overflows, memory leaks etc
+    * Memory corruption issues: UAFs, integer overflows, undefined behaviors, buffer overflows, memory leaks, etc.
 
 * Invariant violations: business logic bugs
-    * State invariants violations: properties that require statefull fuzzing
+    * State invariants violations: properties that require stateful fuzzing
 
 * Differentials: cross testing between different implementations of the same functionality
     * Cross-platform differentials: testing the same code on different architectures

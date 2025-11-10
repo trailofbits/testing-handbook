@@ -19,7 +19,7 @@ This section presents several static analysis tools. For each tool, we cover top
 
 Below is an overview of techniques implemented in static analysis tools.
 
-Usually tools support only a subset of the following analyses, with varying degree of precision and completeness. Knowing what are a tool's capabilities is useful in determining it's usefulness.
+Usually, tools support only a subset of the following analyses, with varying degrees of precision and completeness. Knowing what a tool's capabilities are is important in determining its usefulness.
 
 ### Views on a code
 
