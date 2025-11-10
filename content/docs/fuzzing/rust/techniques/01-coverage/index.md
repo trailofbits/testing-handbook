@@ -23,7 +23,7 @@ Secondly, when switching your fuzzer or updating your harness or SUT, you want t
 
 Fuzzing coverage is a proxy for the capability and performance of the fuzzer. Even though it is widely accepted that coverage [is not ideal for measuring the performance](https://arxiv.org/abs/1808.09700) of a fuzzing engine, coverage can tell you whether your harness works in a given setup.
 
-The following flow chart shows an ideal coverage analysis workflow. The workflow uses the corpus generated after each fuzzing campaign to calculate the coverage, which is the preferred method. 
+The following flow chart shows an ideal coverage analysis workflow. The workflow uses the corpus generated after each fuzzing campaign to calculate the coverage, which is the preferred method.
 
 {{< resourceFigure "coverage-flow.svg" "alt" 300>}}
 Ideal fuzzing workflow: After each fuzzing campaign the code coverage is evaluated. Based on the results, the SUT or harness is updated and a new fuzzing campaign is started.
@@ -129,8 +129,6 @@ Then we generate merged coverage data from the corpus:
 cargo +nightly fuzz coverage fuzz_target_1
 ```
 
-Finally, we generate an HTML report and use domain knowledge to assess the fuzzing performance by using the `generate_html` script introduced in the [Coverage analysis](#coverage-analysis) section. 
+Finally, we generate an HTML report and use domain knowledge to assess the fuzzing performance by using the `generate_html` script introduced in the [Coverage analysis](#coverage-analysis) section.
 
 We may need to find more diverse seeds or fix bugs in our harness if the code coverage is unexpectedly low. However, no single number determines bad coverage; this depends significantly on how the crate is written and how difficult it is to reach certain code.
-
-
