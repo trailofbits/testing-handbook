@@ -1,0 +1,13 @@
+[package]
+name = "rust_tests"
+version = "0.1.0"
+edition = "2021"
+
+[dev-dependencies]
+proptest = "1.5.0"
+cast_checks = "0.1.5"
+
+[features]
+fone = []
+ftwo = []
+fthree = []
