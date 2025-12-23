@@ -76,3 +76,5 @@ At this point in the Testing Handbook, we recommend that you do the following:
   knowledge of web vulnerabilities.
 * Go to the [PortSwigger website](https://portswigger.net/burp/pro) to request a trial or buy a license
   (we mostly work on the paid Burp Suite Professional version).
+
+Next, you may follow our [step-by-step guide](stepbystep/_index.md) to test your app using Burp.
