@@ -33,7 +33,7 @@ jobs:
       - name: Install Dart Sass Embedded
         run: sudo snap install dart-sass-embedded
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           submodules: recursive
       - name: Install Node.js dependencies
@@ -48,7 +48,7 @@ jobs:
             --minify \
             --baseURL "https://trailofbits.github.io/testing-handbook-preview/pr-preview/pr-${{ github.event.number }}/"
       - name: Deploy preview
-        uses: rossjrw/pr-preview-action@v1
+        uses: rossjrw/pr-preview-action@8ff09e486b4c23709012eedd3b42e9f0b95dd0c5 # v1
         with:
           source-dir: ./public/
           token: ${{ secrets.TESTING_HANDBOOK_PREVIEW_REPO }}
