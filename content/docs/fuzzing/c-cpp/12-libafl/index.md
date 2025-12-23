@@ -978,5 +978,5 @@ The fuzzing campaign can be launched by running:
 ## Additional resources
 
 * Official [handbook on LibAFL](https://aflplus.plus/libafl-book/)
-* [Explanation of how to use LibAFL for a Rust project](https://github.com/AFLplusplus/LibAFL/tree/main/libafl_libfuzzer#usage)
+* [Explanation of how to use LibAFL for a Rust project](https://github.com/AFLplusplus/LibAFL/tree/main/crates/libafl_libfuzzer#usage)
   - An example [project that uses cargo-fuzz with the LibAFL shim](https://github.com/AFLplusplus/LibAFL/tree/main/fuzzers/fuzz_anything/cargo_fuzz)
