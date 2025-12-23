@@ -70,5 +70,5 @@ Usually, tools support only a subset of the following analyses, with varying deg
 
 - Soundness
 - Precision
-- Completness
+- Completeness
 - Execution time
