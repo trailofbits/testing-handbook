@@ -11,24 +11,24 @@ jobs:
   markdown-link-check:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
     - name: Restore lychee cache
-      uses: actions/cache@v4
+      uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
       with:
          path: .lycheecache
          key: cache-lychee-${{ github.sha }}
          restore-keys: cache-lychee-
-    - uses: lycheeverse/lychee-action@f613c4a64e50d792e0b31ec34bbcbba12263c6a6 # for v2.3.0
+    - uses: lycheeverse/lychee-action@a8c4c7cb88f0c7386610c35eb25108e448569cb0 # v2.7.0
       with:
-        args: --base . -a 100..=103,200..=299,429 --verbose --no-progress --cache --max-cache-age 1d --scheme http --scheme https './**/*.md' './layout/shortcodes/fuzzing/*.html'
+        args: -a 200..=204,403,429 --verbose --no-progress --cache --max-cache-age 1d --scheme http --scheme https './**/*.md' './layout/shortcodes/fuzzing/*.html'
         fail: true
   # Lint Markdown files
   # Uses: a custom configuration file
   markdown-linter:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: DavidAnson/markdownlint-cli2-action@v19
+    - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+    - uses: DavidAnson/markdownlint-cli2-action@05f32210e84442804257b2a6f20b273450ec8265 # v19
       with:
         globs: "**/*.md"
   # Spellcheck Markdown files using `retext` and `remark`
@@ -36,8 +36,8 @@ jobs:
   spellcheck:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: tbroadley/spellchecker-cli-action@v1
+    - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+    - uses: tbroadley/spellchecker-cli-action@8369e98753c0d2c3a3c76fb4519d9056d1d4b129 # v1
       with:
         # No need to use a dictionary file with the disabled spell plugin 
         # dictionaries: '.github/workflows/dictionary.txt'

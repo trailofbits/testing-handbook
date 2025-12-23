@@ -27,7 +27,7 @@ extension is not standard.
 ### Files/directories
 
 - By default, Semgrep follows the default
-[.semgrepignore](https://github.com/semgrep/semgrep/blob/develop/cli/src/semgrep/templates/.semgrepignore) file.
+[.semgrepignore](https://github.com/semgrep/semgrep/blob/develop/src/targeting/default.semgrepignore) file.
 - If present, Semgrep will look at the repository's `.gitignore` file.
 - In case of a conflict between the two files, the `.semgrepignore` file takes precedence. This means that if the
   `.gitignore` file includes a file and the `.semgrepignore` file excludes it, Semgrep will not analyze the file.
