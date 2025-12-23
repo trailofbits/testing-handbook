@@ -229,6 +229,7 @@ What type of issues fuzzing can find?
 * Differentials: cross testing between different implementations of the same functionality
     * Cross-platform differentials: testing the same code on different architectures
     * Regressions: between different versions of the same code
+    * Cross-implementation: between different libraries or tools implementing similar functionality
 
 * Broken logical properties
     * Round-trip: `decode(encode(x)) == x`

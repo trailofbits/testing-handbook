@@ -12,6 +12,8 @@ This section presents several static analysis tools. For each tool, we cover top
 - Advanced configuration
 - Usage in continuous integration pipelines
 
+## Sections
+
 {{< section >}}
 
 ## Basic theory

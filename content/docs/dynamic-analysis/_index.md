@@ -13,4 +13,6 @@ Here we present several dynamic analysis tools. For each tool, we cover topics s
 - Advanced configuration
 - Usage in continuous integration pipelines
 
+## Sections
+
 {{< section >}}
