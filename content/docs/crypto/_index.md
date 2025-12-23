@@ -13,4 +13,6 @@ For each tool, we cover topics such as:
 - Installation and basic use
 - Provide examples
 
+## Sections
+
 {{< section >}}

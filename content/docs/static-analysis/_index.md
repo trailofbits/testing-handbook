@@ -12,4 +12,63 @@ This section presents several static analysis tools. For each tool, we cover top
 - Advanced configuration
 - Usage in continuous integration pipelines
 
+## Sections
+
 {{< section >}}
+
+## Basic theory
+
+Below is an overview of techniques implemented in static analysis tools.
+
+Usually, tools support only a subset of the following analyses, with varying degrees of precision and completeness. Knowing what a tool's capabilities are is important in determining its usefulness.
+
+### Views on a code
+
+- Abstract Syntax Tree (AST)
+- Control Flow Graph (CFG)
+- Data Flow Graph (DFG)
+- Call Graph
+- Intermediate Representation (IR)
+- Single Static Assignment Form (SSA)
+- Use-Definition Chain (use-def)
+
+### Analyses
+
+- AST traversal
+- Abstract Interpretation
+  - Constant Propagation
+  - Value Range analysis
+- Data-Flow analysis
+- Train Tracking
+- Control-Flow analysis
+  - Domination relationship
+  - Reachability
+- Hoare logic
+- Model checking
+- Symbolic execution
+  - Concolic execution
+- Type analysis
+- Alias/Pointer/points-to analysis
+- Program slicing
+- Global value numbering
+- Hash consing
+
+### Precision
+
+- Intraprocedural
+  - Flow-sensitivity (order of statements)
+  - Path-sensitivity (conditional branches)
+
+- Interprocedural
+  - Context-sensitivity (Polyvariance)
+    - Call-site
+    - Type
+    - Object
+  - Context-insensitive
+
+### Properties
+
+- Soundness
+- Precision
+- Completeness
+- Execution time

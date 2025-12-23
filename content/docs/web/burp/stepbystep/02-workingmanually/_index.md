@@ -13,4 +13,6 @@ standpoint—you can choose appropriate requests from the **Proxy** tab and try 
 For example, requests that reflect user-provided values in the response and API calls that handle authentication
 are worth investigating in this manner. To support yourself with semi-automatic methods, use the following Burp tools.
 
+## Sections
+
 {{< section >}}

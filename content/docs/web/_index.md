@@ -12,4 +12,6 @@ This section presents web application security tools. For each tool, we cover to
 - Advanced configuration
 - Usage in continuous integration pipelines
 
+## Sections
+
 {{< section >}}
