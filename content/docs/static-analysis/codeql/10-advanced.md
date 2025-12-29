@@ -566,7 +566,7 @@ For more information about testing CodeQL queries, see the
 
 ### GitHub Actions
 
-The following workflow can be used to test custom CodeQL queries in GitHub Actions:
+The [`trailofbits/setup-codeql`](https://github.com/trailofbits/setup-codeql) workflow can be used to test custom CodeQL queries in GitHub Actions:
 
 ```yml
 name: Test CodeQL queries
@@ -574,19 +574,13 @@ name: Test CodeQL queries
 on: [push, pull_request]
 
 jobs:
-  codeql-test:
+  test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - id: init
-        uses: github/codeql-action/init@v3
-      - uses: actions/cache@v4
-        with:
-          path: ~/.codeql
-          key: ${{ runner.os }}-${{ runner.arch }}-${{ steps.init.outputs.codeql-version }}
-      - name: Run tests
-        run: |
-          ${{ steps.init.outputs.codeql-path }} test run ./path/to/query/tests/
+      - uses: actions/checkout@v6
+      - uses: trailofbits/setup-codeql@main
+      - run: codeql test run --threads=0 /path/to/query-tests
+      - run: codeql query format --check-only /path/to/query.ql
 ```
 
 This workflow also speeds up subsequent runs by caching query extraction and
