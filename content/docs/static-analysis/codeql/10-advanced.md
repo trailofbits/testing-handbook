@@ -7,6 +7,38 @@ weight: 10
 
 # Advanced usage
 
+## Adding sources and sinks
+
+For some languages there is an easy way to declare new sources, sinks and 
+function summaries: [data extensions](https://codeql.github.com/docs/codeql-language-guides/customizing-library-models-for-cpp/).
+
+You just need to create an YAML file that lists all the functions you want to model.
+This is useful when your project has complex flows and codeql may not be able to detect
+all sources or sinks automatically from the known I/O methods.
+
+The sources and sink extensions are self-explanatory.
+The summaries are for describing data flows within a single function.
+
+For example, to model `boost::asio::read_until` function create file like below:
+
+```yaml
+extensions:
+  - addsTo:
+      pack: codeql/cpp-all
+      extensible: sourceModel
+    data:
+      - ["boost::asio", "", False, "read_until", "", "", "Argument[*1]", "remote", "manual"]
+```
+
+When working on a new project, we recommend the following workflow:
+
+1. Construct the codeql database
+2. Run a sample query to list all sources and sinks
+3. If the generated lists seems to be incomplete, then use data extensions
+
+Note that the LLMs may be great at detecting and producing the extensions. 
+
+
 ## Creating new query packs
 
 CodeQL queries are written in a declarative, object-oriented language called
