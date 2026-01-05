@@ -9,7 +9,7 @@ weight: 10
 
 ## Adding sources and sinks
 
-For some languages there is an easy way to declare new sources, sinks and 
+For some languages there is an easy way to declare new sources, sinks and
 function summaries: [data extensions](https://codeql.github.com/docs/codeql-language-guides/customizing-library-models-for-cpp/).
 
 You just need to create an YAML file that lists all the functions you want to model.
@@ -36,8 +36,7 @@ When working on a new project, we recommend the following workflow:
 2. Run a sample query to list all sources and sinks
 3. If the generated lists seems to be incomplete, then use data extensions
 
-Note that the LLMs may be great at detecting and producing the extensions. 
-
+Note that the LLMs may be great at detecting and producing the extensions.
 
 ## Creating new query packs
 
