@@ -1,4 +1,5 @@
 # .github/workflows/preview.yml
+# NOTE: Requires TOB_TESTING_PREVIEW repository variable to be set to "1"
 name: Deploy PR previews
 
 on:
@@ -12,6 +13,7 @@ on:
 concurrency: preview-${{ github.ref }}
 
 permissions:
+  contents: read
   pull-requests: write
 
 # Default to bash
@@ -22,20 +24,22 @@ defaults:
 jobs:
   # Build job
   build-deploy:
+    if: (vars.TOB_TESTING_PREVIEW || '0') == '1'
     runs-on: ubuntu-latest
     env:
       HUGO_VERSION: 0.133.0
     steps:
       - name: Install Hugo CLI
         run: |
-          wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb \
-          && sudo dpkg -i ${{ runner.temp }}/hugo.deb
+          wget -O "${{ runner.temp }}/hugo.deb" "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb" \
+          && sudo dpkg -i "${{ runner.temp }}/hugo.deb"
       - name: Install Dart Sass Embedded
         run: sudo snap install dart-sass-embedded
       - name: Checkout
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
           submodules: recursive
+          persist-credentials: false
       - name: Install Node.js dependencies
         run: "[[ -f package-lock.json || -f npm-shrinkwrap.json ]] && npm ci || true"
       - name: Build with Hugo
