@@ -31,18 +31,13 @@ It supports a wide range of cryptographic algorithms, including:
 and many more.
 
 All test vectors are stored in the official [GitHub repository](https://github.com/C2SP/wycheproof).
-The vectors are organized in two main folders:
+The vector files can be found in the `testvectors_v1` folder and corresponding JSON schemas files are in the `schemas` folder.
 
-- `testvectors`
-- `testvectors_v1`
+The test vectors, stored in JSON-encoded files, can be used as input in a testing harness to verify the correctness of a cryptographic implementation by comparing the actual output to the expected output specified in the test vector. The [JSON schema](https://json-schema.org/) files describe the structure of the test vectors.
 
-with plans to merge them in the future.
-
-While both folders contain similar test vector files, `testvectors_v1` includes more detailed information.
-The test vectors, stored in JSON-encoded files, can be used as input in a testing harness to verify the correctness of a cryptographic implementation by comparing the actual output to the expected output specified in the test vector.
 To use the test vectors provided by Wycheproof, integrate them into the testing procedures of the cryptographic library you want to test by writing a testing harness.
 This testing harness should parse the JSON file for the specific construction and use the inputs and expected outputs from each test vector to verify the implementation.
-Wycheproof provides testing harnesses for Java JCE interface (in the `java` folder) and JavaScript (in the `javascript` folder).
+In some cases it may be easiest to generate a language-specific representation of the JSON data using the JSON schema files, e.g. with tools like [omissis/go-jsonschema](https://github.com/omissis/go-jsonschema).
 
 ## Repository Structure
 
@@ -51,15 +46,11 @@ The Wycheproof repository is structured as follows:
 ```text
 ┣ 📜 README.md       : Project overview
 ┣ 📂 doc             : Documentation
-┣ 📂 java            : Java JCE interface testing harness
-┣ 📂 javascript      : JavaScript testing harness
-┣ 📂 kokoro          : Internal Google Jenkins scripts
 ┣ 📂 schemas         : Test vector schemas
-┣ 📂 testvectors     : Test vectors
-┗ 📂 testvectors_v1  : Updated test vectors
+┗ 📂 testvectors_v1  : Test vectors
 ```
 
-For most developers, the essential folders are `testvectors` and `testvectors_v1` as they contain all the JSON-encoded test vectors.
+For most developers, the essential folders are `schemas` and `testvectors_v1` as they contain all the schemas and JSON-encoded test vectors.
 The structure of the two folders and how each test file is structured are explained below.
 
 ## Test Vector Structure
@@ -99,7 +90,6 @@ All test files share common attributes:
 ```json
 "algorithm"         : The name of the algorithm tested
 "schema"            : The JSON schema which can be found in the `schema` folder at the root of the Wycheproof project
-"generatorVersion"  : The version number 
 "numberOfTests"     : The total number of test vectors inside this file
 "header"            : More detailed description of the intended of the test vectors present in the current file
 "notes"             : Provides a more in depth explanation of different flags present in each test vector 
@@ -143,6 +133,8 @@ Over time, Wycheproof might add new test vectors to existing test files.
 This greatly benefits developers as they only need to write the testing harness once and profit from new test vectors added without needing additional work. Therefore, it is recommended to ensure that the test vectors used inside the testing harness are kept up to date.
 We recommend adding Wycheproof as a submodule to the GitHub repository.
 If this is not possible, we also provide a simple script fetching specific test vectors from the Wycheproof repository.
+
+For some language ecosystems, Wycheproof is available as a package. For example, for PHP [via packagist](https://packagist.org/packages/c2sp/wycheproof) and for Go as a [go.mod module with an embedded FS](https://github.com/C2SP/wycheproof/blob/main/testvectors.go).
 
 ### Git Submodule
 
@@ -191,7 +183,7 @@ Wycheproof is not intended to be used for creating new cryptographic algorithms.
 ## Real-world examples
 
 Wycheproof has been instrumental in identifying bugs in prominent cryptographic libraries, such as **OpenJDK's SHA1withDSA** and **Bouncy Castle's ECDHC**.
-Furthermore, libraries like [pycryptodome](https://pypi.org/project/pycryptodome/) are using Wycheproof's testvectors to test their implementation.
+Furthermore, libraries like [pycryptodome](https://pypi.org/project/pycryptodome/) [and many others](https://github.com/C2SP/wycheproof?tab=readme-ov-file#what-downstream-projects-use-wycheproof-testvectors) are using Wycheproof's testvectors to test their implementation.
 By integrating Wycheproof into your testing process, you can enhance the security and reliability of your cryptographic solutions.
 
 ### Case study: elliptic npm
