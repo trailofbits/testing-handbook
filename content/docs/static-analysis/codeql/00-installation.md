@@ -55,7 +55,7 @@ brew upgrade codeql
 
 ## Building a database
 
-To build a new CodeQL database you typically need to be able to build the
+To build a new CodeQL database, you typically need to be able to build the
 corresponding codebase. Make sure that the codebase is in a clean state (e.g.
 by running `make clean`, `go clean`, or similar), and then build the codebase
 with the CodeQL CLI as follows:
@@ -185,6 +185,29 @@ files. For this reason, it is often better to include third-party libraries and
 filter issues based on the location in the codebase where they occur instead.
 This also means that you generally get more comprehensive analysis results if
 you vendor third-party libraries than if you rely on dynamic linking at runtime.
+
+### Multi-step builds
+
+It is possible to create a single CodeQL database from multiple builds.
+This may be useful when the codebase is built in a few different Docker containers or
+when there are multiple sub-projects involved.
+
+The process is to use `init` - `trace-command` - `finalize` CodeQL commands:
+
+```bash
+codeql database init \
+    --overwrite --source-root=. --language=cpp --begin-tracing \
+    -- ${BUILD_CACHE_DATABASE}
+
+codeql database trace-command \
+    -- ${BUILD_CACHE_DATABASE} ${CC} -c lib/lib1.c -o lib/lib1.o
+codeql database trace-command \
+    -- ${BUILD_CACHE_DATABASE} ${CC} -c lib/lib2.c -o lib/lib2.o
+codeql database trace-command \
+    -- ${BUILD_CACHE_DATABASE} ${CC} main.c lib/lib1.o lib/lib2.o -o main
+
+codeql database finalize -- ${BUILD_CACHE_DATABASE}
+```
 
 ## Analyzing a database
 
