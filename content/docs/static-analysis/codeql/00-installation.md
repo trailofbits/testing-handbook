@@ -188,7 +188,7 @@ you vendor third-party libraries than if you rely on dynamic linking at runtime.
 
 ### Multi-step builds
 
-It is possible to create a single CoddeQL database from multiple builds.
+It is possible to create a single CodeQL database from multiple builds.
 This may be useful when the codebase is built in a few different Docker containers or
 when there are multiple sub-projects involved.
 
