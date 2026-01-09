@@ -36,7 +36,7 @@ When working on a new project, we recommend the following workflow:
 2. Run a sample query to list all sources and sinks
 3. If the generated lists seem to be incomplete, then use data extensions
 
-Note that LLMs may be great at detecting and producing extensions. 
+Note that LLMs may be great at detecting and producing extensions.
 
 ## Creating new query packs
 
