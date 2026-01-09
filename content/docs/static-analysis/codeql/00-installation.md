@@ -192,7 +192,7 @@ It is possible to create a single CodeQL database from multiple builds.
 This may be useful when the codebase is built in a few different Docker containers or
 when there are multiple sub-projects involved.
 
-The process is to use init - trace-command - finalize codeql commands:
+The process is to use `init` - `trace-command` - `finalize` CodeQL commands:
 
 ```bash
 codeql database init \
