@@ -200,7 +200,7 @@ reboot
 ./afl++ <host/docker> afl-system-config
 ```
 
-After the reboot check whether the changes performed by `afl-persistent-config` were correctly applied by executing `cat` `/proc/cmdline`. The output should include `mitigations=off`. If not, then the grub bootloader was configured incorrectly: Verify the configuration in the file `/etc/default/grub` and the directory `/etc/default/grub.d/`. If any of the configuration files incorrectly overwrites `GRUB_CMDLINE_LINUX_DEFAULT` then mitigations are potentially not applied. This is for example true for cloud environments that use [cloudinit](https://cloud-init.io/).
+After the reboot check whether the changes performed by `afl-persistent-config` were correctly applied by executing `cat` `/proc/cmdline`. The output should include `mitigations=off`. If not, then the grub bootloader was configured incorrectly: Verify the configuration in the file `/etc/default/grub` and the directory `/etc/default/grub.d/`. If any of the configuration files incorrectly overwrites `GRUB_CMDLINE_LINUX_DEFAULT` then mitigations are potentially not applied. This is for example true for cloud environments that use [cloud-init](https://cloudinit.readthedocs.io/).
 
 
 {{< hint danger >}}
