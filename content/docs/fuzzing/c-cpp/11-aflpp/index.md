@@ -795,7 +795,7 @@ kill $(jobs -p)
 ```
 
 
-More information and advanced use cases can be found [here](https://aflplus.plus/docs/parallel_fuzzing/) and [here](https://aflplus.plus/docs/fuzzing_in_depth.md#c-using-multiple-cores).
+More information and advanced use cases can be found [here](https://aflplus.plus/docs/parallel_fuzzing/) and [here](https://aflplus.plus/docs/fuzzing_in_depth/#c-using-multiple-cores).
 
 
 ## CMPLOG {#cmplog}
@@ -983,10 +983,10 @@ The fuzzing campaign can be launched by running:
 ```
 
 
-More examples of different build systems can be found [here](https://aflplus.plus/docs/fuzzing_in_depth.md#e-instrumenting-the-target).
+More examples of different build systems can be found [here](https://aflplus.plus/docs/fuzzing_in_depth/#e-instrumenting-the-target).
 
 ## Additional resources {#additional-resources}
 
 * **[AFL++: Combining Incremental Steps of Fuzzing Research.](https://www.usenix.org/system/files/woot20-paper-fioraldi.pdf)** Paper about AFL++.
-* **[Fuzzing in Depth.](https://aflplus.plus/docs/fuzzing_in_depth.md)** Advanced documentation by the AFL++ team.
+* **[Fuzzing in Depth.](https://aflplus.plus/docs/fuzzing_in_depth/)** Advanced documentation by the AFL++ team.
 * **[AFL++ Under The Hood.](https://blog.ritsec.club/posts/afl-under-hood/)** Blog post about AFL++ internals.
