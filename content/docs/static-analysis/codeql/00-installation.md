@@ -168,15 +168,30 @@ build command to the CodeQL using the `--command` argument.
 
 ### Excluding individual files
 
-CodeQL will instrument the build process and successively add information about
-each compilation unit to the database. In practice, this means that if the
-compiler skips one or more source files (e.g. because the corresponding object
-files already exist and are up to date), then the corresponding functions and
-types will not be added to the database either. This can be used to reduce the
-size of the resulting database. For example, to avoid including third-party
-libraries in the database simply build the project once, delete any object files
-directly related to the project, and then build the project database using the
-CodeQL CLI as above.
+For interpreted languages use `--codescanning-config=codeql-config.yml` with
+`` in the `codeql-config.yml` file:
+
+```yaml
+paths-ignore:
+  - node_modules
+  - vendor
+  - external
+  - "**/*.min.js"
+  - "**/*.bundle.js"
+  - "**/generated/**"
+  - "**/dist/**"
+  - "**/tests/**"
+``` 
+
+For compiled languages build the project once, delete any object files
+directly related to the project (the ones you want to analyze),
+and then build the project database using the CodeQL CLI.
+
+CodeQL instruments the build process and successively adds information about
+each compilation unit to the database. This means that if the compiler skips
+one or more source files (e.g. because the corresponding object files already
+exist and are up to date), then the corresponding functions and
+types will not be added to the database either.
 
 However, it is important to remember that ignoring files means that CodeQL
 will have only partial knowledge about the corresponding code, and will not be
@@ -233,6 +248,11 @@ codeql database analyze codeql.db --format=sarif-latest --output=results.sarif -
 used by many static-analysis tools. If you are using VSCode, you can view the SARIF results with the
 [VSCode SARIF Explorer extension](https://marketplace.visualstudio.com/items?itemName=trailofbits.sarif-explorer).
 Apart from SARIF, CodeQL also supports CSV output.
+
+Some tips:
+
+* Use `--threat-model` flag to control analysis scope
+* Use `--threads=0` to speed up analysis
 
 ## Installing new query packs
 
