@@ -181,7 +181,7 @@ paths-ignore:
   - "**/generated/**"
   - "**/dist/**"
   - "**/tests/**"
-``` 
+```
 
 For compiled languages, to avoid including third-party libraries in the database,
 the following trick is needed: build the project once, delete any object files
