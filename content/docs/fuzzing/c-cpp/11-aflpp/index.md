@@ -24,7 +24,7 @@ The AFL++ fuzzer has many dependencies, such as LLVM, Python, and Rust. We recom
     <td><strong>Method</strong></td>
     <td><strong>When should I use it?</strong></td>
     <td>
-      <strong>Supported compiler versions (<code>afl-clang/afl-gcc --version</code>)</strong>
+      <strong>Supported compiler versions (<code>afl-clang-fast/afl-gcc --version</code>)</strong>
     </td>
   </tr>
   <tr>
@@ -57,7 +57,7 @@ The AFL++ fuzzer has many dependencies, such as LLVM, Python, and Rust. We recom
         </li>
       </ul>
     </td>
-    <td>As of writing for version 4.09c of the image Clang 14 & GCC 11</td>
+    <td>As of writing for version 4.35c of the image Clang 19 & GCC 11</td>
   </tr>
   <tr>
     <td>Docker (from source)</td>
@@ -88,7 +88,7 @@ The AFL++ fuzzer has many dependencies, such as LLVM, Python, and Rust. We recom
     </td>
     <td>
       Adjustable by setting the environment variable
-      <code>LLVM_CONFIG</code> for example to <code>llvm-config-14</code>.
+      <code>LLVM_CONFIG</code> for example to <code>llvm-config-18</code>.
     </td>
   </tr>
 </table>
@@ -100,12 +100,14 @@ The AFL++ fuzzer has many dependencies, such as LLVM, Python, and Rust. We recom
 If you run a recent Debian or Ubuntu version, the packaged version in the official Ubuntu repositories is an easy choice. At the time of writing, Ubuntu 23.10 packages AFL++ 4.08c and Debian 12 version 4.04c. Note that this will limit you to the Clang version supported by the packaged AFL++ version.
 
 
+Note: Check which Clang version AFL++ uses on your distribution before installing `lld`. Run `afl-cc --version` to verify, then install the matching `lld` version (e.g., `lld-17`).
+
 ```shell
-apt install afl++ lld-14
+apt install afl++ lld-17
 ```
 
 
-Installing the `lld` package is required for the optional LTO mode that we will describe later. Depending on the Clang version AFL++ uses on your Linux distributions, you may want to install a specific version of `lld` like `lld-16`. Verify the output of `afl-cc --version`.
+Installing the `lld` package is required for the optional LTO mode that we will describe later. Depending on the Clang version AFL++ uses on your Linux distributions, you may want to install a specific version of `lld` like `lld-17`. Verify the output of `afl-cc --version`.
 
 
 ### Docker (from Docker Hub) {#docker-from-docker-hub}
@@ -198,7 +200,7 @@ reboot
 ./afl++ <host/docker> afl-system-config
 ```
 
-After the reboot check whether the changes performed by `afl-persistent-config` were correctly applied by executing `cat` `/proc/cmdline`. The output should include `mitigations=off`. If not, then the grub bootloader was configured incorrectly: Verify the configuration in the file `/etc/default/grub` and the directory `/etc/default/grub.d/`. If any of the configuration files incorrectly overwrites `GRUB_CMDLINE_LINUX_DEFAULT` then mitigations are potentially not applied. This is for example true for cloud environments that use [cloudinit](https://cloud-init.io/).
+After the reboot check whether the changes performed by `afl-persistent-config` were correctly applied by executing `cat` `/proc/cmdline`. The output should include `mitigations=off`. If not, then the grub bootloader was configured incorrectly: Verify the configuration in the file `/etc/default/grub` and the directory `/etc/default/grub.d/`. If any of the configuration files incorrectly overwrites `GRUB_CMDLINE_LINUX_DEFAULT` then mitigations are potentially not applied. This is for example true for cloud environments that use [cloud-init](https://cloudinit.readthedocs.io/).
 
 
 {{< hint danger >}}
@@ -209,42 +211,40 @@ After the reboot check whether the changes performed by `afl-persistent-config` 
 
 Creating a binary that fuzzes the SUT is straightforward. The resulting binary will use the harness and the AFL++ runtime.
 
-The AFL++ fuzzer offers multiple compilation modes, including [LTO](https://github.com/AFLplusplus/AFLplusplus/blob/stable/instrumentation/README.lto.md), [LLVM](https://github.com/AFLplusplus/AFLplusplus/blob/stable/instrumentation/README.llvm.md), [GCC](https://github.com/AFLplusplus/AFLplusplus/blob/stable/instrumentation/README.gcc_plugin.md), and a legacy Clang mode. Refer to the linked documentation for more information about each. In order to decide for one, refer to the following figure:
+The AFL++ fuzzer offers multiple compilation modes, including [LTO](https://github.com/AFLplusplus/AFLplusplus/blob/stable/instrumentation/README.lto.md), [LLVM](https://github.com/AFLplusplus/AFLplusplus/blob/stable/instrumentation/README.llvm.md), and [GCC](https://github.com/AFLplusplus/AFLplusplus/blob/stable/instrumentation/README.gcc_plugin.md). Refer to the linked documentation for more information about each. In order to decide for one, refer to the following figure:
 
 
 {{< resourceFigure "aflpp-decision.drawio.svg" />}}
 
 
-Depending on the mode you choose, use a different compilation command: `afl-clang-lto`, `afl-clang-fast`, `afl-gcc`, or `afl-clang`, respectively. The C++ versions are also available by appending `++`, which gives, e.g., `afl-clang-lto++`. The LTO mode is recommended because it features a better and faster instrumentation of the SUT. However, this depends on your project whether LTO mode works. Give it a try and fall back to the other modes if compilation fails.
+Depending on the mode you choose, use a different compilation command: `afl-clang-lto`, `afl-clang-fast`, or `afl-gcc`, respectively. The C++ versions are also available by appending `++`, which gives, e.g., `afl-clang-lto++`. The LTO mode is recommended because it features a better and faster instrumentation of the SUT. However, this depends on your project whether LTO mode works. Give it a try and fall back to the other modes if compilation fails.
 
 If you use the Clang compiler and want to use the LLVM mode, then the following command produces a binary `fuzzer`. Essentially, we are replacing the call to `clang++` with `afl-clang-fast++`. We are reusing the `harness.cc` and `main.cc` from the [introduction]({{% relref "fuzzing#introduction-to-fuzzers" %}})
 
 
-{{< tooltipHighlight shell 
+{{< tooltipHighlight shell
 "Custom script (see above)"
 "Run on host or within Docker"
 "AFL++ compiler that uses Clang"
 "Skips the main function"
-"Adds debug symbols"
 "Sets production optimization level"
 "Enables libFuzzer"
  >}}
-./afl++ <host/docker> afl-clang-fast++ -DNO_MAIN -g -O2 -fsanitize=fuzzer harness.cc main.cc -o fuzz
+./afl++ <host/docker> afl-clang-fast++ -DNO_MAIN=1 -O2 -fsanitize=fuzzer harness.cc main.cc -o fuzz
 {{< / tooltipHighlight >}}
 
 
 If your project depends on the GCC compiler, then consider using the [gcc_plugin](https://github.com/AFLplusplus/AFLplusplus/blob/stable/instrumentation/README.gcc_plugin.md):
 
-{{< tooltipHighlight shell 
+{{< tooltipHighlight shell
 "Custom script (see above)"
 "Run on host or within Docker"
 "AFL++ compiler that uses GCC"
 "Skips the main function"
-"Adds debug symbols"
 "Sets production optimization level"
 "Enables libFuzzer"
  >}}
-./afl++ <host/docker> afl-g++-fast -DNO_MAIN -g -O2 -fsanitize=fuzzer harness.cc main.cc -o fuzz
+./afl++ <host/docker> afl-g++-fast -DNO_MAIN=1 -O2 -fsanitize=fuzzer harness.cc main.cc -o fuzz
 {{< / tooltipHighlight >}}
 
 
@@ -252,7 +252,7 @@ If your project depends on the GCC compiler, then consider using the [gcc_plugin
 PRO TIP: The GCC version of your system and the GCC version that was used to compile the AFL++ GCC plugin must match. If they do not match (e.g., if you upgrade GCC), then you will get an error when using the GCC support.
 {{< /hint >}}
 
-We also enable debug symbols using `-g` and set the optimization level to `-O2`, which is a reasonable optimization level for fuzzing because it is likely the level used during production.
+We set the optimization level to `-O2`, which is a reasonable optimization level for fuzzing because it is likely the level used during production. Note that `-g` is not necessary, it is added by default by the AFL++ compilers.
 
 Many things are happening behind the scenes when using AFL++: 
 
@@ -270,7 +270,7 @@ To launch a fuzzing campaign, first create a seeds directory. This represents th
 
 ```shell
 mkdir seeds
-echo "a" > seeds/minimal_seed
+echo "aaaa" > seeds/minimal_seed
 ```
 
 Finally, we can launch the campaign.
@@ -280,10 +280,10 @@ Finally, we can launch the campaign.
 ```
 
 {{< hint info >}}
-PRO TIP: In order to demonstrate how to set environment variables with the afl++ script, try setting the environment variable AFL_PIZZA_MODE to 1 if you enjoy pineapple pizza:
-	
+PRO TIP: In order to demonstrate how to set environment variables with the afl++ script, try setting the environment variable AFL_FAST_CAL to 1 to speed up the initial calibration phase:
+
 ```shell
-./afl++ <host/docker> AFL_PIZZA_MODE=1 afl-fuzz -i seeds -o out -- ./fuzz
+./afl++ <host/docker> AFL_FAST_CAL=1 afl-fuzz -i seeds -o out -- ./fuzz
 ```
 {{< /hint >}}
 
@@ -357,7 +357,7 @@ Refer to the help page for more information about libFuzzer-compatible binaries 
 The AFL++ fuzzer offers many options. The following options can be most useful with the `afl-fuzz` tool.
 
 * **-G 4000** The maximum length of the test input. By default, AFL++ uses 1048576 bytes. Setting this at least a few times higher than the minimal input size is advised. As a rule of thumb, we recommend finding a minimal realistic input and then doubling that. Note that larger input sizes lead to longer execution times and do not necessarily lead to a larger input space being explored.
-* **-t 10000** AFL++ aborts the execution of a test case after n milliseconds. It makes sense to set this to something reasonably low. The goal is also to find inputs that cause the SUT to hang for an unreasonably long amount of time. For example, parsing a reasonable-sized PNG image should not take longer than a few hundred milliseconds. So setting this to a few seconds is usually enough not to get false positives. 
+* **-t 1000** AFL++ aborts the execution of a test case after n milliseconds (default is 1000ms). It makes sense to set this to something reasonably low. The goal is also to find inputs that cause the SUT to hang for an unreasonably long amount of time. For example, parsing a reasonable-sized PNG image should not take longer than a few hundred milliseconds. So setting this to a few seconds is usually enough not to get false positives. 
 * **-m 1000** The memory limit for test cases in megabytes. By default, this is set to 0, which means no limit. This should be set to a reasonable value like 1000. If this is set too low then you will see false positives, because occasionally test cases may take just slightly longer than usual (e.g., because of system load).
 * **-x ./dict.dict** Specifies a dictionary file that guides the fuzzer and allows the fuzzer to discover interesting test cases more quickly. For more details about this, see [Fuzzing dictionary]({{% relref 02-dictionary %}}).
 
@@ -423,7 +423,7 @@ The example above reads now from standard input. It aborts for the input "abc".
 
 
 ```shell
-./afl++ <host/docker> afl-clang-fast++ -g -O2 main_stdin.c -o fuzz_stdin
+./afl++ <host/docker> afl-clang-fast++ -O2 main_stdin.c -o fuzz_stdin
 ```
 
 
@@ -584,7 +584,7 @@ As usual, we use the AFL++ compiler wrappers to create an instrumented binary.
 
 
 ```shell
-./afl++ <host/docker> afl-clang-fast++ -g -O2 main_file.c -o fuzz_file
+./afl++ <host/docker> afl-clang-fast++ -O2 main_file.c -o fuzz_file
 ```
 
 
@@ -658,7 +658,7 @@ We can now compile the instrumented binary and start the fuzzing as usual:
 
 
 ```shell
-./afl++ <host/docker> afl-clang-fast++ -g -O2 main_arg.c -o fuzz_arg
+./afl++ <host/docker> afl-clang-fast++ -O2 main_arg.c -o fuzz_arg
 ./afl++ <host/docker> afl-fuzz -i seeds -o out -- ./fuzz_arg
 ```
 
@@ -798,6 +798,25 @@ kill $(jobs -p)
 More information and advanced use cases can be found [here](https://aflplus.plus/docs/parallel_fuzzing/) and [here](https://aflplus.plus/docs/fuzzing_in_depth/#c-using-multiple-cores).
 
 
+## CMPLOG {#cmplog}
+
+CMPLOG/RedQueen is the best path constraint solving mechanism available in any fuzzer.
+To enable it, the fuzz target needs to be instrumented for it.
+Before building the fuzzing target set the environment variable:
+
+```shell
+./afl++ <host/docker> AFL_LLVM_CMPLOG=1 make
+```
+
+No special action is needed for compiling and linking the harness.
+
+To run a fuzzer instance with a CMPLOG instrumented fuzzing target, add `-c0` to the command line arguments:
+
+```shell
+./afl++ <host/docker> afl-fuzz -c0 -S cmplog -i seeds -o state -- ./fuzz 1>cmplog.log 2>cmplog.error &
+```
+
+
 ## AddressSanitizer {#addresssanitizer}
 
 ASan helps detect memory errors that may otherwise go unnoticed. For instance, the following heap buffer overflow is usually not detectable without ASan. 
@@ -829,7 +848,7 @@ To enable AddressSanitizer when using AFL++, set the environment variable `AFL_U
 For example, to use ASan to find the bug in main_asan.cc, first compile using the corresponding flags:
 
 ```shell
-./afl++ <host/docker> AFL_USE_ASAN=1 afl-clang-fast++ -DNO_MAIN -g -O2 -fsanitize=fuzzer harness.cc main_asan.cc -o fuzz
+./afl++ <host/docker> AFL_USE_ASAN=1 afl-clang-fast++ -DNO_MAIN=1 -O2 -fsanitize=fuzzer harness.cc main_asan.cc -o fuzz
 ```
 
 When running the fuzzer, the above heap-buffer overflow will be discovered by the fuzzer. The settable memory limit via the `-m` flag is not supported with ASan because ASan allocates a huge amount of virtual memory: 20TB, which exceeds any reasonable memory limit.
@@ -933,7 +952,7 @@ add_executable(buggy_program main.cc)
 
 add_executable(fuzz main.cc harness.cc)
 target_compile_definitions(fuzz PRIVATE NO_MAIN=1)
-target_compile_options(fuzz PRIVATE -g -O2 -fsanitize=fuzzer)
+target_compile_options(fuzz PRIVATE -O2 -fsanitize=fuzzer-no-link)
 target_link_libraries(fuzz -fsanitize=fuzzer)
 ```
 {{< /customFigure >}}
@@ -968,6 +987,6 @@ More examples of different build systems can be found [here](https://aflplus.plu
 
 ## Additional resources {#additional-resources}
 
-* [PAFL++: Combining Incremental Steps of Fuzzing Research.](https://www.usenix.org/system/files/woot20-paper-fioraldi.pdf)** Paper about AFL++.
+* **[AFL++: Combining Incremental Steps of Fuzzing Research.](https://www.usenix.org/system/files/woot20-paper-fioraldi.pdf)** Paper about AFL++.
 * **[Fuzzing in Depth.](https://aflplus.plus/docs/fuzzing_in_depth/)** Advanced documentation by the AFL++ team.
 * **[AFL++ Under The Hood.](https://blog.ritsec.club/posts/afl-under-hood/)** Blog post about AFL++ internals.
