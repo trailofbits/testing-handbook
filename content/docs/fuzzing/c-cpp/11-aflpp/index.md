@@ -24,7 +24,7 @@ The AFL++ fuzzer has many dependencies, such as LLVM, Python, and Rust. We recom
     <td><strong>Method</strong></td>
     <td><strong>When should I use it?</strong></td>
     <td>
-      <strong>Supported compiler versions (<code>afl-clang/afl-gcc --version</code>)</strong>
+      <strong>Supported compiler versions (<code>afl-clang-fast/afl-gcc --version</code>)</strong>
     </td>
   </tr>
   <tr>
@@ -100,14 +100,14 @@ The AFL++ fuzzer has many dependencies, such as LLVM, Python, and Rust. We recom
 If you run a recent Debian or Ubuntu version, the packaged version in the official Ubuntu repositories is an easy choice. At the time of writing, Ubuntu 23.10 packages AFL++ 4.08c and Debian 12 version 4.04c. Note that this will limit you to the Clang version supported by the packaged AFL++ version.
 
 
-Note: Check which Clang version AFL++ uses on your distribution before installing `lld`. Run `afl-cc --version` to verify, then install the matching `lld` version (e.g., `lld-16` for Clang 16).
+Note: Check which Clang version AFL++ uses on your distribution before installing `lld`. Run `afl-cc --version` to verify, then install the matching `lld` version (e.g., `lld-17`).
 
 ```shell
-apt install afl++ lld-14
+apt install afl++ lld-17
 ```
 
 
-Installing the `lld` package is required for the optional LTO mode that we will describe later. Depending on the Clang version AFL++ uses on your Linux distributions, you may want to install a specific version of `lld` like `lld-16`. Verify the output of `afl-cc --version`.
+Installing the `lld` package is required for the optional LTO mode that we will describe later. Depending on the Clang version AFL++ uses on your Linux distributions, you may want to install a specific version of `lld` like `lld-17`. Verify the output of `afl-cc --version`.
 
 
 ### Docker (from Docker Hub) {#docker-from-docker-hub}
@@ -252,7 +252,7 @@ If your project depends on the GCC compiler, then consider using the [gcc_plugin
 PRO TIP: The GCC version of your system and the GCC version that was used to compile the AFL++ GCC plugin must match. If they do not match (e.g., if you upgrade GCC), then you will get an error when using the GCC support.
 {{< /hint >}}
 
-We set the optimization level to `-O2`, which is a reasonable optimization level for fuzzing because it is likely the level used during production.
+We set the optimization level to `-O2`, which is a reasonable optimization level for fuzzing because it is likely the level used during production. Note that `-g` is not necessary, it is added by default by the AFL++ compilers.
 
 Many things are happening behind the scenes when using AFL++: 
 
