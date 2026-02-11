@@ -169,7 +169,7 @@ build command to the CodeQL using the `--command` argument.
 ### Excluding individual files
 
 For interpreted languages use `--codescanning-config=codeql-config.yml` with
-`` in the `codeql-config.yml` file:
+`paths-ignore` in the `codeql-config.yml` file:
 
 ```yaml
 paths-ignore:
@@ -183,7 +183,8 @@ paths-ignore:
   - "**/tests/**"
 ``` 
 
-For compiled languages build the project once, delete any object files
+For compiled languages, to avoid including third-party libraries in the database,
+the following trick is needed: build the project once, delete any object files
 directly related to the project (the ones you want to analyze),
 and then build the project database using the CodeQL CLI.
 
@@ -251,7 +252,7 @@ Apart from SARIF, CodeQL also supports CSV output.
 
 Some tips:
 
-* Use `--threat-model` flag to control analysis scope
+* [Use `--threat-model` flag](https://docs.github.com/en/code-security/reference/code-scanning/codeql/codeql-cli-manual/database-analyze#--threat-modelname) to control analysis scope
 * Use `--threads=0` to speed up analysis
 
 ## Installing new query packs
