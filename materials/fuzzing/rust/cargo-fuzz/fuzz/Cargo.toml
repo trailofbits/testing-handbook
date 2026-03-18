@@ -67,3 +67,9 @@ name = "fuzz_beyond_byte_arrays"
 path = "fuzz_targets/fuzz_beyond_byte_arrays.rs"
 test = false
 doc = false
+
+[[bin]]
+name = "fuzz_slow_with_init"
+path = "fuzz_targets/fuzz_slow_with_init.rs"
+test = false
+doc = false
