@@ -40,4 +40,22 @@ impl Name {
     }
 }
 
+// --
 
+use std::thread;
+use std::time::Duration;
+
+#[derive(Debug)]
+pub struct CheckBufSlowInit;
+
+impl CheckBufSlowInit {
+    pub fn new() -> Self {
+        // Simulate slow initialization
+        thread::sleep(Duration::from_secs(3));
+        CheckBufSlowInit
+    }
+
+    pub fn check(&self, data: &[u8]) {
+        check_buf(data);
+    }
+}

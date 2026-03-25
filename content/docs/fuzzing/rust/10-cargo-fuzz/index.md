@@ -118,6 +118,7 @@ fuzz_target!(|data: &[u8]| {
 
 The setup for cargo-fuzz is now done. We created a harness that can be executed by cargo-fuzz. The actual name of the fuzz target is defined in the `fuzz/Cargo.toml` file. Every fuzz test is a separate cargo binary.
 
+The `fuzz_target!` macro also supports running one-time setup code before fuzzing begins. See [Initialization code]({{% relref "techniques/03-writing-harnesses#initialization-code" %}}) for details.
 
 ## Usage {#usage}
 

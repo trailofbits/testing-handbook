@@ -109,3 +109,31 @@ The arbitrary crate essentially offers a way to deserialize byte arrays to Rust 
 Therefore, the arbitrary crate is useful only when starting from an empty corpus. This is not an issue when using cargo-fuzz because it uses libFuzzer internally, and libFuzzer supports starting from an empty corpus. However, other fuzzers like AFL++ require a seed input.
 
 
+## Initialization code {#initialization-code}
+
+The `fuzz_target!` macro supports an `init` parameter that runs a block of code once before fuzzing begins. This corresponds to [`LLVMFuzzerInitialize`](https://llvm.org/docs/LibFuzzer.html#startup-initialization) in libFuzzer.
+
+Use `init` when your harness depends on one-time setup that should not repeat for every input, i.e., any expensive initialization of read-only global state that the harness requires. As suggested in [practical harness rules]({{% relref "/docs/fuzzing/techniques/01-writing-harnesses#practical-harness-rules" %}}), keep in mind that reproducibility may be compromised if the SUT mutates the global state.
+
+{{< customFigure "Fuzz test with initialization code" >}}
+```Rust
+#![no_main]
+
+use libfuzzer_sys::fuzz_target;
+use std::sync::OnceLock;
+
+static CHECK_BUF: OnceLock<project::CheckBufSlowInit> = OnceLock::new();
+
+fuzz_target!(
+    init: {
+        CHECK_BUF.set(project::CheckBufSlowInit::new()).unwrap();
+    },
+    |data: &[u8]| {
+        let check_buf = CHECK_BUF.get().unwrap();
+        check_buf.check(data);
+    }
+);
+```
+{{< /customFigure >}}
+
+For full syntax details, see the [`fuzz_target!` macro documentation](https://docs.rs/libfuzzer-sys/latest/libfuzzer_sys/macro.fuzz_target.html#init-code).
