@@ -67,6 +67,12 @@ We currently cover the following tools and techniques:
 - [Fuzzing]({{< relref "fuzzing" >}})
 - [Burp Suite Professional]({{< relref "/docs/web/burp/" >}})
 
+<--->
+
+### Languages
+
+- [C/C++ Security Checklist]({{< relref "/docs/languages/c-cpp" >}})
+
 {{< /columns >}}
 
 We are working on expanding the tools we cover here. We are also planning to
@@ -74,7 +80,6 @@ cover several other security-related topics. Stay tuned for updates from our tea
 
 ### Upcoming (!)
 
-- C/C++ checklist
 - kAFL
 - Rust
 - Formal verification and Tamarin
