@@ -87,7 +87,7 @@ This list covers common checks for and footguns of C/C++ standard libraries when
     - If not, can functionality be locked out by a malicious process connecting first?
   - Is the data that is passed through the pipe properly validated and sanitized?
   - The `PIPE_REJECT_REMOTE_CLIENTS` flag should be applied to the `dwPipeMode` argument during pipe creation in most cases, since networked named pipes are pretty unusual.
-  - Named pipes can be enumerated with [PipeList](http://learn.microsoft.com/en-us/sysinternals/downloads/pipelist).
+  - Named pipes can be enumerated with [PipeList](https://learn.microsoft.com/en-us/sysinternals/downloads/pipelist).
 - [ ] Check for failure to initialize memory before use.
   - [`GlobalAlloc`](https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-globalalloc) does not zero (unless the `GMEM_ZEROINIT` flag is passed).
   - [`LocalAlloc`](https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-localalloc) does not zero (unless the `LMEM_ZEROINIT` flag is passed).

@@ -113,7 +113,7 @@ This list includes basic checks for Windows kernel drivers and modules.
 - [ ] Check that [`RtlSecureZeroMemory`](https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-rtlsecurezeromemory) is used to zero memory, not `RtlZeroMemory`.
 - [ ] Look for [`IoGetRemainingStackSize` and `IoGetStackLimits`](https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/using-the-kernel-stack) calls.
   - These are usually code smells (e.g., messing with kernel stacks or dynamic allocation in the stack) that can lead to DoS or other bugs if done wrong.
-- [ ] Look for [`IoWithinStackLimits`](http://IoWithinStackLimits) calls.
+- [ ] Look for [`IoWithinStackLimits`](https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-iowithinstacklimits) calls.
   - These can be indicators that the code is doing something unusual with stack buffers, with the potential for errors that lead to bad accesses.
 - [ ] Look for TOCTOU issues in filesystem and registry API usage.
   - Look for uses of `ZwOpenDirectoryObject` or `ZwQueryDirectoryFile` to enumerate directory contents, followed by `ZwOpenFile` or `ZwCreateFile` to open the file without checking the call's success to ensure that the file still exists.
