@@ -73,7 +73,7 @@ Below is a list of common vulnerability types for C/C++ programs. This list does
     - When the execution environment may impact the logic of the code in unexpected ways
   - [ ] Problems related to encoding and normalization (UTF-8, UTF-16, Unicode, etc.)
   - [ ] Byte size not equal to character size
-    - Example: When [multibyte or wild](https://learn.microsoft.com/en-us/cpp/c-language/multibyte-and-wide-characters?view=msvc-170) characters are used
+    - Example: When [multibyte or wide](https://learn.microsoft.com/en-us/cpp/c-language/multibyte-and-wide-characters?view=msvc-170) characters are used
 - [ ] Use of uninitialized data
 - [ ] Null pointer dereferences
 - [ ] Unhandled errors
