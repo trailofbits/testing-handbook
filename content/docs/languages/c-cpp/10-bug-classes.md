@@ -1,0 +1,161 @@
+---
+title: "Bug Classes"
+slug: lang-c-cpp-bug-classes
+weight: 10
+---
+
+## C/C++ Bug classes
+
+Below is a list of common vulnerability types for C/C++ programs. This list does not include comprehensive details; rather, it is intended to be broad and high level. Use it as a starting point during security reviews of C/C++ programs.
+
+{{< checklist >}}
+- [ ] Buffer overflow and underflow, spatial safety
+  - [ ] Off-by-one mistakes
+  - [ ] Invalid computation of object sizes
+  - [ ] Misunderstanding of data-moving functions' semantics
+  - [ ] Data comparison using out-of-bounds lengths
+  - [ ] [Copying of raw memory instead of the object](https://ctftime.org/writeup/16283)
+  - [ ] [Out-of-bounds iterators](https://github.com/MicrosoftDocs/cpp-docs/blob/main/docs/standard-library/checked-iterators.md)
+
+- [ ] Use after free, temporal safety
+  - [ ] Use after free
+    - Example: Two `shared_ptr`s point to the same object, and one of them decrements its reference count (refcount) to 0 and frees the object. See [this blog post](https://blog.scrt.ch/2017/01/27/exploiting-a-misused-c-shared-pointer-on-windows-10/) for reference.
+  - [ ] Use after scope, dangling pointers
+    - Example: Heap structures owning pointers to stack variables
+  - [ ] Use after return
+    - Example: With `return string("").c_str()`, the string's internal buffer is destroyed on return.
+  - [ ] Use after close
+    - Example: A file's descriptor is saved in process memory, the file is closed, and then another file is assigned to the same descriptor. See [this CTF challenge](https://github.com/j00ru/ctf-tasks/tree/master/CONFidence%20CTF%202017/Main%20event/Filesystem).
+  - [ ] Use after move
+  - [ ] Double free
+  - [ ] Misuse of smart pointers. See [this example CTF writeup](https://blog.scrt.ch/2017/01/27/exploiting-a-misused-c-shared-pointer-on-windows-10/).
+  - [ ] Lambda capture issues
+  - [ ] Arbitrary pointer free
+    - Example: An attacker can call `free` on a pointer to memory that was not dynamically allocated or on data that is not a pointer.
+  - [ ] Incorrect refcounts
+    - Example: A refcount is incremented when it should not be, or an object is not freed when its refcount drops to zero.
+  - [ ] Partial free
+    - Example: A struct's field is freed but the struct is not, or vice versa.
+  - [ ] Misuse of memory-allocating library functions
+    - Example: OpenSSL's `BN_CTX_start` is called without a corresponding call to `BN_CTX_end`. See [this blog post](https://github.blog/2021-02-25-the-little-bug-that-couldnt-securing-openssl/) for reference.
+
+- [ ] Integer overflow, numeric errors
+  - [ ] Arithmetic overflows
+    - Results of computations do not fit in intermediate or final types.
+  - [ ] Widthness overflows
+    - Data is assigned to a too-small type.
+  - [ ] Signedness bugs
+    - Data is transformed in unexpected ways when its type's sign changes.
+  - [ ] Implicit conversions
+    - The type of a variable changes unexpectedly.
+  - [ ] Negative assignment overflow
+    - `abs(-INT_MIN) == -INT_MIN`
+    - `int a = -b` (if `b = INT_MIN`, then `a = b`)
+  - [ ] Integer cut
+    - Example: The code reads `rax`, compares only `eax`, and then uses `rax`.
+  - [ ] Rounding errors
+  - [ ] Float imprecision
+    - Example: Direct comparison of floats without an epsilon
+
+- [ ] Type confusion, type safety issues
+  - [ ] Type confusion when casting
+  - [ ] Type confusion when deserializing
+  - [ ] Type confusion when dereferencing pointers (pointer to pointer instead of pointer)
+  - [ ] Void pointers
+  - [ ] Type safety issues related to unions
+  - [ ] [Object slicing](https://pvs-studio.com/en/docs/warnings/v1054/)
+
+- [ ] Variadic function misuse
+  - [ ] Format string bugs
+    - User input is used as the format string.
+  - [ ] Type mismatch bugs
+    - A format string specifier does not match the type of the provided argument.
+
+- [ ] String issues
+  - [ ] Lack of null termination
+  - [ ] Issues related to [locale-dependent](https://cppreference.com/w/cpp/locale.html) string operations
+    - When the execution environment may impact the logic of the code in unexpected ways
+  - [ ] Problems related to encoding and normalization (UTF-8, UTF-16, Unicode, etc.)
+  - [ ] Byte size not equal to character size
+    - Example: When [multibyte or wild](https://learn.microsoft.com/en-us/cpp/c-language/multibyte-and-wide-characters?view=msvc-170) characters are used
+
+- [ ] Use of uninitialized data
+
+- [ ] Null pointer dereferences
+
+- [ ] Unhandled errors
+  - [ ] Return values not checked
+  - [ ] Return values incorrectly compared
+    - Example: When a function returns 1 on success and 0 or negative on failure, but the code includes an `if (retval != 0)` check
+  - [ ] Exception handling issues
+
+- [ ] Memory leaks
+  - [ ] Uninitialized memory exposure
+    - Example: Via padding in structures
+  - [ ] Exposure of pointers
+
+- [ ] Initialization order bugs
+  - Example: [Static initialization order fiasco](https://en.cppreference.com/w/cpp/language/siof.html)
+
+- [ ] Race conditions
+  - [ ] Time-of-check to time-of-use (TOCTOU)
+  - [ ] [double fetch](https://j00ru.vexillium.org/slides/2013/syscan.pdf)
+  - [ ] Over- or under-locking
+  - [ ] (Non-)thread-safe and signal-safe APIs
+
+- [ ] Filesystem-related issues
+  - [ ] Issues with softlinks/symlinks
+  - [ ] Disk synchronization issues (fsyncing/flushing of data)
+  - [ ] Mishandling of unquoted paths (which may contain whitespace characters)
+  - [ ] Missing path separators (e.g., `C:\app\files` vs `C:\app\files\` versus `C:\app\files_sensitive`)
+  - [ ] [Case sensitivity and normalization issues](https://eclecticlight.co/2021/05/08/explainer-unicode-normalization-and-apfs/)
+  - [ ] Predictable temporary files
+
+- [ ] Iterator invalidation (see Trail of Bits' [blog post](https://blog.trailofbits.com/2020/10/09/detecting-iterator-invalidation-with-codeql/) for reference)
+  - [ ] Accidental deletion of a list item while iterating over it
+
+- [ ] Usage of error-prone functions
+  - See Intel's [SDL List of Banned Functions](https://github.com/intel/safestringlib/wiki/SDL-List-of-Banned-Functions)
+
+- [ ] Denial of service
+  - [ ] High resource usage
+  - [ ] Leaks of resources, file descriptors, or memory
+  - [ ] Passing containers (e.g., `vector`) via value instead of via reference
+  - [ ] Dangling references (e.g., after `move` or in `lambda` captures)
+
+- [ ] Undefined behavior
+  - [ ] Invalid alignment
+  - [ ] Strict aliasing violation
+  - [ ] Signed integer overflow
+  - [ ] Shift by negative integer
+  - [ ] Shift by \>= the type's width
+  - [ ] And so many others…
+
+- [ ] Compiler-introduced bugs
+  - [ ] Removal of security checks due to assumptions around undefined behavior
+    - [Removal of null pointer checks](https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#index-fdelete-null-pointer-checks) and [array bound checks](https://docs.google.com/presentation/d/1pAosPlKUw4uI5lfg7FVheTZAtI5mUy8iDeE4znprV34/edit?slide=id.g355abfaddab_0_5#slide=id.g355abfaddab_0_5) due to null pointer dereference being UB
+    - Removal of integer overflow checks because signed integer overflow is UB
+  - [ ] Removal of data zeroization function calls
+  - [ ] Issues resulting from optimization of constant-time constructions
+  - [ ] Removal of debug assertions in production builds
+
+- [ ] Operator precedence issues
+
+- [ ] Problems with time
+  - [ ] Clocks may be non-monotonic.
+  - [ ] Time may change backward (time zones, [daylight saving time](https://en.wikipedia.org/wiki/Daylight_saving_time), [leap seconds](https://cr.yp.to/proto/utctai.html)).
+
+- [ ] Access control issues
+  - [ ] Invalid dropping of privileges (see the USENIX Association's [paper](https://www.usenix.org/legacy/events/sec02/full_papers/chen/chen.pdf) for information on `setuid` bugs)
+  - [ ] Untrusted data used in privileged context (e.g., usermode data used inside the kernel with these sensitive x86 instructions: [`out`](https://www.felixcloutier.com/x86/out), [`wrmsr`](https://www.felixcloutier.com/x86/wrmsr), [`rdmsr`](https://www.felixcloutier.com/x86/rdmsr), [`xsetbv`](https://www.felixcloutier.com/x86/xsetbv), and `mov` to the control register)
+
+- [ ] Invalid regular expressions (regexes)
+  - [ ] ReDoS attacks possible
+  - [ ] Multi-line (newline) bypasses
+
+- [ ] Lack of exploit mitigations
+  - [ ] Compile-time mitigations
+  - [ ] Runtime mitigations
+  - [ ] [libc++ hardenings](https://libcxx.llvm.org/Hardening.html)
+  - [ ] [Typos in exploit mitigation configurations](https://blog.trailofbits.com/2023/04/20/typos-that-omit-security-features-and-how-to-test-for-them/)
+{{< /checklist >}}
