@@ -1,12 +1,15 @@
 ---
-title: "Windows Kernel"
+title: "Windows kernel"
 slug: lang-c-cpp-windows-kernelmode
 weight: 18
 ---
 
-## Windows kernel
+# Windows kernel
+
+This list includes basic checks for Windows kernel drivers and modules.
 
 {{< checklist >}}
+
 - [ ] Run CodeQL on the application's driver. Microsoft has published [CodeQL support and security query packs for Windows drivers](https://learn.microsoft.com/en-us/windows-hardware/drivers/devtest/static-tools-and-codeql?tabs=whcp%2Clatest).
   - If you can build the driver from source, CodeQL is a high-value SAST approach.
   - If you *cannot* build the driver from source, you may still be able to run CodeQL with `--build-mode=none` on the CodeQL CLI during database creation, but coverage and accuracy will be significantly diminished.
@@ -152,4 +155,5 @@ weight: 18
   - Read [our blog post on ETW internals](https://blog.trailofbits.com/2023/11/22/etw-internals-for-security-research-and-forensics/) for information on finding provider GUIDs and event-consuming applications.
   - [Geoff Chappell's ETW Security page](https://www.geoffchappell.com/studies/windows/km/ntoskrnl/api/etw/secure/index.htm?tx=32,35) contains further useful information on the securable objects used in ETW.
 - [ ] If the driver is for a PCIe device (including Thunderbolt, USB4, M.2, U.2, and U.3), verify that the driver [opts into DMA remapping](https://learn.microsoft.com/en-us/windows-hardware/drivers/pci/enabling-dma-remapping-for-device-drivers).
+
 {{< /checklist >}}

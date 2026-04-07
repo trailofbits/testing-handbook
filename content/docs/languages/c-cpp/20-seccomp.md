@@ -1,5 +1,5 @@
 ---
-title: "Seccomp/BFP"
+title: "Seccomp/BPF"
 slug: lang-c-cpp-seccomp
 weight: 20
 ---
@@ -33,11 +33,13 @@ weight: 20
   - [ ] A similar [syscall user dispatch mechanism](https://www.kernel.org/doc/html/v6.1/admin-guide/syscall-user-dispatch.html) is also inherently insecure.
   - [ ] The `SECCOMP_RET_USER_NOTIF` actions have precedence over the `SECCOMP_RET_TRACE` actions: after the seccomp sandbox is enabled, addition of `SECCOMP_RET_USER_NOTIF` must not be allowed. The most secure solution is to forbid `seccomp` and `prctl(PR_SET_SECCOMP)` altogether.
   - [ ] The checklist on BPF filter handlers and `ptrace` below is consulted.
+{{< /checklist >}}
 
-### BPF filter handlers and ptrace
+## BPF filter handlers and ptrace
 
 If the seccomp filter uses the `SECCOMP_RET_TRACE` action, then all BPF filter handlers must be reviewed. These handlers are usually implemented in a process (the "tracer") that is tracing the sandboxed process (the "tracee") with the `ptrace` mechanism. Ensure that the following is done.
 
+{{< checklist >}}
 - [ ] All `ptrace` tracing options (e.g., `PTRACE_O_TRACEFORK`, `PTRACE_O_TRACECLONE`, etc.) are used on the tracee.
   - Otherwise, the tracee may escape the sandbox by creating child processes and calling `execve`.
 - [ ] The `PTRACE_O_EXITKILL` is set on all sandboxed processes.

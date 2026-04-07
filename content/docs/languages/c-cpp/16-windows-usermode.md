@@ -1,13 +1,15 @@
 ---
-title: "Windows Usermode"
+title: "Windows usermode"
 slug: lang-c-cpp-windows-usermode
 weight: 16
 ---
 
+# Windows usermode
 
-## Windows usermode
+This list covers common checks for and footguns of C/C++ standard libraries when used in Windows environment.
 
 {{< checklist >}}
+
 - [ ] Run [binskim](https://github.com/microsoft/binskim) to check mitigation opt-in and other issues in the application binaries.
   - DEP (NX), ASLR (and HiASLR on x86\_64), Control Flow Guard (CFG), and SafeSEH (on x86\_32 only) should always be enabled, and executables should be signed.
   - Shadow stack (CET) and Spectre mitigations may be enabled for additional security.
@@ -145,4 +147,5 @@ weight: 16
     - Check for [`BCryptOpenAlgorithmProvider`](https://learn.microsoft.com/en-us/windows/win32/api/bcrypt/nf-bcrypt-bcryptopenalgorithmprovider) calls; [CNG algorithm identifiers](https://learn.microsoft.com/en-us/windows/win32/seccng/cng-algorithm-identifiers) are passed as strings.
     - For most other CNG APIs, check for [CNG algorithm pseudo-handles](https://learn.microsoft.com/en-us/windows/win32/seccng/cng-algorithm-pseudo-handles), which are used to specify the algorithm.
 - [ ] Review the codebase for vulnerabilities to a heap leak with `fwrite` of size 1\. See [this X post](https://x.com/gamozolabs/status/1207088312273362945) for more details.
+
 {{< /checklist >}}
