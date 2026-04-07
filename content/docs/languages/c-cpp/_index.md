@@ -1,6 +1,6 @@
 ---
 title: "C/C++ Security Checklist"
-slug: c-cpp
+slug: lang-c-cpp
 weight: 1
 bookCollapseSection: true
 ---
