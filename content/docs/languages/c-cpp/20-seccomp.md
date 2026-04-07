@@ -4,11 +4,12 @@ slug: lang-c-cpp-seccomp
 weight: 20
 ---
 
-## Seccomp
+# Seccomp
 
 [Sandboxing is hard](https://www.youtube.com/watch?v=gJpaxisyQfY). But if it is needed and seccomp is used, ensure the following is done:
 
 {{< checklist >}}
+
 - [ ] The BPF filter [checks the architecture](https://man7.org/linux/man-pages/man2/seccomp.2.html#:~:text=Because%20numbering%20of%20system%20calls%20varies%20between%20architectures%20and) (e.g., `x86-64` versus `i386`).
 - [ ] The BPF filter [checks the ABI/calling convention](https://man7.org/linux/man-pages/man2/seccomp.2.html#:~:text=The%20arch%20field%20is%20not%20unique%20for%20all%20calling%20conventions.) (e.g., `x86-64` versus `x32` ABIs for `x86-64` architecture).
   - This means checking for syscalls with numbers greater than `0x40000000` (the `__X32_SYSCALL_BIT` flag).
@@ -40,6 +41,7 @@ weight: 20
 If the seccomp filter uses the `SECCOMP_RET_TRACE` action, then all BPF filter handlers must be reviewed. These handlers are usually implemented in a process (the "tracer") that is tracing the sandboxed process (the "tracee") with the `ptrace` mechanism. Ensure that the following is done.
 
 {{< checklist >}}
+
 - [ ] All `ptrace` tracing options (e.g., `PTRACE_O_TRACEFORK`, `PTRACE_O_TRACECLONE`, etc.) are used on the tracee.
   - Otherwise, the tracee may escape the sandbox by creating child processes and calling `execve`.
 - [ ] The `PTRACE_O_EXITKILL` is set on all sandboxed processes.
@@ -97,4 +99,5 @@ If the seccomp filter uses the `SECCOMP_RET_TRACE` action, then all BPF filter h
   - `uselib`
   - [Filesystem-manipulating syscalls](https://github.com/flatpak/flatpak/security/advisories/GHSA-67h7-w3jq-vh4q) (`chroot`, `pivot_root`, `mount`, `move_mount`, `open_tree`, `fsopen`, `fsmount`)
   - [VM/NUMA ops](https://github.com/flatpak/flatpak/blob/9766ee05b1425db397d2cf23afd24c7f6146a69f/common/flatpak-run.c#L2926-L2932) (`move_pages`, `mbind`, `set_mempolicy`, `migrate_pages`)
+
 {{< /checklist >}}
