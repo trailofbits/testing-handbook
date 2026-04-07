@@ -202,7 +202,7 @@ a:focus, a:focus-visible {
 }
 
 .checklist > ul:has(li input[type="checkbox"]) {
-  padding-inline-start: 0;
+  padding-inline-start: 25px;
 }
 
 input[type="checkbox"] {
