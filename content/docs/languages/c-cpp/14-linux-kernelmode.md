@@ -26,7 +26,7 @@ This list includes basic checks for Linux kernel drivers and modules.
 - [ ] Check for instances in which the kernel fetches or copies memory from userspace twice instead of once, which results in TOCTOU (or double fetch) issues.
   - This often happens when pre- or post-syscall hooks are involved.
 - [ ] Review the codebase for pointer leaks.
-  - For example, use of the `%p` format string may leak kernel addresses. The mitigation for this particular issue is to use [`kptr_restrict`](https://www.kernel.org/doc/html/latest/admin-guide/sysctl/kernel.html#kptr-restrict). Developers should use the `%pK` or `%p`x format strings.
+  - For example, use of the `%p` format string may leak kernel addresses. The mitigation for this particular issue is to use [`kptr_restrict`](https://www.kernel.org/doc/html/latest/admin-guide/sysctl/kernel.html#kptr-restrict). Developers should use the `%pK` or `%px` format strings.
 - [ ] Check that file descriptors passed to userspace (with [`fd_install`](https://elixir.bootlin.com/linux/v6.16/source/fs/file.c#L637), for example) are [not used by the kernel anymore](https://github.com/torvalds/linux/commit/f1ce3986baa62cffc3c5be156994de87524bab99).
   - Userspace can call `close` or `dup2` on the descriptor to make it point to a different file, and the kernel would then use a different file structure than the expected one, which may lead to issues like use after free.
 - [ ] Check for uses of [`strlen_user`](https://elixir.bootlin.com/linux/v3.19.8/source/lib/strnlen_user.c#L126) and `strnlen_user` (which are used only in old kernels). These functions return the length *including* the nullbyte, which is different behavior from the userspace `strlen` function and may be confusing.
