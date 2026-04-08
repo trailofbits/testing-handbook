@@ -1,0 +1,159 @@
+---
+title: "Windows kernel"
+slug: lang-c-cpp-windows-kernelmode
+weight: 18
+---
+
+# Windows kernel
+
+This list includes basic checks for Windows kernel drivers and modules.
+
+{{< checklist >}}
+
+- [ ] Run CodeQL on the application's driver. Microsoft has published [CodeQL support and security query packs for Windows drivers](https://learn.microsoft.com/en-us/windows-hardware/drivers/devtest/static-tools-and-codeql?tabs=whcp%2Clatest).
+  - If you can build the driver from source, CodeQL is a high-value SAST approach.
+  - If you *cannot* build the driver from source, you may still be able to run CodeQL with `--build-mode=none` on the CodeQL CLI during database creation, but coverage and accuracy will be significantly diminished.
+- [ ] Run [Driver Verifier](https://learn.microsoft.com/en-us/windows-hardware/drivers/devtest/driver-verifier) against the driver binary to test it for issues.
+  - Ideally, do this in a VM with WinDbg attached from outside (e.g., [debugging via a virtual COM port](https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/attaching-to-a-virtual-machine--kernel-mode-)) so that you can capture info about where crashes occur.
+- [ ] Run [BinSkim](https://github.com/microsoft/binskim) to check mitigation opt-in and other issues in the driver binary.
+  - DEP (NX) support should be enabled.
+  - Forced integrity checking (`IMAGE_DLLCHARACTERISTICS_FORCE_INTEGRITY`) should be enabled to prevent unsigned binaries being loaded by the driver.
+  - Note that [old drivers built pre-VS2015 will have the `INIT` section marked as RWX and discardable](https://blog.poly.nomial.co.uk/2015-09-03-wx-policy-violation-affecting-all-windows-drivers-compiled-in-visual-studio-2013-and-previous.html). This is generally harmless as the `INIT` section is unmapped after `DriverEntry` returns, but it is a good indication that the driver was built with a very old toolchain (this was fixed in VS2015).
+- [ ] Check uses of [`InitializeObjectAttributes`](https://learn.microsoft.com/en-us/windows/win32/api/ntdef/nf-ntdef-initializeobjectattributes), the primary macro used to set up object attributes and security descriptors. This is widely relevant.
+  - Ensure that `OBJ_KERNEL_HANDLE` is passed if the created object should only be accessed within the kernel.
+  - If a security descriptor is passed (last argument), check that it is appropriate.
+  - If a security descriptor is not passed (last argument is `NULL`), this will create the object with the default security descriptor.
+    - On Windows 8.1 and prior, many system object namespaces (e.g., symlinks) have no inheritable ACEs by default, so a `NULL` security descriptor means the object is accessible by everyone unless the local security policy "[System objects: Strengthen default permissions of internal system objects (for example, Symbolic Links)](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/system-objects-strengthen-default-permissions-of-internal-system-objects)" is manually enabled on the system.
+    - On Windows 10 and later, the above local security policy is enabled by default, adding inheritable ACEs for read-only access by normal users and read-write-modify access by administrators. Therefore, a `NULL` descriptor will cause the object to be read-accessible by regular users and fully accessible by admins.
+- [ ] Check that the `OBJ_KERNEL_HANDLE` flag is passed as part of the object attributes where a handle is created that should be accessible only within the kernel (e.g., within a driver or shared between drivers, not accessed from a usermode process). The following APIs are common examples that create handles where this issue is relevant:
+  - Files: `IoCreateFile`, `ZwCreateFile`, `ZwOpenFile`
+  - Registries: `IoOpenDeviceInterfaceRegistryKey`, `IoOpenDeviceRegistryKey`, `ZwCreateKey`, `ZwOpenKey`
+  - Threads: `PsCreateSystemThread`
+  - Events: `IoCreateSynchronizationEvent`, `IoCreateNotificationEvent`
+  - Symlinks: `ZwOpenSymbolicLinkObject`
+  - Directory objects: `ZwCreateDirectoryObject`
+  - Section objects: `ZwOpenSection`
+- [ ] Look for any general issues around [`IoCreateDevice`](https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-iocreatedevice) and [`IoCreateDeviceSecure`](https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdmsec/nf-wdmsec-wdmlibiocreatedevicesecure).
+  - The device name should be null; usually the driver should be unnamed and the symlink (if one is created) should be the item that is named.
+  - The `DeviceCharacteristics` argument should include the `FILE_DEVICE_SECURE_OPEN` flag.
+  - `IoCreateDeviceSecure` should be used instead of `IoCreateDevice`.
+  - If `IoCreateDeviceSecure` is used, check that the `DefaultSDDLString` SDDL (security descriptor) string is appropriate.
+    - Alternatively, the device model or device setup class should have its [SDDL set in the registry via the INF file or setup APIs](https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/setting-device-object-properties-in-the-registry).
+  - If `IoCreateDeviceSecure` is used, check that `DeviceClassGuid` is generated or otherwise unique, not an existing or shared GUID.
+- [ ] Look for any general issues with [`IoCreateSymbolicLink`](https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-iocreatesymboliclink).
+  - The `SymbolicLinkName` argument tells you the name of the symlink. It will appear in the `\GLOBAL??` object namespace in [WinObj](https://learn.microsoft.com/en-us/sysinternals/downloads/winobj).
+  - A named symlink to a device should not be created unless necessary (e.g., for interoperability with a usermode application).
+  - Check that the DACL is appropriate.
+- [ ] Find the `DriverEntry` function, check which dispatch routines are set in the `MajorFunction` property of the driver object, and evaluate their security impact. Almost all dispatch routines create some external attack surface, so they are all important to evaluate, but here are some other common dispatch routines of interest:
+  - `IRP_MJ_READ` and `IRP_MJ_WRITE` handle `ReadFile` and `WriteFile` calls, respectively, on the driver object.
+  - `IRP_MJ_DEVICE_CONTROL` handles `DeviceIoControl` calls on the driver object.
+  - [WMI requests](https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/handling-wmi-requests) are dispatched to `IRP_MJ_SYSTEM_CONTROL`.
+- [ ] If there is an `IRP_MJ_DEVICE_CONTROL` dispatch routine, check each IOCTL's functionality for security impact.
+- [ ] Check that the `Access` (`RequiredAccess`) field is set appropriately for each IOCTL (e.g., `FILE_WRITE_DATA` to restrict access to the IOCTL to callers that have write access to the driver).
+  - [`IoValidateDeviceIoControlAccess`](https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-iovalidatedeviceiocontrolaccess) can be used in the IOCTL handler to implement stricter checks.
+- [ ] Check for buffer overruns in IRP dispatch routines.
+  - Accesses to `Irp->AssociatedIrp.SystemBuffer` must respect the lengths provided in `Parameters.DeviceIoControl.InputBufferLength` and `OutputBufferLength`.
+- [ ] Where output buffers are used, ensure that the `SystemBuffer` is zeroed.
+  - Not zeroing the `SystemBuffer` leads to kernel memory disclosure and undefined behavior.
+  - See MSDN's [Failure to Initialize Output Buffers](https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/failure-to-initialize-output-buffers) for more information.
+- [ ] Review calls to [`MmGetSystemAddressForMdlSafe`](https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-mmgetsystemaddressformdlsafe) to ensure they check for `NULL`.
+- [ ] Where a path to an object (e.g. file, registry key, section, mutex, semaphore, event, etc.) is passed from an untrusted context (e.g. usermode) to the kernel, check whether the caller's permissions and privileges are checked.
+  - If not, look for potential [confused deputy attacks](https://en.wikipedia.org/wiki/Confused_deputy_problem).
+- [ ] If a function can be reached from both kernelmode and usermode callers, is [ExGetPreviousMode](https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-exgetpreviousmode) used to check whether the call came from usermode or kernelmode?
+  - More details are available in the [PreviousMode](https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/previousmode) documentation.
+- [ ] Where event, mutex, semaphore, and timer synchronization objects are created or opened, check that they are done so securely.
+  - Check the DACL with WinObj when the object is named (this usually appears in `BaseNamedObjects`); if a null security descriptor is passed, it will inherit the ACEs of the object namespace, if any (see the `InitializeObjectAttributes` information above).
+  - These objects should not be created in the context of a usermode thread (e.g., in an IOCTL dispatch) unless they are intended to be shared with that process.
+  - If a named synchronization object is created, check that `OBJ_PERMANENT` is passed in the object attributes to prevent it from being freed by usermode. [`ZwMakeTemporaryObject`](https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-zwmaketemporaryobject) can be called from kernelmode to free it later.
+  - If a handle to a non-permanent synchronization object is passed to usermode (e.g., in an IOCTL response), then [`ObReferenceObjectByHandle`](https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-obreferenceobjectbyhandle) must be used to increment the refcount on the object to prevent the usermode thread from deleting the object by closing the handle. The reference should be stored in the driver device's extension.
+- [ ] Look for cases where [`KeWaitForSingleObject`](https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-kewaitforsingleobject) and [`KeWaitForMultipleObjects`](https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-kewaitformultipleobjects) wait on synchronization objects (event, mutex, semaphore, timer) that are accessible to or shared with usermode.
+  - Can these functions deadlock the kernel thread by acquiring locks permanently or in the wrong order? Calls that pass `NULL` to the `Timeout` argument are at high risk since they block forever if the synchronization object is never released.
+  - Can a usermode process block important functionality from running by acquiring a sync object and never releasing it?
+  - Are error codes checked and handled properly?
+- [ ] Where section objects (shared memory regions) are created or opened, check that they are done so securely.
+  - Check the DACL with WinObj when the section is named (this usually appears in `BaseNamedObjects`); if null is passed, it will inherit the ACEs of the object namespace, if any (see the `InitializeObjectAttributes` information above).
+  - Section objects created in usermode (e.g., by [`CreateFileMapping`](https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-createfilemappinga)) must not be mapped by the kernel. The section must be created and mapped in the kernel.
+  - Section objects should not be opened using a handle provided from usermode.
+  - When a section must not be accessible outside of the kernel, it should not be mapped in a usermode thread context (e.g., in a dispatch routine for an IOCTL).
+  - If a named section object is created, `OBJ_PERMANENT` should be passed in the object attributes to prevent it from being unmapped by usermode. [`ZwMakeTemporaryObject`](https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-zwmaketemporaryobject) can be called from kernelmode to unmap it later.
+- [ ] Where mapped section objects are accessed, check that they are done so safely.
+  - Data in sections must be validated and treated as untrusted (especially if it is shared with usermode).
+  - Check for TOCTOU and other race conditions; data in a section may be changed at any time. Ideally, data should be copied to kernel memory first and then processed.
+  - Accesses should be wrapped in try/catch statements to prevent DoS.
+  - If a handle to a non-permanent section object is passed to usermode (e.g., in an IOCTL response), then [`ObReferenceObjectByHandle`](https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-obreferenceobjectbyhandle) must be used to increment the refcount on the object to prevent the usermode thread from deleting the object by closing the handle. The reference should be stored in the driver device's extension.
+- [ ] Check that kernel addresses are not leaked in data written to sections that are usermode-accessible.
+  - Kernel object handles may be opaque wrappers around kernel addresses.
+- [ ] Check whether handles are passed between usermode and kernelmode.
+  - Usermode-to-kernelmode handle passing is really dangerous; handles should be created on the kernel side and passed to usermode.
+  - Usermode-to-kernelmode handle passing can result in handle confusion. Can you pass the wrong type of handle (e.g., a mutex handle when a file handle is expected)?
+- [ ] Look for calls to [`ZwSetSecurityObject`](https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/ntifs/nf-ntifs-zwsetsecurityobject). Such calls can often be a sign of a race condition.
+  - Ideally, the `InitializeObjectAttributes` macro should be used to set a security descriptor as part of the object attributes during creation, rather than securing the object after creation.
+- [ ] Check memory accesses around regions acquired by [`MmProbeAndLockPages`](https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-mmprobeandlockpages) and [`MmProbeAndLockSelectedPages`](https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-mmprobeandlockselectedpages) calls. These are typically used to map usermode memory into kernel space for [DMA](https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/using-direct-i-o-with-dma) or [PIO](https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/using-direct-i-o-with-pio) operations.
+  - Ensure [`ProbeForRead`](https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-probeforread) is used to check that the memory region is readable before it is accessed.
+  - Ensure that data mapped from usermode is properly validated.
+  - Ensure accesses are wrapped in try/catch statements.
+  - Look for TOCTOU issues.
+- [ ] Check that [`MmSecureVirtualMemory`](https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/ntddk/nf-ntddk-mmsecurevirtualmemory) is used to help prevent TOCTOU issues on page protection when accessing usermode memory directly. Also check that usermode memory accesses are wrapped in try/catch statements to account for edge cases.
+- [ ] Look for calls to [`MmIsAddressValid`](https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/ntddk/nf-ntddk-mmisaddressvalid) that may indicate insufficiently robust memory access patterns.
+  - This is an older function. Generally, we want `ProbeForRead` and `__try`/`__except`, plus `MmSecureVirtualMemory` where appropriate.
+  - See MSDN's [Buffer Handling](https://learn.microsoft.com/en-us/windows-hardware/drivers/ifs/buffer-handling) for more info.
+- [ ] Look for uses of `POOL_FLAG_NON_PAGED_EXECUTE` on memory allocations and evaluate their security impact, as RWX memory in the kernel is risky.
+- [ ] Look for uses of memory allocation APIs and ensure they do not take a size argument based on untrusted input without validation (same as passing arbitrary size to `malloc`). The following are common examples of allocation APIs:
+  - `ExAllocatePool`, `ExAllocatePoolWithTag`, `ExAllocatePoolWithQuota`, `ExAllocatePoolWithQuotaTag`, `ExAllocatePoolWithTagPriority`, `ExAllocatePool2`, `ExAllocatePool3`
+  - `MmAllocateContiguousMemory`, `MmAllocateContiguousMemoryEx`, `MmAllocateContiguousMemorySpecifyCache`, `MmAllocateContiguousMemorySpecifyCacheNode`, `MmAllocateContiguousNodeMemory`
+  - `MmAllocateNonCachedMemory`
+  - `AllocateCommonBuffer`
+- [ ] Check that an NX [`POOL_TYPE`](https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/ne-wdm-_pool_type) is used when allocating pool memory (e.g., `NonPagedPoolNx` or `NonPagedPoolNxCacheAligned`).
+- [ ] Check that the memory allocations and frees are performed with matching APIs, and that the appropriate free function is used when memory is allocated internally within an API.
+  - For example, if memory is allocated with `ExAllocatePoolWithTag`, then it should be freed with `ExFreePoolWithTag`. Deallocation with the wrong API may cause kernel heap corruption or a bugcheck. Refer to the MSDN documentation for each memory allocation API to find the correct deallocation function.
+  - Many LSA functions that allocate memory internally require [`LsaFreeMemory`](https://learn.microsoft.com/en-us/windows/win32/api/ntsecapi/nf-ntsecapi-lsafreememory) to be used for deallocation.
+- [ ] Check that memory is zeroed before use and that outdated allocation functions are not used.
+  - `ExAllocatePool`, `ExAllocatePoolWithTag`, `ExAllocatePoolWithQuota`, `ExAllocatePoolWithQuotaTag`, and `ExAllocatePoolWithTagPriority` [should be replaced with `ExAllocatePool2` and `ExAllocatePool3`](https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/updating-deprecated-exallocatepool-calls), as these new functions automatically zero memory during the allocation to prevent memory disclosure issues.
+  - Memory from other allocation functions should be zeroed first.
+- [ ] Check that [`RtlSecureZeroMemory`](https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-rtlsecurezeromemory) is used to zero memory, not `RtlZeroMemory`.
+- [ ] Look for [`IoGetRemainingStackSize` and `IoGetStackLimits`](https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/using-the-kernel-stack) calls.
+  - These are usually code smells (e.g., messing with kernel stacks or dynamic allocation in the stack) that can lead to DoS or other bugs if done wrong.
+- [ ] Look for [`IoWithinStackLimits`](https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-iowithinstacklimits) calls.
+  - These can be indicators that the code is doing something unusual with stack buffers, with the potential for errors that lead to bad accesses.
+- [ ] Look for TOCTOU issues in filesystem and registry API usage.
+  - Look for uses of `ZwOpenDirectoryObject` or `ZwQueryDirectoryFile` to enumerate directory contents, followed by `ZwOpenFile` or `ZwCreateFile` to open the file without checking the call's success to ensure that the file still exists.
+  - Look for uses of `ZwEnumerateKey` to enumerate registry key contents, followed by `ZwOpenKey` to open a subkey without checking the call's success to ensure that the key still exists.
+  - Look for uses of `ZwReadFile` without checking that file contents did not change in between calls.
+- [ ] Look for usage of [spinlocks](https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/introduction-to-spin-locks) that might be abused for denial of service.
+  - Ensure that acquired spinlocks are released on all code flow paths, including cases where an exception might occur.
+  - Ensure that code safeguards against excessive computation or long delays while a spinlock is acquired. A kernel thread that hangs waiting for a spinlock will consume a lot of CPU time and may trigger a `THREAD_STUCK_IN_DEVICE_DRIVER` bugcheck.
+  - Look for cases where spinlock contention can be intentionally caused by a malicious usermode process, such as by repeatedly triggering an IOCTL that acquires the spinlock, resulting in system threads locking up or preventing important operations from being processed.
+- [ ] Look for interesting notify routines such as the following. These are commonly used by AV/EDR.
+  - `PsSetCreateProcessNotifyRoutine(Ex/Ex2)`
+  - `PsSetCreateThreadNotifyRoutine(Ex)`
+  - `PsSetLoadImageNotifyRoutine(Ex)`
+- [ ] Look for uses of `RtlCopyString` or `RtlCopyUnicodeString` without verifying that the string being copied into has a large enough `MaximumLength`.
+  - This does not lead to a buffer overflow, since these functions respect the `MaximumLength` field in the target string, but it does silently truncate the string.
+- [ ] Look for instances in which the result of [`RtlAppendUnicodeToString`](https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-rtlappendunicodetostring) or [`RtlAppendUnicodeStringToString`](https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-rtlappendunicodestringtostring) is not checked.
+  - These return `STATUS_BUFFER_TOO_SMALL` if the target string's backing buffer is not large enough to store the resulting string. If the return value is not checked, the string may not contain the expected value.
+- [ ] Look for calls to [`SeAccessCheck`](https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-seaccesscheck).
+  - These are always security-relevant as they mean the driver is doing its own checks to see if a user has access to something.
+- [ ] Look for calls to [`SeAssignSecurity`](https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-seassignsecurity) and [`SeAssignSecurityEx`](https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-seassignsecurityex).
+  - These alter ACEs on security descriptors and are, therefore, always security-relevant.
+- [ ] Look for calls to [`RtlQueryRegistryValues`](https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-rtlqueryregistryvalues).
+  - Ensure that the `RTL_QUERY_REGISTRY_NOEXPAND` flag is passed when a `REG_EXPAND_SZ` or `REG_MULTI_SZ` value type might be read. This prevents unsafe expansion of environment variables from within the kernelmode context.
+  - Ensure that the `RTL_QUERY_REGISTRY_TYPECHECK` flag is passed when using the `RTL_QUERY_REGISTRY_DIRECT` flag. This causes the API call to safely fail when the target value type does not match the expected type, thus avoiding a buffer overflow.
+- [ ] Check if the driver implements `IRP_MJ_POWER` for power management events.
+  - Does it reset or recreate any objects or state on sleep and resume? Can this be abused?
+  - Does it incorrectly expect that external system information will remain identical after resuming from a low-power state (e.g., sleep or hibernate)? Can this be abused?
+- [ ] Assess whether the code assumes that [`KeQuerySystemTime`](https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-kequerysystemtime-r1) (or the `Precise` variant) is monotonic.
+  - Can you bypass rate limits and other time-related checks if the system clock changes (e.g., at a DST boundary)?
+- [ ] Assess the attack surface of WMI functionality, if the driver registers as a WMI provider.
+  - Drivers that act as WMI providers will call the [`IoWMIRegistrationControl`](https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-iowmiregistrationcontrol) API; see [MSDN's Registering as a WMI Data Provider](https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/registering-as-a-wmi-data-provider) for more information.
+  - Most of the attack surface will arise from code that handles the [WMI minor IRPs](https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/wmi-minor-irps), although KMDF drivers use [alternative callback APIs](https://learn.microsoft.com/en-us/windows-hardware/drivers/wdf/introduction-to-wmi-for-kmdf-drivers).
+  - Ensure that sensitive information is not exposed in WMI data.
+- [ ] Assess the use of event tracing (ETW).
+  - Event provider registration can be identified by finding [`EtwRegister`](https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-etwregister) call sites. Event writes can be identified by finding [`EtwWrite`](https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-etwwrite), [`EtwWriteEx`](https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-etwwriteex), [`EtwWriteString`](https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-etwwritestring), and [`EtwWriteTransfer`](https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-etwwritetransfer) call sites.
+  - Ensure that sensitive information is not exposed in ETW messages.
+  - Ensure that channels are configured with appropriate access controls and isolation. This is typically configured in the `isolation` property of the [`ChannelType`](https://learn.microsoft.com/en-us/windows/win32/wes/eventmanifestschema-channeltype-complextype) definition in the instrumentation manifest for the driver at build time. See [MSDN's Adding Event Tracing to Kernel-Mode Drivers](https://learn.microsoft.com/en-us/windows-hardware/drivers/devtest/adding-event-tracing-to-kernel-mode-drivers) for details.
+    - Usermode applications may also use the [`EvtSetChannelConfigProperty`](https://learn.microsoft.com/en-us/windows/win32/api/winevt/nf-winevt-evtsetchannelconfigproperty) API to configure the [`EvtChannelConfigIsolation`](https://learn.microsoft.com/en-us/windows/win32/api/winevt/ne-winevt-evt_channel_config_property_id) property with a value from the [`EVT_CHANNEL_ISOLATION_TYPE`](https://learn.microsoft.com/en-us/windows/win32/api/winevt/ne-winevt-evt_channel_isolation_type) enum.
+  - Read [our blog post on ETW internals](https://blog.trailofbits.com/2023/11/22/etw-internals-for-security-research-and-forensics/) for information on finding provider GUIDs and event-consuming applications.
+  - [Geoff Chappell's ETW Security page](https://www.geoffchappell.com/studies/windows/km/ntoskrnl/api/etw/secure/index.htm?tx=32,35) contains further useful information on the securable objects used in ETW.
+- [ ] If the driver is for a PCIe device (including Thunderbolt, USB4, M.2, U.2, and U.3), verify that the driver [opts into DMA remapping](https://learn.microsoft.com/en-us/windows-hardware/drivers/pci/enabling-dma-remapping-for-device-drivers).
+
+{{< /checklist >}}

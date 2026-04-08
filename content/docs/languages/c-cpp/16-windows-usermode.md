@@ -1,0 +1,151 @@
+---
+title: "Windows usermode"
+slug: lang-c-cpp-windows-usermode
+weight: 16
+---
+
+# Windows usermode
+
+This list covers common checks for and footguns of C/C++ standard libraries when used in Windows environments.
+
+{{< checklist >}}
+
+- [ ] Run [binskim](https://github.com/microsoft/binskim) to check mitigation opt-in and other issues in the application binaries.
+  - DEP (NX), ASLR (and HiASLR on x86\_64), Control Flow Guard (CFG), and SafeSEH (on x86\_32 only) should always be enabled, and executables should be signed.
+  - Shadow stack (CET) and Spectre mitigations may be enabled for additional security.
+  - Production releases do not contain PDB files and debugging information.
+- [ ] Check that installation processes do not have race conditions when extracting files (e.g., being able to overwrite temp files during extraction, which are then copied to protected or privileged paths).
+  - Can you exploit this to add a symlink to a critical system file and have the installer overwrite it, leading to a permanent DoS?
+  - Can you [abuse MSI rollback behavior to turn a file deletion into privilege escalation](https://cloud.google.com/blog/topics/threat-intelligence/arbitrary-file-deletion-vulnerabilities/)? See also [this ZDI writeup](https://www.zerodayinitiative.com/blog/2022/3/16/abusing-arbitrary-file-deletes-to-escalate-privilege-and-other-great-tricks).
+- [ ] Check for failed DLL loads at runtime.
+  - Use [procmon](https://learn.microsoft.com/en-us/sysinternals/downloads/procmon) to watch the process as it starts, and look for attempted file accesses on DLLs that do not exist. It is pretty common to see failed attempts to load localization and similar DLLs because they do not exist on that platform, which can be exploited by planting a DLL with the same name in the working directory.
+  - See a guide to configuring procmon for this purpose at the end of [this MSDN article](https://learn.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-security).
+  - See also this [Node.js-specific example](https://www.atredis.com/blog/2025/3/7/node-is-a-loader) and this [Electron-specific example](https://hexiosec.com/blog/dll-hijacking-and-proxying/) of failed DLL loads.
+- [ ] Check for [`LoadLibrary`](https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-loadlibrarya) calls that might be vulnerable to DLL planting.
+  - Are they loading from a safe path?
+  - A full path to the binary should be specified to prevent DLL planting attacks.
+    - Ensure that path generation uses trusted data. The current working directory may be controllable by an attacker. If the load path is pulled from registry or configuration files, do they have appropriate ACLs?
+  - [`LoadLibraryEx`](https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-loadlibraryexa) can be used for improved security:
+    - Load locations can be restricted with the search flags (e.g., `LOAD_LIBRARY_SEARCH_SYSTEM32` to only load from System32).
+    - `LOAD_LIBRARY_REQUIRE_SIGNED_TARGET` can be specified to mandate that the target is signed (e.g., [Authenticode signed](https://learn.microsoft.com/en-us/windows-hardware/drivers/install/authenticode)).
+- [ ] Check for [`CreateProcess`](https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-createprocessa) calls that might be vulnerable to executable planting due to unquoted paths.
+  - If `lpApplicationName` is `NULL`, `lpCommandLine` is used as a whitespace-delimited command and arguments. If the executable path has a space in it and it is not quoted, then Windows will try to execute that path fragment first (e.g., `C:\Program Files\Application\test.exe` will attempt to run `C:\Program.exe` first). This can be mitigated by wrapping the complete path in quotes.
+    - Note that this applies to spaces in subdirectories, too: if `C:\Users\user\AppData\Local\App\Some Dir\update.exe` is unquoted, then Windows will try to run `C:\Users\user\AppData\Local\App\Some.exe` first.
+  - If the target is a `.cmd` or `.bat` file, it may be possible to plant a malicious `cmd.exe` in the same directory as the program on old systems. See [MS14-019](https://msrc.microsoft.com/blog/2014/04/ms14-019-fixing-a-binary-hijacking-via-cmd-or-bat-file/).
+    - This vulnerability is only really relevant if there is an expectation that a user might run the application on an old WinXP or Server 2003 system that is not patched for it (e.g., industrial, medical, or lab equipment).
+- [ ] If a high-privilege process creates a lower-privilege process or a process running as another user, check that the process disables handle inheritance.
+  - On `CreateProcess(AsUser)`, the `bInheritHandles` parameter controls this.
+  - Sensitive handles owned by the higher-privilege process could be transferred to the lower-privilege process.
+- [ ] If a high-privilege process creates a lower-privilege process or a process running as another user, check that the process passes `DETACHED_PROCESS` or `CREATE_NEW_CONSOLE`.
+  - If not, the lower-privilege process shares access to the high-privilege process console object, meaning that `stdin`, `stdout`, and `stderr` can be manipulated by both processes. This may be relevant for console applications or for programs that manipulate data through `stdin`/`stdout`.
+- [ ] Check whether the [`CREATE_PRESERVE_CODE_AUTHZ_LEVEL`](https://learn.microsoft.com/en-us/windows/win32/procthread/process-creation-flags) flag is passed to `CreateProcess`. Doing so [bypasses AppLocker and SRP](https://skanthak.hier-im-netz.de/appcert.html) on Windows Vista and unpatched Windows 7\.
+- [ ] Investigate any `CreateProcess` calls made with the `CREATE_BREAKAWAY_FROM_JOB` flag for potential sandbox escapes. Passing `CREATE_BREAKAWAY_FROM_JOB` flag to `CreateProcess` should be done with care if [job objects](https://learn.microsoft.com/en-us/windows/win32/procthread/job-objects) are being used for sandboxing (e.g., for [UI restrictions](https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-jobobject_basic_ui_restrictions) or [security limits](https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-jobobject_security_limit_information)). If a process in a job creates a new process with this flag, then the new process is created outside of the job and is no longer subject to the job's restrictions or lifetime, essentially "escaping" the sandbox.
+  - Can you control the path, arguments, working directory, or environment variables to execute something else, or otherwise cause unexpected behavior?
+  - Can you exploit the launched executable via DLL planting or other similar tricks?
+  - What files, registry keys, and other resources does the launched process touch?
+  - Does the new process communicate with the sandboxed processes in the job? If so, can you abuse bugs in that functionality to escape the sandbox?
+- [ ] When processes are managed with [job objects](https://learn.microsoft.com/en-us/windows/win32/procthread/job-objects), check that the [job security descriptors](https://learn.microsoft.com/en-us/windows/win32/procthread/job-object-security-and-access-rights) are appropriate.
+- [ ] Assess whether arguments to functions like `LoadLibrary`, `CreateProcess`, `CreateProcessAsUser`, [`ShellExecute`](https://learn.microsoft.com/en-us/windows/win32/api/shellapi/nf-shellapi-shellexecutea), [`ShellExecuteEx`](https://learn.microsoft.com/en-us/windows/win32/api/shellapi/nf-shellapi-shellexecuteexa), and [`SHCreateProcessAsUser`](https://learn.microsoft.com/en-us/windows/win32/api/shellapi/nf-shellapi-shcreateprocessasuserw) can be influenced by user input.
+  - For example, if these functions are called with not-full path arguments, the attacker may plant an executable in CWD. See [CVE-2020-27955](https://legalhackers.com/advisories/Git-LFS-RCE-Exploit-CVE-2020-27955.html) for an example vulnerability.
+- [ ] If manual signing or integrity checks are performed before calls to functions like `LoadLibrary`, `CreateProcess`, and `ShellExecute`, assess whether these checks are resistant to TOCTOU issues.
+  - Manual signing checks on DLLs should be avoided; `LoadLibraryEx` with `LOAD_LIBRARY_REQUIRE_SIGNED_TARGET` should be used instead.
+- [ ] Review the codebase for path traversal and confusion issues.
+  - Are they canonicalizing paths before doing comparisons?
+    - [`PathCchCanonicalizeEx`](https://learn.microsoft.com/en-us/windows/win32/api/pathcch/nf-pathcch-pathcchcanonicalizeex) should be used to find the canonical path for a given path string.
+  - Are they handling strings in UTF-16 and using case-insensitive ordinal comparison?
+    - Case-insensitive ordinal comparison (i.e., byte comparison, not character comparison) of UTF-16 paths is required.
+    - Are they using `-A` suffixed APIs that take ANSI path strings (e.g., `CreateFileA`)? Windows attempts to perform character fitting on the names, but it may still result in [mojibake](https://en.wikipedia.org/wiki/Mojibake) when dealing with UTF-16 characters outside the basic ANSI set, potentially allowing you to bypass checks.
+    - Are they incorrectly assuming the path string is ANSI/ASCII or UTF-8? Can you abuse this with Unicode paths? (e.g., ㍜ is UTF-16 codepoint 0x335C, which would be an exclamation mark followed by a backslash if interpreted as ASCII).
+    - Look for [WorstFit](https://devco.re/blog/2025/01/09/worstfit-unveiling-hidden-transformers-in-windows-ansi/) style vulnerabilities.
+  - Are they improperly normalizing paths?
+    - What happens if you use a reserved path like LPT or COM? See [the fix for CVE-2025-27210](https://github.com/nodejs/node/pull/59286) for how this can be vulnerable.
+    - If they are blocking those with a regex, can you evade it with superscript digits, as per [this issue](https://github.com/nodejs/node/pull/59261)?
+  - Can you abuse reserved DOS device names to break file creation?
+    - Files with reserved DOS device names cannot typically be created or accessed:
+      `CON`, `PRN`, `AUX`, `NUL`, `COM1`, `COM2`, `COM3`, `COM4`, `COM5`, `COM6`, `COM7`, `COM8`, `COM9`, `COM¹`, `COM²`, `COM³`, `LPT1`, `LPT2`, `LPT3`, `LPT4`, `LPT5`, `LPT6`, `LPT7`, `LPT8`, `LPT9`, `LPT¹`, `LPT²`, and `LPT³` (the superscript numbers are ISO/IEC 8859-1 codepage characters).
+    - These names are usually still reserved even if they are followed by an extension (e.g., `c:\users\test\COM3.log` is still reserved).
+    - See the full details on [naming files](https://learn.microsoft.com/en-us/windows/win32/fileio/naming-a-file) on Windows.
+  - Can symlinks or junctions be used to bypass path traversal checks?
+    - Do they check the symlink/junction target? Is the check vulnerable to TOCTOU issues?
+    - For further reading, see this [article on symlink exploits](https://nixhacker.com/understanding-and-exploiting-symbolic-link-in-windows/).
+    - Consult the [symboliclink-testing-tools](https://github.com/googleprojectzero/symboliclink-testing-tools) suite for tools you can use to test symlinks.
+  - Are they defending against [special path formats](https://github.com/rust-lang/cargo/issues/9770#issuecomment-993069234)?
+    - Are they defending against UNC paths?
+      - Example: `\\server_or_ip\path\to\file.abc`
+      - Example: `\\?\server_or_ip\path\to\file.abc`
+      - [`PathIsNetworkPath`](https://learn.microsoft.com/en-gb/windows/win32/api/shlwapi/nf-shlwapi-pathisnetworkpathw) should be used to check if the target resource is a remote resource (UNC/SMB, FTP, etc.).
+    - Are they defending against NT file paths?
+      - Example: `\\.\GLOBALROOT\Device\HarddiskVolume1\` is the same as `C:\`.
+    - Are they defending against [8.3 filenames](https://blog.0daylabs.com/2016/09/06/using-windows-shortfilename-feature-lfi/) (short filenames \[SFNs\])?
+      - Example: `TextFile.Mine.txt` → `TEXTFI~1.TXT`
+  - If you use the `FILE_FLAG_POSIX_SEMANTICS` flag with `CreateFile`, you can create multiple files with the same name but with different case sensitivity. This may be a useful gadget for attacking path handling.
+    - While you can create directories with `CreateFile` by passing `FILE_ATTRIBUTE_DIRECTORY`, the POSIX semantics flag does not make them case-sensitive.
+- [ ] Check if named pipes are used. Look for [`CreateNamedPipe`](https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-createnamedpipea) and [`CallNamedPipe`](https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-callnamedpipea) calls, or a `CreateFile` call with a path that starts with `\\.\pipe\`.
+  - When the pipe is created, is `lpSecurityAttributes` set to an appropriate security descriptor?
+  - Can multiple connections be made to the pipe at once?
+    - If so, is the state properly separated between the connections?
+    - If not, can functionality be locked out by a malicious process connecting first?
+  - Is the data that is passed through the pipe properly validated and sanitized?
+  - The `PIPE_REJECT_REMOTE_CLIENTS` flag should be applied to the `dwPipeMode` argument during pipe creation in most cases, since networked named pipes are pretty unusual.
+  - Named pipes can be enumerated with [PipeList](https://learn.microsoft.com/en-us/sysinternals/downloads/pipelist).
+- [ ] Check for failure to initialize memory before use.
+  - [`GlobalAlloc`](https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-globalalloc) does not zero (unless the `GMEM_ZEROINIT` flag is passed).
+  - [`LocalAlloc`](https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-localalloc) does not zero (unless the `LMEM_ZEROINIT` flag is passed).
+  - [`HeapAlloc`](https://learn.microsoft.com/en-us/windows/win32/api/heapapi/nf-heapapi-heapalloc) does not zero (unless the `HEAP_ZERO_MEMORY` flag is passed).
+  - [`HeapReAlloc`](https://learn.microsoft.com/en-us/windows/win32/api/heapapi/nf-heapapi-heaprealloc) does not zero (unless the `HEAP_ZERO_MEMORY` flag is passed).
+  - [`VirtualAlloc`](https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualalloc) *does* zero, except for certain cases where the `MEM_RESET` and `MEM_RESET_UNDO` flags are used. See the docs for more info.
+- [ ] Check for memory leaks.
+  - Memory should be freed with the appropriate free function (`GlobalFree`, `LocalFree`, `HeapFree`, `VirtualFree`, etc.).
+  - There is a risk of heap spraying if contents are user-controlled.
+  - Sensitive data could persist in process memory.
+  - For SSPI APIs on Windows, check which API should be used for freeing memory associated with credential data. For example, [`SspiEncodeAuthIdentityAsStrings`](https://learn.microsoft.com/en-us/windows/win32/api/sspi/nf-sspi-sspiencodeauthidentityasstrings) requires that you use [`SspiFreeAuthIdentity`](https://learn.microsoft.com/en-us/windows/win32/api/sspi/nf-sspi-sspifreeauthidentity) (which zeroes the internal backing memory before freeing it) rather than [`SspiLocalFree`](https://learn.microsoft.com/en-us/windows/win32/api/sspi/nf-sspi-sspilocalfree) (which is just a wrapper around `LocalFree`). The Windows SDK examples incorrectly use `SspiLocalFree` in a few places and people sometimes copy the examples rather than following what the MSDN docs say.
+- [ ] Check whether in-process sensitive information is protected.
+  - Use of `memset` and [`ZeroMemory`](https://learn.microsoft.com/en-us/previous-versions/windows/desktop/legacy/aa366920\(v=vs.85\)) is inappropriate for zeroing sensitive information. `memset_s` or `RtlSecureZeroMemory` should be used instead to prevent the compiler from optimizing it out.
+  - The Data Protection API (DPAPI) should be used for encrypting sensitive data in memory (via functions like [`CryptProtectMemory`](https://learn.microsoft.com/en-us/windows/win32/api/dpapi/nf-dpapi-cryptprotectmemory)).
+- [ ] Look for use of [`VirtualAllocEx`](https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualallocex), [`VirtualProtectEx`](https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualprotectex), [`CreateRemoteThread`](https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-createremotethread), [`ReadProcessMemory`](https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-readprocessmemory), and [`WriteProcessMemory`](https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-writeprocessmemory)
+  - These are used to mess with other processes (e.g., for remote DLL injection).
+  - What processes are being injected into? What changes are made? Evaluate the functionality for increased attack surface.
+  - Can you control the written address? Write-what-where into another process is a powerful primitive for code execution, either via executable memory overwrite or by overwriting pointers.
+  - Check if the injection uses a fixed address (i.e., a specific address passed in `VirtualAllocEx`).
+    - This can lead to a crash or memory corruption on ASLR-enabled processes since there is no guarantee that the fixed target address is not already in use.
+    - Can you block injection into a process you control by allocating that address range first? This is particularly relevant for security software.
+  - Is sensitive data written into the other process? If so, can you abuse it?
+    - Are credentials, keys, and other sensitive data written into low-privilege processes?
+    - Address or handle leaks might be useful as a leak primitive for memory corruption issues.
+  - If memory is being written to another process, is the source buffer properly initialized? If not, this is a cross-process memory disclosure. Is there a chance that this memory contains sensitive information from the process performing the cross-process write?
+  - Can you get the injection to be performed repeatedly?
+    - If so, this constitutes a potential DoS condition from OOM.
+    - If the data is predictable, this may be a potential heap spray gadget for exploiting processes with ASLR.
+    - If the pages are executable, this may be abusable as an [ROP](https://en.wikipedia.org/wiki/Return-oriented_programming) spray gadget when exploiting processes with ASLR.
+  - When another process's memory is read using `ReadProcessMemory`, is it validated properly? Can a malicious process being targeted trigger bugs in data-parsing logic?
+- [ ] Look for [`AdjustTokenPrivileges`](https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-adjusttokenprivileges) calls, as these are almost always security-relevant.
+  - If `SeBackupPrivilege` is enabled, the token can gain complete access to the filesystem with no permissions checks.
+  - If `SeTcbPrivilege` is enabled, the token can create login tokens for other users with no additional checks.
+  - If `SeAssignPrimaryTokenPrivilege` is enabled, the token can replace the primary security tokens on processes.
+  - If `SeDebugPrivilege` is enabled, the token can bypass all discretionary access control lists (DACLs) and system access control lists (SACLs) on the system, essentially giving it carte blanche on the whole system.
+  - See MSDN's [Enabling and Disabling Privileges in C++](https://learn.microsoft.com/en-us/windows/win32/secauthz/enabling-and-disabling-privileges-in-c--) for more info.
+- [ ] Check the services' permissions to ensure they run with the minimum (e.g., using `LOCAL SERVICE` or `NETWORK SERVICE` instead of `SYSTEM`).
+  - [icacls](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/icacls) is a useful tool for displaying ACLs.
+- [ ] Check the service binaries to ensure they have an appropriate DACL and SACL on the binary and path.
+  - DACLs should prevent regular users from writing files to that location.
+    - If the service binary is not writeable but the directory is, DLL planting attacks can be used.
+  - SACL should prevent low-integrity labels from touching anything.
+- [ ] Check the service registry entries to ensure they have an appropriate DACL.
+  - This is done automatically if the SCM APIs are used to register the service, but some applications manually add a service entry via registry APIs.
+- [ ] If the application is a security product, check that it is registering itself as a [protected process](https://learn.microsoft.com/en-us/windows/win32/services/protecting-anti-malware-services-).
+  - Recommend making the service process protected if tampering is a concern.
+  - To debug protected processes, you will need to use WinDbg as a kernel debugger.
+  - Does the protected process launch any non-protected child processes that perform sensitive operations such as updates?
+  - Does the protected process have any facility to execute arbitrary code that has not been signed (e.g., JS or other scripting)? Does it load any DLLs with such capabilities? This is strongly recommended against, because it sidesteps the signing/integrity requirements associated with protected processes.
+- [ ] Check whether the application installs any certificates into the [Windows Certificate Store](https://learn.microsoft.com/en-us/windows-hardware/drivers/install/certificate-stores). If so, check whether they are appropriately restricted in purpose and whether you can modify certificates at rest during the certificate installation process.
+  - Go to Start → Run → `certmgr.msc` to see certificate stores.
+- [ ] Look for use of deprecated cryptography APIs.
+  - Cryptographic service provider (CSP) APIs starting with Crypt (e.g., `CryptGenRandom`, `CryptAcquireContext`, etc.) are deprecated. The [Cryptography API: Next Generation (CNG) APIs](https://learn.microsoft.com/en-us/windows/win32/seccng/cng-portal) should be used instead.
+- [ ] Look for use of insecure cryptographic primitives.
+  - If the old CSP APIs are in use, check the [`ALG_ID`](https://learn.microsoft.com/en-us/windows/win32/seccrypto/alg-id) value on functions like [`CryptCreateHash`](https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-cryptcreatehash) and [`CryptGenKey`](https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-cryptgenkey).
+  - If the newer CNG APIs are in use, take these steps:
+    - Check for [`BCryptOpenAlgorithmProvider`](https://learn.microsoft.com/en-us/windows/win32/api/bcrypt/nf-bcrypt-bcryptopenalgorithmprovider) calls; [CNG algorithm identifiers](https://learn.microsoft.com/en-us/windows/win32/seccng/cng-algorithm-identifiers) are passed as strings.
+    - For most other CNG APIs, check for [CNG algorithm pseudo-handles](https://learn.microsoft.com/en-us/windows/win32/seccng/cng-algorithm-pseudo-handles), which are used to specify the algorithm.
+- [ ] Review the codebase for vulnerabilities to a heap leak with `fwrite` of size 1\. See [this X post](https://x.com/gamozolabs/status/1207088312273362945) for more details.
+
+{{< /checklist >}}
