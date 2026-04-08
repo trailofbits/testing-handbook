@@ -31,7 +31,7 @@ This list covers common checks for and footguns of C/C++ standard libraries when
 - [ ] Check that `open` and other related filesystem functions are treated with care.
   - Calls to `access` (to check for file existence) followed by calls to `open` are vulnerable to race conditions.
   - Calls to `rename` with attacker control over any part of the `destination` argument are [vulnerable to race conditions](https://gergelykalman.com/slides/the_forgotten_art_of_filesystem_magic.pdf).
-  - Calls to `open` with the `O_NOFOLLOW` flag resolve directory symlinks; usually `O_NOFOLLOW_ANY` should be used instead.
+  - Calls to `open` with the `O_NOFOLLOW` flag resolve directory symlinks; usually `RESOLVE_NO_SYMLINKS` or `O_NOFOLLOW_ANY` should be used instead.
   - Calls to `open` without the `O_CLOEXEC` flag leak file descriptors to child processes.
 - [ ] Check that privilege dropping (through use of `seteuid`, `setgid`, etc., as well as implicit privilege dropping like during `execve` calls) is implemented with care.
   - Return values of privilege dropping functions must be checked.

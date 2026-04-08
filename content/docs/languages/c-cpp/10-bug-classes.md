@@ -133,7 +133,7 @@ Below is a list of common vulnerability types for C/C++ programs. This list does
   - [ ] ReDoS attacks possible
   - [ ] Multi-line (newline) bypasses
 - [ ] Lack of exploit mitigations
-  - [ ] Compile-time mitigations
+  - [ ] [Compile-time mitigations](https://github.com/ossf/wg-best-practices-os-developers/blob/main/docs/Compiler-Hardening-Guides/Compiler-Options-Hardening-Guide-for-C-and-C%2B%2B.md)
   - [ ] Runtime mitigations
   - [ ] [libc++ hardenings](https://libcxx.llvm.org/Hardening.html)
   - [ ] [Typos in exploit mitigation configurations](https://blog.trailofbits.com/2023/04/20/typos-that-omit-security-features-and-how-to-test-for-them/)
