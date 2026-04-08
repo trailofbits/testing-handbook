@@ -53,7 +53,7 @@ This list covers common checks for and footguns of C/C++ standard libraries when
   - Are they canonicalizing paths before doing comparisons?
     - [`PathCchCanonicalizeEx`](https://learn.microsoft.com/en-us/windows/win32/api/pathcch/nf-pathcch-pathcchcanonicalizeex) should be used to find the canonical path for a given path string.
   - Are they handling strings in UTF-16 and using case-insensitive ordinal comparison?
-    - Case-sensitive ordinal comparison (i.e., byte comparison, not character comparison) of UTF-16 paths is required.
+    - Case-insensitive ordinal comparison (i.e., byte comparison, not character comparison) of UTF-16 paths is required.
     - Are they using `-A` suffixed APIs that take ANSI path strings (e.g., `CreateFileA`)? Windows attempts to perform character fitting on the names, but it may still result in [mojibake](https://en.wikipedia.org/wiki/Mojibake) when dealing with UTF-16 characters outside the basic ANSI set, potentially allowing you to bypass checks.
     - Are they incorrectly assuming the path string is ANSI/ASCII or UTF-8? Can you abuse this with Unicode paths? (e.g., ㍜ is UTF-16 codepoint 0x335C, which would be an exclamation mark followed by a backslash if interpreted as ASCII).
     - Look for [WorstFit](https://devco.re/blog/2025/01/09/worstfit-unveiling-hidden-transformers-in-windows-ansi/) style vulnerabilities.
