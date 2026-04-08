@@ -6,7 +6,7 @@ weight: 16
 
 # Windows usermode
 
-This list covers common checks for and footguns of C/C++ standard libraries when used in Windows environment.
+This list covers common checks for and footguns of C/C++ standard libraries when used in Windows environments.
 
 {{< checklist >}}
 
