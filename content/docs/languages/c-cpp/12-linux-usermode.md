@@ -53,7 +53,7 @@ This list covers common checks for and footguns of C/C++ standard libraries when
   - Functions like `clock` and `times` return `-1` on error and for legitimate wrap-around of the clock tick.
   - Functions like `strtol`, `strtoull`, `pow`, and `log` return boundary values (like `LONG_MAX`) on both valid input and `ERANGE` overflow.
   - Functions like `getchar` and `fgetc` return `EOF` for errors and actual end-of-file states.
-  - Functions like `dlsym` return `NULL` on error and for some non-errorness cases. The `dlerror` method must be consulted in addition to the return value.
+  - Functions like `dlsym` return `NULL` on error and for some legitimate non-error cases. The `dlerror` method must be consulted in addition to the return value.
 - [ ] Examine uses of `snprintf` to ensure the return value is handled correctly.
   - Its return value is confusing and often misunderstood: it returns the number of characters *that would have been written* to the final string if enough space had been available, not how many bytes were actually written.
 - [ ] Look for proper handling of functions that return success without completing the job.
