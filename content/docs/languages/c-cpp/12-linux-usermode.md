@@ -19,7 +19,7 @@ This list covers common checks for and footguns of C/C++ standard libraries when
   - [ ] The `errno` should not be modified in signal handlers (or must be saved and restored).
 - [ ] Check that comparisons do not read data out of bounds.
   - `std::equal`, when called with three iterators to collections of unequal lengths, reads out of bounds.
-  - `mecmp` may read out of bounds if the size argument is not computed correctly.
+  - `memcmp` may read out of bounds if the size argument is not computed correctly.
   - `strncmp` with strings of different length and invalid size may read out of bounds. See [`cstrnfinder`](https://github.com/disconnect3d/cstrnfinder) for string comparison bugs found in the wild.
 - [ ] Check that environment variables are treated with care.
   - `getenv` and `setenv` [are not thread-safe](https://www.geldata.com/blog/c-stdlib-isn-t-threadsafe-and-even-safe-rust-didn-t-save-us#the-real-culprit-setenv-and-getenv) (though this was [recently improved in glibc](https://github.com/bminor/glibc/commit/7a61e7f557a97ab597d6fca5e2d1f13f65685c61)).
