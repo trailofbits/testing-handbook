@@ -48,7 +48,7 @@ Below is a list of common vulnerability types for C/C++ programs. This list does
   - [ ] Implicit conversions
     - The type of a variable changes unexpectedly.
   - [ ] Negative assignment overflow
-    - `abs(-INT_MIN) == -INT_MIN`
+    - `abs(INT_MIN) == INT_MIN == -2147483648`
     - `int a = -b` (if `b = INT_MIN`, then `a = b`)
   - [ ] Integer cut
     - Example: The code reads `rax`, compares only `eax`, and then uses `rax`.
