@@ -124,7 +124,7 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
 ```
 
 
-The above example fuzzes the concat function with parameters for receiving two C-style strings and a maximum allocation size. However, the above function contains a bug:the sum of the strings' lengths is not checked against the allocation size. Therefore, if the allocation size is too small, the `memcpy` function will cause a buffer overflow.
+The above example fuzzes the concat function with parameters for receiving two C-style strings and a maximum allocation size. However, the above function contains a bug: the sum of the strings' lengths is not checked against the allocation size. Therefore, if the allocation size is too small, the `memcpy` function will cause a buffer overflow.
 
 The harness function `LLVMFuzzerTestOneInput` uses the `FuzzedDataProvider` to read an integer and then two data strings. The length of the data strings is determined by a separator.
 

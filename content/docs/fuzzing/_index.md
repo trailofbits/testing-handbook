@@ -84,7 +84,7 @@ fn fuzz(corpus) {
       corpus.append(offspring); // If the observations are interesting we keep the new test case
     }
     if (is_bug(observations)) {
-      bug_set.append(offspring); // If the observations indicate that a bug occured then we store the test case
+      bug_set.append(offspring); // If the observations indicate that a bug occurred then we store the test case
     }
   }
   return bug_set; // The set of bugs is returned
