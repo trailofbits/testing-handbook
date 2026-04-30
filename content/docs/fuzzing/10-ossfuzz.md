@@ -7,7 +7,7 @@ weight: 6
 
 # OSS-Fuzz
 
-[OSS-Fuzz](https://google.github.io/oss-fuzz/) is an open-source project developed by Google that aims to improve the security and stability of open-source software by providing free distributed infrastructure for continuous fuzz festing. Using a pre-existing framework like OSS-Fuzz has many advantages over manually running harnesses: it streamlines the process and facilitates simpler modifications. Although only select projects are accepted into OSS-Fuzz, because the project’s core is open-source, anyone can host their own instance of OSS-Fuzz and use it for private projects!
+[OSS-Fuzz](https://google.github.io/oss-fuzz/) is an open-source project developed by Google that aims to improve the security and stability of open-source software by providing free distributed infrastructure for continuous fuzz testing. Using a pre-existing framework like OSS-Fuzz has many advantages over manually running harnesses: it streamlines the process and facilitates simpler modifications. Although only select projects are accepted into OSS-Fuzz, because the project’s core is open-source, anyone can host their own instance of OSS-Fuzz and use it for private projects!
 
 
 This chapter will help project developers understand how to leverage OSS-Fuzz to both fuzz a project on your private instance and delegate the fuzzing computation to Google. Additionally, security researchers will learn how to run a single harness on an existing project, extend a harness, or reproduce an individual crash.
