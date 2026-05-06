@@ -114,6 +114,7 @@ Below is a list of common vulnerability types for C/C++ programs. This list does
   - [ ] Signed integer overflow
   - [ ] Shift by negative integer
   - [ ] Shift by \>= the type's width
+  - [ ] [Division by zero](https://lwn.net/Articles/1004146/)
   - [ ] And so many others…
 - [ ] Compiler-introduced bugs
   - [ ] Removal of security checks due to assumptions around undefined behavior
