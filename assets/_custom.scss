@@ -125,6 +125,30 @@ p {
   text-wrap: wrap;
 }
 
+#rust-banner-code {
+  .highlight {
+    padding: 0;
+    margin: 0;
+
+    pre {
+      background: transparent !important;
+      border: none;
+      padding-top: 0;
+      margin: 0;
+      text-align: center;
+      text-wrap: wrap;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+      font-size: 1.1rem;
+      line-height: 1.5;
+    }
+
+    code:first-child::before {
+      display: none;
+    }
+  }
+}
+
 ul.no-bullet-point-list {
   list-style-type: none;
 
