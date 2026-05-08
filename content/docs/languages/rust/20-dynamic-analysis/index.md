@@ -96,9 +96,9 @@ For this task, use [`cargo hack`](https://github.com/taiki-e/cargo-hack). Start 
 {{< tabs "cargo hack" >}}
 {{< tab "Shell" >}}
 ```sh
-cargo +stable install cargo-hack --locked
-cargo hack test -Z avoid-dev-deps --each-feature
-cargo hack test -Z avoid-dev-deps --feature-powerset --depth 2
+cargo +nightly install cargo-hack --locked
+cargo hack test --no-dev-deps --each-feature
+cargo hack test --no-dev-deps --feature-powerset --depth 2
 ```
 {{< /tab>}}
 {{< tab "CI" >}}
@@ -106,7 +106,7 @@ cargo hack test -Z avoid-dev-deps --feature-powerset --depth 2
 - uses: taiki-e/install-action@6da51af62171044932d435033daa70a0eb3383ba
   with:
     tool: cargo-hack
-- run: cargo hack test -Z avoid-dev-deps --feature-powerset --depth 2 --workspace
+- run: cargo hack test --feature-powerset --depth 2 --workspace
 ```
 {{< /tab>}}
 {{< /tabs >}}
@@ -128,7 +128,7 @@ cargo hack test --feature-powerset --depth 2
 ```
 
 ```toml
-# cargo.toml
+# Cargo.toml
 [features]
 fone = []
 ftwo = []
@@ -257,18 +257,20 @@ At this time, nightly toolchains must be used for sanitizers. If you use the sta
 {{< tab "Cargo test" >}}
 ```sh
 for sanitizer in "address" "leak" "memory" "thread"; do
-	echo "Testing with $sanitizer";
-	RUSTFLAGS="-Z sanitizer=$sanitizer" RUSTDOCFLAGS="$RUSTFLAGS" \
-	cargo test --target x86_64-unknown-linux-gnu;
+	echo "Testing with $sanitizer"
+	export RUSTFLAGS="-Z sanitizer=$sanitizer"
+    export RUSTDOCFLAGS="$RUSTFLAGS"
+	cargo test --target x86_64-unknown-linux-gnu
 done
 ```
 {{< /tab>}}
 {{< tab "Cargo nextest" >}}
 ```sh
 for sanitizer in "address" "leak" "memory" "thread"; do
-	echo "Testing with $sanitizer";
-	RUSTFLAGS="-Z sanitizer=$sanitizer" RUSTDOCFLAGS="$RUSTFLAGS" \
-	cargo nextest run --target x86_64-unknown-linux-gnu;
+	echo "Testing with $sanitizer"
+	export RUSTFLAGS="-Z sanitizer=$sanitizer"
+    export RUSTDOCFLAGS="$RUSTFLAGS"
+	cargo nextest run --target x86_64-unknown-linux-gnu
 done
 ```
 {{< /tab>}}
@@ -302,7 +304,7 @@ A few tips:
 The test below passes, but there is actually a bug. AddressSanitizer can help us find it.
 
 ```sh
-RUSTFLAGS='-Z sanitizer=address' cargo -Zbuild-std test
+RUSTFLAGS='-Z sanitizer=address' cargo -Zbuild-std --target x86_64-unknown-linux-gnu test
 ```
 
 ```rust
@@ -338,7 +340,8 @@ To use Miri, you must point it at some executable code (it performs dynamic anal
 {{< tabs "miri tests" >}}
 {{< tab "Miri with cargo test" >}}
 ```sh
-rustup +nightly component add miri cargo miri test
+rustup +nightly component add miri
+cargo miri test
 ```
 {{< /tab>}}
 {{< tab "Miri with nextest" >}}
@@ -752,7 +755,7 @@ A unique approach to finding bugs in tests is to mutate them and check if they p
 To automate the process of mutation and validation, [use Necessist](https://github.com/trailofbits/necessist).
 
 ```sh
-cargo install necessist necessist
+cargo install necessist
 ```
 
 Necessist works by iterating over the statements in each test, removing them one at a time, and checking whether the test still passes. A mutated test that passes with an instruction removed is shown as the following:

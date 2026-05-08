@@ -41,7 +41,7 @@ flowchart LR
     style H fill:#ad182b,color:#fff,stroke:#ad182b
 {{< /mermaid >}}
 
-Security testing would need to ensure that any `unsafe` code is [*sound*](https://docs.rs/dtolnay/0.0.7/dtolnay/macro._03__soundness_bugs.html#soundness). In a basic audit, one would check a weaker property: that the implemented uses of `unsafe` code do not produce undefined behavior. But advanced testing would ensure soundness: that any uses of `unsafe` code do not produce UB. In fact, unsound code is quite a common source of vulnerabilities: code that worked correctly for a long time until a specific input triggered the bug.
+Security testing would need to ensure that any `unsafe` code is [*sound*](https://docs.rs/dtolnay/0.0.7/dtolnay/macro._03__soundness_bugs.html#soundness). In a basic audit, one would check a weaker property: that the actually implemented uses of `unsafe` code do not produce undefined behavior. But advanced testing would ensure soundness: no possible safe caller can use the `unsafe` code to produce UB. In fact, unsound code is quite a common source of vulnerabilities: code that worked correctly for a long time until a specific input triggered the bug.
 
 Note that detecting unsafe code in Rust is easy, which greatly reduces the security testing effort. On the other hand, some unsafe code may be “hidden” in (transitive) dependencies, which is worth keeping in mind during audits.
 
@@ -80,7 +80,7 @@ Dealing with numbers is safe in Rust, but some operations may produce unexpected
 * [Imprecision of float operations](https://seclists.org/oss-sec/2023/q2/99)  
 * [Rounding errors](https://github.com/crytic/roundme)
 
-There are [three types of integer overflows](https://phrack.org/issues/60/10.html#article): arithmetic, widthness, and signedness.
+There are [three types of integer bugs](https://phrack.org/issues/60/10.html#article): arithmetic overflows, widthness overflows, and signedness related.
 
 Rust can handle arithmetic overflows in a few ways: [wrap over](https://doc.rust-lang.org/std/intrinsics/fn.wrapping_add.html), [wrap with information](https://doc.rust-lang.org/std/intrinsics/fn.add_with_overflow.html), [check](https://doc.rust-lang.org/std/primitive.i32.html#method.checked_add), [saturate](https://doc.rust-lang.org/std/intrinsics/fn.saturating_add.html), [produce undefined behavior](https://doc.rust-lang.org/std/intrinsics/fn.unchecked_add.html), and panic.
 
