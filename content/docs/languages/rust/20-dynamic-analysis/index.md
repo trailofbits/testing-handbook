@@ -594,50 +594,121 @@ Finally, use our [`property-based-testing`](https://github.com/trailofbits/skill
 
 ## Coverage
 
-It is critically important to know how much coverage your tests have. Coverage gathering consists of three steps:
+It is critically important to know how much coverage your tests have. Coverage gathering consists of four steps:
 
 * Compile-time instrumentation  
-* Execution of tests, producing "raw" data  
-* Conversion of "raw" data to a usable format
+* Execution of tests, producing "raw" data
+* Merge of per-execution run results
+* Conversion of merged data to a usable format (like an html report)
 
-There are three common instrumentation backends (engines):
+There are two main data formats:
+* LLVM-style: `profraw` (per-process) and `profdata` (merged)
+* gcov-style: `gcno` (produced during compilation) and `gcda` (produced during execution)
 
-* [GCC `gcov`](https://gcc.gnu.org/onlinedocs/gcc/Gcov.html)  
-  * Produces `gcno` raw data (during compilation) and `gcda` raw data (during execution)  
-* [LLVM SanitizerCoverage](https://clang.llvm.org/docs/SanitizerCoverage.html)  
-  * Produces `profraw` raw data  
-  * Can produce `gcno` and `gcda` raw data, but this is not supported in Rust wrappers  
-* ptrace-based  
-  * Produces `profraw` raw data
+The two pipelines line up roughly like this:
 
-Three popular tools wrap the above engines for easier consumption in Rust projects: [`grcov`](https://github.com/mozilla/grcov), [`cargo-llvm-cov`](https://github.com/taiki-e/cargo-llvm-cov), and [`cargo-tarpaulin`](https://github.com/xd009642/tarpaulin). Instead of these, you can directly use [the tools described in the Rust fuzzing chapter](https://trailofbits.github.io/testing-handbook-preview/pr-preview/pr-2/docs/fuzzing/rust/techniques/coverage-analysis/).
+| Stage | LLVM | gcov |
+| :---- | :---- | :---- |
+| Compile-time mapping | `__llvm_covmap` section in binary | `.gcno` |
+| Per-run raw output | `.profraw` (one per process) | `.gcda` (merged in place at process exit) |
+| Offline merge tool | `llvm-profdata merge` → `.profdata` | `gcov-tool merge` (still `.gcda`) or `lcov --add-tracefile` (→ `.info`) |
+| Report consumer | `llvm-cov` reads `.profdata` + binary | `gcov` / `lcov` / `genhtml` read `.gcno`+`.gcda` or `.info` |
 
-| Feature/tool | `grcov` | `cargo-llvm-cov` | `cargo-tarpaulin` |
+There are four common instrumentation backends (engines):
+* [LLVM Instrument Coverage](https://doc.rust-lang.org/rustc/instrument-coverage.html)
+  * Compiler front-end inserts per-source-region counters, so the instrumentation knows about source-level constructs.
+  * Counters are incremented in-process during execution and dumped at process exit by the `__llvm_profile_*` runtime.
+* [LLVM SanitizerCoverage](https://clang.llvm.org/docs/SanitizerCoverage.html)
+  * Compiler inserts low-overhead `__sanitizer_cov_*` callbacks at functions, basic blocks, edges, or comparisons.
+  * Callbacks fire at runtime and are consumed in-process by fuzzers for corpus guidance.
+* [GCC `gcov`](https://gcc.gnu.org/onlinedocs/gcc/Gcov.html)
+  * Compiler back-end pass instruments CFG arcs (basic-block edges), with no source-level awareness beyond debug info.
+  * Counters are incremented in-process during execution and flushed at process exit by the gcov runtime.
+* ptrace-based
+  * No compile-time instrumentation; a tracer places `INT3` breakpoints on each statement's first instruction.
+  * The tracer counts hits at runtime by handling `SIGTRAP` via `ptrace`.
+
+{{< hint danger >}}
+The `gcov` engine is [no longer supported by Rust](https://github.com/rust-lang/rust/pull/131829). 
+The engine and gcov-style format is still often used for C/C++ codebases.
+{{< /hint >}}
+
+{{< hint warning >}}
+SanitizerCoverage is not meant for general coverage analysis, [but for fuzzing](https://trailofbits.github.io/testing-handbook-preview/pr-preview/pr-2/docs/fuzzing/rust/techniques/coverage-analysis/).
+{{< /hint >}}
+
+Three popular tools wrap the above engines for easier consumption in Rust projects: [`grcov`](https://github.com/mozilla/grcov), [`llvm-cov`](https://github.com/taiki-e/cargo-llvm-cov), and [`tarpaulin`](https://github.com/xd009642/tarpaulin).
+
+| Feature/tool | `grcov` | `llvm-cov` | `tarpaulin` |
 | :---- | :---- | :---- | :---- |
-| Backends | LLVM, `gcov` | LLVM | LLVM, ptrace |
-| Coverage | Lines, functions, branches | Lines, functions, regions | Lines |
+| Backends | LLVM | LLVM | LLVM, ptrace |
+| Consumes | `profraw`/`profdata` or `gcno`/`gcda` | `profraw`/`profdata` | its own raw output |
+| Coverage | Lines, functions, branches | Lines, functions, branches, regions, MC/DC | Lines |
 | Output format | LCOV, JSON, HTML, Cobertura, Coveralls+, Markdown, ADE | Text, LCOV, JSON, HTML, Cobertura, Codecov | Text, LCOV, JSON, HTML, XML |
 | To exclude files | `--ignore` | [`--ignore-filename-regex`](https://github.com/taiki-e/cargo-llvm-cov?tab=readme-ov-file#exclude-file-from-coverage) | `--exclude-files` |
 | To exclude functions | With in-code markers and regexes | [With attributes](https://github.com/taiki-e/cargo-llvm-cov?tab=readme-ov-file#exclude-function-from-coverage) | [With attributes](https://github.com/xd009642/tarpaulin?tab=readme-ov-file#ignoring-code-in-files) |
 | To exclude test coverage | No | [With external module](https://github.com/taiki-e/coverage-helper/tree/v0.2.0) | `--ignore-tests` |
-| To enable coverage for C/C++ | Unknown | [`--include-ffi`](https://github.com/taiki-e/cargo-llvm-cov?tab=readme-ov-file#get-coverage-of-cc-code-linked-to-rust-librarybinary) | `--follow-exec` |
-| Merges data from multiple runs? | No | [Yes](https://github.com/taiki-e/cargo-llvm-cov?tab=readme-ov-file#merge-coverages-generated-under-different-test-conditions) | [Yes](https://github.com/xd009642/tarpaulin?tab=readme-ov-file#command-line) (but only shows delta) |
+| To enable coverage for C/C++ | Unknown | [`--include-ffi`](https://github.com/taiki-e/cargo-llvm-cov?tab=readme-ov-file#get-coverage-of-cc-code-linked-to-rust-librarybinary) | Unknown |
+| Merges runs across different builds? | No | [Yes](https://github.com/taiki-e/cargo-llvm-cov?tab=readme-ov-file#merge-coverages-generated-under-different-test-conditions) | [Yes](https://github.com/xd009642/tarpaulin?tab=readme-ov-file#command-line) (but only shows delta) |
 
 While checking coverage statistics from a command line and using one of many coverage visualizers, an HTML report is often what you need.
 
-| HTML output/tool | `grcov` | `cargo-llvm-cov` | `cargo-tarpaulin` |
+| HTML output/tool | `grcov` | `llvm-cov` | `tarpaulin` |
 | :---- | :---- | :---- | :---- |
-| Examples | [Open `grcov`](https://trailofbits.github.io/samples_rust_coverage/grcov/index.html?:) [Open `grcov` with `lcov`](https://trailofbits.github.io/samples_rust_coverage/grcov_lcov/index.html?:) | [Open `llvm-cov`](https://trailofbits.github.io/samples_rust_coverage/llvm_cov/index.html?:) [Open `llvm-cov-pretty`](https://trailofbits.github.io/samples_rust_coverage/llvm_cov_pretty/index.html?:) | [Open `tarpaulin`](https://trailofbits.github.io/samples_rust_coverage/tarpaulin-report.html?:) |
+| Examples | [Open `grcov`](/languages/rust/coverage/grcov/?:) [Open `grcov` with `lcov`](/languages/rust/coverage/grcov_lcov/?:) | [Open `llvm-cov`](/languages/rust/coverage/llvm_cov/?:) [Open `llvm-cov-pretty`](/languages/rust/coverage/llvm_cov_pretty/?:) | [Open `tarpaulin`](/languages/rust/coverage/tarpaulin-report.html?:) |
 | Handles Rust’s constructions? | Yes | Yes | Yes |
 | Expands Rust’s generics? | No | `--show-instantiations` | No |
-| Includes number of hits? | Yes | Yes | No |
+| Includes number of hits? | Yes | Yes | Yes |
 | Supports multi-file output? | Yes | Yes | No |
+
+{{< tabs "coverage html reports" >}}
+{{< tab "grcov llvm" >}}
+![grcov HTML report](grcov_llvm1.png)
+
+--- 
+
+![grcov HTML report 2](grcov_llvm2.png)
+{{< /tab>}}
+
+{{< tab "grcov llvm with lcov" >}}
+![grcov + lcov HTML report](grcov_llvm_lcov1.png)
+
+--- 
+
+![grcov + lcov HTML report 2](grcov_llvm_lcov2.png)
+{{< /tab>}}
+
+{{< tab "llvm-cov" >}}
+![llvm-cov HTML report](llvm_cov1.png)
+
+--- 
+
+![llvm-cov HTML report 2](llvm_cov2.png)
+{{< /tab>}}
+
+{{< tab "llvm-cov with llvm-cov-pretty" >}}
+![llvm-cov-pretty HTML report](llvm_cov_pretty1.png)
+
+--- 
+
+![llvm-cov-pretty HTML report 2](llvm_cov_pretty2.png)
+{{< /tab>}}
+
+{{< tab "tarpaulin" >}}
+![tarpaulin HTML report](tarpaulin1.png)
+
+--- 
+
+![tarpaulin HTML report 2](tarpaulin2.png)
+{{< /tab>}}
+
+{{< /tabs >}}
 
 These are our general recommendations for generating test coverage:
 
-* Use `cargo-llvm-cov` (with [`llvm-cov-pretty`](https://github.com/dnaka91/llvm-cov-pretty)) for rapid testing. It is the easiest to run, it resolves generics, and it produces pretty HTML output.  
-* Use either `cargo-llvm-cov` or `grcov` for complex projects. Both are decent and can produce readable outputs.  
-* Use `cargo-tarpaulin` when other tools work incorrectly. [The developers claim](https://github.com/xd009642/tarpaulin?tab=readme-ov-file#nuances-with-llvm-coverage) that this can happen in the event of the following:  
+* Use `llvm-cov` (with [`llvm-cov-pretty`](https://github.com/dnaka91/llvm-cov-pretty)) for rapid testing. It is the easiest to run, it resolves generics, and it produces pretty HTML output.  
+* Use either `llvm-cov` or `grcov` for complex projects. Both are decent and can produce readable outputs.  
+* Use `tarpaulin` when other tools work incorrectly. [The developers claim](https://github.com/xd009642/tarpaulin?tab=readme-ov-file#nuances-with-llvm-coverage) that this can happen in the event of the following:  
   * The code panics unexpectedly.  
   * There are race conditions.  
   * The code forks.
@@ -645,8 +716,8 @@ These are our general recommendations for generating test coverage:
 For profiling, consider using [`measureme`](https://github.com/rust-lang/measureme), possibly with [Miri and Chrome DevTools](https://medium.com/source-and-buggy/data-driven-performance-optimization-with-rust-and-miri-70cb6dde0d35).
 
 {{< hint info >}}
-Go to the [Testing Handbook repository’s `samples/rust_coverage`](https://github.com/trailofbits/testing-handbook/tree/main/samples/rust_coverage/) folder.
-There you will find Dockerfile-generating HTML reports using the described tools.
+Go to the [Testing Handbook repository’s `materials/rust/coverage`](https://github.com/trailofbits/testing-handbook/tree/main/materials/rust/coverage) folder.
+There you will find a Dockerfile that generated HTML reports shown above.
 {{< /hint >}}
 
 

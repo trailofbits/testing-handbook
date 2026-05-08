@@ -1,0 +1,1 @@
+genhtml -o ./outputs/grcov_llvm_lcov --show-details --ignore-errors source --legend ./outputs/grcov_llvm_lcov.info
