@@ -15,12 +15,12 @@ Clippy is the fundamental linter. Just use it.
 [Clippy lints](https://rust-lang.github.io/rust-clippy/master/index.html) are categorized into groups and levels. Groups categorize lints by the types of issues they detect. Levels indicate what to do when a lint finds an issue:
 
 * Allow: Ignore the issue  
-* Warn: Print a message to stdout  
+* Warn: Print a message to stderr  
 * Deny: Return an error code (useful in CI pipelines)
 
 Clippy is a wrapper over the `rustc` compiler, so when Clippy is run, it executes [its own set of lints](https://doc.rust-lang.org/rustc/lints/listing/index.html) in addition to `rustc`’s. These lints are similarly categorized and can be controlled with the same flags and configuration options.
 
-For one-off security reviews, you want to get indicators of buggy code. For that, use the default configuration. It enables all warnings and deny lints:
+For one-off security reviews, you want to get indicators of buggy code. For that, use the default configuration. It enables selected warnings and deny lints:
 
 ```sh
 cargo clippy
@@ -40,14 +40,14 @@ cargo clippy -- \
 	-Zcrate-attr="feature(strict_provenance)" \
 	-Zcrate-attr="feature(multiple_supertrait_upcastable)" \
 	-Zcrate-attr="feature(must_not_suspend)" \
-	-W $(rustc -W help | grep '  allow' | cut -w -f2 | awk 'ORS=" -W"') \
+	-W $(rustc -W help | grep '  allow' | tr -s ' ' | cut -d' ' -f2 | awk 'ORS=" -W"') \
 	clippy::pedantic -W clippy::nursery -W clippy::restriction -A dead_code
 ```
 
 {{< hint info >}}
 These are our favorite lints:
 * [`arithmetic_side_effects`](https://rust-lang.github.io/rust-clippy/master/index.html#arithmetic_side_effects): Detects potential side effects of arithmetic operations (e.g., integer overflows, division by zero)
-* [`string_slice`](https://rust-lang.github.io/rust-clippy/master/index.html#string_slice): Detects potential slices that do not align with Unicode codepoints
+* [`string_slice`](https://rust-lang.github.io/rust-clippy/master/index.html#string_slice): Detects potential slices that do not align with Unicode scalar value
 * [`must_use_candidate`](https://rust-lang.github.io/rust-clippy/master/index.html#must_use_candidate): Checks for unused `#[must_use]` candidates
 
 ```
@@ -102,7 +102,7 @@ allow-unwrap-in-tests = true
 * Complex lints may not be wanted due to maintenance effort.  
 * Lints with a high false-positive rate may not be wanted.
 
-Moreover, using Dylint over Clippy [helps for dealing with the unstable `rustc` API and for sharing lints with other people](https://blog.trailofbits.com/2021/11/09/write-rust-lints-without-forking-clippy/).
+Moreover, writing lints with Dylint instead of forking Clippy [helps with dealing with the unstable `rustc` API and with sharing lints with other people](https://blog.trailofbits.com/2021/11/09/write-rust-lints-without-forking-clippy/).
 
 {{< resourceFigure "30-dylint.svg" "Clippy vs Dylint linking" >}}
 Slide from "Linting with Dylint" EuroRust 2024 talk.
@@ -119,12 +119,10 @@ cargo install cargo-dylint dylint-link
 Run with lints provided by Trail of Bits:
 
 ```sh
-cargo dylint --no-deps \
+cargo dylint  \
 	--git https://github.com/trailofbits/dylint \
-	--pattern examples/general cargo dylint --no-deps \
-	--git https://github.com/trailofbits/dylint \
-	--pattern examples/supplementary \
-	-- --message-format=json | clippy-sarif > dylint.sarif
+	--pattern examples/general \
+	-- --no-deps --message-format=json | clippy-sarif > dylint.sarif
 ```
 
 ### Write your own lint
@@ -135,7 +133,7 @@ You can write your own lint, but it is a nontrivial task and is beyond the scope
 * Early: Run on the AST after macros have been expanded  
 * Late: Run on the high-level intermediate representation (HIR)—that is, after names have been resolved, types have been checked, etc.
 
-Check out [Samuel Moelius’s ‘Linting with Dylint’ EuroRust 2024](https://youtu.be/MjlPUA7sAmA?t=548) talk' for detailed guidelines
+Check out [Samuel Moelius’s ‘Linting with Dylint’ EuroRust 2024](https://youtu.be/MjlPUA7sAmA?t=548) talk for detailed guidelines.
 
 ## Other tools
 
@@ -143,7 +141,7 @@ Check out [Samuel Moelius’s ‘Linting with Dylint’ EuroRust 2024](https://y
 
 Semgrep has support for the Rust language. Check the [Semgrep page](/docs/static-analysis/semgrep/) in the handbook for more information on the tool.
 
-```rust
+```bash
 semgrep --config "p/rust"
 ```
 

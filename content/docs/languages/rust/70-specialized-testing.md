@@ -18,7 +18,7 @@ weight: 70
 * Sound, but slow  
 * Works analogously to model checkers
 
-## Fault injections
+## Fault injection
 
 [MadSim](https://github.com/madsim-rs/madsim)
 

@@ -43,14 +43,14 @@ recommended audits for safe-to-deploy:
 
 The `cargo-vet` failure shown above means the `regex-syntax` crate is "not safe for deployment," but there is an available audit for an older version of the crate.
 
-There are some [preconfigured auditors](https://raw.githubusercontent.com/bholley/cargo-vet/main/registry.toml), and [more can be imported](https://mozilla.github.io/cargo-vet/importing-audits.html). We recommend adding the following:
+There are some [preconfigured auditors](https://github.com/mozilla/cargo-vet/blob/main/registry.toml), and [more can be imported](https://mozilla.github.io/cargo-vet/importing-audits.html). We recommend adding the following:
 
-* [`rust-crate-audits`](https://github.com/google/rust-crate-audits): A collection of Google’s audits  
+* [`rust-crate-audits`](https://github.com/google/rust-crate-audits): A collection of Google’s audits
 * [`bytecodealliance/wasmtime`](https://github.com/bytecodealliance/wasmtime/blob/main/supply-chain/audits.toml)
 
 ### [cargo-crev](https://github.com/crev-dev/cargo-crev)
 
-The tool is another tool for distributed code reviews.
+Yet another tool for distributed code reviews.
 
 ```sh
 $ cargo crev verify --show-all
@@ -62,21 +62,21 @@ none     0   3  0   0  0  1 45104K 695354K   7558   115    err ____ memchr  2.7.
 It cryptographically signs/verifies the audit (if that matters to you) and is more decentralized in nature than `cargo-vet`, but may require more manual configurations and cannot help with version-diff trust.
 
 {{< hint info >}}
-Use the [`cravette` tool](https://github.com/crev-dev/crevette) to convert audits from `crev` to `vet` format.
+Use the [`crevette` tool](https://github.com/crev-dev/crevette) to convert audits from `crev` to `vet` format.
 {{< /hint >}}
 
 ### [cargo-deny](https://github.com/EmbarkStudios/cargo-deny)
 
 This plugin can be used for linting your dependencies. Use it if you want to automatically detect and warn about crates with these issues:
 
-* Have an incompatible license  
-* Have multiple versions in your dependency tree  
-* Are explicitly banned by you  
+* Have an incompatible license
+* Have multiple versions in your dependency tree
+* Are explicitly banned by you
 * Have public security advisories
 
 ### [cargo-unmaintained](https://github.com/trailofbits/cargo-unmaintained)
 
-This Trail of Bits’ tool can be used in addition to `cargo` `audit` (see below) to detect unmaintained dependencies in a heuristic way.
+This Trail of Bits’ tool can be used in addition to `cargo audit` (see below) to detect unmaintained dependencies in a heuristic way.
 
 ### [cackle](https://github.com/cackle-rs/cackle)
 
@@ -135,7 +135,7 @@ cargo deny check bans --exclude-dev
 Look for `warning[duplicate]` outputs.
 {{< /hint >}}
 
-Similarly, a dependency that is obtained from multiple sources (e.g., crates.io and github.com) may indicate some issues. To report such offending dependencies, use [`cargo-vendor`](https://doc.rust-lang.org/cargo/commands/cargo-vendor.html).
+Similarly, a dependency that is obtained from multiple sources (e.g., crates.io and github.com) may indicate some issues. To report such offending dependencies, use [`cargo vendor`](https://doc.rust-lang.org/cargo/commands/cargo-vendor.html) or `cargo-deny`'s `sources` check.
 
 ```sh
 cargo vendor --locked ./tmp_path
