@@ -673,7 +673,7 @@ While checking coverage statistics from a command line and using one of many cov
 
 | HTML output/tool | `grcov` | `llvm-cov` | `tarpaulin` |
 | :---- | :---- | :---- | :---- |
-| Examples | [Open `grcov`](/languages/rust/coverage/grcov_llvm/) [Open `grcov` with `lcov`](/languages/rust/coverage/grcov_llvm_lcov/) | [Open `llvm-cov`](/languages/rust/coverage/llvm_cov/) [Open `llvm-cov-pretty`](/languages/rust/coverage/llvm_cov_pretty/) | [Open `tarpaulin`](/languages/rust/coverage/tarpaulin-report.html) |
+| Examples | [Open `grcov`](/languages/rust/coverage/grcov_llvm/?:) [Open `grcov` with `lcov`](/languages/rust/coverage/grcov_llvm_lcov/?:) | [Open `llvm-cov`](/languages/rust/coverage/llvm_cov/?:) [Open `llvm-cov-pretty`](/languages/rust/coverage/llvm_cov_pretty/?:) | [Open `tarpaulin`](/languages/rust/coverage/tarpaulin-report.html?:) |
 | Handles Rust’s constructions? | Yes | Yes | Yes |
 | Expands Rust’s generics? | No | `--show-instantiations` | No |
 | Includes number of hits? | Yes | Yes | Yes |
