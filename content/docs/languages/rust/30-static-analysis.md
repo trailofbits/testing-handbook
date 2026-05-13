@@ -36,30 +36,31 @@ Finally, you can get them all (`rustc` allow lints must be enabled one by one, a
 
 ```sh
 cargo clippy -- \
-	-Zcrate-attr="feature(non_exhaustive_omitted_patterns_lint)" \
-	-Zcrate-attr="feature(strict_provenance)" \
-	-Zcrate-attr="feature(multiple_supertrait_upcastable)" \
-	-Zcrate-attr="feature(must_not_suspend)" \
-	-W $(rustc -W help | grep '  allow' | tr -s ' ' | cut -d' ' -f2 | awk 'ORS=" -W"') \
-	clippy::pedantic -W clippy::nursery -W clippy::restriction -A dead_code
+ -Zcrate-attr="feature(non_exhaustive_omitted_patterns_lint)" \
+ -Zcrate-attr="feature(strict_provenance)" \
+ -Zcrate-attr="feature(multiple_supertrait_upcastable)" \
+ -Zcrate-attr="feature(must_not_suspend)" \
+ -W $(rustc -W help | grep '  allow' | tr -s ' ' | cut -d' ' -f2 | awk 'ORS=" -W"') \
+ clippy::pedantic -W clippy::nursery -W clippy::restriction -A dead_code
 ```
 
 {{< hint info >}}
 These are our favorite lints:
+
 * [`arithmetic_side_effects`](https://rust-lang.github.io/rust-clippy/master/index.html#arithmetic_side_effects): Detects potential side effects of arithmetic operations (e.g., integer overflows, division by zero)
 * [`string_slice`](https://rust-lang.github.io/rust-clippy/master/index.html#string_slice): Detects potential slices that do not align with Unicode scalar value
 * [`must_use_candidate`](https://rust-lang.github.io/rust-clippy/master/index.html#must_use_candidate): Checks for unused `#[must_use]` candidates
 
-```
+```sh
 # WARNING: The next command modifies files!
 cargo clippy --fix --allow-dirty -- -W clippy::must-use-candidate
 cargo check --all-targets
 ```
+
 {{< /hint >}}
 
-
 If Clippy produces a lot of results, you may want to output findings in SARIF format and use [SARIF Explorer](https://github.com/trailofbits/vscode-sarif-explorer) to review them in a code editor. Use the third-party [`clippy-sarif`](https://crates.io/crates/clippy-sarif) tool for the task:  
- 
+
 ```sh
 cargo clippy --message-format=json | clippy-sarif
 ```
@@ -74,10 +75,10 @@ For continuous use, such as in a CI/CD pipeline, you want to minimize false posi
 
 ```sh
 cargo clippy -- \
-	-Dwarnings -A clippy::style -W clippy::arithmetic-side-effects \
-	-W clippy::string_slice -W clippy::infinite_loop \
-	-W clippy::float_cmp_const
-	# then enable style and pedantic like -W clippy::same-item-push -W clippy::cast_lossless
+ -Dwarnings -A clippy::style -W clippy::arithmetic-side-effects \
+ -W clippy::string_slice -W clippy::infinite_loop \
+ -W clippy::float_cmp_const
+ # then enable style and pedantic like -W clippy::same-item-push -W clippy::cast_lossless
 ```
 
 You can contribute new lints to Clippy. To do so, [follow the official guidance](https://doc.rust-lang.org/clippy/development/index.html).
@@ -90,8 +91,8 @@ allow-expect-in-tests = true
 allow-panic-in-tests = true
 allow-unwrap-in-tests = true
 ```
-{{< /hint >}}
 
+{{< /hint >}}
 
 ## Dylint
 
@@ -120,9 +121,9 @@ Run with lints provided by Trail of Bits:
 
 ```sh
 cargo dylint  \
-	--git https://github.com/trailofbits/dylint \
-	--pattern examples/general \
-	-- --no-deps --message-format=json | clippy-sarif > dylint.sarif
+ --git https://github.com/trailofbits/dylint \
+ --pattern examples/general \
+ -- --no-deps --message-format=json | clippy-sarif > dylint.sarif
 ```
 
 ### Write your own lint

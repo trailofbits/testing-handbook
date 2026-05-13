@@ -48,8 +48,8 @@ Note that detecting unsafe code in Rust is easy, which greatly reduces the secur
 There’s more. Some safe (defined) behavior may result in vulnerabilities. The ["Behavior not considered unsafe"](https://doc.rust-lang.org/reference/behavior-not-considered-unsafe.html) list points to notable safe behaviors that are a common source of security bugs:
 
 * [General race conditions](https://doc.rust-lang.org/nomicon/races.html)
-	* Deadlocks (blocking bugs)
-	* Incorrect state synchronization (non-blocking bugs)  
+  * Deadlocks (blocking bugs)
+  * Incorrect state synchronization (non-blocking bugs)  
 * Resource leaks  
 * Pointer exposures  
 * Arithmetic errors  
@@ -103,7 +103,7 @@ Widthness and signedness overflows can occur when converting between numeric typ
 * A [checked conversion](https://doc.rust-lang.org/std/convert/trait.TryFrom.html) with overflows handled explicitly (e.g., with a panic)  
 * An [`as` cast](https://doc.rust-lang.org/rust-by-example/types/cast.html) that may result in a wrap-over (but is always well defined, [unlike in C](https://stackoverflow.com/questions/16188263/is-signed-integer-overflow-still-undefined-behavior-in-c))
 
-The latter cast method is more error-prone and should get the same amount of scrutiny as arithmetic overflows. An [`as` cast](https://doc.rust-lang.org/rust-by-example/types/cast.html) silently truncates bigger integer types converted to smaller integer types, even in debug mode. 
+The latter cast method is more error-prone and should get the same amount of scrutiny as arithmetic overflows. An [`as` cast](https://doc.rust-lang.org/rust-by-example/types/cast.html) silently truncates bigger integer types converted to smaller integer types, even in debug mode.
 
 ## Nondeterminism
 

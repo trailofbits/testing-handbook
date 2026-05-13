@@ -10,7 +10,7 @@ Zeroization in the presence of optimizing compilers is difficult. In Rust, it is
 
 There are three levels of "zeroization security" that can be considered, depending on the security goals.
 
-**Pros and cons of different approaches**
+## Pros and cons of different approaches
 
 | Security level | Pros | Cons |
 | :---- | :---- | :---- |
@@ -132,4 +132,3 @@ To really guarantee that data is no longer in memory (though the definition of *
 This approach effectively relies on the kernel to provide memory-level process isolation. It should prevent compromise of secrets if the main process is compromised. However, it will not prevent secrets from residing in RAM memory until overwritten at some random point in time (the data may be retrieved with specialized lab equipment).
 
 A more complex approach would be to have the code iterate over subprocesses’ and threads’ writable memory regions and overwrite them with zeros or random data just before they are killed. However, even with such an overly complex solution, you may not be sure about data zeroization because a process-level implementation cannot provide guarantees that are effectively hardware-level.
-

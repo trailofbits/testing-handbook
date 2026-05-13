@@ -82,7 +82,6 @@ This Trail of Bits’ tool can be used in addition to `cargo audit` (see below) 
 
 The tool lists APIs (filesystem, network, environment, sockets, etc.) used by your project’s dependencies. This allows you to detect suspicious transitive dependencies that access APIs you didn’t expect them to use.
 
-
 ## Looking for vulnerabilities
 
 The ultimate tool for detection of vulnerabilities is [`cargo audit`](https://crates.io/crates/cargo-audit). You should just use it. The tool compares dependencies against a database with known vulnerabilities:
@@ -140,4 +139,5 @@ Similarly, a dependency that is obtained from multiple sources (e.g., crates.io 
 ```sh
 cargo vendor --locked ./tmp_path
 ```
+
 Finally, to find dependencies specified in multiple `Cargo.toml` files, consider using [`cargo-autoinherit`](https://github.com/mainmatter/cargo-autoinherit).

@@ -84,30 +84,34 @@ mod tests {
     }
 }
 ```
-{{< /details >}}
 
+{{< /details >}}
 
 ### Features randomization
 
 Rust code supports conditional compilation via [Cargo features](https://doc.rust-lang.org/cargo/reference/features.html). Ideally, tests would cover all possible versions of a program. To ensure that, we need to run tests against all possible (or supported) combinations of features.  
-   
+
 For this task, use [`cargo hack`](https://github.com/taiki-e/cargo-hack). Start with testing your code against all the features taken separately, then combine multiple features in one run:
 
 {{< tabs "cargo hack" >}}
 {{< tab "Shell" >}}
+
 ```sh
 cargo +nightly install cargo-hack --locked
 cargo hack test --no-dev-deps --each-feature
 cargo hack test --no-dev-deps --feature-powerset --depth 2
 ```
+
 {{< /tab>}}
 {{< tab "CI" >}}
+
 ```yaml
 - uses: taiki-e/install-action@6da51af62171044932d435033daa70a0eb3383ba
   with:
     tool: cargo-hack
 - run: cargo hack test --feature-powerset --depth 2 --workspace
 ```
+
 {{< /tab>}}
 {{< /tabs >}}
 
@@ -165,6 +169,7 @@ mod tests {
     }
 }
 ```
+
 {{< /details >}}
 
 ## Integer overflows
@@ -226,17 +231,17 @@ mod tests {
     }
 }
 ```
+
 {{< /details >}}
 
 Due to performance considerations, you are likely to want to enable the overflow checks only for testing and debug builds, not for release.
-
 
 ## Sanitizers
 
 While Rust is memory-safe, one may open a gate to the unsafe world and introduce all the well-known vulnerabilities like use-after-free and reading of uninitialized memory. Moreover, the Rust compiler does not provide strong guarantees about [memory leaks](https://doc.rust-lang.org/book/ch15-06-reference-cycles.html) and [general race conditions](https://doc.rust-lang.org/nomicon/races.html).
 
 To find deep bugs, we can run tests with [various sanitizers](https://doc.rust-lang.org/beta/unstable-book/compiler-flags/sanitizer.html). Sanitization in this context means that builds are instrumented during compilation and linked with specialized runtime libraries. Then, when executed, the instrumentation looks for a specific class of issues. Running tests with sanitizers comes with the downsides of increased compilation time, execution time, and memory usage.  
-   
+
 These are the available sanitizers supported by Rust:
 
 * AddressSanitizer  
@@ -255,24 +260,28 @@ At this time, nightly toolchains must be used for sanitizers. If you use the sta
 
 {{< tabs "rust sanitizers" >}}
 {{< tab "Cargo test" >}}
+
 ```sh
 for sanitizer in "address" "leak" "memory" "thread"; do
-	echo "Testing with $sanitizer"
-	export RUSTFLAGS="-Z sanitizer=$sanitizer"
+ echo "Testing with $sanitizer"
+ export RUSTFLAGS="-Z sanitizer=$sanitizer"
     export RUSTDOCFLAGS="$RUSTFLAGS"
-	cargo test --target x86_64-unknown-linux-gnu
+ cargo test --target x86_64-unknown-linux-gnu
 done
 ```
+
 {{< /tab>}}
 {{< tab "Cargo nextest" >}}
+
 ```sh
 for sanitizer in "address" "leak" "memory" "thread"; do
-	echo "Testing with $sanitizer"
-	export RUSTFLAGS="-Z sanitizer=$sanitizer"
+ echo "Testing with $sanitizer"
+ export RUSTFLAGS="-Z sanitizer=$sanitizer"
     export RUSTDOCFLAGS="$RUSTFLAGS"
-	cargo nextest run --target x86_64-unknown-linux-gnu
+ cargo nextest run --target x86_64-unknown-linux-gnu
 done
 ```
+
 {{< /tab>}}
 {{< /tabs >}}
 
@@ -284,7 +293,7 @@ A few tips:
 
 * Not all targets are created equal. Check [which are supported by the given sanitizer](https://github.com/rust-lang/rust/issues/123615#issuecomment-2041791236).
 
-* Use both `RUSTFLAGS` and `RUSTDOCFLAGS` if there are any doctests. 
+* Use both `RUSTFLAGS` and `RUSTDOCFLAGS` if there are any doctests.
 
 * Sanitizers are not compatible with each other. Compile with one sanitizer at a time. One exception is AddressSanitizer and LeakSanitizer that can work together.
 
@@ -297,7 +306,6 @@ A few tips:
   * A known limitation is lack of support for `std::sync::atomic::fence` and inline assembly code.
 
   * To reduce false positives, use a single thread for testing (`RUST_TEST_THREADS=1` or `--test-threads=1`). Note that ThreadSanitizer errors on multi-threaded test execution may indicate bugs in tests themselves (not in the actual code) and may be worth investigating.
-
 
 {{< details "Example to try: testing with ASAN" >}}
 
@@ -339,15 +347,19 @@ To use Miri, you must point it at some executable code (it performs dynamic anal
 
 {{< tabs "miri tests" >}}
 {{< tab "Miri with cargo test" >}}
+
 ```sh
 rustup +nightly component add miri
 cargo miri test
 ```
+
 {{< /tab>}}
 {{< tab "Miri with nextest" >}}
+
 ```sh
 cargo miri nextest run
 ```
+
 {{< /tab>}}
 {{< /tabs >}}
 
@@ -591,6 +603,7 @@ PROPTEST_DISABLE_FAILURE_PERSISTENCE=true \
 MIRIFLAGS='-Zmiri-env-forward=PROPTEST_DISABLE_FAILURE_PERSISTENCE' \
 cargo miri test
 ```
+
 {{< /hint >}}
 
 Finally, use our [`property-based-testing`](https://github.com/trailofbits/skills/tree/main/plugins/property-based-testing) Claude skill to automate the testing.
@@ -605,6 +618,7 @@ It is critically important to know how much coverage your tests have. Coverage g
 * Conversion of merged data to a usable format (like an html report)
 
 There are two main data formats:
+
 * LLVM-style: `profraw` (per-process) and `profdata` (merged)
 * gcov-style: `gcno` (produced during compilation) and `gcda` (produced during execution)
 
@@ -618,6 +632,7 @@ The two pipelines line up roughly like this:
 | Report consumer | `llvm-cov` reads `.profdata` + binary | `gcov` / `lcov` / `genhtml` read `.gcno`+`.gcda` or `.info` |
 
 There are four common instrumentation backends (engines):
+
 * [LLVM Instrument Coverage](https://doc.rust-lang.org/rustc/instrument-coverage.html)
   * Compiler front-end inserts per-source-region counters, so the instrumentation knows about source-level constructs.
   * Counters are incremented in-process during execution and dumped at process exit by the `__llvm_profile_*` runtime.
@@ -632,7 +647,7 @@ There are four common instrumentation backends (engines):
   * The tracer counts hits at runtime by handling `SIGTRAP` via `ptrace`.
 
 {{< hint danger >}}
-The `gcov` engine is [no longer supported by Rust](https://github.com/rust-lang/rust/pull/131829). 
+The `gcov` engine is [no longer supported by Rust](https://github.com/rust-lang/rust/pull/131829).
 The engine and gcov-style format is still often used for C/C++ codebases.
 {{< /hint >}}
 
@@ -658,7 +673,7 @@ While checking coverage statistics from a command line and using one of many cov
 
 | HTML output/tool | `grcov` | `llvm-cov` | `tarpaulin` |
 | :---- | :---- | :---- | :---- |
-| Examples | [Open `grcov`](/languages/rust/coverage/grcov/?:) [Open `grcov` with `lcov`](/languages/rust/coverage/grcov_lcov/?:) | [Open `llvm-cov`](/languages/rust/coverage/llvm_cov/?:) [Open `llvm-cov-pretty`](/languages/rust/coverage/llvm_cov_pretty/?:) | [Open `tarpaulin`](/languages/rust/coverage/tarpaulin-report.html?:) |
+| Examples | [Open `grcov`](/languages/rust/coverage/grcov_llvm/) [Open `grcov` with `lcov`](/languages/rust/coverage/grcov_llvm_lcov/) | [Open `llvm-cov`](/languages/rust/coverage/llvm_cov/) [Open `llvm-cov-pretty`](/languages/rust/coverage/llvm_cov_pretty/) | [Open `tarpaulin`](/languages/rust/coverage/tarpaulin-report.html) |
 | Handles Rust’s constructions? | Yes | Yes | Yes |
 | Expands Rust’s generics? | No | `--show-instantiations` | No |
 | Includes number of hits? | Yes | Yes | Yes |
@@ -668,7 +683,7 @@ While checking coverage statistics from a command line and using one of many cov
 {{< tab "grcov llvm" >}}
 ![grcov HTML report](grcov_llvm1.png)
 
---- 
+---
 
 ![grcov HTML report 2](grcov_llvm2.png)
 {{< /tab>}}
@@ -676,7 +691,7 @@ While checking coverage statistics from a command line and using one of many cov
 {{< tab "grcov llvm with lcov" >}}
 ![grcov + lcov HTML report](grcov_llvm_lcov1.png)
 
---- 
+---
 
 ![grcov + lcov HTML report 2](grcov_llvm_lcov2.png)
 {{< /tab>}}
@@ -684,7 +699,7 @@ While checking coverage statistics from a command line and using one of many cov
 {{< tab "llvm-cov" >}}
 ![llvm-cov HTML report](llvm_cov1.png)
 
---- 
+---
 
 ![llvm-cov HTML report 2](llvm_cov2.png)
 {{< /tab>}}
@@ -692,7 +707,7 @@ While checking coverage statistics from a command line and using one of many cov
 {{< tab "llvm-cov with llvm-cov-pretty" >}}
 ![llvm-cov-pretty HTML report](llvm_cov_pretty1.png)
 
---- 
+---
 
 ![llvm-cov-pretty HTML report 2](llvm_cov_pretty2.png)
 {{< /tab>}}
@@ -700,7 +715,7 @@ While checking coverage statistics from a command line and using one of many cov
 {{< tab "tarpaulin" >}}
 ![tarpaulin HTML report](tarpaulin1.png)
 
---- 
+---
 
 ![tarpaulin HTML report 2](tarpaulin2.png)
 {{< /tab>}}
@@ -723,10 +738,9 @@ Go to the [Testing Handbook repository’s `materials/rust/coverage`](https://gi
 There you will find a Dockerfile that generated HTML reports shown above.
 {{< /hint >}}
 
-
 ## Validation of tests (mutation testing)
 
-Who tests tests? What if tests miss an important branch? What if your critical test has a bug that makes it pass incorrectly? We recommend using mutation testing to validate your tests.
+Who tests the tests? What if tests miss an important branch? What if your critical test has a bug that makes it pass incorrectly? We recommend using mutation testing to validate your tests.
 
 ### Gaps in test coverage
 
@@ -760,7 +774,7 @@ cargo install necessist
 
 Necessist works by iterating over the statements in each test, removing them one at a time, and checking whether the test still passes. A mutated test that passes with an instruction removed is shown as the following:
 
-```
+```text
 filename:line-line `removed code` passed
 ```
 

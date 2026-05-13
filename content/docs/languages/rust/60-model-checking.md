@@ -10,7 +10,6 @@ Model checking means verifying that a program works correctly for all possible i
 
 Instead of testing with a single value (like with unit testing) or with a set of values (like with property testing), we check all possible values—and hope that smart algorithms will make it possible to finish testing in a reasonable time.
 
-
 ## Prusti
 
 [Prusti](https://github.com/viperproject/prusti-dev) is based on [Viper](https://www.pm.inf.ethz.ch/research/viper.html), a framework for building verification tools. It uses symbolic execution and the [Z3 theorem prover](https://github.com/Z3Prover/z3).
@@ -19,7 +18,7 @@ Instead of testing with a single value (like with unit testing) or with a set of
 It is an academic project that seems to be stale. However, it can be used to experiment with this type of testing. For production uses consider other tools like Kani or Verus.
 {{< /hint >}}
 
-### Installation
+### Installing Prusti
 
 The developers recommend using the [Visual Studio Code extension](https://marketplace.visualstudio.com/items?itemName=viper-admin.prusti-assistant). Command-line tools can be [downloaded from the Prusti GitHub’s releases page](https://github.com/viperproject/prusti-dev/releases).
 
@@ -78,7 +77,7 @@ Prusti does not support loops automatically. You have to use [`body_invariant!`]
 
 [Kani](https://github.com/model-checking/kani) is a frontend for [CBMC](https://www.cprover.org/cbmc/) (Bounded Model Checker for C and C++).
 
-### Installation
+### Installing Kani
 
 You can simply [use Cargo to install it](https://model-checking.github.io/kani/install-guide.html).
 
@@ -106,7 +105,7 @@ Running the test, Kani will verify the absence of the following conditions for a
 
 If the code to test is too complex, Kani may take a long time to finish or may not even terminate at all. To overcome this, you can use three features:
 
-* [`kani::assume`](https://model-checking.github.io/kani/tutorial-first-steps.html#assertions-assumptions-and-harnesses): For restricting (bounding) symbolic values. It is a bit similar to [Prusti’s preconditions](/docs/languages/rust/lang-rust-model-checking#function-specifications).
+* [`kani::assume`](https://model-checking.github.io/kani/tutorial-first-steps.html#assertions-assumptions-and-harnesses): For restricting (bounding) symbolic values. It is a bit similar to [Prusti’s preconditions](#function-specifications).
 * [`kani::unwind`](https://model-checking.github.io/kani/tutorial-loop-unwinding.html): For controlling bounds for loops. Kani will assume that loops can loop only the configured number of times. The greater the number, the slower the execution. But if the number is configured to be too small, Kani will fail too early. This is the mechanism that overcomes Prusti’s limitation with the `body_invariant!` macro.
 * [`kani::Arbitrary`](https://model-checking.github.io/kani/tutorial-nondeterministic-variables.html#custom-nondeterministic-types): For defining per-type limitations for symbolic values.
 
@@ -181,6 +180,7 @@ If Kani finds a `FAILURE`, then we can generate example values that will trigger
 
 {{< hint danger >}}
 Kani does not scale well for the following:
+
 * Strings with unbounded content (i.e., long strings with arbitrary data)
 * Structures of symbolic sizes that involve heap allocations.
 {{< /hint >}}
@@ -188,27 +188,34 @@ Kani does not scale well for the following:
 ## Other model checkers
 
 [Creusot](https://github.com/xldenis/creusot)
+
 * Based on [Why3](https://www.why3.org/)
 * Allows you to provide and verify function specifications
 
 [Crux-mir](https://github.com/GaloisInc/crucible/tree/master/crux-mir)
+
 * Symbolic analysis
 * Enables writing of "symbolized" unit tests
 
 [Flux](https://github.com/flux-rs/flux)
+
 * Refinement type checker
 * Allows you to annotate functions with complex conditions
 
 [Verus](https://github.com/verus-lang/verus)
+
 * SMT-based
 * Lets you add `requires`/`ensures` clauses to functions
 
 [Aeneas](https://github.com/AeneasVerif/aeneas)
+
 * Converts Rust code to pure lambda calculus (LEAN, Coq, etc.)
 
 [MIRAI](https://github.com/endorlabs/MIRAI)
+
 * Implements abstract interpretation, taint analysis, and constant time analysis
 
 [Stateright](https://www.stateright.rs/title-page.html)
+
 * TLA+ for Rust
 * Lets you model the state machine of a system and test properties on it
