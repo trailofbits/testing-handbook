@@ -96,7 +96,7 @@ fn main() {
 
 However, this approach still does not prevent unexpected copies of data from being created in the process's memory. The example above still discloses a copy of the secret value on the stack ("leak B"), because of the by-value copy in the call to the `mac` function.
 
-A more involved strategy is to use [`secrecy`](https://docs.rs/secrecy/latest/secrecy/) crate. It provides the `SecretBox` struct which makes secret exposure more visible in the code.
+A more involved strategy is to use the [`secrecy`](https://docs.rs/secrecy/latest/secrecy/) crate. It prevents accidental copies of secret data and makes any secret exposure explicit in the code.
 
 ```rust
 use secrecy::{ExposeSecret, SecretBox};
@@ -113,17 +113,26 @@ fn mac(mut key: [u8; 32], msg: &[u8]) -> u8 {
 fn main() {
     let s: SecretBox<[u8; 32]> = SecretBox::init_with_mut(|k| *k = [0xab; 32]);
 
-    // Implicit leaks the type system disables:
+    // Implicit leaks that the type system rejects:
     //     let d: [u8; 32] = *s;         // ERROR: SecretBox does not Deref to its inner T
-    // Compiles, but safe since SecretBox is not Copy/Clone
-    //     let copy = s;                 // no secret copy
+    // Compiles, but safe because SecretBox is not Copy/Clone:
+    //     let moved = s;                // moves the wrapper; no secret copy
     //     println!("{:?}", s);          // prints "SecretBox<[u8; 32]>([REDACTED])", not bytes
 
-    // leak B is explicit now
+    // Leak B is now explicit:
     let tag = mac(*s.expose_secret(), b"hello world");
     println!("tag={:02x}", tag);
 }
 ```
+
+A common pitfall with `secrecy` is leaking secret data onto the stack during initialization. To avoid it, use `secrecy`'s in-place initialization APIs such as `init_with_mut` rather than constructing the value first and then wrapping it. The example below is insecure because `key` is built on the stack and only afterwards moved into the heap allocation, leaving a stack copy behind.
+
+```rust
+let key = derive_key();
+SecretBox::new(Box::new(key))
+```
+
+Another shortcoming of the `secrecy` and `pin` solutions are that they do not use `mlock` or similar mechanisms to prevent OS from writing the secrets into swap or hibernation images.
 
 ## Security level 3: Tear down processes, allocators, and the stack intermittently
 
