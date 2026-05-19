@@ -39,7 +39,7 @@ This section provides a checklist that can be used during manual Rust code revie
     - This struct panics after more than 32,768 (2^15) elements are added.
   - `Duration::from_secs_f{32,64}` and `Duration::new`
     - `Duration::from_secs_f{32,64}` panics with negative inputs; `Duration::new` panics when the nanoseconds value overflows into the seconds counter.
-- [ ] Verify that it is not possible to modify keys while they’re in a collection type like a `HashMap` or `BinaryHeap`, as this leads to undefined behavior.
+- [ ] Verify that keys aren't mutated while inside a collection in a way that changes their hash and equality (`HashMap`) or ordering (`BinaryHeap`). Doing so is a logic error and can cause panics or incorrect results.
 - [ ] Verify that `debug_assert!` and other debug macros are not used for actual data validation. Such macros are removed from production builds.
 - [ ] Verify that raw file descriptors are explicitly closed in all execution flow paths. Raw descriptors are not closed on `Drop`.
   - Verify that owned file descriptors are not closed two times: automatically on `Drop` and explicitly via the [`close` method](https://docs.rs/nix/latest/nix/unistd/fn.close.html).
