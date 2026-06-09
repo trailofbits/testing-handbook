@@ -41,8 +41,10 @@ This section provides a checklist that can be used during manual Rust code revie
     - `Duration::from_secs_f{32,64}` panics with negative inputs; `Duration::new` panics when the nanoseconds value overflows into the seconds counter.
 - [ ] Verify that keys aren't mutated while inside a collection in a way that changes their hash and equality (`HashMap`) or ordering (`BinaryHeap`). Doing so is a logic error and can cause panics or incorrect results.
 - [ ] Verify that `debug_assert!` and other debug macros are not used for actual data validation. Such macros are removed from production builds.
-- [ ] Verify that raw file descriptors are explicitly closed in all execution flow paths. Raw descriptors are not closed on `Drop`.
+- [ ] Check uses of file descriptors
+  - Verify that raw file descriptors are explicitly closed in all execution flow paths. Raw descriptors are not closed on `Drop`.
   - Verify that owned file descriptors are not closed two times: automatically on `Drop` and explicitly via the [`close` method](https://docs.rs/nix/latest/nix/unistd/fn.close.html).
+  - Review that uses of raw file descriptors are [I/O safe](https://github.com/rust-lang/rfcs/blob/master/text/3128-io-safety.md).
 - [ ] Explicitly flush `BufWriter`s to get flush errors; errors are ignored on automatic flushing when values are dropped.
 - [ ] Ensure that absolute paths are not used with [`PathBuf::join`](https://doc.rust-lang.org/std/path/struct.PathBuf.html#method.join), as this may lead to path traversal issues.
 - [ ] Verify that functions used only in tests are guarded by `#[cfg(test)]`.
@@ -62,10 +64,14 @@ Common issues to check for in unsafe code are given below. For more information,
 
 - [ ] Any union access is unsafe in Rust. Verify that the union field that matches the underlying data is used.  
 - [ ] Look for uses of libc APIs like `memset` or `memcpy`. Most of them can be replaced with safe Rust counterparts.  
-- [ ] If `#[repr(packed)]` is used on a struct, then check that `read_unaligned`/[`write_unaligned`](https://doc.rust-lang.org/std/ptr/fn.write_unaligned.html#on-packed-structs) is used for unaligned fields.  
-- [ ] Check for uses of [`std::mem::uninitialized`](https://doc.rust-lang.org/std/mem/fn.uninitialized.html).  
+- [ ] If `#[repr(packed)]` is used on a struct, then check that `read_unaligned`/[`write_unaligned`](https://doc.rust-lang.org/std/ptr/fn.write_unaligned.html#on-packed-structs) is used for unaligned fields.
+- [ ] Check for uses of [`std::mem::uninitialized`](https://doc.rust-lang.org/std/mem/fn.uninitialized.html) and `mem::zeroed`.
+- [ ] Review uses of `MaybeUninit` to ensure that all calls to `assume_init` are preceded by initialization.
+  - Ensure that dropping of partially initialized data is implemented correctly.
 - [ ] Check for uses of [`std::mem::forget`](https://doc.rust-lang.org/std/mem/fn.forget.html).  
-- [ ] Check for uses of `transmute` or `cast` from a non-mutable reference `&` to a mutable `&mut` (likely an undefined behavior).  
+- [ ] Check for uses of `transmute` or `cast` from a non-mutable reference `&` to a mutable `&mut` (likely an undefined behavior).
+  -  Using [`bytemuck`](https://docs.rs/bytemuck/latest/bytemuck/) or [`zerocopy`](https://docs.rs/zerocopy/latest/zerocopy/) crates may be a safer alternative.
 - [ ] Review uses of `static mut` and [recommend using synchronization instead](https://github.com/rust-lang/rust/issues/53639).
+- [ ] Review uses of [unsafe attributes](https://github.com/rust-lang/rfcs/blob/master/text/3325-unsafe-attributes.md) like `#[unsafe(no_mangle)]`.
 
 {{< /checklist >}}
