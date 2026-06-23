@@ -18,4 +18,6 @@ fn main(){unsafe{(|f:&dyn Fn(u128)->Box<dyn Iterator<Item=char>+'static>|f(0x315
 </div>
 {{< /rawHtml >}}
 
+Start your review with our [rust-review](https://github.com/trailofbits/skills/tree/main/plugins/rust-review) skill. It covers basic issues.
+
 {{< section >}}
