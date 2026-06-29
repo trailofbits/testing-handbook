@@ -126,6 +126,12 @@ p {
 }
 
 #rust-banner-code {
+  // Query container so the decorative art can hide itself when the content
+  // column is too narrow to render the widest line (~62 monospace chars at
+  // 1.1rem ≈ 655px) without horizontal scrolling — independent of the
+  // sidebar/viewport layout.
+  container-type: inline-size;
+
   .highlight {
     padding: 0;
     margin: 0;
@@ -148,6 +154,13 @@ p {
     }
 
     code:first-child::before {
+      display: none;
+    }
+  }
+
+  // Decorative only: hide entirely when the column can't fit the widest line.
+  @container (max-width: 680px) {
+    .highlight {
       display: none;
     }
   }
