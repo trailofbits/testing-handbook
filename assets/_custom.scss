@@ -135,12 +135,16 @@ p {
       border: none;
       padding-top: 0;
       margin: 0;
-      text-align: center;
-      text-wrap: wrap;
-      word-break: break-word;
-      overflow-wrap: anywhere;
+      white-space: pre;
+      text-wrap: nowrap;
+      overflow-x: auto;
       font-size: 1.1rem;
       line-height: 1.5;
+    }
+
+    pre code > span {
+      justify-content: center;
+      justify-content: safe center;
     }
 
     code:first-child::before {
