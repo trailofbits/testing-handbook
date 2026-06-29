@@ -724,7 +724,7 @@ While checking coverage statistics from a command line and using one of many cov
 
 These are our general recommendations for generating test coverage:
 
-* Use `llvm-cov` (with [`llvm-cov-pretty`](https://github.com/dnaka91/llvm-cov-pretty)) for rapid testing. It is the easiest to run, it resolves generics, and it produces pretty HTML output.  
+* Use `llvm-cov` (with [`llvm-cov-pretty`](https://crates.io/crates/llvm-cov-pretty)) for rapid testing. It is the easiest to run, it resolves generics, and it produces pretty HTML output.  
 * Use either `llvm-cov` or `grcov` for complex projects. Both are decent and can produce readable outputs.  
 * Use `tarpaulin` when other tools work incorrectly. [The developers claim](https://github.com/xd009642/tarpaulin?tab=readme-ov-file#nuances-with-llvm-coverage) that this can happen in the event of the following:  
   * The code panics unexpectedly.  
