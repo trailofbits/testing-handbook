@@ -70,7 +70,7 @@ Common issues to check for in unsafe code are given below. For more information,
   - Ensure that dropping of partially initialized data is implemented correctly.
 - [ ] Check for uses of [`std::mem::forget`](https://doc.rust-lang.org/std/mem/fn.forget.html).  
 - [ ] Check for uses of `transmute` or `cast` from a non-mutable reference `&` to a mutable `&mut` (likely an undefined behavior).
-  -  Using [`bytemuck`](https://docs.rs/bytemuck/latest/bytemuck/) or [`zerocopy`](https://docs.rs/zerocopy/latest/zerocopy/) crates may be a safer alternative.
+  - Using [`bytemuck`](https://docs.rs/bytemuck/latest/bytemuck/) or [`zerocopy`](https://docs.rs/zerocopy/latest/zerocopy/) crates may be a safer alternative.
 - [ ] Review uses of `static mut` and [recommend using synchronization instead](https://github.com/rust-lang/rust/issues/53639).
 - [ ] Review uses of [unsafe attributes](https://github.com/rust-lang/rfcs/blob/master/text/3325-unsafe-attributes.md) like `#[unsafe(no_mangle)]`.
 
