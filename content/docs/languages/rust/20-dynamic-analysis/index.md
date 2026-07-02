@@ -652,7 +652,7 @@ The engine and gcov-style format is still often used for C/C++ codebases.
 {{< /hint >}}
 
 {{< hint warning >}}
-SanitizerCoverage is not meant for general coverage analysis, [but for fuzzing](https://trailofbits.github.io/testing-handbook-preview/pr-preview/pr-2/docs/fuzzing/rust/techniques/coverage-analysis/).
+SanitizerCoverage is not meant for general coverage analysis, [but for fuzzing]({{% relref "/docs/fuzzing/rust/techniques/01-coverage" %}}).
 {{< /hint >}}
 
 Three popular tools wrap the above engines for easier consumption in Rust projects: [`grcov`](https://github.com/mozilla/grcov), [`llvm-cov`](https://github.com/taiki-e/cargo-llvm-cov), and [`tarpaulin`](https://github.com/xd009642/tarpaulin).
