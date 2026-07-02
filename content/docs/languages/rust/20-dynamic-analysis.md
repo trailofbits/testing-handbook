@@ -98,8 +98,8 @@ For this task, use [`cargo hack`](https://github.com/taiki-e/cargo-hack). Start 
 
 ```sh
 cargo +nightly install cargo-hack --locked
-cargo hack test --no-dev-deps --each-feature
-cargo hack test --no-dev-deps --feature-powerset --depth 2
+cargo hack test --each-feature
+cargo hack test --feature-powerset --depth 2
 ```
 
 {{< /tab>}}
