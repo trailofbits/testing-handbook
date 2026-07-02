@@ -41,7 +41,7 @@ recommended audits for safe-to-deploy:
 
 ```
 
-The `cargo-vet` failure shown above means the `regex-syntax` crate is "not safe for deployment," but there is an available audit for an older version of the crate.
+The `cargo-vet` failure shown above means the `regex-syntax` crate is not currently vetted as [`safe-to-deploy`](https://mozilla.github.io/cargo-vet/built-in-criteria.html#safe-to-deploy) under this policy, but there is an available audit for an older version of the crate.
 
 There are some [preconfigured auditors](https://github.com/mozilla/cargo-vet/blob/main/registry.toml), and [more can be imported](https://mozilla.github.io/cargo-vet/importing-audits.html). We recommend adding the following:
 
