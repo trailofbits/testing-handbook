@@ -2,21 +2,16 @@
 
 A simple Rust project and a script for generating HTML coverage reports using various tools.
 
-Build and run docker container:
+Build and run the Docker container:
 
 ```sh
 docker build --build-arg CACHEBUST=$(date +%s) -t tob_cov_test .
-docker run -it --rm tob_cov_test
+mkdir -p outputs
+docker run -it --rm -v "$PWD/outputs:/home/test/outputs" tob_cov_test
 ```
 
-Copy content from the container:
+The coverage reports are written to the local `outputs` directory.
 
 ```sh
-docker cp tob_cov_test:/home/test/outputs .
-```
-
-Review results opening relevant HTML files:
-
-```sh
-find . -not -path '*/src/*' -name 'index.html' -or -name tarpaulin-report.htm
+find outputs -name 'index.html' -o -name 'tarpaulin-report.html'
 ```
