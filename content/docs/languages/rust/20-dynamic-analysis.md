@@ -263,10 +263,10 @@ At this time, nightly toolchains must be used for sanitizers. If you use the sta
 
 ```sh
 for sanitizer in "address" "leak" "memory" "thread"; do
- echo "Testing with $sanitizer"
- export RUSTFLAGS="-Z sanitizer=$sanitizer"
+    echo "Testing with $sanitizer"
+    export RUSTFLAGS="-Z sanitizer=$sanitizer"
     export RUSTDOCFLAGS="$RUSTFLAGS"
- cargo test --target x86_64-unknown-linux-gnu
+    cargo +nightly test -Zbuild-std --target x86_64-unknown-linux-gnu
 done
 ```
 
@@ -275,10 +275,10 @@ done
 
 ```sh
 for sanitizer in "address" "leak" "memory" "thread"; do
- echo "Testing with $sanitizer"
- export RUSTFLAGS="-Z sanitizer=$sanitizer"
+    echo "Testing with $sanitizer"
+    export RUSTFLAGS="-Z sanitizer=$sanitizer"
     export RUSTDOCFLAGS="$RUSTFLAGS"
- cargo nextest run --target x86_64-unknown-linux-gnu
+    cargo +nightly nextest run -Zbuild-std --target x86_64-unknown-linux-gnu
 done
 ```
 
@@ -312,7 +312,7 @@ A few tips:
 The test below passes, but there is actually a bug. AddressSanitizer can help us find it.
 
 ```sh
-RUSTFLAGS='-Z sanitizer=address' cargo -Zbuild-std --target x86_64-unknown-linux-gnu test
+RUSTFLAGS='-Z sanitizer=address' cargo +nightly test -Zbuild-std --target x86_64-unknown-linux-gnu
 ```
 
 ```rust
