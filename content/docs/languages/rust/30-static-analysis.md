@@ -32,16 +32,16 @@ For audits of very mature codebases, you want to enable more groups:
 cargo clippy -- -W clippy::pedantic -W clippy::nursery
 ```
 
-Finally, you can get them all (`rustc` allow lints must be enabled one by one, and some require additional features):
+Finally, you can get them all (`rustc` allow lints must be enabled one by one, and some require additional features). Because `-Zcrate-attr` is a `-Z` flag, this command must run on a nightly toolchain:
 
 ```sh
-cargo clippy -- \
+cargo +nightly clippy -- \
  -Zcrate-attr="feature(non_exhaustive_omitted_patterns_lint)" \
  -Zcrate-attr="feature(strict_provenance_lints)" \
  -Zcrate-attr="feature(multiple_supertrait_upcastable)" \
  -Zcrate-attr="feature(must_not_suspend)" \
- -W $(rustc -W help | grep '  allow' | tr -s ' ' | cut -d' ' -f2 | awk 'ORS=" -W"') \
- clippy::pedantic -W clippy::nursery -W clippy::restriction -A dead_code
+ $(rustc +nightly -W help | grep '  allow' | tr -s ' ' | cut -d' ' -f2 | sed 's/^/-W /') \
+ -W clippy::pedantic -W clippy::nursery -W clippy::restriction -A dead_code
 ```
 
 {{< hint info >}}
