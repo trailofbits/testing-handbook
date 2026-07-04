@@ -8,7 +8,7 @@ weight: 10
 
 ## Safety and security
 
-The Rust compiler guarantees the memory safety of Rust programs: no undefined behavior or data race will happen during runtime, no matter the inputs.
+The Rust compiler guarantees the memory safety of *safe* Rust: absent `unsafe` code, no undefined behavior or data race will happen during runtime, no matter the inputs. This guarantee does not extend to `unsafe` code—including `unsafe` code hidden in dependencies—which can cause undefined behavior if it is unsound.
 
 Therefore, when security-testing Rust programs, it’s important to understand what is and what is not considered undefined behavior (UB). There is no sense in looking for double-free bugs in (safe) Rust, right? For the guarantees made by the Rust compiler, see the ["Behavior considered undefined"](https://doc.rust-lang.org/reference/behavior-considered-undefined.html) Rust Reference page.
 
