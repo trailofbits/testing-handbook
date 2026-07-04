@@ -515,12 +515,12 @@ Proptest ships with many [configurable strategies](https://docs.rs/proptest/late
 * Random-size generators for `std::collections`  
 * Generators for `Option` and `Result`
 
-The generators [can be combined together](https://proptest-rs.github.io/proptest/proptest/tutorial/macro-prop-compose.html). You can also use macros to further combine and restrict generation:
+The generators [can be combined together](https://proptest-rs.github.io/proptest/proptest/tutorial/macro-prop-compose.html). You can also use the following `Strategy` methods and the `prop_oneof!` macro to further combine and restrict generation:
 
-* Do mapping with `prop_map!`  
-* Do filtering with `prop_filter!`  
-* Create enums with `prop_oneof!`  
-* Do recursion with `prop_recursive!`
+* Do mapping with the `prop_map` method  
+* Do filtering with the `prop_filter` method  
+* Create enums with the `prop_oneof!` macro  
+* Do recursion with the `prop_recursive` method
 
 Let’s see some example code:
 
