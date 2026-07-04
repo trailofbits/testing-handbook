@@ -59,7 +59,15 @@ cargo check --all-targets
 
 {{< /hint >}}
 
-If Clippy produces a lot of results, you may want to output findings in SARIF format and use [SARIF Explorer](https://github.com/trailofbits/vscode-sarif-explorer) to review them in a code editor. Use the third-party [`clippy-sarif`](https://crates.io/crates/clippy-sarif) tool for the task:  
+If Clippy produces a lot of results, you may want to output findings in SARIF format and use [SARIF Explorer](https://github.com/trailofbits/vscode-sarif-explorer) to review them in a code editor. Use the third-party [`clippy-sarif`](https://crates.io/crates/clippy-sarif) tool for the task.
+
+Install the tool:
+
+```sh
+cargo install clippy-sarif
+```
+
+Then pipe Clippy's output to it:
 
 ```sh
 cargo clippy --message-format=json | clippy-sarif
