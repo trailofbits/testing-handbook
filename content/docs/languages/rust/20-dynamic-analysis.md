@@ -501,6 +501,8 @@ First, install the tool as a dev dependency:
 ```toml
 [dev-dependencies]
 proptest = "1.5.0"
+# Only needed for the `#[derive(Arbitrary)]` example below
+proptest-derive = "0.8.0"
 ```
 
 To use proptest, you must write unit tests. But instead of hard-coding values that are used for testing, you define generators for values (called "strategies" in proptest’s docs). Proptest will execute the unit test dozens of times with randomly generated values.
@@ -556,7 +558,7 @@ By default, proptest executes a unit test 256 times, but we can change that with
 
 If the test finds an input failing the unit test, it writes the input to the `proptest-regressions` directory.
 
-As can be seen, we have to write a strategy for every single value we use. However, we could instead create [a strategy for a type](https://proptest-rs.github.io/proptest/proptest/tutorial/arbitrary.html) using the `Arbitrary` trait.
+As can be seen, we have to write a strategy for every single value we use. However, we could instead create [a strategy for a type](https://proptest-rs.github.io/proptest/proptest/tutorial/arbitrary.html) using the `Arbitrary` trait, which the `proptest-derive` crate can derive for us.
 
 ```rust
 #[cfg(test)]
