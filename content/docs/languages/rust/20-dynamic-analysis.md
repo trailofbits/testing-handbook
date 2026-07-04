@@ -500,7 +500,7 @@ First, install the tool as a dev dependency:
 
 ```toml
 [dev-dependencies]
-proptest = "1.5.0"
+proptest = "1.11.0"
 # Only needed for the `#[derive(Arbitrary)]` example below
 proptest-derive = "0.8.0"
 ```
