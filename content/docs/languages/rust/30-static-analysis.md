@@ -49,7 +49,7 @@ These are our favorite lints:
 
 * [`arithmetic_side_effects`](https://rust-lang.github.io/rust-clippy/master/index.html#arithmetic_side_effects): Detects potential side effects of arithmetic operations (e.g., integer overflows, division by zero)
 * [`string_slice`](https://rust-lang.github.io/rust-clippy/master/index.html#string_slice): Detects potential slices that do not align with Unicode scalar value
-* [`must_use_candidate`](https://rust-lang.github.io/rust-clippy/master/index.html#must_use_candidate): Checks for unused `#[must_use]` candidates
+* [`must_use_candidate`](https://rust-lang.github.io/rust-clippy/master/index.html#must_use_candidate): Detects public functions that could be marked with `#[must_use]`
 
 ```sh
 # WARNING: The next command modifies files!
