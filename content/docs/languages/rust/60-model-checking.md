@@ -106,7 +106,7 @@ Running the test, Kani will verify the absence of the following conditions for a
 If the code to test is too complex, Kani may take a long time to finish or may not even terminate at all. To overcome this, you can use three features:
 
 * [`kani::assume`](https://model-checking.github.io/kani/tutorial-first-steps.html#assertions-assumptions-and-harnesses): For restricting (bounding) symbolic values. It is a bit similar to [Prusti’s preconditions](#function-specifications).
-* [`kani::unwind`](https://model-checking.github.io/kani/tutorial-loop-unwinding.html): For controlling bounds for loops. Kani will assume that loops can loop only the configured number of times. The greater the number, the slower the execution. But if the number is configured to be too small, Kani will fail too early. This is the mechanism that overcomes Prusti’s limitation with the `body_invariant!` macro.
+* [`kani::unwind`](https://model-checking.github.io/kani/tutorial-loop-unwinding.html): For controlling bounds for loops. Kani will assume that loops can loop only the configured number of times. The greater the number, the slower the execution. But if the number is configured to be too small, Kani will report an unwinding-assertion failure (`FAILURE: unwinding assertion loop <N>`). This is the mechanism that overcomes Prusti’s limitation with the `body_invariant!` macro.
 * [`kani::Arbitrary`](https://model-checking.github.io/kani/tutorial-nondeterministic-variables.html#custom-nondeterministic-types): For defining per-type limitations for symbolic values.
 
 Let’s see an example:
@@ -175,8 +175,8 @@ The [Kani documentation recommends](https://model-checking.github.io/kani/tutori
 
 If Kani finds a `FAILURE`, then we can generate example values that will trigger the failure with one of two methods:
 
-* Generating a normal unit test with `cargo kani --concrete-playback=print -Z concrete-playback`  
-* [Generating an HTML report](https://github.com/model-checking/kani/blob/8942fc8b21065efdca42ceda44f1eb18bfb0e1f1/CHANGELOG.md?plain=1#L328) with `cargo kani --visualize --enable-unstable`
+* Printing a unit test that reproduces the failure with `cargo kani -Z concrete-playback --concrete-playback=print`  
+* [Writing that unit test directly into your source](https://model-checking.github.io/kani/reference/experimental/concrete-playback.html) with `cargo kani -Z concrete-playback --concrete-playback=inplace`, then replaying it via `cargo kani playback -Z concrete-playback -- <test_name>`
 
 {{< hint danger >}}
 Kani does not scale well for the following:
@@ -187,7 +187,7 @@ Kani does not scale well for the following:
 
 ## Other model checkers
 
-[Creusot](https://github.com/xldenis/creusot)
+[Creusot](https://github.com/creusot-rs/creusot)
 
 * Based on [Why3](https://www.why3.org/)
 * Allows you to provide and verify function specifications

@@ -29,7 +29,7 @@ This section provides a checklist that can be used during manual Rust code revie
 - [ ] Check that the number of fields passed into the [`serialize_struct` method matches the actual number of serialized fields](https://github.com/trailofbits/dylint/tree/master/examples/general/wrong_serialize_struct_arg). Some serialization formats, such as `serde-binary`, could truncate the serialized data if the number of fields is incorrect. This would mean that deserializing the data would result in a different value than the original.
 - [ ] Review all methods and actions that may cause panics. Other sections of the Handbook describe tools that can help with reviewing operations that could lead to panics.
   - `unwrap` and `expect` (the most common panicking methods)
-  - [`todo!`,](https://doc.rust-lang.org/std/macro.todo.html) [`unimplemented!`](http://doc.rust-lang.org/std/macro.unimplemented.html), [`assert!`](https://doc.rust-lang.org/std/macro.assert.html) and [`unreachable!`](https://doc.rust-lang.org/std/macro.unreachable.html) macros
+  - [`todo!`](https://doc.rust-lang.org/std/macro.todo.html), [`unimplemented!`](https://doc.rust-lang.org/std/macro.unimplemented.html), [`assert!`](https://doc.rust-lang.org/std/macro.assert.html) and [`unreachable!`](https://doc.rust-lang.org/std/macro.unreachable.html) macros
   - Out-of-bounds accesses
   - Large allocations (`MAX` limits cause panics, OOM errors cause aborts)
   - String slicing at non-character boundaries

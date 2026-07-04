@@ -29,7 +29,7 @@ Roughly, the idea is to ensure that values are zeroed whenever they fall out of 
 
 Unfortunately, moves can, and often do, create copies. These copies happen specifically [when stack values are moved](https://docs.rs/zeroize/latest/zeroize/#stackheap-zeroing-notes). However, ABI constraints or optimization of heap values can also result in a copy.
 
-A simple case of failed zeroization is shown below. A stack value implementing the `ZeroizeOnDrop` trait is moved to the heap ("leak A"): only the heap value is zeroized, old copy of the secret may remain on the stack.
+A simple case of failed zeroization is shown below. A stack value implementing the `ZeroizeOnDrop` trait is moved to the heap ("leak A"): only the heap value is zeroized; the old copy of the secret may remain on the stack.
 
 ```rust
 use zeroize::{Zeroize, ZeroizeOnDrop};
@@ -115,9 +115,9 @@ fn main() {
 
     // Implicit leaks that the type system rejects:
     //     let d: [u8; 32] = *s;         // ERROR: SecretBox does not Deref to its inner T
-    // Compiles, but safe because SecretBox is not Copy/Clone:
-    //     let moved = s;                // moves the wrapper; no secret copy
-    //     println!("{:?}", s);          // prints "SecretBox<[u8; 32]>([REDACTED])", not bytes
+    // Safe operations (each shown independently; SecretBox is not Copy/Clone):
+    //     let moved = s;                // moves the wrapper; no secret copy is made
+    //     println!("{:?}", s);          // Debug is redacted: prints "SecretBox<[u8; 32]>([REDACTED])", not the bytes
 
     // Leak B is now explicit:
     let tag = mac(*s.expose_secret(), b"hello world");
@@ -132,7 +132,7 @@ let key = derive_key();
 SecretBox::new(Box::new(key))
 ```
 
-Another shortcoming of the `secrecy` and `pin` solutions are that they do not use `mlock` or similar mechanisms to prevent OS from writing the secrets into swap or hibernation images.
+Another shortcoming of the `secrecy` and `pin` solutions is that they do not use `mlock` or similar mechanisms to prevent the OS from writing the secrets into swap or hibernation images.
 
 ## Security level 3: Tear down processes, allocators, and the stack intermittently
 

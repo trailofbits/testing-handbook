@@ -12,7 +12,7 @@ The Rust compiler guarantees the memory safety of *safe* Rust: absent `unsafe` c
 
 Therefore, when security-testing Rust programs, it’s important to understand what is and what is not considered undefined behavior (UB). There is no sense in looking for double-free bugs in (safe) Rust, right? For the guarantees made by the Rust compiler, see the ["Behavior considered undefined"](https://doc.rust-lang.org/reference/behavior-considered-undefined.html) Rust Reference page.
 
-Another important Rust concept is [*safety*](https://doc.rust-lang.org/nomicon/safe-unsafe-meaning.html). A code is marked `unsafe` when it requires special scrutiny: it may produce undefined behavior if written poorly, and it is the developer’s responsibility (not the compiler’s) to ensure the code upholds some specific contract.
+Another important Rust concept is [*safety*](https://doc.rust-lang.org/nomicon/safe-unsafe-meaning.html). Code is marked `unsafe` when it requires special scrutiny: it may produce undefined behavior if written poorly, and it is the developer’s responsibility (not the compiler’s) to ensure the code upholds some specific contract.
 
 {{< mermaid >}}
 flowchart LR
@@ -80,9 +80,9 @@ Dealing with numbers is safe in Rust, but some operations may produce unexpected
 * [Imprecision of float operations](https://seclists.org/oss-sec/2023/q2/99)  
 * [Rounding errors](https://github.com/crytic/roundme)
 
-There are [three types of integer bugs](https://phrack.org/issues/60/10.html#article): arithmetic overflows, widthness overflows, and signedness related.
+There are [three types of integer bugs](https://phrack.org/issues/60/10.html#article): arithmetic overflows, width overflows, and signedness errors.
 
-Rust can handle arithmetic overflows in a few ways: [wrap over](https://doc.rust-lang.org/std/intrinsics/fn.wrapping_add.html), [wrap with information](https://doc.rust-lang.org/std/intrinsics/fn.add_with_overflow.html), [check](https://doc.rust-lang.org/std/primitive.i32.html#method.checked_add), [saturate](https://doc.rust-lang.org/std/intrinsics/fn.saturating_add.html), [produce undefined behavior](https://doc.rust-lang.org/std/intrinsics/fn.unchecked_add.html), and panic.
+Rust can handle arithmetic overflows in a few ways: [wrap over](https://doc.rust-lang.org/std/primitive.i32.html#method.wrapping_add), [wrap with information](https://doc.rust-lang.org/std/primitive.i32.html#method.overflowing_add), [check](https://doc.rust-lang.org/std/primitive.i32.html#method.checked_add), [saturate](https://doc.rust-lang.org/std/primitive.i32.html#method.saturating_add), [produce undefined behavior](https://doc.rust-lang.org/std/primitive.i32.html#method.unchecked_add), and panic.
 
 | Example                  | Result    | Description                            |
 |--------------------------|-----------|----------------------------------------|
@@ -98,7 +98,7 @@ The default behavior is to wrap over, except in debug builds, where the default 
 
 You can read more about integer overflows in [RFC 560](https://github.com/rust-lang/rfcs/blob/ae1394021c001cae2bcdfe3d7f3098dc9e3fbd27/text/0560-integer-overflow.md) and the blog post ["Myths and Legends about Integer Overflow in Rust"](https://huonw.github.io/blog/2016/04/myths-and-legends-about-integer-overflow-in-rust/).
 
-Widthness and signedness overflows can occur when converting between numeric types. Thanks to Rust’s lack of implicit conversions, unexpected overflows are easy to deal with, using one of the following:
+Width and signedness overflows can occur when converting between numeric types. Thanks to Rust’s lack of implicit conversions, unexpected overflows are easy to deal with, using one of the following:
 
 * A [checked conversion](https://doc.rust-lang.org/std/convert/trait.TryFrom.html) with overflows handled explicitly (e.g., with a panic)  
 * An [`as` cast](https://doc.rust-lang.org/rust-by-example/types/cast.html) that may result in a wrap-over (but is always well defined, [unlike in C](https://stackoverflow.com/questions/16188263/is-signed-integer-overflow-still-undefined-behavior-in-c))

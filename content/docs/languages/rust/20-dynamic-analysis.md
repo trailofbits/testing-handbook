@@ -37,7 +37,7 @@ Tests that depend on a global state or have dependencies between each other may 
 To find problematic test dependencies, increase the entropy of execution. Ideally, run tests without parallel execution in a random order:
 
 ```sh
-cargo test -- -Z unstable-options --test-threads 1 --shuffle
+cargo +nightly test -- -Z unstable-options --test-threads 1 --shuffle
 ```
 
 Note that random order shuffling is [not possible with `nextest`](https://github.com/nextest-rs/nextest/discussions/1784).
@@ -53,7 +53,7 @@ Execute the `cargo test` command above multiple times. If any run reports a fail
 The tests below fail randomly when run with cargo test. To get a reproducible failure, run this:
 
 ```sh
-cargo test -- -Z unstable-options --test-threads 1 --shuffle-seed 1337
+cargo +nightly test -- -Z unstable-options --test-threads 1 --shuffle-seed 1337
 ```
 
 ```rust
@@ -89,7 +89,7 @@ mod tests {
 
 ### Features randomization
 
-Rust code supports conditional compilation via [Cargo features](https://doc.rust-lang.org/cargo/reference/features.html). Ideally, tests would cover all possible versions of a program. To ensure that, we need to run tests against all possible (or supported) combinations of features.  
+Rust code supports conditional compilation via [Cargo features](https://doc.rust-lang.org/cargo/reference/features.html). Ideally, tests would cover all possible versions of a program. To ensure that, we need to run tests against all possible (or supported) combinations of features.
 
 For this task, use [`cargo hack`](https://github.com/taiki-e/cargo-hack). Start with testing your code against all the features taken separately, then combine multiple features in one run:
 
@@ -240,7 +240,7 @@ Due to performance considerations, you are likely to want to enable the overflow
 
 While Rust is memory-safe, one may open a gate to the unsafe world and introduce all the well-known vulnerabilities like use-after-free and reading of uninitialized memory. Moreover, the Rust compiler does not provide strong guarantees about [memory leaks](https://doc.rust-lang.org/book/ch15-06-reference-cycles.html) and [general race conditions](https://doc.rust-lang.org/nomicon/races.html).
 
-To find deep bugs, we can run tests with [various sanitizers](https://doc.rust-lang.org/beta/unstable-book/compiler-flags/sanitizer.html). Sanitization in this context means that builds are instrumented during compilation and linked with specialized runtime libraries. Then, when executed, the instrumentation looks for a specific class of issues. Running tests with sanitizers comes with the downsides of increased compilation time, execution time, and memory usage.  
+To find deep bugs, we can run tests with [various sanitizers](https://doc.rust-lang.org/beta/unstable-book/compiler-flags/sanitizer.html). Sanitization in this context means that builds are instrumented during compilation and linked with specialized runtime libraries. Then, when executed, the instrumentation looks for a specific class of issues. Running tests with sanitizers comes with the downsides of increased compilation time, execution time, and memory usage.
 
 These are the available sanitizers supported by Rust:
 
@@ -764,7 +764,7 @@ For starters, you need basic but decent unit test coverage. Then, use one of the
 [`universalmutator`](https://github.com/agroce/universalmutator)
 
 * Multiple languages supported  
-* Require more manual setup than `cargo-mutants`  
+* Requires more manual setup than `cargo-mutants`  
 * Two parsing modes: regexes and [Comby](https://github.com/comby-tools/comby)  
 * Trivial Compiler Equivalence (TCE) optimization to eliminate redundant mutants before test runs
 

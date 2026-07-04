@@ -30,6 +30,6 @@ u128|Box::new(std::iter::successors(Some(n),|&n|Some(n>>8)
 </div>
 {{< /rawHtml >}}
 
-Start your review with [rust-review](https://github.com/trailofbits/skills/tree/main/plugins/rust-review) skill. It covers basic issues.
+Start your review with our [rust-review](https://github.com/trailofbits/skills/tree/main/plugins/rust-review) skill. It covers basic issues.
 
 {{< section >}}
