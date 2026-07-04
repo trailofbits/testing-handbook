@@ -37,7 +37,7 @@ Finally, you can get them all (`rustc` allow lints must be enabled one by one, a
 ```sh
 cargo clippy -- \
  -Zcrate-attr="feature(non_exhaustive_omitted_patterns_lint)" \
- -Zcrate-attr="feature(strict_provenance)" \
+ -Zcrate-attr="feature(strict_provenance_lints)" \
  -Zcrate-attr="feature(multiple_supertrait_upcastable)" \
  -Zcrate-attr="feature(must_not_suspend)" \
  -W $(rustc -W help | grep '  allow' | tr -s ' ' | cut -d' ' -f2 | awk 'ORS=" -W"') \
