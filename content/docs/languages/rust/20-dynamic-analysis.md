@@ -671,6 +671,10 @@ Three popular tools wrap the above engines for easier consumption in Rust projec
 | To enable coverage for C/C++ | Unknown | [`--include-ffi`](https://github.com/taiki-e/cargo-llvm-cov?tab=readme-ov-file#get-coverage-of-cc-code-linked-to-rust-librarybinary) | Unknown |
 | Merges runs across different builds? | No | [Yes](https://github.com/taiki-e/cargo-llvm-cov?tab=readme-ov-file#merge-coverages-generated-under-different-test-conditions) | [Yes](https://github.com/xd009642/tarpaulin?tab=readme-ov-file#command-line) (but only shows delta) |
 
+{{< hint warning >}}
+Branch coverage from the LLVM source-based engine—the `branches` cells for `grcov` and `llvm-cov` above—requires a **nightly** toolchain compiled with [`-Zcoverage-options=branch`](https://doc.rust-lang.org/rustc/instrument-coverage.html#-zcoverage-options). On a stable toolchain, `grcov`'s `--branch` flag is silently ignored and no branch data is produced, which is why the example reports below show zero branches.
+{{< /hint >}}
+
 While checking coverage statistics from a command line and using one of many coverage visualizers, an HTML report is often what you need.
 
 | HTML output/tool | `grcov` | `llvm-cov` | `tarpaulin` |
