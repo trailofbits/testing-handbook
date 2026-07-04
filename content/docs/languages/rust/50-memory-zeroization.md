@@ -19,7 +19,7 @@ There are three levels of "zeroization security" that can be considered, dependi
 | **3** | No need to fight with the compiler; provides the best guarantees around data isolation; achieves a conceptually simple model of data’s lifetime and zeroization | Time-consuming to implement; resource-expensive in runtime; does not provide 100% certain memory zeroization because of possible hardware-level uncertainties |
 
 {{< hint info >}}
-If you have implemented level 1 or level 2 controls, then use [our `zeroize-audit` skill](https://github.com/LvcidPsyche/skills-security/tree/main/plugins/zeroize-audit)
+If you have implemented level 1 or level 2 controls, then use [our `zeroize-audit` skill](https://github.com/trailofbits/skills/tree/main/plugins/zeroize-audit)
 to find missing zeroizations and compiler-removed wipes.
 {{< /hint >}}
 
