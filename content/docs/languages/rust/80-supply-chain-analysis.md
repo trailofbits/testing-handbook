@@ -32,6 +32,7 @@ The tool checks if dependencies were audited by a "trusted party."
 $ cargo vet
 
 Vetting Failed!
+
 1 unvetted dependencies:
   regex-syntax:0.8.8 missing ["safe-to-deploy"]
 
