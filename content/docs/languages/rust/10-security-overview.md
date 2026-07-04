@@ -1,6 +1,6 @@
 ---
 title: "Security overview"
-slug: lang-rust-security-overview
+slug: security-overview
 weight: 10
 ---
 

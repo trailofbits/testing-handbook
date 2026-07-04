@@ -1,6 +1,6 @@
 ---
 title: "Gotchas and footguns"
-slug: lang-rust-gotchas-and-footguns
+slug: gotchas-and-footguns
 weight: 40
 ---
 

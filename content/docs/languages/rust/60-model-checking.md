@@ -1,6 +1,6 @@
 ---
 title: "Model checking"
-slug: lang-rust-model-checking
+slug: model-checking
 weight: 60
 ---
 

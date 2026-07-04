@@ -1,6 +1,6 @@
 ---
 title: "Static analysis"
-slug: lang-rust-static-analysis
+slug: static-analysis
 weight: 30
 ---
 

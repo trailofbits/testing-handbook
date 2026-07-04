@@ -1,6 +1,6 @@
 ---
 title: "Supply chain analysis"
-slug: lang-rust-supply-chain-analysis
+slug: supply-chain-analysis
 weight: 80
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: "Memory zeroization"
-slug: lang-rust-memory-zeroization
+slug: memory-zeroization
 weight: 50
 ---
 

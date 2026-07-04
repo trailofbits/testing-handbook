@@ -1,6 +1,6 @@
 ---
 title: "Dynamic analysis"
-slug: lang-rust-dynamic-analysis
+slug: dynamic-analysis
 weight: 20
 ---
 

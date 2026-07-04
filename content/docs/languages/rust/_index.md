@@ -1,6 +1,6 @@
 ---
 title: "Rust"
-slug: lang-rust
+slug: rust
 weight: 1
 bookCollapseSection: true
 ---

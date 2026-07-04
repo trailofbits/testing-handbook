@@ -1,6 +1,6 @@
 ---
 title: "Specialized testing"
-slug: lang-rust-specialized-testing
+slug: specialized-testing
 weight: 70
 ---
 
