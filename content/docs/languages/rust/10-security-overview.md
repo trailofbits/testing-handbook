@@ -94,7 +94,7 @@ Rust can handle arithmetic overflows in a few ways: [wrap over](https://doc.rust
 | 255u8 + 1 (debug)        | panic     | Default behavior in debug builds       |
 | 255u8 + 1 (release)      | 0         | Silently wraps in release builds       |
 
-The default behavior is to wrap over, except in debug builds, where the default is to panic. The most common assumption auditors make when reviewing Rust programs is that overflows should not happen and any integer overflow is a potential bug. If you want to make auditors' lives easier, then be explicit about arithmetic that is expected to wrap over or saturate.
+The default behavior is to wrap over, except in debug builds, where the default is to panic. This is only the default, though—it is configurable via the [`overflow-checks`](https://doc.rust-lang.org/cargo/reference/profiles.html#overflow-checks) profile setting, so a release build can be made to panic on overflow (or a debug build to wrap). The most common assumption auditors make when reviewing Rust programs is that overflows should not happen and any integer overflow is a potential bug. If you want to make auditors' lives easier, then be explicit about arithmetic that is expected to wrap over or saturate.
 
 You can read more about integer overflows in [RFC 560](https://github.com/rust-lang/rfcs/blob/ae1394021c001cae2bcdfe3d7f3098dc9e3fbd27/text/0560-integer-overflow.md) and the blog post ["Myths and Legends about Integer Overflow in Rust"](https://huonw.github.io/blog/2016/04/myths-and-legends-about-integer-overflow-in-rust/).
 
