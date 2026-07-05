@@ -93,7 +93,7 @@ Rust code supports conditional compilation via [Cargo features](https://doc.rust
 
 For this task, use [`cargo hack`](https://github.com/taiki-e/cargo-hack). Start with testing your code against all the features taken separately, then combine multiple features in one run:
 
-{{< tabs "cargo hack" >}}
+{{< tabs "cargo-hack" >}}
 {{< tab "Shell" >}}
 
 ```sh
@@ -258,7 +258,7 @@ At this time, nightly toolchains must be used for sanitizers. If you use the sta
 `error: failed to run rustc to learn about target-specific information`
 {{< /hint >}}
 
-{{< tabs "rust sanitizers" >}}
+{{< tabs "rust-sanitizers" >}}
 {{< tab "Cargo test" >}}
 
 ```sh
@@ -345,7 +345,7 @@ mod tests {
 
 To use Miri, you must point it at some executable code (it performs dynamic analysis). The easiest is to run your tests through Miri. Note that the nightly toolchain is required.
 
-{{< tabs "miri tests" >}}
+{{< tabs "miri-tests" >}}
 {{< tab "Miri with cargo test" >}}
 
 ```sh
@@ -685,7 +685,7 @@ While checking coverage statistics from a command line and using one of many cov
 | Includes number of hits? | Yes | Yes | Yes |
 | Supports multi-file output? | Yes | Yes | No |
 
-{{< tabs "coverage HTML reports" >}}
+{{< tabs "coverage-html-reports" >}}
 {{< tab "grcov llvm" >}}
 ![grcov HTML report](grcov_llvm1.png)
 
