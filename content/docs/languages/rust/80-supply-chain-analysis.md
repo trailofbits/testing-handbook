@@ -10,9 +10,9 @@ weight: 80
 
 The tools in this section are more for "understanding" than "checking." That is, running them does not produce bug reports, but can help you assess the maturity and security of dependencies. The tools below are quantitative rather than qualitative; you will need to perform manual, in-depth review of the outputs to extract any solid evidence about the maturity.
 
-### [cargo-supply-chain](https://github.com/rust-secure-code/cargo-supply-chain)
+### cargo-supply-chain
 
-The tool reveals who you are implicitly trusting via dependencies. You want that set to be small. The tool detects both the dependencies (libraries) and authors (publishers).
+[`cargo-supply-chain`](https://github.com/rust-secure-code/cargo-supply-chain) reveals who you are implicitly trusting via dependencies. You want that set to be small. The tool detects both the dependencies (libraries) and authors (publishers).
 
 ```sh
 $ cargo supply-chain crates
@@ -24,9 +24,9 @@ Dependency crates with the people and teams that can publish them to crates.io:
 3. bitflags: team "github:bitflags:owners", team "github:rust-lang-nursery:libs", NotMe, notY0u
 ```
 
-### [cargo-vet](https://mozilla.github.io/cargo-vet/)
+### cargo-vet
 
-The tool checks if dependencies were audited by a "trusted party."
+[`cargo-vet`](https://mozilla.github.io/cargo-vet/) checks if dependencies were audited by a "trusted party."
 
 ```sh
 $ cargo vet
@@ -49,9 +49,9 @@ There are some [preconfigured auditors](https://github.com/mozilla/cargo-vet/blo
 * [`rust-crate-audits`](https://github.com/google/rust-crate-audits): A collection of Google’s audits
 * [`bytecodealliance/wasmtime`](https://github.com/bytecodealliance/wasmtime/blob/main/supply-chain/audits.toml)
 
-### [cargo-crev](https://github.com/crev-dev/cargo-crev)
+### cargo-crev
 
-Yet another tool for distributed code reviews.
+[`cargo-crev`](https://github.com/crev-dev/cargo-crev) is yet another tool for distributed code reviews.
 
 ```sh
 $ cargo crev verify --show-all
@@ -66,22 +66,22 @@ It cryptographically signs/verifies the audit (if that matters to you) and is mo
 Use the [`crevette` tool](https://github.com/crev-dev/crevette) to convert audits from `crev` to `vet` format.
 {{< /hint >}}
 
-### [cargo-deny](https://github.com/EmbarkStudios/cargo-deny)
+### cargo-deny
 
-This plugin can be used for linting your dependencies. Use it if you want to automatically detect and warn about crates with these issues:
+[`cargo-deny`](https://github.com/EmbarkStudios/cargo-deny) can be used for linting your dependencies. Use it if you want to automatically detect and warn about crates with these issues:
 
 * Have an incompatible license
 * Have multiple versions in your dependency tree
 * Are explicitly banned by you
 * Have public security advisories
 
-### [cargo-unmaintained](https://github.com/trailofbits/cargo-unmaintained)
+### cargo-unmaintained
 
-This Trail of Bits tool can be used in addition to `cargo audit` (see below) to detect unmaintained dependencies in a heuristic way.
+[`cargo-unmaintained`](https://github.com/trailofbits/cargo-unmaintained) is a Trail of Bits tool that can be used in addition to `cargo audit` (see below) to detect unmaintained dependencies in a heuristic way.
 
-### [cackle](https://github.com/cackle-rs/cackle)
+### cackle
 
-The tool lists APIs (filesystem, network, environment, sockets, etc.) used by your project’s dependencies. This allows you to detect suspicious transitive dependencies that access APIs you didn’t expect them to use.
+[`cackle`](https://github.com/cackle-rs/cackle) lists APIs (filesystem, network, environment, sockets, etc.) used by your project’s dependencies. This allows you to detect suspicious transitive dependencies that access APIs you didn’t expect them to use.
 
 ## Looking for vulnerabilities
 
