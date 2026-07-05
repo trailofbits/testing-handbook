@@ -1,0 +1,5 @@
+{{- /*
+Static artifacts under static/ can be linked as site-root paths in content; relURL
+keeps those links working under non-root preview baseURLs.
+*/ -}}
+{{- .Get 0 | strings.TrimPrefix "/" | relURL -}}

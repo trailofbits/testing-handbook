@@ -51,7 +51,7 @@ This section provides a checklist that can be used during manual Rust code revie
 - [ ] Verify that each use of `#![allow(...)]` is justified and that `#[allow(...)]` is not used excessively.
 - [ ] Operator precedence of bitwise operators (`&`, `^`, `|`) compared to comparison operators (`==`, `!=`) differs between Rust and C. This is something to be aware of when rewriting C code.
 - [ ] Verify that test-only Cargo features (like mocks) are not included in `[dependencies]` and are not part of the `default` feature set. Use `cargo tree -e features` to validate your project.
-- [ ] Review code against possible issues resulting from operating system interactions (see the [C/C++ chapter for ideas](/docs/languages/c-cpp/)). Any syscall, libc function call, and other interaction with the operating system should be checked against known gotchas.
+- [ ] Review code against possible issues resulting from operating system interactions (see the [C/C++ chapter for ideas]({{% relref "/docs/languages/c-cpp" %}})). Any syscall, libc function call, and other interaction with the operating system should be checked against known gotchas.
 - [ ] Review the ["Secure Rust Guidelines checklist"](https://anssi-fr.github.io/rust-guide/checklist.html).
 
 {{< /checklist >}}
