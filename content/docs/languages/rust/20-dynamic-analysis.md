@@ -350,14 +350,14 @@ To use Miri, you must point it at some executable code (it performs dynamic anal
 
 ```sh
 rustup +nightly component add miri
-cargo miri test
+cargo +nightly miri test
 ```
 
 {{< /tab >}}
 {{< tab "Miri with nextest" >}}
 
 ```sh
-cargo miri nextest run
+cargo +nightly miri nextest run
 ```
 
 {{< /tab >}}
@@ -366,7 +366,7 @@ cargo miri nextest run
 Alternatively, you can replace debug builds with Miri for use in testing environments. You need to replace the compiled binary with the invocation of a full Cargo command, as Miri does not compile instrumented binaries but rather is an interpreter.
 
 ```sh
-cargo miri run
+cargo +nightly miri run
 ```
 
 Lastly, you can combine fuzzing with Miri. The fuzzer should produce inputs that make the test harnesses cover a decent fraction of the code, probably more than unit tests. Miri can take advantage of the generated inputs:
@@ -411,7 +411,7 @@ mod tests {
 You'd then run this command. The Miri isolation must be disabled in order to access the corpus files.
 
 ```sh
-MIRIFLAGS="-Zmiri-disable-isolation" cargo miri nextest run --bin fuzz_target_1
+MIRIFLAGS="-Zmiri-disable-isolation" cargo +nightly miri nextest run --bin fuzz_target_1
 ```
 
 Keep these tips in mind while using Miri:
@@ -603,7 +603,7 @@ To use proptest with Miri, you have to disable persistence (the `proptest-regres
 ```sh
 PROPTEST_DISABLE_FAILURE_PERSISTENCE=true \
 MIRIFLAGS='-Zmiri-env-forward=PROPTEST_DISABLE_FAILURE_PERSISTENCE' \
-cargo miri test
+cargo +nightly miri test
 ```
 
 {{< /hint >}}
