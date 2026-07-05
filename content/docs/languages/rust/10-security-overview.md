@@ -84,17 +84,17 @@ There are [three types of integer bugs](https://phrack.org/issues/60/10.html#art
 
 Rust can handle arithmetic overflows in a few ways: [wrap over](https://doc.rust-lang.org/std/primitive.i32.html#method.wrapping_add), [wrap with information](https://doc.rust-lang.org/std/primitive.i32.html#method.overflowing_add), [check](https://doc.rust-lang.org/std/primitive.i32.html#method.checked_add), [saturate](https://doc.rust-lang.org/std/primitive.i32.html#method.saturating_add), [produce undefined behavior](https://doc.rust-lang.org/std/primitive.i32.html#method.unchecked_add), and panic.
 
-| Example                  | Result    | Description                            |
-|--------------------------|-----------|----------------------------------------|
-| 255u8.wrapping_add(1)    | 0         | Silently wraps around to zero          |
-| 255u8.overflowing_add(1) | (0, true) | Wraps and returns overflow flag        |
-| 255u8.checked_add(1)     | None      | Returns Option, None on overflow       |
-| 255u8.saturating_add(1)  | 255       | Clamps at max value                    |
-| 255u8.unchecked_add(1)   | UB        | Unsafe, undefined behavior on overflow |
-| 255u8 + 1 (debug)        | panic     | Default behavior in debug builds       |
-| 255u8 + 1 (release)      | 0         | Silently wraps in release builds       |
+| Example                             | Result    | Description                            |
+|-------------------------------------|-----------|----------------------------------------|
+| 255u8.wrapping_add(1)               | 0         | Silently wraps around to zero          |
+| 255u8.overflowing_add(1)            | (0, true) | Wraps and returns overflow flag        |
+| 255u8.checked_add(1)                | None      | Returns Option, None on overflow       |
+| 255u8.saturating_add(1)             | 255       | Clamps at max value                    |
+| 255u8.unchecked_add(1)              | UB        | Unsafe, undefined behavior on overflow |
+| x + 1, where x == u8::MAX (debug)   | panic     | Default behavior in debug builds       |
+| x + 1, where x == u8::MAX (release) | 0         | Silently wraps in release builds       |
 
-The default behavior is to wrap over, except in debug builds, where the default is to panic. This is only the default, though—it is configurable via the [`overflow-checks`](https://doc.rust-lang.org/cargo/reference/profiles.html#overflow-checks) profile setting, so a release build can be made to panic on overflow (or a debug build to wrap). The most common assumption auditors make when reviewing Rust programs is that overflows should not happen and any integer overflow is a potential bug. If you want to make auditors' lives easier, then be explicit about arithmetic that is expected to wrap over or saturate.
+For runtime arithmetic, the default behavior is to wrap over in release builds and panic in debug builds. This is only the default, though—it is configurable via the [`overflow-checks`](https://doc.rust-lang.org/cargo/reference/profiles.html#overflow-checks) profile setting, so a release build can be made to panic on overflow (or a debug build to wrap). The most common assumption auditors make when reviewing Rust programs is that overflows should not happen and any integer overflow is a potential bug. If you want to make auditors' lives easier, then be explicit about arithmetic that is expected to wrap over or saturate.
 
 You can read more about integer overflows in [RFC 560](https://github.com/rust-lang/rfcs/blob/ae1394021c001cae2bcdfe3d7f3098dc9e3fbd27/text/0560-integer-overflow.md) and the blog post ["Myths and Legends about Integer Overflow in Rust"](https://huonw.github.io/blog/2016/04/myths-and-legends-about-integer-overflow-in-rust/).
 
