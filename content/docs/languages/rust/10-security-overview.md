@@ -82,7 +82,7 @@ Dealing with numbers is safe in Rust, but some operations may produce unexpected
 
 There are [three types of integer bugs](https://phrack.org/issues/60/10.html#article): arithmetic overflows, width overflows, and signedness errors.
 
-Rust can handle arithmetic overflows in a few ways: [wrap over](https://doc.rust-lang.org/std/primitive.i32.html#method.wrapping_add), [wrap with information](https://doc.rust-lang.org/std/primitive.i32.html#method.overflowing_add), [check](https://doc.rust-lang.org/std/primitive.i32.html#method.checked_add), [saturate](https://doc.rust-lang.org/std/primitive.i32.html#method.saturating_add), [produce undefined behavior](https://doc.rust-lang.org/std/primitive.i32.html#method.unchecked_add), and panic.
+Rust can handle arithmetic overflows in a few ways: [wrap around](https://doc.rust-lang.org/std/primitive.i32.html#method.wrapping_add), [wrap and report the overflow](https://doc.rust-lang.org/std/primitive.i32.html#method.overflowing_add), [check (returning an `Option`)](https://doc.rust-lang.org/std/primitive.i32.html#method.checked_add), [saturate](https://doc.rust-lang.org/std/primitive.i32.html#method.saturating_add), [produce undefined behavior](https://doc.rust-lang.org/std/primitive.i32.html#method.unchecked_add), and panic.
 
 | Example                             | Result    | Description                            |
 |-------------------------------------|-----------|----------------------------------------|

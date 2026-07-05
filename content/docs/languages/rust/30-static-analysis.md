@@ -48,12 +48,12 @@ cargo +nightly clippy -- \
 These are our favorite lints:
 
 * [`arithmetic_side_effects`](https://rust-lang.github.io/rust-clippy/master/index.html#arithmetic_side_effects): Detects potential side effects of arithmetic operations (e.g., integer overflows, division by zero)
-* [`string_slice`](https://rust-lang.github.io/rust-clippy/master/index.html#string_slice): Detects potential slices that do not align with Unicode scalar value
+* [`string_slice`](https://rust-lang.github.io/rust-clippy/master/index.html#string_slice): Flags all slicing of `&str`, which can panic when an index does not fall on a UTF-8 character boundary
 * [`must_use_candidate`](https://rust-lang.github.io/rust-clippy/master/index.html#must_use_candidate): Detects public functions that could be marked with `#[must_use]`
 
 ```sh
 # WARNING: The next command modifies files!
-cargo clippy --fix --allow-dirty -- -W clippy::must-use-candidate
+cargo clippy --fix --allow-dirty -- -W clippy::must_use_candidate
 cargo check --all-targets
 ```
 
@@ -83,10 +83,10 @@ For continuous use, such as in a CI/CD pipeline, you want to minimize false posi
 
 ```sh
 cargo clippy -- \
- -Dwarnings -A clippy::style -W clippy::arithmetic-side-effects \
+ -Dwarnings -A clippy::style -W clippy::arithmetic_side_effects \
  -W clippy::string_slice -W clippy::infinite_loop \
  -W clippy::float_cmp_const
- # then enable style and pedantic like -W clippy::same-item-push -W clippy::cast_lossless
+ # then enable style and pedantic like -W clippy::same_item_push -W clippy::cast_lossless
 ```
 
 You can contribute new lints to Clippy. To do so, [follow the official guidance](https://doc.rust-lang.org/clippy/development/index.html).

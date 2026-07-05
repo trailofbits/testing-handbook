@@ -209,11 +209,11 @@ Kani does not scale well for the following:
 
 [Aeneas](https://github.com/AeneasVerif/aeneas)
 
-* Converts Rust code to pure lambda calculus (LEAN, Coq, etc.)
+* Converts Rust code to a pure lambda calculus, with backends for F\*, Coq, HOL4, and Lean
 
 [MIRAI](https://github.com/endorlabs/MIRAI)
 
-* Implements abstract interpretation, taint analysis, and constant time analysis
+* Implements abstract interpretation, taint analysis, and constant-time analysis
 
 [Stateright](https://www.stateright.rs/title-page.html)
 

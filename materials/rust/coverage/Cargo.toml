@@ -1,4 +1,4 @@
 [package]
-name = "tmp"
+name = "coverage-example"
 version = "0.1.0"
 edition = "2021"

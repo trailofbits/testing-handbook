@@ -25,9 +25,9 @@ to find missing zeroizations and compiler-removed wipes.
 
 ## Security level 1: Use ZeroizeOnDrop (the common practice)
 
-Roughly, the idea is to ensure that values are zeroed whenever they fall out of scope. The [`zeroize`](https://docs.rs/zeroize/latest/zeroize/) crate is the most common way to achieve this goal. Owned values derive the `ZeroizeOnDrop` trait, causing values to call their component’s `zeroize` methods when the compiler inserts a drop on that value. This approach offers a simple model of zeroization where you do not fight the compiler and simply attempt to guarantee that each drop is covered by zeroization.
+Roughly, the idea is to ensure that values are zeroed whenever they fall out of scope. The [`zeroize`](https://docs.rs/zeroize/latest/zeroize/) crate is the most common way to achieve this goal. Deriving `#[derive(ZeroizeOnDrop)]` generates a `Drop` implementation whose `drop` method calls `zeroize` on each of the value’s fields (skipping any annotated with `#[zeroize(skip)]`) when the compiler drops that value; each field must itself implement `Zeroize` or `ZeroizeOnDrop`. This approach offers a simple model of zeroization where you do not fight the compiler and simply attempt to guarantee that each drop is covered by zeroization.
 
-Unfortunately, moves can, and often do, create copies. These copies happen specifically [when stack values are moved](https://docs.rs/zeroize/latest/zeroize/#stackheap-zeroing-notes). However, ABI constraints or optimization of heap values can also result in a copy.
+Unfortunately, moves can, and often do, [create copies](https://benma.github.io/2020/10/16/rust-zeroize-move.html): a move is compiled to a `memcpy` in the general case, and the compiler does not zero the source. Additional copies can arise from stack spilling, ABI constraints, and optimizations of heap values (see the [`zeroize` stack/heap zeroing notes](https://docs.rs/zeroize/latest/zeroize/#stackheap-zeroing-notes)).
 
 A simple case of failed zeroization is shown below. A stack value implementing the `ZeroizeOnDrop` trait is moved to the heap ("leak A"): only the heap value is zeroized; the old copy of the secret may remain on the stack.
 
@@ -56,11 +56,15 @@ fn main() {
 }
 ```
 
+{{< hint danger >}}
+`Drop`-based zeroization is best-effort: running a destructor is not guaranteed. A `Drop` implementation (and therefore the zeroization it performs) is skipped by [`mem::forget`](https://doc.rust-lang.org/std/mem/fn.forget.html) and [`ManuallyDrop`](https://doc.rust-lang.org/std/mem/struct.ManuallyDrop.html), by values kept alive in reference cycles (`Rc`/`Arc`), by an [abort](https://doc.rust-lang.org/std/process/fn.abort.html) (including a panic during unwinding, or any panic under `panic = "abort"`), and by [`process::exit`](https://doc.rust-lang.org/std/process/fn.exit.html). Do not rely on `ZeroizeOnDrop` alone to erase secrets on abnormal termination.
+{{< /hint >}}
+
 ## Security level 2: Zeroization target is not moved or moved explicitly
 
 An alternative to the best-effort approach is to fight the compiler and attempt to guarantee that copies do not live in memory.
 
-You can attempt to prevent spurious compiler-introduced copies created by moves by disallowing moves through the [`pin`](https://doc.rust-lang.org/std/pin/) feature. Using `pin` provides some compile-time safety, as shown in the example below. The "leak A" from level 1 is no longer possible (code won't compile).
+You can attempt to prevent spurious compiler-introduced copies created by moves by disallowing moves through the [`Pin`](https://doc.rust-lang.org/std/pin/) type. Using `Pin` provides some compile-time safety, as shown in the example below. The "leak A" from level 1 is no longer possible (code won't compile).
 
 ```rust
 use std::{marker::PhantomPinned, pin::pin};
@@ -132,12 +136,12 @@ let key = derive_key();
 SecretBox::new(Box::new(key))
 ```
 
-Another shortcoming of the `secrecy` and `pin` solutions is that they do not use `mlock` or similar mechanisms to prevent the OS from writing the secrets into swap or hibernation images.
+Another shortcoming of the `secrecy` and `Pin` solutions is that they do not use `mlock` or similar mechanisms to prevent the OS from writing the secrets into swap or hibernation images.
 
 ## Security level 3: Tear down processes, allocators, and the stack intermittently
 
 To really guarantee that data is no longer in memory (though the definition of *guarantee* depends on the kernel, hardware, etc.), you can tear down processes or worker threads and clear all memory associated with them at set points where the data should leave memory (i.e., after a request has been processed). The easiest version of this approach is a worker process that only returns a result and is killed after finishing a request. A more complex version with threads would have to [clear stack and possibly other memory locations explicitly](https://docs.rs/clear_on_drop/latest/clear_on_drop/fn.clear_stack_on_return.html).
 
-This approach effectively relies on the kernel to provide memory-level process isolation. It should prevent compromise of secrets if the main process is compromised. However, it will not prevent secrets from residing in RAM memory until overwritten at some random point in time (the data may be retrieved with specialized lab equipment).
+This approach effectively relies on the kernel to provide memory-level process isolation. It should prevent compromise of secrets if the main process is compromised. However, it will not prevent secrets from residing in RAM until overwritten at some random point in time (the data may be retrieved with specialized lab equipment).
 
 A more complex approach would be to have the code iterate over subprocesses’ and threads’ writable memory regions and overwrite them with zeros or random data just before they are killed. However, even with such an overly complex solution, you may not be sure about data zeroization because a process-level implementation cannot provide guarantees that are effectively hardware-level.

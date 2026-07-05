@@ -116,7 +116,7 @@ cargo hack test --feature-powerset --depth 2
 {{< /tabs >}}
 
 {{< hint info >}}
-Look for the info: running string in the test output to check what features were used.
+Look for the `info: running` string in the test output to check what features were used.
 
 Use the `--print-command-list` option for a dry run.
 
@@ -218,7 +218,7 @@ mod tests {
     fn int_overflow_simple() {
         let y_str = "2147483647";
         let y = y_str.parse::<i32>().unwrap();
-        let x = do_overflow(y);
+        let _ = do_overflow(y);
     }
 
     #[should_panic]
@@ -227,7 +227,7 @@ mod tests {
         let y_str = "2147483647";
         let y = y_str.parse::<i32>().unwrap();
         println!("{}", y);
-        let a = as_u16(y);
+        let _ = as_u16(y);
     }
 }
 ```
@@ -266,7 +266,7 @@ At this time, nightly toolchains must be used for sanitizers. If you use the sta
 ```sh
 for sanitizer in "address" "leak" "memory" "thread"; do
     echo "Testing with $sanitizer"
-    export RUSTFLAGS="-Z sanitizer=$sanitizer"
+    export RUSTFLAGS="-Zsanitizer=$sanitizer"
     export RUSTDOCFLAGS="$RUSTFLAGS"
     cargo +nightly test -Zbuild-std --target x86_64-unknown-linux-gnu
 done
@@ -278,7 +278,7 @@ done
 ```sh
 for sanitizer in "address" "leak" "memory" "thread"; do
     echo "Testing with $sanitizer"
-    export RUSTFLAGS="-Z sanitizer=$sanitizer"
+    export RUSTFLAGS="-Zsanitizer=$sanitizer"
     export RUSTDOCFLAGS="$RUSTFLAGS"
     cargo +nightly nextest run -Zbuild-std --target x86_64-unknown-linux-gnu
 done
@@ -314,7 +314,7 @@ A few tips:
 The test below passes, but there is actually a bug. AddressSanitizer can help us find it.
 
 ```sh
-RUSTFLAGS='-Z sanitizer=address' cargo +nightly test -Zbuild-std --target x86_64-unknown-linux-gnu
+RUSTFLAGS='-Zsanitizer=address' cargo +nightly test -Zbuild-std --target x86_64-unknown-linux-gnu
 ```
 
 ```rust
@@ -327,7 +327,7 @@ mod tests {
         let a = vec![7, 3, 3, 1];
         let b = a.as_ptr();
         drop(a);
-        let z = unsafe { *b };
+        let _z = unsafe { *b };
     }
 }
 ```
@@ -426,7 +426,7 @@ Keep these tips in mind while using Miri:
 
   * Disable the longest-running tests if needed.
 
-  * Consider disabling the most heavy Miri detectors like `-Zmiri-disable-stacked-borrows` and `-Zmiri-disable-validation`.
+  * Consider disabling the heaviest Miri detectors like `-Zmiri-disable-stacked-borrows` and `-Zmiri-disable-validation`.
 
   * Use [`--test-threads` or `-j` flag with `nextest`](https://nexte.st/docs/integrations/miri/#benefits) to improve the speed.
 
@@ -668,7 +668,7 @@ Three popular tools wrap the above engines for easier consumption in Rust projec
 | Coverage | Lines, functions, branches | Lines, functions, branches, regions, MC/DC | Lines |
 | Output format | LCOV, JSON, HTML, Cobertura, Coveralls+, Markdown, ADE | Text, LCOV, JSON, HTML, Cobertura, Codecov | Text, LCOV, JSON, HTML, XML |
 | To exclude files | `--ignore` | [`--ignore-filename-regex`](https://github.com/taiki-e/cargo-llvm-cov?tab=readme-ov-file#exclude-file-from-coverage) | `--exclude-files` |
-| To exclude functions | With in-code markers and regexes | [With attributes](https://github.com/taiki-e/cargo-llvm-cov?tab=readme-ov-file#exclude-function-from-coverage) | [With attributes](https://github.com/xd009642/tarpaulin?tab=readme-ov-file#ignoring-code-in-files) |
+| To exclude functions | With in-code markers and regexes | [With attributes](https://github.com/taiki-e/cargo-llvm-cov?tab=readme-ov-file#exclude-code-from-coverage) | [With attributes](https://github.com/xd009642/tarpaulin?tab=readme-ov-file#ignoring-code-in-files) |
 | To exclude test coverage | No | [With external module](https://github.com/taiki-e/coverage-helper/tree/v0.2.0) | `--ignore-tests` |
 | To enable coverage for C/C++ | Unknown | [`--include-ffi`](https://github.com/taiki-e/cargo-llvm-cov?tab=readme-ov-file#get-coverage-of-cc-code-linked-to-rust-librarybinary) | Unknown |
 | Merges runs across different builds? | No | [Yes](https://github.com/taiki-e/cargo-llvm-cov?tab=readme-ov-file#merge-coverages-generated-under-different-test-conditions) | [Yes](https://github.com/xd009642/tarpaulin?tab=readme-ov-file#command-line) (but only shows delta) |
