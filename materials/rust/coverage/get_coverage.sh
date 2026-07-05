@@ -4,6 +4,17 @@ set -euo pipefail
 
 # gather coverage
 
+mkdir -p ./outputs
+rm -rf \
+  ./outputs/grcov_llvm \
+  ./outputs/grcov_llvm_lcov \
+  ./outputs/grcov_llvm_lcov.info \
+  ./outputs/llvm_cov \
+  ./outputs/llvm_cov_pretty \
+  ./outputs/tarpaulin-report.html \
+  ./tarpaulin-report.html
+find . -name '*.profraw' -exec rm '{}' \;
+
 # llvm-cov
 # ./outputs/llvm_cov/index.html
 cargo llvm-cov --html --show-instantiations && \
