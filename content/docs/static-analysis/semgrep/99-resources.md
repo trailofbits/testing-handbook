@@ -55,7 +55,7 @@ weight: 99
 - [Enforcing Code & Security Standards with Semgrep](https://owasp.org/www-chapter-newcastle-uk/presentations/2021-02-23-semgrep.pdf)
 - [Using Semgrep to find security issues and misconfiguration in AWS Cloud Development Kit projects](https://blog.aquia.io/blog/2022-02-18-semgrep-cdk/)
 - [Spring Actuator Security, Part 2: Finding Actuators using Static Code Analysis with Semgrep](https://blog.maass.xyz/spring-actuator-security-part-2-finding-actuators-using-static-code-analysis-with-semgrep)
-- [Semgrep ruleset for C/C++ vulnerability research](https://security.humanativaspa.it/semgrep-ruleset-for-c-c-vulnerability-research/)
+- [Semgrep ruleset for C/C++ vulnerability research](https://hnsecurity.it/blog/semgrep-ruleset-for-c-c-vulnerability-research/)
 - [Customizing Semgrep Rules for Flask/Django and Other Popular Web Frameworks](https://blog.includesecurity.com/2021/07/customizing-semgrep-rules-for-flask-django/)
 - [Semgrep: scanning unusual extensions](https://blog.anantshri.info/semgrep-scanning-unusuals-extensions/)
 - [Semgrep - Matching JavaScript Imports](https://www.ayrx.me/semgrep-javascript-imports/)
@@ -65,7 +65,7 @@ weight: 99
 
 ### Semgrep in vulnerability discovery
 
-- [Automating binary vulnerability discovery with Ghidra and Semgrep](https://security.humanativaspa.it/automating-binary-vulnerability-discovery-with-ghidra-and-semgrep/)
+- [Automating binary vulnerability discovery with Ghidra and Semgrep](https://hnsecurity.it/blog/automating-binary-vulnerability-discovery-with-ghidra-and-semgrep/)
 - :cinema: [Raining CVEs On WordPress Plugins With Semgrep | Nullcon Goa 2022](https://www.youtube.com/watch?v=RvKLn2ofMAo)
 - :cinema: [Automating Android App Vulnerability Discovery with Semgrep](https://www.youtube.com/watch?v=7ArHXmMITb0)
 

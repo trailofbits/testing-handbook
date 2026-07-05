@@ -126,7 +126,7 @@ Your browser will be automatically refreshed with changes whenever you save a fi
      (built on top of [retext](https://github.com/retextjs/retext) and [remark](https://github.com/remarkjs/remark)).
      Uses the [tbroadley/spellchecker-cli-action](https://github.com/tbroadley/spellchecker-cli-action) action.
 
-- Familiarize yourself with the [Hugo Book theme](https://hugo-book-demo.netlify.app/)
+- Familiarize yourself with the [Hugo Book theme](https://book.alxs.dev/)
 as it has a couple of nice features (buttons, etc.)
 - Reach out in [#testing-handbook](https://empirehacking.slack.com/archives/C06CSLSQAMB) Empire Hacking Slack if you have any questions.
 
