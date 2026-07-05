@@ -102,7 +102,7 @@ cargo hack test --each-feature
 cargo hack test --feature-powerset --depth 2
 ```
 
-{{< /tab>}}
+{{< /tab >}}
 {{< tab "CI" >}}
 
 ```yaml
@@ -112,7 +112,7 @@ cargo hack test --feature-powerset --depth 2
 - run: cargo hack test --feature-powerset --depth 2 --workspace
 ```
 
-{{< /tab>}}
+{{< /tab >}}
 {{< /tabs >}}
 
 {{< hint info >}}
@@ -182,7 +182,7 @@ Install it by adding the following to your project’s `Cargo.toml` file:
 
 ```toml
 [dependencies]
-cast_checks = "0.1.5"
+cast_checks = "0.1.6"
 ```
 
 Then, mark functions where you suspect overflows may be possible with `#[cast_checks::enable]` and run tests as usual.
@@ -270,7 +270,7 @@ for sanitizer in "address" "leak" "memory" "thread"; do
 done
 ```
 
-{{< /tab>}}
+{{< /tab >}}
 {{< tab "Cargo nextest" >}}
 
 ```sh
@@ -282,7 +282,7 @@ for sanitizer in "address" "leak" "memory" "thread"; do
 done
 ```
 
-{{< /tab>}}
+{{< /tab >}}
 {{< /tabs >}}
 
 A few tips:
@@ -353,14 +353,14 @@ rustup +nightly component add miri
 cargo miri test
 ```
 
-{{< /tab>}}
+{{< /tab >}}
 {{< tab "Miri with nextest" >}}
 
 ```sh
 cargo miri nextest run
 ```
 
-{{< /tab>}}
+{{< /tab >}}
 {{< /tabs >}}
 
 Alternatively, you can replace debug builds with Miri for use in testing environments. You need to replace the compiled binary with the invocation of a full Cargo command, as Miri does not compile instrumented binaries but rather is an interpreter.
@@ -617,7 +617,7 @@ It is critically important to know how much coverage your tests have. Coverage g
 * Compile-time instrumentation  
 * Execution of tests, producing "raw" data
 * Merge of per-execution run results
-* Conversion of merged data to a usable format (like an html report)
+* Conversion of merged data to a usable format (like an HTML report)
 
 There are two main data formats:
 
@@ -650,7 +650,7 @@ There are four common instrumentation backends (engines):
 
 {{< hint danger >}}
 The `gcov` engine is [no longer supported by Rust](https://github.com/rust-lang/rust/pull/131829).
-The engine and gcov-style format is still often used for C/C++ codebases.
+The engine and gcov-style format are still often used for C/C++ codebases.
 {{< /hint >}}
 
 {{< hint warning >}}
@@ -679,20 +679,20 @@ While checking coverage statistics from a command line and using one of many cov
 
 | HTML output/tool | `grcov` | `llvm-cov` | `tarpaulin` |
 | :---- | :---- | :---- | :---- |
-| Examples | [Open `grcov`](/languages/rust/coverage/grcov_llvm/?:) [Open `grcov` with `lcov`](/languages/rust/coverage/grcov_llvm_lcov/?:) | [Open `llvm-cov`](/languages/rust/coverage/llvm_cov/?:) [Open `llvm-cov-pretty`](/languages/rust/coverage/llvm_cov_pretty/?:) | [Open `tarpaulin`](/languages/rust/coverage/tarpaulin-report.html?:) |
+| Examples | [Open `grcov`](/languages/rust/coverage/grcov_llvm/) [Open `grcov` with `lcov`](/languages/rust/coverage/grcov_llvm_lcov/) | [Open `llvm-cov`](/languages/rust/coverage/llvm_cov/) [Open `llvm-cov-pretty`](/languages/rust/coverage/llvm_cov_pretty/) | [Open `tarpaulin`](/languages/rust/coverage/tarpaulin-report.html) |
 | Handles Rust’s constructions? | Yes | Yes | Yes |
 | Expands Rust’s generics? | No | `--show-instantiations` | No |
 | Includes number of hits? | Yes | Yes | Yes |
 | Supports multi-file output? | Yes | Yes | No |
 
-{{< tabs "coverage html reports" >}}
+{{< tabs "coverage HTML reports" >}}
 {{< tab "grcov llvm" >}}
 ![grcov HTML report](grcov_llvm1.png)
 
 ---
 
 ![grcov HTML report 2](grcov_llvm2.png)
-{{< /tab>}}
+{{< /tab >}}
 
 {{< tab "grcov llvm with lcov" >}}
 ![grcov + lcov HTML report](grcov_llvm_lcov1.png)
@@ -700,7 +700,7 @@ While checking coverage statistics from a command line and using one of many cov
 ---
 
 ![grcov + lcov HTML report 2](grcov_llvm_lcov2.png)
-{{< /tab>}}
+{{< /tab >}}
 
 {{< tab "llvm-cov" >}}
 ![llvm-cov HTML report](llvm_cov1.png)
@@ -708,7 +708,7 @@ While checking coverage statistics from a command line and using one of many cov
 ---
 
 ![llvm-cov HTML report 2](llvm_cov2.png)
-{{< /tab>}}
+{{< /tab >}}
 
 {{< tab "llvm-cov with llvm-cov-pretty" >}}
 ![llvm-cov-pretty HTML report](llvm_cov_pretty1.png)
@@ -716,7 +716,7 @@ While checking coverage statistics from a command line and using one of many cov
 ---
 
 ![llvm-cov-pretty HTML report 2](llvm_cov_pretty2.png)
-{{< /tab>}}
+{{< /tab >}}
 
 {{< tab "tarpaulin" >}}
 ![tarpaulin HTML report](tarpaulin1.png)
@@ -724,7 +724,7 @@ While checking coverage statistics from a command line and using one of many cov
 ---
 
 ![tarpaulin HTML report 2](tarpaulin2.png)
-{{< /tab>}}
+{{< /tab >}}
 
 {{< /tabs >}}
 

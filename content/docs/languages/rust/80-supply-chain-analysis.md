@@ -77,7 +77,7 @@ This plugin can be used for linting your dependencies. Use it if you want to aut
 
 ### [cargo-unmaintained](https://github.com/trailofbits/cargo-unmaintained)
 
-This Trail of Bits’ tool can be used in addition to `cargo audit` (see below) to detect unmaintained dependencies in a heuristic way.
+This Trail of Bits tool can be used in addition to `cargo audit` (see below) to detect unmaintained dependencies in a heuristic way.
 
 ### [cackle](https://github.com/cackle-rs/cackle)
 

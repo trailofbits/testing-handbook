@@ -1,7 +1,7 @@
 FROM rust:1.95.0-slim-trixie
 
-RUN apt update
-RUN apt install -y pkg-config libssl-dev lcov
+RUN apt-get update
+RUN apt-get install -y pkg-config libssl-dev lcov
 RUN cargo install cargo-tarpaulin
 RUN cargo install cargo-llvm-cov --locked
 RUN cargo install llvm-cov-pretty

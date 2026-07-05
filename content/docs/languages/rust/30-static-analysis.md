@@ -150,7 +150,7 @@ Check out [Samuel Moelius’s ‘Linting with Dylint’ EuroRust 2024](https://y
 
 Semgrep has support for the Rust language. Check the [Semgrep page](/docs/static-analysis/semgrep/) in the handbook for more information on the tool.
 
-```bash
+```sh
 semgrep --config "p/rust"
 ```
 
