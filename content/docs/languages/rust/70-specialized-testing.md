@@ -10,19 +10,19 @@ weight: 70
 
 [Shuttle](https://github.com/awslabs/shuttle)
 
-* Unsound, but scalable  
+* Unsound, but scalable
 * Works analogously to property testing
 
 [Loom](https://docs.rs/loom/latest/loom/)
 
-* Sound, but slow  
+* Sound, but slow
 * Works analogously to model checkers
 
 ## Fault injection
 
 [MadSim](https://github.com/madsim-rs/madsim)
 
-* Replaces the `tokio` and `tonic` crates with simulated versions  
+* Replaces the `tokio` and `tonic` crates with simulated versions
 * Injects faults and increases randomness
 
 [fail-rs](https://github.com/tikv/fail-rs)

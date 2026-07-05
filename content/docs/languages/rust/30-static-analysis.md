@@ -14,8 +14,8 @@ Clippy is the fundamental linter. Just use it.
 
 [Clippy lints](https://rust-lang.github.io/rust-clippy/master/index.html) are categorized into groups and levels. Groups categorize lints by the types of issues they detect. Levels indicate what to do when a lint finds an issue:
 
-* Allow: Ignore the issue  
-* Warn: Print a message to stderr  
+* Allow: Ignore the issue
+* Warn: Print a message to stderr
 * Deny: Return an error code (useful in CI pipelines)
 
 Clippy is a wrapper over the `rustc` compiler, so when Clippy is run, it executes [its own set of lints](https://doc.rust-lang.org/rustc/lints/listing/index.html) in addition to `rustc`’s. These lints are similarly categorized and can be controlled with the same flags and configuration options.
@@ -75,10 +75,10 @@ cargo clippy --message-format=json | clippy-sarif
 
 For continuous use, such as in a CI/CD pipeline, you want to minimize false positives and focus on the important lints. For that, follow these guidelines:
 
-* Use the default Clippy configuration.  
-* Enable recommended `clippy::restriction` lints (see the example below).  
-* Enable selected lints from `clippy::pedantic` groups (these should be enabled case by case depending on your project).  
-* Turn warnings into errors so that CI/CD fails on any issue.  
+* Use the default Clippy configuration.
+* Enable recommended `clippy::restriction` lints (see the example below).
+* Enable selected lints from `clippy::pedantic` groups (these should be enabled case by case depending on your project).
+* Turn warnings into errors so that CI/CD fails on any issue.
 * Add `#[allow(..)]` attributes in the code to silence specific findings of enabled lints when really needed. Make sure to comment why the lint was disabled in the specific location.
 
 ```sh
@@ -106,9 +106,9 @@ allow-unwrap-in-tests = true
 
 [Dylint](https://github.com/trailofbits/dylint) runs lints from dynamic libraries named by the user, allowing developers to maintain their own personal lint collections. While you could write new Clippy lints and send a pull request, this is not always an ideal solution:
 
-* The new lints cannot be project-specific.  
-* The new lints cannot target third-party crates.  
-* Complex lints may not be wanted due to maintenance effort.  
+* The new lints cannot be project-specific.
+* The new lints cannot target third-party crates.
+* Complex lints may not be wanted due to maintenance effort.
 * Lints with a high false-positive rate may not be wanted.
 
 Moreover, writing lints with Dylint instead of forking Clippy [helps with dealing with the unstable `rustc` API and with sharing lints with other people](https://blog.trailofbits.com/2021/11/09/write-rust-lints-without-forking-clippy/).
@@ -138,8 +138,8 @@ cargo dylint  \
 
 You can write your own lint, but it is a nontrivial task and is beyond the scope of this chapter. At a high level, you will need to decide on the type of lint:
 
-* Pre-expansion: Run on the AST before macros are expanded  
-* Early: Run on the AST after macros have been expanded  
+* Pre-expansion: Run on the AST before macros are expanded
+* Early: Run on the AST after macros have been expanded
 * Late: Run on the high-level intermediate representation (HIR)—that is, after names have been resolved, types have been checked, etc.
 
 Check out [Samuel Moelius’s ‘Linting with Dylint’ EuroRust 2024](https://youtu.be/MjlPUA7sAmA?t=548) talk for detailed guidelines.

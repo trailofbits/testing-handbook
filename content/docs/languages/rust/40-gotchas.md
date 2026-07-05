@@ -16,8 +16,8 @@ This section provides a checklist that can be used during manual Rust code revie
   - Often partial-match (`starts_with`, `ends_with`, `contains`) is used instead of equality.
   - Case (in)sensitivity of comparisons often results in issues.
 - [ ] Check string conversions to other data types (like `Vec`) and vice versa. These may come with UTF-8 encoding issues. Options for handling bytes that may not be valid UTF-8:
-  - `from_utf8` with `unwrap`—strict, panics on non-convertible data  
-  - `from_utf8_lossy`—lossy, replaces invalid UTF-8 sequences with U+FFFD (replacement character)  
+  - `from_utf8` with `unwrap`—strict, panics on non-convertible data
+  - `from_utf8_lossy`—lossy, replaces invalid UTF-8 sequences with U+FFFD (replacement character)
   - `OsStr`/`OsString`—for platform-native strings that may not be valid UTF-8 (e.g., paths, environment variables, and `argv`); it is not a UTF-8/bytes converter, and there is no portable way to get its raw bytes (`as_bytes` is Unix-only; `as_encoded_bytes` uses a non-portable encoding)
 - [ ] Verify that the `with_capacity` method of the `Vec`, `HashMap`, `HashSet`, and `indexmap::IndexSet` types (and possibly other types) is not called with user-controlled data. Large values can lead to denial of service.
   - Also check that the provided capacity is smaller than the `isize::MAX` bytes [to prevent panics](https://doc.rust-lang.org/std/vec/struct.Vec.html#panics).
@@ -62,14 +62,14 @@ Common issues to check for in unsafe code are given below. For more information,
 
 {{< checklist >}}
 
-- [ ] Any union access is unsafe in Rust. Verify that the union field that matches the underlying data is used.  
-- [ ] Look for uses of libc APIs like `memset` or `memcpy`. Most of them can be replaced with safe Rust counterparts.  
+- [ ] Any union access is unsafe in Rust. Verify that the union field that matches the underlying data is used.
+- [ ] Look for uses of libc APIs like `memset` or `memcpy`. Most of them can be replaced with safe Rust counterparts.
 - [ ] If `#[repr(packed)]` is used on a struct, then check that `read_unaligned`/[`write_unaligned`](https://doc.rust-lang.org/std/ptr/fn.write_unaligned.html#on-packed-structs) is used for unaligned fields.
 - [ ] Check for uses of [`std::mem::uninitialized`](https://doc.rust-lang.org/std/mem/fn.uninitialized.html) and `mem::zeroed`.
 - [ ] Review uses of `MaybeUninit` to ensure that all calls to `assume_init` are preceded by initialization.
   - Ensure that dropping of partially initialized data is implemented correctly.
-- [ ] Check for uses of [`std::mem::forget`](https://doc.rust-lang.org/std/mem/fn.forget.html).  
-- [ ] Check for uses of `transmute` or `cast` from a non-mutable reference `&` to a mutable `&mut` (likely an undefined behavior).
+- [ ] Check for uses of [`std::mem::forget`](https://doc.rust-lang.org/std/mem/fn.forget.html).
+- [ ] Check for uses of `transmute` or `cast` from a non-mutable reference `&` to a mutable `&mut` (likely undefined behavior).
   - Using [`bytemuck`](https://docs.rs/bytemuck/latest/bytemuck/) or [`zerocopy`](https://docs.rs/zerocopy/latest/zerocopy/) crates may be a safer alternative.
 - [ ] Review uses of `static mut` and [recommend using synchronization instead](https://github.com/rust-lang/rust/issues/53639).
 - [ ] Review uses of [unsafe attributes](https://github.com/rust-lang/rfcs/blob/master/text/3325-unsafe-attributes.md) like `#[unsafe(no_mangle)]`.

@@ -49,11 +49,11 @@ There’s more. Some safe (defined) behavior may result in vulnerabilities. The 
 
 * [General race conditions](https://doc.rust-lang.org/nomicon/races.html)
   * Deadlocks (blocking bugs)
-  * Incorrect state synchronization (non-blocking bugs)  
-* Resource leaks  
-* Pointer exposures  
-* Arithmetic errors  
-* Nondeterminism  
+  * Incorrect state synchronization (non-blocking bugs)
+* Resource leaks
+* Pointer exposures
+* Arithmetic errors
+* Nondeterminism
 * Logic errors
 
 Moreover, safe Rust may happen to be unsound in some rare cases. Check [the issues on the Rust GitHub](https://github.com/rust-lang/rust/issues?q=is%3Aissue%20state%3Aopen%20label%3AI-unsound) and the ["Counterexamples in Type Systems"](https://counterexamples.org/intro.html) resource for more information. Usually auditors don’t need to focus on these edge cases.
@@ -76,8 +76,8 @@ Pointer exposure is considered safe, because it does not make your program explo
 
 Dealing with numbers is safe in Rust, but some operations may produce unexpected results. There are three main sources of bugs:
 
-* [Integer overflows](https://doc.rust-lang.org/reference/expressions/operator-expr.html#overflow)  
-* [Imprecision of float operations](https://seclists.org/oss-sec/2023/q2/99)  
+* [Integer overflows](https://doc.rust-lang.org/reference/expressions/operator-expr.html#overflow)
+* [Imprecision of float operations](https://seclists.org/oss-sec/2023/q2/99)
 * [Rounding errors](https://github.com/crytic/roundme)
 
 There are [three types of integer bugs](https://phrack.org/issues/60/10.html#article): arithmetic overflows, width overflows, and signedness errors.
@@ -100,7 +100,7 @@ You can read more about integer overflows in [RFC 560](https://github.com/rust-l
 
 Width and signedness overflows can occur when converting between numeric types. Thanks to Rust’s lack of implicit conversions, unexpected overflows are easy to deal with, using one of the following:
 
-* A [checked conversion](https://doc.rust-lang.org/std/convert/trait.TryFrom.html) with overflows handled explicitly (e.g., with a panic)  
+* A [checked conversion](https://doc.rust-lang.org/std/convert/trait.TryFrom.html) with overflows handled explicitly (e.g., with a panic)
 * An [`as` cast](https://doc.rust-lang.org/rust-by-example/types/cast.html) that may result in a wrap-over (but is always well defined, [unlike in C](https://stackoverflow.com/questions/16188263/is-signed-integer-overflow-still-undefined-behavior-in-c))
 
 The latter cast method is more error-prone and should get the same amount of scrutiny as arithmetic overflows. An [`as` cast](https://doc.rust-lang.org/rust-by-example/types/cast.html) silently truncates bigger integer types converted to smaller integer types, even in debug mode.
@@ -113,16 +113,16 @@ There are two types of nondeterminism in Rust: introduced during compilation and
 
 The following are sources of compilation-time nondeterminism:
 
-* Architecture-dependent integral types (like `usize` and `libc::c_char`) and pointer sizes  
-* [Float numbers](https://internals.rust-lang.org/t/pre-rfc-dealing-with-broken-floating-point/2673)  
-* [NaN bit representation](https://github.com/rust-lang/rfcs/blob/master/text/3514-float-semantics.md)  
-* Struct field reordering  
+* Architecture-dependent integral types (like `usize` and `libc::c_char`) and pointer sizes
+* [Float numbers](https://internals.rust-lang.org/t/pre-rfc-dealing-with-broken-floating-point/2673)
+* [NaN bit representation](https://github.com/rust-lang/rfcs/blob/master/text/3514-float-semantics.md)
+* Struct field reordering
 * Enum discriminant values
 
 The following are sources of runtime nondeterminism:
 
-* Iterations over [`HashMap`](https://dev.to/gnunicorn/hunting-down-a-non-determinism-bug-in-our-rust-wasm-build-4fk1) and `HashSet`  
-* Struct padding  
+* Iterations over [`HashMap`](https://dev.to/gnunicorn/hunting-down-a-non-determinism-bug-in-our-rust-wasm-build-4fk1) and `HashSet`
+* Struct padding
 * Pointers (specific memory addresses)
 
 ## Logic errors

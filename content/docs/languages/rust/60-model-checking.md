@@ -15,7 +15,7 @@ Instead of testing with a single value (like with unit testing) or with a set of
 [Prusti](https://github.com/viperproject/prusti-dev) is based on [Viper](https://www.pm.inf.ethz.ch/research/viper.html), a framework for building verification tools. It uses symbolic execution and the [Z3 theorem prover](https://github.com/Z3Prover/z3).
 
 {{< hint warning >}}
-It is an academic project that seems to be stale. However, it can be used to experiment with this type of testing. For production uses consider other tools like Kani or Verus.
+It is an academic project that seems to be stale. However, it can be used to experiment with this type of testing. For production uses, consider other tools like Kani or Verus.
 {{< /hint >}}
 
 ### Installing Prusti
@@ -40,7 +40,7 @@ To restrict values, and to define more code properties for verification, you hav
 
 The main power of Prusti lies in its ability to specify and validate functions’ contracts (or specifications). A function’s specification consists of preconditions and postconditions.
 
-* Preconditions  
+* Preconditions
   * These conditions are checked before calls.
   * Prusti verifies that all calls to the function are done with arguments meeting the preconditions.
   * Preconditions limit the set of possible values for postcondition checks.
@@ -70,7 +70,7 @@ fn prusti_check(x: u32) -> u32 {
 If values violating conditions are found, Prusti returns an error and can produce [an example set of values that demonstrate the problem](https://viperproject.github.io/prusti-dev/user-guide/verify/counterexample.html).
 
 {{< hint danger >}}
-Prusti does not support loops automatically. You have to use [`body_invariant!`](https://viperproject.github.io/prusti-dev/user-guide/tour/loop_invariants.html) macro to enable code verification.
+Prusti does not support loops automatically. You have to use the [`body_invariant!`](https://viperproject.github.io/prusti-dev/user-guide/tour/loop_invariants.html) macro to enable code verification.
 {{< /hint >}}
 
 ## Kani
@@ -163,19 +163,19 @@ We define a new `verification` module under the `#[cfg(kani)]` attribute. This l
 
 Then, we use the `#[kani::proof]` attribute and write a test similar to normal unit tests, with three main differences:
 
-* Generating a symbolic `book` variable (using our `kani::Arbitrary` implementation)  
-* Restricting `book.pages` to be less than 4096  
+* Generating a symbolic `book` variable (using our `kani::Arbitrary` implementation)
+* Restricting `book.pages` to be less than 4096
 * Limiting the number of loops to 18 with `#[kani::unwind(18)]`
 
 The [Kani documentation recommends](https://model-checking.github.io/kani/tutorial-loop-unwinding.html) setting the `#[kani::unwind(X)]` attribute experimentally:
 
-* Start with a number that is slightly larger than the maximum of the expected numbers of all loops’ repetitions.  
-* If Kani takes too much time to finish, lower the `unwind` number.  
+* Start with a number that is slightly larger than the maximum of the expected numbers of all loops’ repetitions.
+* If Kani takes too much time to finish, lower the `unwind` number.
 * If Kani errors out with `FAILURE: unwinding assertion loop X`, increase the unwind number.
 
 If Kani finds a `FAILURE`, then we can generate example values that will trigger the failure with one of two methods:
 
-* Printing a unit test that reproduces the failure with `cargo kani -Z concrete-playback --concrete-playback=print`  
+* Printing a unit test that reproduces the failure with `cargo kani -Z concrete-playback --concrete-playback=print`
 * [Writing that unit test directly into your source](https://model-checking.github.io/kani/reference/experimental/concrete-playback.html) with `cargo kani -Z concrete-playback --concrete-playback=inplace`, then replaying it via `cargo kani playback -Z concrete-playback -- <test_name>`
 
 {{< hint danger >}}

@@ -16,7 +16,7 @@ There are three levels of "zeroization security" that can be considered, dependi
 | :---- | :---- | :---- |
 | **1** | Provides concrete coding rules for ensuring that a value is zeroed before it is dropped; low coding overhead | Does not achieve guaranteed zeroization; allows compiler to make copies that are not explicitly zeroed |
 | **2** | Prevents moves from creating copies or enforces that copies are explicit in the code | Cannot prevent explicit dereferences from creating copies on the stack; more coding overhead |
-| **3** | No need to fight with the compiler; provides the best guarantees around data isolation; achieves a conceptually simple model of data’s lifetime and zeroization | Time-consuming to implement; resource-expensive in runtime; does not provide 100% certain memory zeroization because of possible hardware-level uncertainties |
+| **3** | No need to fight with the compiler; provides the best guarantees around data isolation; achieves a conceptually simple model of data’s lifetime and zeroization | Time-consuming to implement; resource-intensive at runtime; does not provide 100% certain memory zeroization because of possible hardware-level uncertainties |
 
 {{< hint info >}}
 If you have implemented level 1 or level 2 controls, then use [our `zeroize-audit` skill](https://github.com/trailofbits/skills/tree/main/plugins/zeroize-audit)
@@ -60,7 +60,7 @@ fn main() {
 
 An alternative to the best-effort approach is to fight the compiler and attempt to guarantee that copies do not live in memory.
 
-You can attempt to prevent spurious compiler-introduced copies created by moves by disallowing moves through the [`pin`](https://doc.rust-lang.org/std/pin/) feature. Using `pin` provides some compilation-time safety, as shown in the example below. The "leak A" from the level 1 is no longer possible (code won't compile).
+You can attempt to prevent spurious compiler-introduced copies created by moves by disallowing moves through the [`pin`](https://doc.rust-lang.org/std/pin/) feature. Using `pin` provides some compile-time safety, as shown in the example below. The "leak A" from level 1 is no longer possible (code won't compile).
 
 ```rust
 use std::{marker::PhantomPinned, pin::pin};

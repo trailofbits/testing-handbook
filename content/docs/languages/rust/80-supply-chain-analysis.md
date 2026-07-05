@@ -60,7 +60,7 @@ status reviews issues owner      downloads    loc lpidx geiger flgs crate   vers
 none     0   3  0   0  0  1 45104K 695354K   7558   115    err ____ memchr  2.7.6   ↓2.7.1
 ```
 
-It cryptographically signs/verifies the audit (if that matters to you) and is more decentralized in nature than `cargo-vet`, but may require more manual configurations and cannot help with version-diff trust.
+It cryptographically signs/verifies the audit (if that matters to you) and is more decentralized in nature than `cargo-vet`, but may require more manual configuration and cannot help with version-diff trust.
 
 {{< hint info >}}
 Use the [`crevette` tool](https://github.com/crev-dev/crevette) to convert audits from `crev` to `vet` format.

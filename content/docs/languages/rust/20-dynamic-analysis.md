@@ -244,13 +244,15 @@ To find deep bugs, we can run tests with [various sanitizers](https://doc.rust-l
 
 Examples of Rust sanitizers commonly used for security testing include:
 
-* AddressSanitizer  
-* HWAddressSanitizer  
-* LeakSanitizer  
-* MemorySanitizer  
+* AddressSanitizer
+* HWAddressSanitizer
+* LeakSanitizer
+* MemorySanitizer
 * ThreadSanitizer
 
-To enable them, add the `RUSTFLAGS` environment variable.
+To enable them, set the `RUSTFLAGS` environment variable.
+
+The examples below run the subset supported by the shown `x86_64-unknown-linux-gnu` target. Sanitizers are target-specific, so adjust the sanitizer name and target triple for others like HWAddressSanitizer.
 
 {{< hint warning >}}
 At this time, nightly toolchains must be used for sanitizers. If you use the stable toolchain, the compilation fails with the following error:
@@ -334,13 +336,13 @@ mod tests {
 
 ## Miri
 
-[Miri](https://github.com/rust-lang/miri) is an interpreter for Rust’s "mid-level intermediate representation." Miri helps to detect undefined behaviors like these:
+[Miri](https://github.com/rust-lang/miri) is an interpreter for Rust’s "mid-level intermediate representation." Miri helps detect undefined behavior and related issues like these:
 
-* Memory corruption bugs  
-* Memory leaks  
-* Uses of uninitialized data  
-* Memory alignment issues  
-* Issues with aliasing  
+* Memory corruption bugs
+* Memory leaks
+* Uses of uninitialized data
+* Memory alignment issues
+* Issues with aliasing
 * Data races
 
 To use Miri, you must point it at some executable code (it performs dynamic analysis). The easiest is to run your tests through Miri. Note that the nightly toolchain is required.
@@ -460,7 +462,7 @@ Keep these tips in mind while using Miri:
 
 {{< details "Example to try: Miri in action" >}}
 
-The test below should pass or fail on the assertion. Miri would detect undefined behavior.
+The test below may pass or fail normally, but Miri should report undefined behavior.
 
 ```rust
 fn main() { println!("Hello, world!"); }
@@ -509,17 +511,17 @@ To use proptest, you must write unit tests. But instead of hard-coding values th
 
 Proptest ships with many [configurable strategies](https://docs.rs/proptest/latest/proptest/):
 
-* Range-like generator for integers  
-* Regex generator for strings  
-* Simple generators for `bit`, `bool`, and `char` values  
-* Random-size generators for `std::collections`  
+* Range-like generator for integers
+* Regex generator for strings
+* Simple generators for `bit`, `bool`, and `char` values
+* Random-size generators for `std::collections`
 * Generators for `Option` and `Result`
 
 The generators [can be combined together](https://proptest-rs.github.io/proptest/proptest/tutorial/macro-prop-compose.html). You can also use the following `Strategy` methods and the `prop_oneof!` macro to further combine and restrict generation:
 
-* Do mapping with the `prop_map` method  
-* Do filtering with the `prop_filter` method  
-* Create enums with the `prop_oneof!` macro  
+* Do mapping with the `prop_map` method
+* Do filtering with the `prop_filter` method
+* Create enums with the `prop_oneof!` macro
 * Do recursion with the `prop_recursive` method
 
 Let’s see some example code:
@@ -608,13 +610,13 @@ cargo +nightly miri test
 
 {{< /hint >}}
 
-Finally, use our [`property-based-testing`](https://github.com/trailofbits/skills/tree/main/plugins/property-based-testing) Claude skill to automate the testing.
+Finally, use our [`property-based-testing`](https://github.com/trailofbits/skills/tree/main/plugins/property-based-testing) skill to automate the testing.
 
 ## Coverage
 
 It is critically important to know how much coverage your tests have. Coverage gathering consists of four steps:
 
-* Compile-time instrumentation  
+* Compile-time instrumentation
 * Execution of tests, producing "raw" data
 * Merge of per-execution run results
 * Conversion of merged data to a usable format (like an HTML report)
@@ -680,7 +682,7 @@ While checking coverage statistics from a command line and using one of many cov
 | HTML output/tool | `grcov` | `llvm-cov` | `tarpaulin` |
 | :---- | :---- | :---- | :---- |
 | Examples | [Open `grcov`]({{% staticref "/languages/rust/coverage/grcov_llvm/" %}}) [Open `grcov` with `lcov`]({{% staticref "/languages/rust/coverage/grcov_llvm_lcov/" %}}) | [Open `llvm-cov`]({{% staticref "/languages/rust/coverage/llvm_cov/" %}}) [Open `llvm-cov-pretty`]({{% staticref "/languages/rust/coverage/llvm_cov_pretty/" %}}) | [Open `tarpaulin`]({{% staticref "/languages/rust/coverage/tarpaulin-report.html" %}}) |
-| Handles Rust’s constructions? | Yes | Yes | Yes |
+| Handles Rust constructs? | Yes | Yes | Yes |
 | Expands Rust’s generics? | No | `--show-instantiations` | No |
 | Includes number of hits? | Yes | Yes | Yes |
 | Supports multi-file output? | Yes | Yes | No |
@@ -730,11 +732,11 @@ While checking coverage statistics from a command line and using one of many cov
 
 These are our general recommendations for generating test coverage:
 
-* Use `llvm-cov` (with [`llvm-cov-pretty`](https://crates.io/crates/llvm-cov-pretty)) for rapid testing. It is the easiest to run, it resolves generics, and it produces pretty HTML output.  
-* Use either `llvm-cov` or `grcov` for complex projects. Both are decent and can produce readable outputs.  
-* Use `tarpaulin` when other tools work incorrectly. [The developers claim](https://github.com/xd009642/tarpaulin?tab=readme-ov-file#nuances-with-llvm-coverage) that this can happen in the event of the following:  
-  * The code panics unexpectedly.  
-  * There are race conditions.  
+* Use `llvm-cov` (with [`llvm-cov-pretty`](https://crates.io/crates/llvm-cov-pretty)) for rapid testing. It is the easiest to run, it resolves generics, and it produces pretty HTML output.
+* Use either `llvm-cov` or `grcov` for complex projects. Both are decent and can produce readable outputs.
+* Use `tarpaulin` when other tools work incorrectly. [The developers claim](https://github.com/xd009642/tarpaulin?tab=readme-ov-file#nuances-with-llvm-coverage) that this can happen in the event of the following:
+  * The code panics unexpectedly.
+  * There are race conditions.
   * The code forks.
 
 For profiling, consider using [`measureme`](https://github.com/rust-lang/measureme), possibly with [Miri and Chrome DevTools](https://medium.com/source-and-buggy/data-driven-performance-optimization-with-rust-and-miri-70cb6dde0d35).
@@ -756,16 +758,16 @@ For starters, you need basic but decent unit test coverage. Then, use one of the
 
 [`cargo-mutants`](https://mutants.rs/welcome.html)
 
-* Easy to use  
-* Parses the AST of every file with the [`syn` library](https://docs.rs/syn/latest/syn/)  
-* Partially type-aware  
+* Easy to use
+* Parses the AST of every file with the [`syn` library](https://docs.rs/syn/latest/syn/)
+* Partially type-aware
 * Can [divide jobs](https://mutants.rs/shards.html) between multiple machines
 
 [`universalmutator`](https://github.com/agroce/universalmutator)
 
-* Multiple languages supported  
-* Requires more manual setup than `cargo-mutants`  
-* Two parsing modes: regexes and [Comby](https://github.com/comby-tools/comby)  
+* Multiple languages supported
+* Requires more manual setup than `cargo-mutants`
+* Two parsing modes: regexes and [Comby](https://github.com/comby-tools/comby)
 * Trivial Compiler Equivalence (TCE) optimization to eliminate redundant mutants before test runs
 
 ### Bugs in existing tests
@@ -833,6 +835,6 @@ The tool produces a `necessist.db` file that can be used to resume an interrupte
 
 ## Resources
 
-* ["The Rust Programming Language," chapter 11: Testing](https://web.mit.edu/rust-lang_v1.25/arch/amd64_ubuntu1404/share/doc/rust/html/book/second-edition/ch11-00-testing.html): The basics of unit and integration testing in Rust  
-* [Ed Page’s "Iterating on Testing in Rust"](https://epage.github.io/blog/2023/06/iterating-on-test/): Lists potential issues with `cargo` `test` and introduces `cargo-nextest`  
+* ["The Rust Programming Language," chapter 11: Testing](https://web.mit.edu/rust-lang_v1.25/arch/amd64_ubuntu1404/share/doc/rust/html/book/second-edition/ch11-00-testing.html): The basics of unit and integration testing in Rust
+* [Ed Page’s "Iterating on Testing in Rust"](https://epage.github.io/blog/2023/06/iterating-on-test/): Lists potential issues with `cargo` `test` and introduces `cargo-nextest`
 * [Unsafe Rust and Miri by Ralf Jung \- Rust Zürisee June 2023](https://www.youtube.com/watch?v=svR0p6fSUYY)
