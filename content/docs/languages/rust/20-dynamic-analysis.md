@@ -242,7 +242,7 @@ While Rust is memory-safe, one may open a gate to the unsafe world and introduce
 
 To find deep bugs, we can run tests with [various sanitizers](https://doc.rust-lang.org/beta/unstable-book/compiler-flags/sanitizer.html). Sanitization in this context means that builds are instrumented during compilation and linked with specialized runtime libraries. Then, when executed, the instrumentation looks for a specific class of issues. Running tests with sanitizers comes with the downsides of increased compilation time, execution time, and memory usage.
 
-These are the available sanitizers supported by Rust:
+Examples of Rust sanitizers commonly used for security testing include:
 
 * AddressSanitizer  
 * HWAddressSanitizer  
