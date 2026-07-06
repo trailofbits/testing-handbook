@@ -24,10 +24,6 @@ mod tests {
 
 Once you have the unit tests written and all of them pass, let’s improve on them.
 
-{{< hint info >}}
-To speed up the CI pipeline, use [`cargo-line-test`](https://github.com/trailofbits/cargo-line-test). It executes only the tests that exercise modified files and lines. It may be especially useful when using advanced but slow testing methods described later in this section.
-{{< /hint >}}
-
 ## Randomization
 
 ### Test order shuffling
