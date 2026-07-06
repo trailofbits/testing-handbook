@@ -1,6 +1,8 @@
 ---
 title: "Windows usermode"
-slug: lang-c-cpp-windows-usermode
+slug: windows-usermode
+aliases:
+- lang-c-cpp-windows-usermode
 weight: 16
 ---
 

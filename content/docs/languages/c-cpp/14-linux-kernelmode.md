@@ -1,6 +1,8 @@
 ---
 title: "Linux Kernel"
-slug: lang-c-cpp-linux-kernelmode
+slug: linux-kernelmode
+aliases:
+- lang-c-cpp-linux-kernelmode
 weight: 14
 ---
 

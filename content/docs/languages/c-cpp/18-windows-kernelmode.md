@@ -1,6 +1,8 @@
 ---
 title: "Windows kernel"
-slug: lang-c-cpp-windows-kernelmode
+slug: windows-kernelmode
+aliases:
+- lang-c-cpp-windows-kernelmode
 weight: 18
 ---
 
