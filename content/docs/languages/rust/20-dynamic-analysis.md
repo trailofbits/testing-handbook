@@ -669,7 +669,7 @@ Three popular tools wrap the above engines for easier consumption in Rust projec
 | Output format | LCOV, JSON, HTML, Cobertura, Coveralls+, Markdown, ADE | Text, LCOV, JSON, HTML, Cobertura, Codecov | Text, LCOV, JSON, HTML, XML |
 | To exclude files | `--ignore` | [`--ignore-filename-regex`](https://github.com/taiki-e/cargo-llvm-cov?tab=readme-ov-file#exclude-file-from-coverage) | `--exclude-files` |
 | To exclude functions | With in-code markers and regexes | [With attributes](https://github.com/taiki-e/cargo-llvm-cov?tab=readme-ov-file#exclude-code-from-coverage) | [With attributes](https://github.com/xd009642/tarpaulin?tab=readme-ov-file#ignoring-code-in-files) |
-| To exclude test coverage | No | [With external module](https://github.com/taiki-e/coverage-helper/tree/v0.2.0) | `--ignore-tests` |
+| To exclude test coverage | No | [Yes](https://github.com/taiki-e/cargo-llvm-cov/issues/123) | `--ignore-tests` |
 | To enable coverage for C/C++ | Unknown | [`--include-ffi`](https://github.com/taiki-e/cargo-llvm-cov?tab=readme-ov-file#get-coverage-of-cc-code-linked-to-rust-librarybinary) | Unknown |
 | Merges runs across different builds? | No | [Yes](https://github.com/taiki-e/cargo-llvm-cov?tab=readme-ov-file#merge-coverages-generated-under-different-test-conditions) | [Yes](https://github.com/xd009642/tarpaulin?tab=readme-ov-file#command-line) (but only shows delta) |
 
