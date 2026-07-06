@@ -22,7 +22,7 @@ weight: 20
   - Consult the [kernel's syscall tables](https://github.com/torvalds/linux/blob/master/arch/x86/entry/syscalls/syscall_64.tbl).
 - [ ] Syscalls enabling code execution in the kernel (e.g., `kexec_file_load`, `finit_module`) are prevented.
   - A malicious kernel module can easily manipulate the seccomp sandbox.
-- [ ] If any of the following syscalls are blocked or traced, [then the `restart_syscall` syscall is also blocked or traced](https://git.causa-arcana.com/kotovalexarian-likes-github/moby--moby/commit/5abd881883883a132f96f8adb1b07b5545af452b?style=unified&whitespace=show-all&show-outdated): `poll`, `nanosleep`, `clock_nanosleep`, or `futex`.
+- [ ] If any of the following syscalls are blocked or traced, [then the `restart_syscall` syscall is also blocked or traced](https://github.com/moby/moby/commit/5abd881883883a132f96f8adb1b07b5545af452b): `poll`, `nanosleep`, `clock_nanosleep`, or `futex`.
 - [ ] Old kernel versions are supported if needed:
   - [ ] For Linux kernel versions prior to 5.4, the BPF filter [checks for `compat` syscalls confusion](https://man7.org/linux/man-pages/man2/seccomp.2.html#:~:text=Additionally%2C%20kernels%20prior%20to%20Linux%205.4%20incorrectly%20permitted%20nr) (i.e., calling 64-bit ABI syscalls with the `__X32_SYSCALL_BIT` bit).
   - [ ] For Linux kernel versions prior to 4.8, the BPF filter [disables the use of `ptrace` for all sandboxed processes](https://www.exploit-db.com/exploits/46434).

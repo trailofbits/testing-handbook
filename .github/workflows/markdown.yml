@@ -25,7 +25,7 @@ jobs:
          restore-keys: cache-lychee-
     - uses: lycheeverse/lychee-action@8646ba30535128ac92d33dfc9133794bfdd9b411 # v2.8.0
       with:
-        args: -a 200..=204,403,429 --no-progress --cache --max-cache-age 1d --scheme http --scheme https './**/*.md' './layout/shortcodes/fuzzing/*.html'
+        args: -a 200..=204,403,429 --no-progress --cache --max-cache-age 1d --scheme http --scheme https --root-dir "${{ github.workspace }}/content" --remap "file://${{ github.workspace }}/content/languages/ file://${{ github.workspace }}/static/languages/" './**/*.md' './layouts/shortcodes/fuzzing/*.html'
         fail: true
   # Lint Markdown files
   # Uses: a custom configuration file
@@ -48,7 +48,7 @@ jobs:
         persist-credentials: false
     - uses: tbroadley/spellchecker-cli-action@8369e98753c0d2c3a3c76fb4519d9056d1d4b129 # v1
       with:
-        # No need to use a dictionary file with the disabled spell plugin 
+        # No need to use a dictionary file with the disabled spell plugin
         # dictionaries: '.github/workflows/dictionary.txt'
         files: "'content/**/*.md'"
         quiet: true
