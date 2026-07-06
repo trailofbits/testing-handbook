@@ -30,8 +30,8 @@ hope to demystify static and dynamic analysis techniques such as fuzzing and tai
 |[CodeQL](https://appsec.guide/docs/static-analysis/codeql/)| [Say hello to the next chapter of the Testing Handbook!](https://blog.trailofbits.com/2023/12/11/say-hello-to-the-next-chapter-of-the-testing-handbook/)|2023|
 |[Fuzzing](https://appsec.guide/docs/fuzzing/)| [Master fuzzing with our new Testing Handbook chapter](https://blog.trailofbits.com/2024/02/09/master-fuzzing-with-our-new-testing-handbook-chapter/)|2024|
 |[Burp](https://appsec.guide/docs/web/burp/)| [Announcing the Burp Suite Professional chapter in the Testing Handbook](https://blog.trailofbits.com/2024/06/14/announcing-the-burp-suite-professional-chapter-in-the-testing-handbook/)|2024|
-| [Cryptographic testing - Wycheproof and Constant time analysis tooling](https://appsec.guide/docs/crypto/) | TBD | 2024 |
-| [C/C++ Security Checklist](https://appsec.guide/docs/languages/c-cpp/) | TBD | 2026 |
+| [Cryptographic testing - Wycheproof and Constant time analysis tooling](https://appsec.guide/docs/crypto/) | [We found cryptography bugs in the elliptic library using Wycheproof](https://blog.trailofbits.com/2025/11/18/we-found-cryptography-bugs-in-the-elliptic-library-using-wycheproof/) | 2024 |
+| [C/C++ Security Checklist](https://appsec.guide/docs/languages/c-cpp/) | [Master C and C++ with our new Testing Handbook chapter](https://blog.trailofbits.com/2026/04/09/master-c-and-c-with-our-new-testing-handbook-chapter/) | 2026 |
 
 ### 🎥 Webinars
 
