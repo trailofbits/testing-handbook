@@ -18,7 +18,7 @@ This section provides a checklist that can be used during manual Rust code revie
 - [ ] Check string conversions to other data types (like `Vec`) and vice versa. These may come with UTF-8 encoding issues. Options for handling bytes that may not be valid UTF-8:
   - `from_utf8` with `unwrap`—strict, panics on non-convertible data
   - `from_utf8_lossy`—lossy, replaces invalid UTF-8 sequences with U+FFFD (replacement character)
-  - `OsStr`/`OsString`—for platform-native strings that may not be valid UTF-8 (e.g., paths, environment variables, and `argv`); it is not a UTF-8/bytes converter, and there is no portable way to get its raw bytes (`as_bytes` is Unix-only; `as_encoded_bytes` uses a non-portable encoding)
+  - `OsStr`/`OsString`—for platform-native strings; their `to_str` methods return None for non-UTF-8 data
 - [ ] Verify that the `with_capacity` method of the `Vec`, `HashMap`, `HashSet`, and `indexmap::IndexSet` types (and possibly other types) is not called with user-controlled data. Large values can lead to denial of service.
   - Also check that the provided capacity is smaller than the `isize::MAX` bytes [to prevent panics](https://doc.rust-lang.org/std/vec/struct.Vec.html#panics).
   - Note that some methods—[like Serde’s `size_hint`](https://github.com/serde-rs/serde/issues/744)—may indirectly expose the `with_capacity` method.
