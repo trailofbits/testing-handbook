@@ -679,9 +679,11 @@ Branch coverage from the LLVM source-based engine—the `branches` cells for `gr
 
 While checking coverage statistics from a command line and using one of many coverage visualizers, an HTML report is often what you need.
 
+<!-- Below we use ?: in links to make them open in a new tab -->
+
 | HTML output/tool | `grcov` | `llvm-cov` | `tarpaulin` |
 | :---- | :---- | :---- | :---- |
-| Examples | [Open `grcov`]({{% staticref "/languages/rust/coverage/grcov_llvm/" %}}) [Open `grcov` with `lcov`]({{% staticref "/languages/rust/coverage/grcov_llvm_lcov/" %}}) | [Open `llvm-cov`]({{% staticref "/languages/rust/coverage/llvm_cov/" %}}) [Open `llvm-cov-pretty`]({{% staticref "/languages/rust/coverage/llvm_cov_pretty/" %}}) | [Open `tarpaulin`]({{% staticref "/languages/rust/coverage/tarpaulin-report.html" %}}) |
+| Examples | [Open `grcov`]({{% staticref "/languages/rust/coverage/grcov_llvm/?:" %}}) [Open `grcov` with `lcov`]({{% staticref "/languages/rust/coverage/grcov_llvm_lcov/?:" %}}) | [Open `llvm-cov`]({{% staticref "/languages/rust/coverage/llvm_cov/?:" %}}) [Open `llvm-cov-pretty`]({{% staticref "/languages/rust/coverage/llvm_cov_pretty/?:" %}}) | [Open `tarpaulin`]({{% staticref "/languages/rust/coverage/tarpaulin-report.html?:" %}}) |
 | Handles Rust constructs? | Yes | Yes | Yes |
 | Expands Rust’s generics? | No | `--show-instantiations` | No |
 | Includes number of hits? | Yes | Yes | Yes |
