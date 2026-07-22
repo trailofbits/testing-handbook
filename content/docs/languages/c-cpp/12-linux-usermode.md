@@ -1,6 +1,8 @@
 ---
 title: "Linux usermode"
-slug: lang-c-cpp-linux-usermode
+slug: linux-usermode
+aliases:
+- lang-c-cpp-linux-usermode
 weight: 12
 ---
 

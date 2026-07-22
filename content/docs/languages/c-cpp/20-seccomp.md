@@ -1,6 +1,8 @@
 ---
 title: "Seccomp/BPF"
-slug: lang-c-cpp-seccomp
+slug: seccomp
+aliases:
+- lang-c-cpp-seccomp
 weight: 20
 ---
 

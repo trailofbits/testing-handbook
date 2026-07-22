@@ -1,6 +1,8 @@
 ---
 title: "Bug classes"
-slug: lang-c-cpp-bug-classes
+slug: bug-classes
+aliases:
+- lang-c-cpp-bug-classes
 weight: 10
 ---
 
