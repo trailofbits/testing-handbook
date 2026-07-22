@@ -24,10 +24,6 @@ mod tests {
 
 Once you have the unit tests written and all of them pass, let’s improve on them.
 
-{{< hint info >}}
-To speed up the CI pipeline, use [`cargo-line-test`](https://github.com/trailofbits/cargo-line-test). It executes only the tests that exercise modified files and lines. It may be especially useful when using advanced but slow testing methods described later in this section.
-{{< /hint >}}
-
 ## Randomization
 
 ### Test order shuffling
@@ -669,7 +665,7 @@ Three popular tools wrap the above engines for easier consumption in Rust projec
 | Output format | LCOV, JSON, HTML, Cobertura, Coveralls+, Markdown, ADE | Text, LCOV, JSON, HTML, Cobertura, Codecov | Text, LCOV, JSON, HTML, XML |
 | To exclude files | `--ignore` | [`--ignore-filename-regex`](https://github.com/taiki-e/cargo-llvm-cov?tab=readme-ov-file#exclude-file-from-coverage) | `--exclude-files` |
 | To exclude functions | With in-code markers and regexes | [With attributes](https://github.com/taiki-e/cargo-llvm-cov?tab=readme-ov-file#exclude-code-from-coverage) | [With attributes](https://github.com/xd009642/tarpaulin?tab=readme-ov-file#ignoring-code-in-files) |
-| To exclude test coverage | No | [With external module](https://github.com/taiki-e/coverage-helper/tree/v0.2.0) | `--ignore-tests` |
+| To exclude test coverage | No | [Yes](https://github.com/taiki-e/cargo-llvm-cov/issues/123) | `--ignore-tests` |
 | To enable coverage for C/C++ | Unknown | [`--include-ffi`](https://github.com/taiki-e/cargo-llvm-cov?tab=readme-ov-file#get-coverage-of-cc-code-linked-to-rust-librarybinary) | Unknown |
 | Merges runs across different builds? | No | [Yes](https://github.com/taiki-e/cargo-llvm-cov?tab=readme-ov-file#merge-coverages-generated-under-different-test-conditions) | [Yes](https://github.com/xd009642/tarpaulin?tab=readme-ov-file#command-line) (but only shows delta) |
 
@@ -679,9 +675,11 @@ Branch coverage from the LLVM source-based engine—the `branches` cells for `gr
 
 While checking coverage statistics from a command line and using one of many coverage visualizers, an HTML report is often what you need.
 
+<!-- Below we use ?: in links to make them open in a new tab -->
+
 | HTML output/tool | `grcov` | `llvm-cov` | `tarpaulin` |
 | :---- | :---- | :---- | :---- |
-| Examples | [Open `grcov`]({{% staticref "/languages/rust/coverage/grcov_llvm/" %}}) [Open `grcov` with `lcov`]({{% staticref "/languages/rust/coverage/grcov_llvm_lcov/" %}}) | [Open `llvm-cov`]({{% staticref "/languages/rust/coverage/llvm_cov/" %}}) [Open `llvm-cov-pretty`]({{% staticref "/languages/rust/coverage/llvm_cov_pretty/" %}}) | [Open `tarpaulin`]({{% staticref "/languages/rust/coverage/tarpaulin-report.html" %}}) |
+| Examples | [Open `grcov`]({{% staticref "/languages/rust/coverage/grcov_llvm/?:" %}}) [Open `grcov` with `lcov`]({{% staticref "/languages/rust/coverage/grcov_llvm_lcov/?:" %}}) | [Open `llvm-cov`]({{% staticref "/languages/rust/coverage/llvm_cov/?:" %}}) [Open `llvm-cov-pretty`]({{% staticref "/languages/rust/coverage/llvm_cov_pretty/?:" %}}) | [Open `tarpaulin`]({{% staticref "/languages/rust/coverage/tarpaulin-report.html?:" %}}) |
 | Handles Rust constructs? | Yes | Yes | Yes |
 | Expands Rust’s generics? | No | `--show-instantiations` | No |
 | Includes number of hits? | Yes | Yes | Yes |

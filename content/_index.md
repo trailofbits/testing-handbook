@@ -81,7 +81,6 @@ cover several other security-related topics. Stay tuned for updates from our tea
 ### Upcoming (!)
 
 - kAFL
-- Rust
 - Formal verification and Tamarin
 
 ## Custom queries for static analysis tools
