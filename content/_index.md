@@ -72,6 +72,7 @@ We currently cover the following tools and techniques:
 ### Languages
 
 - [C/C++ Security Checklist]({{< relref "/docs/languages/c-cpp" >}})
+- [Rust]({{< relref "/docs/languages/rust" >}})
 
 {{< /columns >}}
 
@@ -81,7 +82,6 @@ cover several other security-related topics. Stay tuned for updates from our tea
 ### Upcoming (!)
 
 - kAFL
-- Rust
 - Formal verification and Tamarin
 
 ## Custom queries for static analysis tools

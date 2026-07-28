@@ -135,9 +135,10 @@ cargo deny check bans --exclude-dev
 Look for `warning[duplicate]` outputs.
 {{< /hint >}}
 
-Similarly, a dependency that is obtained from multiple sources (e.g., crates.io and github.com) may indicate some issues. To report such offending dependencies, use [`cargo-deny`](https://github.com/EmbarkStudios/cargo-deny)'s `sources` check.
+Similarly, a dependency that is obtained from multiple sources (e.g., crates.io and github.com) may indicate some issues. To report such offending dependencies, use [`cargo vendor`](https://doc.rust-lang.org/cargo/commands/cargo-vendor.html) (detects same-version different-source cases) or `cargo-deny`'s `sources` check (also detects different-version different-source cases).
 
 ```sh
+cargo vendor --locked ./tmp_path
 cargo deny check sources
 ```
 
