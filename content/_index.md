@@ -72,6 +72,7 @@ We currently cover the following tools and techniques:
 ### Languages
 
 - [C/C++ Security Checklist]({{< relref "/docs/languages/c-cpp" >}})
+- [Rust]({{< relref "/docs/languages/rust" >}}) 
 
 {{< /columns >}}
 
