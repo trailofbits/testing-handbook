@@ -29,7 +29,7 @@ weight: 99
 
 ### Official Semgrep resources
 
-- [Rule updates | Semgrep](https://semgrep.dev/docs/release-notes/rule-updates/)
+- [Product updates | Semgrep](https://semgrep.dev/products/product-updates/)
 - [Official Semgrep blog](https://semgrep.dev/blog/)
 
 ### Introduction to Semgrep
@@ -52,7 +52,7 @@ weight: 99
 
 - [11 Semgrep Rules for Go Web Projects](https://web.archive.org/web/20231201073324/https://universalglue.dev/posts/semgrep-rules-for-go-web-projects/)
 - [Detecting Android Content Provider APIs with Semgrep Rules](https://shivasurya.me/2022/11/28/android-content-provider-semgrep-detection/)
-- [Enforcing Code & Security Standards with Semgrep](https://owasp.org/www-chapter-newcastle-uk/presentations/2021-02-23-semgrep.pdf)
+- [Enforcing Code & Security Standards with Semgrep](https://raw.githubusercontent.com/OWASP/www-chapter-newcastle-uk/master/presentations/2021-02-23-semgrep.pdf)
 - [Using Semgrep to find security issues and misconfiguration in AWS Cloud Development Kit projects](https://blog.aquia.io/blog/2022-02-18-semgrep-cdk/)
 - [Spring Actuator Security, Part 2: Finding Actuators using Static Code Analysis with Semgrep](https://blog.maass.xyz/spring-actuator-security-part-2-finding-actuators-using-static-code-analysis-with-semgrep)
 - [Semgrep ruleset for C/C++ vulnerability research](https://hnsecurity.it/blog/semgrep-ruleset-for-c-c-vulnerability-research/)
