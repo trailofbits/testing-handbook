@@ -32,7 +32,7 @@ You can simply run Prusti on your code and it will look for the following:
 
 Prusti detects all functions in a project (even unreachable ones) and checks them "independently." It simply assumes that function arguments can take any value—that they are bounded only by their types.
 
-Please note that Prusti [does not check testing code](https://viperproject.github.io/prusti-dev/user-guide/tour/testing.html).
+Please note that Prusti [does not check testing code](https://prusti.github.io/prusti/user-guide/tour/testing.html).
 
 To restrict values, and to define more code properties for verification, you have to create specifications for functions.
 
@@ -67,10 +67,10 @@ fn prusti_check(x: u32) -> u32 {
 }
 ```
 
-If values violating conditions are found, Prusti returns an error and can produce [an example set of values that demonstrate the problem](https://viperproject.github.io/prusti-dev/user-guide/verify/counterexample.html).
+If values violating conditions are found, Prusti returns an error and can produce [an example set of values that demonstrate the problem](https://prusti.github.io/prusti/user-guide/verify/counterexample.html).
 
 {{< hint danger >}}
-Prusti does not support loops automatically. You have to use the [`body_invariant!`](https://viperproject.github.io/prusti-dev/user-guide/tour/loop_invariants.html) macro to enable code verification.
+Prusti does not support loops automatically. You have to use the [`body_invariant!`](https://prusti.github.io/prusti/user-guide/tour/loop_invariants.html) macro to enable code verification.
 {{< /hint >}}
 
 ## Kani
